@@ -1,0 +1,35 @@
+{
+    "manifestVersion": 1,
+    "name": "TaleSpire-Mothership-1e-Toolset",
+    "summary": "A freshly generated symbiote",
+    "descriptionFilePath": "/README.md",
+    "version": "0.0.1",
+    "license": "MIT",
+    "about": {
+        "website": "https://www.example.com/TaleSpire-Mothership-1e-Toolset",
+        "authors": ["Ken Barnett"]
+    },
+    "kind": "webView",
+    "entryPoint": "/index.html",
+    "api": {
+        "version": "0.1",
+        "initTimeout": 10,
+        "subscriptions": {
+            "dice": {
+                "onRollResults": "handleRollResult"
+            },
+            "symbiote": {
+                "onVisibilityEvent": "logSymbioteEvent",
+                "onStateChangeEvent": "logSymbioteEvent"
+            }
+        },
+        "interop": {
+            "id": "504cae7e-4c11-44b2-bfff-0c59775d6fe2"
+        }
+    },
+    "environment": {
+        "capabilities": ["playAudio"],
+        "extras": ["diceFinder", "icons", "fonts", "colorStyles"],
+        "webViewBackgroundColor": "#000"
+    }
+}
