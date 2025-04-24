@@ -10,7 +10,7 @@
         "authors": ["Ken Barnett"]
     },
     "kind": "webView",
-    "entryPoint": "/index.html",
+    "entryPoint": "/src/pages/index.html",
     "api": {
         "version": "0.1",
         "initTimeout": 10,
