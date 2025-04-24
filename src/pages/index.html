@@ -63,8 +63,36 @@
         <h1 style="margin-top: 0">template</h1>
         <button onclick="roll_ts()">Roll a D20</button>
         <p id="dice-result"></p>
+        <div id="page"></div>
 
         <script type="text/javascript" src="../features/temp_js.js"></script>
         <script type="text/javascript" src="../../build/temp_ts.js"></script>
+        <script>
+            (function () {
+                async function loadHTML(url, elementId) {
+                    try {
+                        const response = await fetch(url);
+                        if (!response.ok) {
+                            throw new Error(
+                                `HTTP error! status: ${response.status}`
+                            );
+                        }
+                        const html = await response.text();
+                        const element = document.getElementById(elementId);
+                        if (element) {
+                            element.innerHTML = html;
+                        } else {
+                            console.error(
+                                `Element with ID "${elementId}" not found.`
+                            );
+                        }
+                    } catch (error) {
+                        console.error("Failed to load HTML:", error);
+                    }
+                }
+
+                loadHTML("example_component.html", "page");
+            })();
+        </script>
     </body>
 </html>
