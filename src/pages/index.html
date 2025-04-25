@@ -56,6 +56,16 @@
 
     <head>
         <title>TaleSpire Mothership 1e Toolset</title>
+        <!-- <script
+            src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"
+        ></script> -->
+        <script
+            src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+            integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
+            crossorigin="anonymous"
+        ></script>
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     </head>
 
@@ -68,6 +78,11 @@
         <script type="text/javascript" src="../features/temp_js.js"></script>
         <script type="text/javascript" src="../../build/temp_ts.js"></script>
         <script>
+            $(document).ready(function () {
+                loadHTML("example_component.html", "page");
+            });
+        </script>
+        <!-- <script>
             (function () {
                 async function loadHTML(url, elementId) {
                     try {
@@ -93,6 +108,6 @@
 
                 loadHTML("example_component.html", "page");
             })();
-        </script>
+        </script> -->
     </body>
 </html>
