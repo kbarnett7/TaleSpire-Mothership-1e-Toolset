@@ -10,7 +10,11 @@ Run the following command at the root of the project (i.e. the same directory as
 
 `tsc`
 
-## Appendix A: References & Resources
+## Appendex B: Dependencies
+
+TypeScript: `npm install typescript --save-dev`
+
+## Appendix Z: References & Resources
 
 ### Mothership TTRPG
 
@@ -31,13 +35,17 @@ Run the following command at the root of the project (i.e. the same directory as
 -   [Compile TS to JS: A Beginner's Guide](https://daily.dev/blog/compile-ts-to-js-a-beginners-guide)
 -   [How to load HTML from another page with vanilla JavaScript](https://gomakethings.com/how-to-load-html-from-another-page-with-vanilla-javascript/)
 
+### Unit Testing
+
+-   [Dice Vault Unit Test Prototyping](https://github.com/JasonCostanza/Dice-Vault/compare/main...kbarnett/unit-tests-prototype)
+-   [TypeScript Unit Testing 101: A Developer’s Guide](https://www.testim.io/blog/typescript-unit-testing-101/)
+-   [Unit Testing in TypeScript](https://refraction.dev/blog/unit-testing-in-typescript)
+-   [How to write test cases in typescript](https://medium.com/design-bootcamp/how-to-write-test-cases-in-typescript-fa7a263b7833)
+-   [Writing Well-Structured Unit Test in TypeScript](https://dev.to/arifintahu/writing-well-structured-unit-test-in-typescript-2hal)
+
 ### Misc
 
 -   [Starting an Open Source Project](https://opensource.guide/starting-a-project/)
 -   [Talespire 5e Toolset](https://mod.io/g/talespire/m/talespire-5e-toolset#description)
     -   [Talespire 5e Toolset GitHub](https://github.com/Roger4325/TaleSpire-VTT)
 -   [Gainwell MVC Web App](https://dev.azure.com/stanfieldsystems/Gainwell%20AFL-PA/_git/Gainwell%20AFL-PA?version=GBmain&path=/Gainwell.MediCal.AFLPA/Gainwell.MediCal.AFLPA.Presentation.MvcWebApp)
-
-## Appendex B: Dependencies
-
-TypeScript: `npm install typescript --save-dev`
