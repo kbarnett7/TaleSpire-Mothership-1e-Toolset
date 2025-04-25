@@ -67,7 +67,7 @@
             crossorigin="anonymous"
         ></script>
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-        <script src="../components/sample_component_js.js"></script>
+        <script src="../components/sample_javascript_component.js"></script>
     </head>
 
     <body>
@@ -75,10 +75,15 @@
         <button onclick="roll_ts()">Roll a D20</button>
         <p id="dice-result"></p>
         <div id="page"></div>
-        <sample-component></sample-component>
+        <sample-js-component></sample-js-component>
+        <sample-ts-component></sample-ts-component>
 
         <script type="text/javascript" src="../features/temp_js.js"></script>
         <script type="text/javascript" src="../../build/temp_ts.js"></script>
+        <script
+            type="text/javascript"
+            src="../../build/components/sample_typescript_component.js"
+        ></script>
         <script>
             $(document).ready(function () {
                 loadHTML("example_component.html", "page");
