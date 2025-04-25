@@ -10,6 +10,34 @@ Run the following command at the root of the project (i.e. the same directory as
 
 `tsc`
 
-## Dependencies
+## Appendix A: References & Resources
+
+### Mothership TTRPG
+
+-   [Companion App](https://mothershipcompanion.com/)
+
+### TaleSpire Symbiotes
+
+-   [Symbiotes Docs](https://symbiote-docs.talespire.com/)
+
+### Web Components
+
+-   [Web Components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components)
+-   [Web Components Examples](https://github.com/mdn/web-components-examples/tree/main)
+-   [Web Components - Introduction](https://www.webcomponents.org/introduction)
+
+### JavaScript & TypeScript
+
+-   [Compile TS to JS: A Beginner's Guide](https://daily.dev/blog/compile-ts-to-js-a-beginners-guide)
+-   [How to load HTML from another page with vanilla JavaScript](https://gomakethings.com/how-to-load-html-from-another-page-with-vanilla-javascript/)
+
+### Misc
+
+-   [Starting an Open Source Project](https://opensource.guide/starting-a-project/)
+-   [Talespire 5e Toolset](https://mod.io/g/talespire/m/talespire-5e-toolset#description)
+    -   [Talespire 5e Toolset GitHub](https://github.com/Roger4325/TaleSpire-VTT)
+-   [Gainwell MVC Web App](https://dev.azure.com/stanfieldsystems/Gainwell%20AFL-PA/_git/Gainwell%20AFL-PA?version=GBmain&path=/Gainwell.MediCal.AFLPA/Gainwell.MediCal.AFLPA.Presentation.MvcWebApp)
+
+## Appendex B: Dependencies
 
 TypeScript: `npm install typescript --save-dev`
