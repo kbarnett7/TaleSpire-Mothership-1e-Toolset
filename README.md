@@ -43,13 +43,16 @@ TypeScript: `npm install typescript --save-dev`
 -   [Compile TS to JS: A Beginner's Guide](https://daily.dev/blog/compile-ts-to-js-a-beginners-guide)
 -   [How to load HTML from another page with vanilla JavaScript](https://gomakethings.com/how-to-load-html-from-another-page-with-vanilla-javascript/)
 
-### Unit Testing
+### Unit Testing & Code Coverage
 
 -   [Dice Vault Unit Test Prototyping](https://github.com/JasonCostanza/Dice-Vault/compare/main...kbarnett/unit-tests-prototype)
 -   [TypeScript Unit Testing 101: A Developer’s Guide](https://www.testim.io/blog/typescript-unit-testing-101/)
 -   [Unit Testing in TypeScript](https://refraction.dev/blog/unit-testing-in-typescript)
 -   [How to write test cases in typescript](https://medium.com/design-bootcamp/how-to-write-test-cases-in-typescript-fa7a263b7833)
 -   [Writing Well-Structured Unit Test in TypeScript](https://dev.to/arifintahu/writing-well-structured-unit-test-in-typescript-2hal)
+-   [Measuring Typescript Code Coverage with Jest and GitHub Actions](https://about.codecov.io/blog/measuring-typescript-code-coverage-with-jest-and-github-actions/)
+    -   [GitHub](https://github.com/amacgregor/codecov-jest-github-actions/blob/main/jest.config.ts)
+-   [How to Test a TypeScript App with Jest | A Step-by-Step Tutorial](https://www.meticulous.ai/blog/jest-typescript)
 
 ### Misc
 
