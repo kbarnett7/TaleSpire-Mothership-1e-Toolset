@@ -16,10 +16,11 @@
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
         <script src="../build/infrastructure/taleSpireApi.js"></script>
         <script src="../build/infrastructure/taleSpireSubscriptionHandlers.js"></script>
-        <script
+        <!-- <script
             type="module"
             src="../build/infrastructure/html-service.js"
-        ></script>
+        ></script> -->
+        <script src="../dist/bundle.js"></script>
 
         <script src="./components/sample_javascript_component.js"></script>
     </head>
@@ -93,14 +94,14 @@
         </div>
 
         <script type="text/javascript" src="./features/temp_js.js"></script>
-        <script type="text/javascript" src="../build/temp_ts.js"></script>
-        <script
+        <!-- <script type="text/javascript" src="../build/temp_ts.js"></script> -->
+        <!-- <script
             type="module"
             src="../build/components/sample_typescript_component.js"
-        ></script>
+        ></script> -->
         <script>
             $(document).ready(function () {
-                loadHTML("./pages/example_component.html", "page");
+                //loadHTML("./pages/example_component.html", "page");
             });
 
             function openNav() {

@@ -42,6 +42,7 @@ TypeScript: `npm install typescript --save-dev`
 
 -   [Compile TS to JS: A Beginner's Guide](https://daily.dev/blog/compile-ts-to-js-a-beginners-guide)
 -   [How to load HTML from another page with vanilla JavaScript](https://gomakethings.com/how-to-load-html-from-another-page-with-vanilla-javascript/)
+-   [Sep 1, 2022 ⋅ 8 min read Using webpack with TypeScript](https://blog.logrocket.com/using-webpack-typescript/)
 
 ### Unit Testing & Code Coverage
 
