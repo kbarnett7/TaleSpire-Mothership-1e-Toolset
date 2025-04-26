@@ -7,12 +7,6 @@ class HtmlService {
             }
             const html = await response.text();
             element.innerHTML = html;
-            // const element = document.getElementById(elementId);
-            // if (element) {
-            //     element.innerHTML = html;
-            // } else {
-            //     console.error(`Element with ID "${elementId}" not found.`);
-            // }
         } catch (error) {
             console.error("Failed to load HTML:", error);
         }

@@ -3,6 +3,7 @@
     <head>
         <title>TaleSpire Mothership 1e Toolset</title>
         <link rel="stylesheet" href="./styles/app.css" />
+        <link rel="stylesheet" href="../dist/output.css" />
         <!-- <script
             src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
@@ -13,13 +14,7 @@
             integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
             crossorigin="anonymous"
         ></script>
-        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-        <!-- <script src="../build/infrastructure/taleSpireApi.js"></script> -->
-        <!-- <script src="../build/infrastructure/taleSpireSubscriptionHandlers.js"></script> -->
-        <!-- <script
-            type="module"
-            src="../build/infrastructure/html-service.js"
-        ></script> -->
+        <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
         <script src="../dist/bundle.js"></script>
         <script src="../dist/tsSubscriptionHandlers.js"></script>
 
@@ -27,7 +22,8 @@
     </head>
 
     <body>
-        <div
+        <nav-menu></nav-menu>
+        <!-- <div
             id="mySidenav"
             class="sidenav h-screen w-0 fixed z-1 top-0 left-0 bg-zinc-900 overflow-x-hidden duration-500 pt-16"
         >
@@ -38,14 +34,14 @@
             <a href="#">Services</a>
             <a href="#">Clients</a>
             <a href="#">Contact</a>
-        </div>
+        </div> -->
         <div class="ps-5">
             <h1 style="margin-top: 0">template</h1>
             <button onclick="roll_ts()">Roll a D20</button>
             <p id="dice-result"></p>
             <div id="page"></div>
-            <sample-js-component></sample-js-component>
-            <sample-ts-component></sample-ts-component>
+            <!-- <sample-js-component></sample-js-component> -->
+            <!-- <sample-ts-component></sample-ts-component> -->
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -89,7 +85,10 @@
 
             <h2>Animated Sidenav Example</h2>
             <p>Click on the element below to open the side navigation menu.</p>
-            <span style="font-size: 30px; cursor: pointer" onclick="openNav()">
+            <span
+                style="font-size: 30px; cursor: pointer"
+                onclick="document.querySelector('nav-menu').openNav()"
+            >
                 &#9776; open
             </span>
         </div>
@@ -105,13 +104,13 @@
                 //loadHTML("./pages/example_component.html", "page");
             });
 
-            function openNav() {
-                document.getElementById("mySidenav").style.width = "250px";
-            }
+            // function openNav() {
+            //     document.getElementById("mySidenav").style.width = "250px";
+            // }
 
-            function closeNav() {
-                document.getElementById("mySidenav").style.width = "0";
-            }
+            // function closeNav() {
+            //     document.getElementById("mySidenav").style.width = "0";
+            // }
         </script>
     </body>
 </html>
