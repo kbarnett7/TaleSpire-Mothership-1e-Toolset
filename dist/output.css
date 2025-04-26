@@ -176,6 +176,9 @@
   .z-1 {
     z-index: 1;
   }
+  .inline {
+    display: inline;
+  }
   .h-screen {
     height: 100vh;
   }
