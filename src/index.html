@@ -24,13 +24,15 @@
     <body>
         <nav-menu></nav-menu>
         <div class="ps-5">
-            <h1 style="margin-top: 0">template</h1>
+            <!-- <h1 style="margin-top: 0">template</h1>
             <button onclick="roll_ts()">Roll a D20</button>
-            <p id="dice-result"></p>
-            <div id="page"></div>
+            <p id="dice-result"></p> -->
+            <div id="page">
+                <home-component></home-component>
+            </div>
             <!-- <sample-js-component></sample-js-component> -->
             <!-- <sample-ts-component></sample-ts-component> -->
-            <svg
+            <!-- <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
@@ -69,14 +71,11 @@
                     fill-rule="evenodd"
                     d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"
                 />
-            </svg>
+            </svg> -->
 
             <h2>Animated Sidenav Example</h2>
             <p>Click on the element below to open the side navigation menu.</p>
-            <span
-                style="font-size: 30px; cursor: pointer"
-                onclick="document.querySelector('nav-menu').openNav()"
-            >
+            <span style="font-size: 30px; cursor: pointer" onclick="document.querySelector('nav-menu').openNav()">
                 &#9776; open
             </span>
         </div>

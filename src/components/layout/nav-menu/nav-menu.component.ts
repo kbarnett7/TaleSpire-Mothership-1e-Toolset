@@ -43,18 +43,34 @@ class NavMenuComponent extends HTMLElement {
             </style>
             <div id="mySidenav" class="sidenav h-screen w-0 fixed z-1 top-0 left-0 bg-zinc-900 overflow-x-hidden duration-500 pt-16">
                 <a href="javascript:void(0)" class="closebtn" onclick="this.getRootNode().host.closeNav()"> &times; </a>
-                <a id="homeLink">Home</a>
-                <a id="aboutLink">About</a>
+                <a id="homeLink" onclick="this.getRootNode().host.loadPageComponent('home')">Home</a>
+                <a id="aboutLink" onclick="this.getRootNode().host.loadPageComponent('about')">About</a>
             </div>
         `;
 
-        const srcDirectory: string = PathService.instance.getSrcFolderPath();
+        // const srcDirectory: string = PathService.instance.getSrcFolderPath();
 
-        wrapper.querySelector("#homeLink")?.setAttribute("href", srcDirectory + "/index.html");
-        wrapper.querySelector("#aboutLink")?.setAttribute("href", srcDirectory + "/pages/about.html");
+        // wrapper.querySelector("#homeLink")?.setAttribute("href", srcDirectory + "/index.html");
+        // wrapper.querySelector("#aboutLink")?.setAttribute("href", srcDirectory + "/pages/about.html");
+
+        // wrapper.querySelector("#homeLink")?.addEventListener("click", (event) => {
+        //     const target = event.target as HTMLElement;
+
+        //     if (target.classList.contains("closebtn")) {
+        //         this.closeNav();
+        //     }
+        // });
 
         // Append the wrapper to the shadow DOM
         shadow.appendChild(wrapper);
+    }
+
+    private loadPageComponent(page: string) {
+        let pageDiv = document.querySelector("#page");
+
+        if (pageDiv) {
+            pageDiv.innerHTML = `<${page}-component></${page}-component>`;
+        }
     }
 
     private getRootPath(): string {
