@@ -1,8 +1,8 @@
-function logSymbioteEvent(event: any) {
+function onLogSymbioteEvent(event: any) {
     console.log(event);
 }
 
-function handleRollResult(event: { kind: string; payload: any }): void {
+function onHandleRollResult(event: { kind: string; payload: any }): void {
     console.log(event);
     if (event.kind === "rollResults") {
         TS.dice
@@ -22,3 +22,7 @@ function handleRollResult(event: { kind: string; payload: any }): void {
         }
     }
 }
+
+// Expose functions globally
+(window as any).onLogSymbioteEvent = onLogSymbioteEvent;
+(window as any).onHandleRollResult = onHandleRollResult;
