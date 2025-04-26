@@ -54,6 +54,13 @@ TypeScript: `npm install typescript --save-dev`
     -   [GitHub](https://github.com/amacgregor/codecov-jest-github-actions/blob/main/jest.config.ts)
 -   [How to Test a TypeScript App with Jest | A Step-by-Step Tutorial](https://www.meticulous.ai/blog/jest-typescript)
 
+### Sidebar Navigation Menu
+
+-   https://www.youtube.com/watch?v=MszSqhEw__8
+-   https://www.w3schools.com/howto/howto_js_fullscreen_overlay.asp
+-   https://www.w3schools.com/howto/howto_js_sidenav.asp
+-   https://tailwindcss.com/docs/z-index
+
 ### Misc
 
 -   [Starting an Open Source Project](https://opensource.guide/starting-a-project/)
