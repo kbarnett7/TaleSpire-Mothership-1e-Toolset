@@ -11,7 +11,20 @@ export class HtmlService {
         return HtmlService._instance;
     }
 
-    public async loadHTML(url: string, element: HTMLElement): Promise<void> {
+    public async loadHtml(url: string): Promise<string> {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return await response.text();
+        } catch (error) {
+            console.error("Failed to load HTML:", error);
+            return "<span>!!!Failed to load HTML!!!</span>";
+        }
+    }
+
+    public async applyHtmlTo(url: string, element: HTMLElement): Promise<void> {
         try {
             const response = await fetch(url);
             if (!response.ok) {

@@ -13,7 +13,7 @@ export class NavMenuComponent extends HTMLElement {
 
         const wrapper = document.createElement("div");
 
-        // HtmlService.instance.loadHTML(
+        // HtmlService.instance.applyHtmlTo(
         //     "./components/layout/nav-menu/nav-menu.component.html",
         //     wrapper
         // );

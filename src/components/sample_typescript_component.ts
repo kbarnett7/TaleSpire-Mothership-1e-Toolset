@@ -9,7 +9,7 @@ class SampleTypeScriptComponent extends HTMLElement {
         const shadow = this.attachShadow({ mode: "open" });
         const wrapper = document.createElement("div");
         //wrapper.textContent = "Hello, Sample TypeScript Component!";
-        HtmlService.instance.loadHTML("./components/sample_component.html", wrapper);
+        HtmlService.instance.applyHtmlTo("./components/sample_component.html", wrapper);
         shadow.appendChild(wrapper);
     }
 }

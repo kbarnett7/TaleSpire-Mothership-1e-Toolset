@@ -1,4 +1,5 @@
 import { addGlobalStylesToShadowRoot } from "../../../infrastructure/global-styles";
+import { HtmlService } from "../../../infrastructure/html-service";
 import { NavMenuComponent } from "../nav-menu/nav-menu.component";
 
 export class NavMenuHamburgerButtonComponent extends HTMLElement {
@@ -9,17 +10,27 @@ export class NavMenuHamburgerButtonComponent extends HTMLElement {
         const shadow = this.attachShadow({ mode: "open" });
         addGlobalStylesToShadowRoot(shadow);
 
-        const button = document.createElement("span");
-        button.innerHTML = "&#9776;";
-        button.style = `font-size: 30px; cursor: pointer;`;
+        const container = document.createElement("template");
+
+        HtmlService.instance.applyHtmlTo(
+            "./components/layout/nav-menu-hamburger-button/nav-menu-hamburger-button.component.html",
+            container
+        );
+
+        const button = container.content.querySelector("#navMenuHamburgerButton") as HTMLElement;
         button.addEventListener("click", () => {
-            const navMenu = document.querySelector("nav-menu") as NavMenuComponent;
-            if (navMenu) {
-                navMenu.openNav();
-            }
+            this.openNavMenu();
         });
 
         shadow.appendChild(button);
+    }
+
+    private openNavMenu() {
+        const navMenu = document.querySelector("nav-menu") as NavMenuComponent;
+
+        if (navMenu) {
+            navMenu.openNav();
+        }
     }
 }
 

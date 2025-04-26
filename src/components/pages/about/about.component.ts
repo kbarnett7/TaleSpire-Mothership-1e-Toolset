@@ -12,7 +12,7 @@ export class AboutComponent extends HTMLElement {
 
         const wrapper = document.createElement("div");
 
-        // HtmlService.instance.loadHTML("./components/pages/about/about.component.html", wrapper);
+        // HtmlService.instance.applyHtmlTo("./components/pages/about/about.component.html", wrapper);
 
         wrapper.innerHTML = `
             <h1 style="margin-top: 0">About</h1>
