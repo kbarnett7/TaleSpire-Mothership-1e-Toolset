@@ -1,6 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.greet = greet;
-function greet(name) {
+export function greet(name) {
     return `Hello, ${name}!`;
 }

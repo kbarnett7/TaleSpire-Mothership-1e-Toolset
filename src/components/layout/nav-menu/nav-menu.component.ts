@@ -1,6 +1,6 @@
-import HtmlService from "../infrastructure/html-service";
+import HtmlService from "../../../infrastructure/html-service";
 
-class SampleTypeScriptComponent extends HTMLElement {
+class NavMenuComponent extends HTMLElement {
     private htmlService: HtmlService;
 
     constructor() {
@@ -13,11 +13,11 @@ class SampleTypeScriptComponent extends HTMLElement {
         const wrapper = document.createElement("div");
         //wrapper.textContent = "Hello, Sample TypeScript Component!";
         this.htmlService.loadHTML(
-            "./components/sample_component.html",
+            "../src/components/sample_component.html",
             wrapper
         );
         shadow.appendChild(wrapper);
     }
 }
 
-customElements.define("sample-ts-component", SampleTypeScriptComponent);
+customElements.define("nav-menu", NavMenuComponent);

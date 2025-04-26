@@ -1,5 +1,5 @@
-import HtmlService from "../infrastructure/html-service";
-class SampleTypeScriptComponent extends HTMLElement {
+import HtmlService from "../../../infrastructure/html-service";
+class NavMenuComponent extends HTMLElement {
     constructor() {
         super();
         this.htmlService = new HtmlService();
@@ -8,8 +8,8 @@ class SampleTypeScriptComponent extends HTMLElement {
         const shadow = this.attachShadow({ mode: "open" });
         const wrapper = document.createElement("div");
         //wrapper.textContent = "Hello, Sample TypeScript Component!";
-        this.htmlService.loadHTML("./components/sample_component.html", wrapper);
+        this.htmlService.loadHTML("../src/components/sample_component.html", wrapper);
         shadow.appendChild(wrapper);
     }
 }
-customElements.define("sample-ts-component", SampleTypeScriptComponent);
+customElements.define("nav-menu", NavMenuComponent);
