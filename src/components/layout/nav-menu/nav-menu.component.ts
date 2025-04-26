@@ -2,7 +2,7 @@ import { addGlobalStylesToShadowRoot } from "../../../infrastructure/global-styl
 import { HtmlService } from "../../../infrastructure/html-service";
 import { PathService } from "../../../infrastructure/path-service";
 
-class NavMenuComponent extends HTMLElement {
+export class NavMenuComponent extends HTMLElement {
     constructor() {
         super();
     }
