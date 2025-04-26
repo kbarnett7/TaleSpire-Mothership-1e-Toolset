@@ -6,23 +6,39 @@ export class NavMenuHamburgerButtonComponent extends HTMLElement {
     constructor() {
         super();
     }
-    public connectedCallback() {
+
+    public async connectedCallback() {
         const shadow = this.attachShadow({ mode: "open" });
         addGlobalStylesToShadowRoot(shadow);
 
-        const container = document.createElement("template");
+        const template = document.createElement("template");
 
-        HtmlService.instance.applyHtmlTo(
+        await HtmlService.instance.applyHtmlTo(
             "./components/layout/nav-menu-hamburger-button/nav-menu-hamburger-button.component.html",
-            container
+            template
         );
 
-        const button = container.content.querySelector("#navMenuHamburgerButton") as HTMLElement;
+        const button = template.content.querySelector("#navMenuHamburgerButton") as HTMLElement;
         button.addEventListener("click", () => {
             this.openNavMenu();
         });
 
         shadow.appendChild(button);
+
+        // HtmlService.instance
+        //     .loadHtml("./components/layout/nav-menu-hamburger-button/nav-menu-hamburger-button.component.html")
+        //     .then((html) => {
+        //         const template = document.createElement("template");
+        //         template.innerHTML = html.trim();
+
+        //         const button = template.content.querySelector("#navMenuHamburgerButton") as HTMLElement;
+
+        //         button.addEventListener("click", () => {
+        //             this.openNavMenu();
+        //         });
+
+        //         shadow.appendChild(button);
+        //     });
     }
 
     private openNavMenu() {
