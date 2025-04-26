@@ -56,6 +56,7 @@ TypeScript: `npm install typescript --save-dev`
 
 ### Sidebar Navigation Menu
 
+-   https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_sidenav
 -   https://www.youtube.com/watch?v=MszSqhEw__8
 -   https://www.w3schools.com/howto/howto_js_fullscreen_overlay.asp
 -   https://www.w3schools.com/howto/howto_js_sidenav.asp
