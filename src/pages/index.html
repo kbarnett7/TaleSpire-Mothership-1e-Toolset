@@ -32,7 +32,7 @@
             transition: outline-color 0s;
         }
 
-        .sidenav {
+        /* .sidenav {
             height: 100%;
             width: 0;
             position: fixed;
@@ -43,7 +43,7 @@
             overflow-x: hidden;
             transition: 0.5s;
             padding-top: 60px;
-        }
+        } */
 
         .sidenav a {
             padding: 8px 8px 8px 32px;
@@ -114,7 +114,10 @@
     </head>
 
     <body>
-        <div id="mySidenav" class="sidenav">
+        <div
+            id="mySidenav"
+            class="sidenav h-screen w-0 fixed z-1 top-0 left-0 bg-zinc-900 overflow-x-hidden duration-500 pt-16"
+        >
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">
                 &times;
             </a>
