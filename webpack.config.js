@@ -3,6 +3,7 @@ const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
     entry: "./src/index.ts",
+    devtool: "source-map",
     module: {
         rules: [
             {
@@ -31,7 +32,7 @@ module.exports = {
         ],
     },
     devServer: {
-        static: path.join(__dirname, "dist"),
+        static: path.join(__dirname, "/"),
         compress: true,
         port: 4000,
     },
