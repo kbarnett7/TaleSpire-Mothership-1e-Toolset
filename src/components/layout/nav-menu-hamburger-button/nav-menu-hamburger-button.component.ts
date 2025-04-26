@@ -1,5 +1,6 @@
 import { addGlobalStylesToShadowRoot } from "../../../infrastructure/global-styles";
 import { HtmlService } from "../../../infrastructure/html-service";
+import { PathService } from "../../../infrastructure/path-service";
 import { NavMenuComponent } from "../nav-menu/nav-menu.component";
 
 export class NavMenuHamburgerButtonComponent extends HTMLElement {
@@ -13,8 +14,9 @@ export class NavMenuHamburgerButtonComponent extends HTMLElement {
 
         const template = document.createElement("template");
 
+        let path: string = PathService.instance.getSrcFolderPath();
         await HtmlService.instance.applyHtmlTo(
-            "./components/layout/nav-menu-hamburger-button/nav-menu-hamburger-button.component.html",
+            path + "/components/layout/nav-menu-hamburger-button/nav-menu-hamburger-button.component.html",
             template
         );
 

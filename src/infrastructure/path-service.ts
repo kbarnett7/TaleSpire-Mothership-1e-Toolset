@@ -15,8 +15,6 @@ export class PathService {
         const locationOfSrcFolder: number = window.location.pathname.lastIndexOf("/src/");
         const path: string = window.location.origin + window.location.pathname.substring(0, locationOfSrcFolder + 4);
 
-        console.log("path", path);
-
         return path;
     }
 }
