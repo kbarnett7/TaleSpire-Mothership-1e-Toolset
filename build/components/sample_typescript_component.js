@@ -16,7 +16,7 @@ class SampleTypeScriptComponent extends HTMLElement {
         const shadow = this.attachShadow({ mode: "open" });
         const wrapper = document.createElement("div");
         //wrapper.textContent = "Hello, Sample TypeScript Component!";
-        this.loadHTML("../components/sample_component.html", wrapper);
+        this.loadHTML("../src/components/sample_component.html", wrapper);
         shadow.appendChild(wrapper);
     }
     loadHTML(url, element) {
