@@ -1,26 +1,23 @@
 import { addGlobalStylesToShadowRoot } from "../../../infrastructure/global-styles";
 import { HtmlService } from "../../../infrastructure/html-service";
+import { PathService } from "../../../infrastructure/path-service";
 
 export class AboutComponent extends HTMLElement {
     constructor() {
         super();
     }
 
-    public connectedCallback() {
+    public async connectedCallback() {
         const shadow = this.attachShadow({ mode: "open" });
         addGlobalStylesToShadowRoot(shadow);
 
-        const wrapper = document.createElement("div");
+        const template = document.createElement("template");
 
-        // HtmlService.instance.applyHtmlTo("./components/pages/about/about.component.html", wrapper);
+        let path: string = PathService.instance.getComponentsPath();
 
-        wrapper.innerHTML = `
-            <h1 style="margin-top: 0">About</h1>
-            <p>This is the about page!</p>
-        `;
+        await HtmlService.instance.applyHtmlTo(`${path}/pages/about/about.component.html`, template);
 
-        // Append the wrapper to the shadow DOM
-        shadow.appendChild(wrapper);
+        shadow.appendChild(template.content);
     }
 }
 

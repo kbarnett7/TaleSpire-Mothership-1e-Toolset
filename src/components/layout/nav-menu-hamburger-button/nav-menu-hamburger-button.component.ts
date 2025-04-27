@@ -21,27 +21,12 @@ export class NavMenuHamburgerButtonComponent extends HTMLElement {
             template
         );
 
-        const button = template.content.querySelector("#navMenuHamburgerButton") as HTMLElement;
+        shadow.appendChild(template.content);
+
+        const button = shadow.querySelector("#navMenuHamburgerButton") as HTMLElement;
         button.addEventListener("click", () => {
             this.openNavMenu();
         });
-
-        shadow.appendChild(button);
-
-        // HtmlService.instance
-        //     .loadHtml("./components/layout/nav-menu-hamburger-button/nav-menu-hamburger-button.component.html")
-        //     .then((html) => {
-        //         const template = document.createElement("template");
-        //         template.innerHTML = html.trim();
-
-        //         const button = template.content.querySelector("#navMenuHamburgerButton") as HTMLElement;
-
-        //         button.addEventListener("click", () => {
-        //             this.openNavMenu();
-        //         });
-
-        //         shadow.appendChild(button);
-        //     });
     }
 
     private openNavMenu() {
