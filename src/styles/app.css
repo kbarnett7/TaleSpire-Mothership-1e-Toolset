@@ -1,0 +1,64 @@
+body {
+    background-color: var(--ts-background-primary);
+    color: var(--ts-color-primary);
+    font-family: "OptimusPrinceps", sans-serif;
+    font-size: 1.2rem;
+}
+
+button {
+    border: 1px solid var(--ts-accessibility-border);
+    color: var(--ts-color-primary);
+    font-family: "OptimusPrinceps", sans-serif;
+
+    border-radius: 4px;
+    font-size: 1em;
+    padding: 0.2em 3em 0 3em;
+    background-color: var(--ts-button-background);
+    transition: ease-in-out 0.1s;
+}
+
+button:hover {
+    background-color: var(--ts-button-hover);
+    transition: ease-in-out 0.2s;
+}
+
+button:focus-visible {
+    background-color: var(--ts-button-hover);
+    outline: 3px solid var(--ts-accessibility-focus);
+    outline-offset: -1px;
+    transition: outline-color 0s;
+}
+
+/* .sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+} */
+
+/* .sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+} */

@@ -6,11 +6,11 @@
     "version": "0.0.1",
     "license": "MIT",
     "about": {
-        "website": "https://www.example.com/TaleSpire-Mothership-1e-Toolset",
+        "website": "https://github.com/kbarnett7/TaleSpire-Mothership-1e-Toolset",
         "authors": ["Ken Barnett"]
     },
     "kind": "webView",
-    "entryPoint": "/src/pages/index.html",
+    "entryPoint": "/src/index.html",
     "api": {
         "version": "0.1",
         "initTimeout": 10,
