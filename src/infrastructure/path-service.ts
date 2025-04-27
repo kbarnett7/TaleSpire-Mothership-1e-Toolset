@@ -11,10 +11,19 @@ export class PathService {
         return PathService._instance;
     }
 
-    public getSrcFolderPath(): string {
-        const locationOfSrcFolder: number = window.location.pathname.lastIndexOf("/src/");
-        const path: string = window.location.origin + window.location.pathname.substring(0, locationOfSrcFolder + 4);
+    public getSymbioteRootPath(): string {
+        const locationOfSrcFolder: number = window.location.href.lastIndexOf("/src/");
 
-        return path;
+        if (locationOfSrcFolder === -1) {
+            throw new Error("The URL does not contain '/src/'");
+        }
+
+        return window.location.href.substring(0, locationOfSrcFolder);
+    }
+
+    public getComponentsPath(): string {
+        const rootPath = PathService.instance.getSymbioteRootPath();
+
+        return `${rootPath}/src/components`;
     }
 }

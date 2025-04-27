@@ -14,9 +14,10 @@ export class NavMenuHamburgerButtonComponent extends HTMLElement {
 
         const template = document.createElement("template");
 
-        let path: string = PathService.instance.getSrcFolderPath();
+        let path: string = PathService.instance.getComponentsPath();
+
         await HtmlService.instance.applyHtmlTo(
-            path + "/components/layout/nav-menu-hamburger-button/nav-menu-hamburger-button.component.html",
+            `${path}/layout/nav-menu-hamburger-button/nav-menu-hamburger-button.component.html`,
             template
         );
 
