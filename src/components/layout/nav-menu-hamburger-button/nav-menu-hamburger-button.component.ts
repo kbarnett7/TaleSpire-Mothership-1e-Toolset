@@ -1,27 +1,13 @@
-import { addGlobalStylesToShadowRoot } from "../../../infrastructure/global-styles";
-import { HtmlService } from "../../../infrastructure/html-service";
-import { PathService } from "../../../infrastructure/path-service";
 import { NavMenuComponent } from "../nav-menu/nav-menu.component";
+import { BaseComponent } from "../../base.component";
 
-export class NavMenuHamburgerButtonComponent extends HTMLElement {
+export class NavMenuHamburgerButtonComponent extends BaseComponent {
     constructor() {
-        super();
+        super("/layout/nav-menu-hamburger-button/nav-menu-hamburger-button.component.html");
     }
 
     public async connectedCallback() {
-        const shadow = this.attachShadow({ mode: "open" });
-        addGlobalStylesToShadowRoot(shadow);
-
-        const template = document.createElement("template");
-
-        let path: string = PathService.instance.getComponentsPath();
-
-        await HtmlService.instance.applyHtmlTo(
-            `${path}/layout/nav-menu-hamburger-button/nav-menu-hamburger-button.component.html`,
-            template
-        );
-
-        shadow.appendChild(template.content);
+        const shadow = await this.loadComponentHtmlIntoShadowDOM();
 
         const button = shadow.querySelector("#navMenuHamburgerButton") as HTMLElement;
         button.addEventListener("click", () => {

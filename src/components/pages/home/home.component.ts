@@ -1,23 +1,12 @@
-import { addGlobalStylesToShadowRoot } from "../../../infrastructure/global-styles";
-import { HtmlService } from "../../../infrastructure/html-service";
-import { PathService } from "../../../infrastructure/path-service";
+import { BaseComponent } from "../../base.component";
 
-export class HomeComponent extends HTMLElement {
+export class HomeComponent extends BaseComponent {
     constructor() {
-        super();
+        super("/pages/home/home.component.html");
     }
 
     public async connectedCallback() {
-        const shadow = this.attachShadow({ mode: "open" });
-        addGlobalStylesToShadowRoot(shadow);
-
-        const template = document.createElement("template");
-
-        let path: string = PathService.instance.getComponentsPath();
-
-        await HtmlService.instance.applyHtmlTo(`${path}/pages/home/home.component.html`, template);
-
-        shadow.appendChild(template.content);
+        await this.loadComponentHtmlIntoShadowDOM();
     }
 }
 
