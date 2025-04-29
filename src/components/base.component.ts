@@ -33,8 +33,10 @@ export class BaseComponent extends HTMLElement {
 
         if (!shadowRoot) return;
 
+        addGlobalStylesToShadowRoot(shadowRoot);
+
         const template = document.createElement("template");
-        template.innerHTML = '<style>@import "styles.css";' + css + "</style>" + this.attachCallbacks(html);
+        template.innerHTML = "<style>" + css + "</style>" + this.attachCallbacks(html);
         const templateContent = template.content;
         shadowRoot.appendChild(templateContent.cloneNode(true));
     }
@@ -49,25 +51,25 @@ export class BaseComponent extends HTMLElement {
         return html.replaceAll("this.", `window.${componentName}.`);
     }
 
-    protected htmlToElement(html: string): { cssContent: ChildNode | null; htmlContent: ChildNode | null } {
-        var template = document.createElement("template");
-        html = html.trim(); // Never return a text node of whitespace as the result
-        template.innerHTML = html;
-        return { cssContent: template.content.firstChild, htmlContent: template.content.lastChild };
-    }
+    // protected htmlToElement(html: string): { cssContent: ChildNode | null; htmlContent: ChildNode | null } {
+    //     var template = document.createElement("template");
+    //     html = html.trim(); // Never return a text node of whitespace as the result
+    //     template.innerHTML = html;
+    //     return { cssContent: template.content.firstChild, htmlContent: template.content.lastChild };
+    // }
 
-    protected async loadComponentHtmlIntoShadowDOM(): Promise<ShadowRoot> {
-        const shadow = this.attachShadow({ mode: "open" });
-        addGlobalStylesToShadowRoot(shadow);
+    // protected async loadComponentHtmlIntoShadowDOM(): Promise<ShadowRoot> {
+    //     const shadow = this.attachShadow({ mode: "open" });
+    //     addGlobalStylesToShadowRoot(shadow);
 
-        const template = document.createElement("template");
+    //     const template = document.createElement("template");
 
-        let rootComponentsPath: string = PathService.instance.getComponentsPath();
+    //     let rootComponentsPath: string = PathService.instance.getComponentsPath();
 
-        await HtmlService.instance.applyHtmlTo(`${rootComponentsPath}${this.componentPath}`, template);
+    //     await HtmlService.instance.applyHtmlTo(`${rootComponentsPath}${this.componentPath}`, template);
 
-        shadow.appendChild(template.content);
+    //     shadow.appendChild(template.content);
 
-        return shadow;
-    }
+    //     return shadow;
+    // }
 }

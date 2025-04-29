@@ -16,6 +16,11 @@ module.exports = {
                 test: /\.html$/i,
                 use: ["raw-loader"],
             },
+            {
+                test: /\.s?css$/,
+                use: ["style-loader", "css-loader", "postcss-loader"], // add "postcss-loader" to CSS loaders
+                exclude: /\.module\.s?(c|a)ss$/,
+            },
         ],
     },
     resolve: {
