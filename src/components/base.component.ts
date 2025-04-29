@@ -1,4 +1,4 @@
-import { addGlobalStylesToShadowRoot } from "../infrastructure/global-styles";
+import { StylesService } from "../services/styles-service";
 
 export class BaseComponent extends HTMLElement {
     constructor() {
@@ -11,7 +11,7 @@ export class BaseComponent extends HTMLElement {
 
         if (!shadowRoot) return;
 
-        addGlobalStylesToShadowRoot(shadowRoot);
+        StylesService.instance.addGlobalStylesToShadowRoot(shadowRoot);
 
         const template = document.createElement("template");
         template.innerHTML = "<style>" + css + "</style>" + this.attachCallbacks(html);
