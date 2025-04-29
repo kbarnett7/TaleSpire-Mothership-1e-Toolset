@@ -1,20 +1,16 @@
-function onLogSymbioteEvent(event: any) {
+function logSymbioteEvent(event: any) {
     console.log(event);
 }
 
-function onHandleRollResult(event: { kind: string; payload: any }): void {
+function handleRollResult(event: { kind: string; payload: any }): void {
     console.log(event);
     if (event.kind === "rollResults") {
-        TS.dice
-            .evaluateDiceResultsGroup(event.payload.resultsGroups[0])
-            .then((summedRoll: number) => {
-                const diceResultElement =
-                    document.getElementById("dice-result");
-                if (diceResultElement) {
-                    diceResultElement.textContent =
-                        "The last roll result was: " + summedRoll;
-                }
-            });
+        TS.dice.evaluateDiceResultsGroup(event.payload.resultsGroups[0]).then((summedRoll: number) => {
+            const diceResultElement = document.getElementById("dice-result");
+            if (diceResultElement) {
+                diceResultElement.textContent = "The last roll result was: " + summedRoll;
+            }
+        });
     } else if (event.kind === "rollRemoved") {
         const diceResultElement = document.getElementById("dice-result");
         if (diceResultElement) {
@@ -24,5 +20,7 @@ function onHandleRollResult(event: { kind: string; payload: any }): void {
 }
 
 // Expose functions globally
-(window as any).onLogSymbioteEvent = onLogSymbioteEvent;
-(window as any).onHandleRollResult = onHandleRollResult;
+// This is a workaround to make the functions available in the global scope
+// so that TaleSpire can call them as configured by manifest.json.
+(window as any).logSymbioteEvent = logSymbioteEvent;
+(window as any).handleRollResult = handleRollResult;
