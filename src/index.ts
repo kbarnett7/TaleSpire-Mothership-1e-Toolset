@@ -20,4 +20,4 @@ function importAll(requireContext: __WebpackModuleApi.RequireContext) {
 }
 
 // Dynamically require all .ts files in the src directory and subdirectories
-importAll(require.context("./", true, /\.ts$/));
+importAll(require.context("./", true, /^(?!.*\.d\.ts$).*\.ts$/));

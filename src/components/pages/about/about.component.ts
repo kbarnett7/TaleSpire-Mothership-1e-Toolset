@@ -1,3 +1,4 @@
+import html from "./about.component.html";
 import { BaseComponent } from "../../base.component";
 
 export class AboutComponent extends BaseComponent {
@@ -6,7 +7,8 @@ export class AboutComponent extends BaseComponent {
     }
 
     public async connectedCallback() {
-        await this.loadComponentHtmlIntoShadowDOM();
+        //await this.loadComponentHtmlIntoShadowDOM();
+        this.render(html, "");
     }
 }
 

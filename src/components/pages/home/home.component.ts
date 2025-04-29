@@ -1,3 +1,4 @@
+import html from "./home.component.html";
 import { BaseComponent } from "../../base.component";
 
 export class HomeComponent extends BaseComponent {
@@ -6,7 +7,8 @@ export class HomeComponent extends BaseComponent {
     }
 
     public async connectedCallback() {
-        await this.loadComponentHtmlIntoShadowDOM();
+        //await this.loadComponentHtmlIntoShadowDOM();
+        this.render(html, "");
     }
 }
 

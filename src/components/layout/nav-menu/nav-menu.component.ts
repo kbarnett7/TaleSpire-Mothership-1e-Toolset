@@ -1,3 +1,4 @@
+import html from "./nav-menu.component.html";
 import { BaseComponent } from "../../base.component";
 
 export class NavMenuComponent extends BaseComponent {
@@ -6,11 +7,15 @@ export class NavMenuComponent extends BaseComponent {
     }
 
     public async connectedCallback() {
-        const shadow = await this.loadComponentHtmlIntoShadowDOM();
+        //const shadow = await this.loadComponentHtmlIntoShadowDOM();
+        this.render(html, "");
 
-        this.configureCloseButton(shadow);
-        this.configureHomeLink(shadow);
-        this.configureAboutLink(shadow);
+        const { shadowRoot } = this;
+        if (!shadowRoot) return;
+
+        this.configureCloseButton(shadowRoot);
+        this.configureHomeLink(shadowRoot);
+        this.configureAboutLink(shadowRoot);
     }
 
     private configureCloseButton(shadow: ShadowRoot) {

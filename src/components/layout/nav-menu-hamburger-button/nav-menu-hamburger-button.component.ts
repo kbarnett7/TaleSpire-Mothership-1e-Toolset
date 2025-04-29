@@ -1,3 +1,4 @@
+import html from "./nav-menu-hamburger-button.component.html";
 import { NavMenuComponent } from "../nav-menu/nav-menu.component";
 import { BaseComponent } from "../../base.component";
 
@@ -7,9 +8,19 @@ export class NavMenuHamburgerButtonComponent extends BaseComponent {
     }
 
     public async connectedCallback() {
-        const shadow = await this.loadComponentHtmlIntoShadowDOM();
+        this.render(html, "");
+        // const shadow = await this.loadComponentHtmlIntoShadowDOM();
 
-        const button = shadow.querySelector("#navMenuHamburgerButton") as HTMLElement;
+        // const button = shadow.querySelector("#navMenuHamburgerButton") as HTMLElement;
+        // button.addEventListener("click", () => {
+        //     this.openNavMenu();
+        // });
+
+        const { shadowRoot } = this;
+
+        if (!shadowRoot) return;
+
+        const button = shadowRoot.querySelector("#navMenuHamburgerButton") as HTMLElement;
         button.addEventListener("click", () => {
             this.openNavMenu();
         });
