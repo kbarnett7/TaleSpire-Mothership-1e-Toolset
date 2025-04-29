@@ -6,36 +6,8 @@ export class NavMenuComponent extends BaseComponent {
         super();
     }
 
-    public async connectedCallback() {
+    public connectedCallback() {
         this.render(html, "");
-
-        const { shadowRoot } = this;
-        if (!shadowRoot) return;
-
-        this.configureCloseButton(shadowRoot);
-        this.configureHomeLink(shadowRoot);
-        this.configureAboutLink(shadowRoot);
-    }
-
-    private configureCloseButton(shadow: ShadowRoot) {
-        const closeButton = shadow.querySelector(".closebtn") as HTMLElement;
-        closeButton.addEventListener("click", () => {
-            this.closeNav();
-        });
-    }
-
-    private configureHomeLink(shadow: ShadowRoot) {
-        const link = shadow.querySelector("#homeLink") as HTMLElement;
-        link.addEventListener("click", () => {
-            this.loadPageComponent("home");
-        });
-    }
-
-    private configureAboutLink(shadow: ShadowRoot) {
-        const link = shadow.querySelector("#aboutLink") as HTMLElement;
-        link.addEventListener("click", () => {
-            this.loadPageComponent("about");
-        });
     }
 
     private loadPageComponent(page: string) {

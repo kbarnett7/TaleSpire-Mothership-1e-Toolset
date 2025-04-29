@@ -7,17 +7,8 @@ export class NavMenuHamburgerButtonComponent extends BaseComponent {
         super();
     }
 
-    public async connectedCallback() {
+    public connectedCallback() {
         this.render(html, "");
-
-        const { shadowRoot } = this;
-
-        if (!shadowRoot) return;
-
-        const button = shadowRoot.querySelector("#navMenuHamburgerButton") as HTMLElement;
-        button.addEventListener("click", () => {
-            this.openNavMenu();
-        });
     }
 
     private openNavMenu() {
