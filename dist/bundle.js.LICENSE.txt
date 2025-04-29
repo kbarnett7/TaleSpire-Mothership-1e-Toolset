@@ -1,22 +1,22 @@
-/*! !!../../node_modules/css-loader/dist/cjs.js!../../node_modules/postcss-loader/dist/cjs.js!./app.css */
+/*! !!../node_modules/css-loader/dist/cjs.js!../node_modules/postcss-loader/dist/cjs.js!./index.css */
 
-/*! !../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */
+/*! !../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */
 
-/*! !../../node_modules/style-loader/dist/runtime/insertBySelector.js */
+/*! !../node_modules/style-loader/dist/runtime/insertBySelector.js */
 
-/*! !../../node_modules/style-loader/dist/runtime/insertStyleElement.js */
+/*! !../node_modules/style-loader/dist/runtime/insertStyleElement.js */
 
-/*! !../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */
+/*! !../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */
 
-/*! !../../node_modules/style-loader/dist/runtime/styleDomAPI.js */
+/*! !../node_modules/style-loader/dist/runtime/styleDomAPI.js */
 
-/*! !../../node_modules/style-loader/dist/runtime/styleTagTransform.js */
+/*! !../node_modules/style-loader/dist/runtime/styleTagTransform.js */
 
 /*! ../../base.component */
 
-/*! ../../node_modules/css-loader/dist/runtime/api.js */
+/*! ../node_modules/css-loader/dist/runtime/api.js */
 
-/*! ../../node_modules/css-loader/dist/runtime/sourceMaps.js */
+/*! ../node_modules/css-loader/dist/runtime/sourceMaps.js */
 
 /*! ../services/styles-service */
 
@@ -24,19 +24,19 @@
 
 /*! ./home.component.html */
 
+/*! ./index.css */
+
 /*! ./nav-menu-hamburger-button.component.html */
 
 /*! ./nav-menu.component.html */
-
-/*! ./styles/app.css */
 
 /*!**********************!*\
   !*** ./src/index.ts ***!
   \**********************/
 
-/*!****************************!*\
-  !*** ./src/styles/app.css ***!
-  \****************************/
+/*!***********************!*\
+  !*** ./src/index.css ***!
+  \***********************/
 
 /*!*********************************!*\
   !*** ./src/features/temp_ts.ts ***!
@@ -61,10 +61,6 @@
 /*!********************************************!*\
   !*** ./src/infrastructure/taleSpireApi.ts ***!
   \********************************************/
-
-/*!*********************************************!*\
-  !*** ./src/infrastructure/global-styles.ts ***!
-  \*********************************************/
 
 /*!*****************************************************!*\
   !*** ./node_modules/css-loader/dist/runtime/api.js ***!
@@ -134,6 +130,6 @@
   !*** ./src/components/layout/nav-menu-hamburger-button/nav-menu-hamburger-button.component.html ***!
   \**************************************************************************************************/
 
-/*!************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./src/styles/app.css ***!
-  \************************************************************************************************************/
+/*!*******************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./src/index.css ***!
+  \*******************************************************************************************************/
