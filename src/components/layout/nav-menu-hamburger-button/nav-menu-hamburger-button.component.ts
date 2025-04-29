@@ -8,7 +8,7 @@ export class NavMenuHamburgerButtonComponent extends BaseComponent {
     }
 
     public connectedCallback() {
-        this.render(html, "");
+        this.render(html);
     }
 
     private openNavMenu() {

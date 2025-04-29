@@ -6,7 +6,7 @@ export class BaseComponent extends HTMLElement {
         this.attachShadow({ mode: "open" });
     }
 
-    protected render(html: string, css: string): void {
+    protected render(html: string): void {
         const { shadowRoot } = this;
 
         if (!shadowRoot) return;
@@ -14,7 +14,7 @@ export class BaseComponent extends HTMLElement {
         StylesService.instance.addGlobalStylesToShadowRoot(shadowRoot);
 
         const template = document.createElement("template");
-        template.innerHTML = "<style>" + css + "</style>" + this.attachCallbacks(html);
+        template.innerHTML = this.attachCallbacks(html);
         const templateContent = template.content;
         shadowRoot.appendChild(templateContent.cloneNode(true));
     }

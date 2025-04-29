@@ -7,7 +7,7 @@ export class NavMenuComponent extends BaseComponent {
     }
 
     public connectedCallback() {
-        this.render(html, "");
+        this.render(html);
     }
 
     private loadPageComponent(page: string) {

@@ -7,7 +7,7 @@ export class HomeComponent extends BaseComponent {
     }
 
     public async connectedCallback() {
-        this.render(html, "");
+        this.render(html);
     }
 }
 
