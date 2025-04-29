@@ -15,7 +15,7 @@
  * be loaded dynamically, such as in a plugin-based architecture or when initializing
  * a set of related scripts.
  */
-import "./styles/app.css"; // Import the main CSS file for the application
+import "./index.css"; // Import the main CSS file for the application
 
 function importAll(requireContext: __WebpackModuleApi.RequireContext) {
     requireContext.keys().forEach(requireContext);
