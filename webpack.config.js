@@ -18,7 +18,7 @@ module.exports = {
             },
             {
                 test: /\.s?css$/,
-                use: ["style-loader", "css-loader", "postcss-loader"], // add "postcss-loader" to CSS loaders
+                use: ["style-loader", "css-loader", "postcss-loader"],
                 exclude: /\.module\.s?(c|a)ss$/,
             },
         ],
@@ -33,8 +33,8 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: "./src/index.html", // template file
-            filename: "index.html", // output file
+            template: "./src/index.html",
+            filename: "index.html",
         }),
     ],
     optimization: {

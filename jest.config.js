@@ -8,5 +8,5 @@ module.exports = {
     collectCoverage: false,
     coverageDirectory: ".coverage",
     coverageReporters: ["text", "html"],
-    collectCoverageFrom: ["./src/**/*", "!./build/**"],
+    collectCoverageFrom: ["./src/**/*", "!./dist/**"],
 };

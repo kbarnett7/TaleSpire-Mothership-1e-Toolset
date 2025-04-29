@@ -3,11 +3,10 @@ import { BaseComponent } from "../../base.component";
 
 export class NavMenuComponent extends BaseComponent {
     constructor() {
-        super("/layout/nav-menu/nav-menu.component.html");
+        super();
     }
 
     public async connectedCallback() {
-        //const shadow = await this.loadComponentHtmlIntoShadowDOM();
         this.render(html, "");
 
         const { shadowRoot } = this;

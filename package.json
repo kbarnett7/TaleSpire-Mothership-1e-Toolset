@@ -6,7 +6,6 @@
     "main": "./src/index.ts",
     "scripts": {
         "build": "webpack --mode development",
-        "build:css": "tailwindcss -i ./src/styles/input.css -o ./dist/output.css",
         "test": "jest",
         "test:coverage": "jest --coverage",
         "serve": "webpack-dev-server --mode development"

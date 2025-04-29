@@ -1,6 +1,4 @@
 import { addGlobalStylesToShadowRoot } from "../infrastructure/global-styles";
-import { HtmlService } from "../infrastructure/html-service";
-import { PathService } from "../infrastructure/path-service";
 
 // Extend the Window interface to include lastComponentId
 declare global {
@@ -10,11 +8,8 @@ declare global {
 }
 
 export class BaseComponent extends HTMLElement {
-    private componentPath: string;
-
-    constructor(componentPath: string) {
+    constructor() {
         super();
-        this.componentPath = componentPath;
         this.attachShadow({ mode: "open" });
     }
 

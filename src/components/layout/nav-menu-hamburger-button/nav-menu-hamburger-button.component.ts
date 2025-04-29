@@ -4,17 +4,11 @@ import { BaseComponent } from "../../base.component";
 
 export class NavMenuHamburgerButtonComponent extends BaseComponent {
     constructor() {
-        super("/layout/nav-menu-hamburger-button/nav-menu-hamburger-button.component.html");
+        super();
     }
 
     public async connectedCallback() {
         this.render(html, "");
-        // const shadow = await this.loadComponentHtmlIntoShadowDOM();
-
-        // const button = shadow.querySelector("#navMenuHamburgerButton") as HTMLElement;
-        // button.addEventListener("click", () => {
-        //     this.openNavMenu();
-        // });
 
         const { shadowRoot } = this;
 
