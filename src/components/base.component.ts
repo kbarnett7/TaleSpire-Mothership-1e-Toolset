@@ -1,12 +1,5 @@
 import { addGlobalStylesToShadowRoot } from "../infrastructure/global-styles";
 
-// Extend the Window interface to include lastComponentId
-declare global {
-    interface Window {
-        lastComponentId?: number;
-    }
-}
-
 export class BaseComponent extends HTMLElement {
     constructor() {
         super();
