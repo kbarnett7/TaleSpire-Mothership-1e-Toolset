@@ -1,27 +1,31 @@
-import { addGlobalStylesToShadowRoot } from "../infrastructure/global-styles";
-import { HtmlService } from "../infrastructure/html-service";
-import { PathService } from "../infrastructure/path-service";
+import { StylesService } from "../services/styles-service";
 
 export class BaseComponent extends HTMLElement {
-    private componentPath: string;
-
-    constructor(componentPath: string) {
+    constructor() {
         super();
-        this.componentPath = componentPath;
+        this.attachShadow({ mode: "open" });
     }
 
-    protected async loadComponentHtmlIntoShadowDOM(): Promise<ShadowRoot> {
-        const shadow = this.attachShadow({ mode: "open" });
-        addGlobalStylesToShadowRoot(shadow);
+    protected render(html: string): void {
+        const { shadowRoot } = this;
+
+        if (!shadowRoot) return;
+
+        StylesService.instance.addGlobalStylesToShadowRoot(shadowRoot);
 
         const template = document.createElement("template");
+        template.innerHTML = this.attachCallbacks(html);
+        const templateContent = template.content;
+        shadowRoot.appendChild(templateContent.cloneNode(true));
+    }
 
-        let rootComponentsPath: string = PathService.instance.getComponentsPath();
+    private attachCallbacks(html: string): string {
+        const lastId: number = window.lastComponentId ? window.lastComponentId : 0;
+        const componentId: number = lastId + 1;
+        window.lastComponentId = componentId;
 
-        await HtmlService.instance.applyHtmlTo(`${rootComponentsPath}${this.componentPath}`, template);
-
-        shadow.appendChild(template.content);
-
-        return shadow;
+        const componentName: string = "component" + componentId;
+        (window as any)[componentName] = this;
+        return html.replaceAll("this.", `window.${componentName}.`);
     }
 }

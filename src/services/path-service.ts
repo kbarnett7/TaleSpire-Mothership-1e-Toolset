@@ -12,18 +12,12 @@ export class PathService {
     }
 
     public getSymbioteRootPath(): string {
-        const locationOfSrcFolder: number = window.location.href.lastIndexOf("/src/");
+        const locationOfSrcFolder: number = window.location.href.lastIndexOf("/dist/");
 
         if (locationOfSrcFolder === -1) {
-            throw new Error("The URL does not contain '/src/'");
+            throw new Error("The URL does not contain '/dist/'");
         }
 
         return window.location.href.substring(0, locationOfSrcFolder);
-    }
-
-    public getComponentsPath(): string {
-        const rootPath = PathService.instance.getSymbioteRootPath();
-
-        return `${rootPath}/src/components`;
     }
 }

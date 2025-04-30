@@ -1,37 +1,13 @@
+import html from "./nav-menu.component.html";
 import { BaseComponent } from "../../base.component";
 
 export class NavMenuComponent extends BaseComponent {
     constructor() {
-        super("/layout/nav-menu/nav-menu.component.html");
+        super();
     }
 
-    public async connectedCallback() {
-        const shadow = await this.loadComponentHtmlIntoShadowDOM();
-
-        this.configureCloseButton(shadow);
-        this.configureHomeLink(shadow);
-        this.configureAboutLink(shadow);
-    }
-
-    private configureCloseButton(shadow: ShadowRoot) {
-        const closeButton = shadow.querySelector(".closebtn") as HTMLElement;
-        closeButton.addEventListener("click", () => {
-            this.closeNav();
-        });
-    }
-
-    private configureHomeLink(shadow: ShadowRoot) {
-        const link = shadow.querySelector("#homeLink") as HTMLElement;
-        link.addEventListener("click", () => {
-            this.loadPageComponent("home");
-        });
-    }
-
-    private configureAboutLink(shadow: ShadowRoot) {
-        const link = shadow.querySelector("#aboutLink") as HTMLElement;
-        link.addEventListener("click", () => {
-            this.loadPageComponent("about");
-        });
+    public connectedCallback() {
+        this.render(html);
     }
 
     private loadPageComponent(page: string) {

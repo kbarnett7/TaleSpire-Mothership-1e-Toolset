@@ -37,7 +37,7 @@
     id="mySidenav"
     class="sidenav h-screen w-0 fixed z-1 top-0 left-0 bg-zinc-900 overflow-x-hidden duration-500 pt-16"
 >
-    <a href="javascript:void(0)" class="closebtn"> &times; </a>
-    <a id="homeLink">Homes</a>
-    <a id="aboutLink">Abouts</a>
+    <a href="javascript:void(0)" class="closebtn" onclick="this.closeNav()"> &times; </a>
+    <a id="homeLink" onclick="this.loadPageComponent('home')">Homes</a>
+    <a id="aboutLink" onclick="this.loadPageComponent('about')">Abouts</a>
 </div>

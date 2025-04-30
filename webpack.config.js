@@ -1,4 +1,5 @@
 const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
@@ -9,7 +10,16 @@ module.exports = {
             {
                 test: /\.ts?$/,
                 use: "ts-loader",
-                exclude: /node_modules/,
+                exclude: [/node_modules/, /\.d\.ts$/],
+            },
+            {
+                test: /\.html$/i,
+                use: ["raw-loader"],
+            },
+            {
+                test: /\.s?css$/,
+                use: ["style-loader", "css-loader", "postcss-loader"],
+                exclude: /\.module\.s?(c|a)ss$/,
             },
         ],
     },
@@ -19,8 +29,14 @@ module.exports = {
     output: {
         filename: "bundle.js",
         path: path.resolve(__dirname, "dist"),
-        publicPath: "/dist/",
+        publicPath: "./",
     },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: "./src/index.html",
+            filename: "index.html",
+        }),
+    ],
     optimization: {
         minimize: true,
         minimizer: [
