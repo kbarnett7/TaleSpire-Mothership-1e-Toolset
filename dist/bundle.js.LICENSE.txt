@@ -14,6 +14,8 @@
 
 /*! ../../base.component */
 
+/*! ../base.component */
+
 /*! ../node_modules/css-loader/dist/runtime/api.js */
 
 /*! ../node_modules/css-loader/dist/runtime/sourceMaps.js */
@@ -21,6 +23,8 @@
 /*! ../services/styles-service */
 
 /*! ./about.component.html */
+
+/*! ./equipment-list.html */
 
 /*! ./gear.component.html */
 
@@ -64,6 +68,10 @@
   !*** ./src/infrastructure/taleSpireApi.ts ***!
   \********************************************/
 
+/*!**************************************************!*\
+  !*** ./src/features/equipment/equipment-item.ts ***!
+  \**************************************************/
+
 /*!*****************************************************!*\
   !*** ./node_modules/css-loader/dist/runtime/api.js ***!
   \*****************************************************/
@@ -89,8 +97,16 @@
   \*******************************************************/
 
 /*!*********************************************************!*\
+  !*** ./src/components/equipment-list/equipment-list.ts ***!
+  \*********************************************************/
+
+/*!*********************************************************!*\
   !*** ./src/components/pages/about/about.component.html ***!
   \*********************************************************/
+
+/*!***********************************************************!*\
+  !*** ./src/components/equipment-list/equipment-list.html ***!
+  \***********************************************************/
 
 /*!************************************************************!*\
   !*** ./node_modules/css-loader/dist/runtime/sourceMaps.js ***!
