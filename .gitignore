@@ -138,3 +138,6 @@ out
 
 # TypeScript Build
 build
+
+# VSCode
+.vscode

@@ -1,9 +1,9 @@
 import html from "./equipment-list.html";
 import { BaseComponent } from "../base.component";
-import { EquipementItem } from "../../features/equipment/equipment-item";
+import { GearItem } from "../../features/gear/gear-item";
 
 export class EquipmentListComponent extends BaseComponent {
-    private equipmentList: Array<EquipementItem> = [];
+    private equipmentList: Array<GearItem> = [];
     constructor() {
         super();
         

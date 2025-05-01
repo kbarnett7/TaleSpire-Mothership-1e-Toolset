@@ -1,4 +1,4 @@
-export class EquipementItem {
+export class GearItem {
     public id: number;
     public name: string;
     public description: string;
