@@ -40,11 +40,13 @@ export class GearListComponent extends BaseComponent {
     private createTableRowElement(gearItem: GearItem): HTMLTableRowElement {
         const row = document.createElement("tr");
 
+        row.className = "border-b-2 border-gray-200";
+
         row.innerHTML = `
-            <td>${gearItem.id}</td>
-            <td>${gearItem.name}</td>
-            <td>${gearItem.description}</td>
-            <td>${gearItem.cost}</td>
+            <td class="p-2">${gearItem.name}</td>
+            <td class="p-2">${gearItem.cost}</td>
+            <td class="p-2">${gearItem.category}</td>
+            <td class="p-2">${gearItem.description}</td>
         `;
 
         return row;
