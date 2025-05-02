@@ -1,9 +1,10 @@
 import { ArmorItem } from "./armor-item";
+import data from "../../database/armor.data.json";
 
 export class ArmorRepository {
     constructor() {}
 
     public list(): ArmorItem[] {
-        return [new ArmorItem(1, "Standard Crew Attire", "Basic clothing.", 100, 1, 0, "Normal")];
+        return data;
     }
 }

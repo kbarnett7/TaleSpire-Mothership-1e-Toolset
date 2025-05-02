@@ -1,3 +1,22 @@
 [
-    
+    {
+        "id": 1,
+        "name": "Standard Crew Attire",
+        "cost": 100,
+        "description": "Basic clothing.",
+        "armorPoints": 1,
+        "oxygen": 0,
+        "speed": "Normal",
+        "special": ""
+    },
+    {
+        "id": 2,
+        "name": "Vaccsuit",
+        "cost": 10000,
+        "description": "Designed for outer space operations.",
+        "armorPoints": 3,
+        "oxygen": 12,
+        "speed": "Disadvantage",
+        "special": "Includes short-range comms, headlamp, and radiation shielding. Decompression within 1d5 rounds if punctured."
+    }
 ]

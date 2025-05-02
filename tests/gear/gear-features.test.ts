@@ -50,11 +50,4 @@ describe("Gear Features", () => {
     //     // Assert
     //     expect(gear.length).toBeGreaterThan(0);
     // });
-
-    // it("temp", () => {
-    //     const data: IGearItem[] = equipment;
-
-    //     //console.log(data);
-    //     console.log(data[0].name);
-    // });
 });
