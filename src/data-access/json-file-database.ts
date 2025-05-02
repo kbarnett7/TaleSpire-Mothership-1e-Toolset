@@ -1,3 +1,4 @@
+import { Constructor } from "../common/constructor-type";
 import armorData from "../database/armor.data.json";
 import equipmentData from "../database/equipment.data.json";
 import { ArmorItem } from "../features/gear/armor-item";
@@ -14,13 +15,14 @@ export class JsonFileDatabase implements IDatabase {
         this._dbSets.set(EquipmentItem.name, new DbSet<EquipmentItem>(equipmentData));
     }
 
-    getSet<T>(type: string): DbSet<T> {
-        const dbSet = this._dbSets.get(type);
+    getSet<T>(type: Constructor<T>): DbSet<T> {
+        const typeName = type.name;
+        const dbSet = this._dbSets.get(typeName);
 
         if (dbSet) {
             return dbSet as DbSet<T>;
         }
 
-        throw new Error(`DbSet of type ${type} not found.`);
+        throw new Error(`DbSet of type ${typeName} not found.`);
     }
 }

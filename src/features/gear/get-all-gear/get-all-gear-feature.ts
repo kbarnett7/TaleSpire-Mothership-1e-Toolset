@@ -12,12 +12,10 @@ export class GetAllGearFeature {
         let gearListItems: GearListItem[] = [];
 
         gearListItems = gearListItems.concat(
-            unitOfWork.repo<EquipmentItem>(EquipmentItem.name).list().map(GearListItemMap.fromEquipmentItem)
+            unitOfWork.repo(EquipmentItem).list().map(GearListItemMap.fromEquipmentItem)
         );
 
-        gearListItems = gearListItems.concat(
-            unitOfWork.repo<ArmorItem>(ArmorItem.name).list().map(GearListItemMap.fromArmorItem)
-        );
+        gearListItems = gearListItems.concat(unitOfWork.repo(ArmorItem).list().map(GearListItemMap.fromArmorItem));
 
         return gearListItems;
     }
