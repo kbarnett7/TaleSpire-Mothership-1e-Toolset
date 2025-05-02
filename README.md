@@ -88,9 +88,13 @@ TypeScript: `npm install typescript --save-dev`
 
 Gear Item
 
--   Patch
--   Trinket
--   Equipment
+-   Equipment (pet is an equipment item)
     -   Weapon - Categories: Firearm, Industrial Equipment, Melee
     -   Armor
-    -   Pet
+
+Patch
+Trinket
+Pet
+PlayerCharacter
+NPC
+Contractors
