@@ -22,6 +22,8 @@
 
 /*! ../../infrastructure/app-injector */
 
+/*! ../../services/credits-abbreviator */
+
 /*! ../armor-item */
 
 /*! ../base.component */

@@ -13,38 +13,24 @@ export class CreditsAbbreviator {
 
     public abbreviate(credits: number) {
         const absCredits = Math.abs(credits);
-        let negativeMultiplier = 1;
-
-        if (credits < 0) {
-            negativeMultiplier = -1;
-        }
+        let divisor = 1;
+        let unit = "cr";
 
         if (absCredits < 1000) {
-            return `${absCredits * negativeMultiplier}cr`;
+            // use default divisor and unit ...
+        } else if (absCredits < 1000000) {
+            divisor = 1000;
+            unit = "kcr";
+        } else if (absCredits < 1000000000) {
+            divisor = 1000000;
+            unit = "mcr";
+        } else {
+            divisor = 1000000000;
+            unit = "bcr";
         }
 
-        console.log(`credits = ${credits}`);
-        const dividend = (absCredits * negativeMultiplier) / 1000;
-        console.log(`DIVIDEND = ${dividend}`);
-        const dividendStr = dividend.toString();
-        const decimalLocation: number = dividendStr.indexOf(".");
-        console.log(`DEC LOCATION = ${decimalLocation}`);
+        const dividend = credits / divisor;
 
-        let wholePart: string = dividendStr;
-        let fractialPart: string = "";
-        let abbreviation: string = dividendStr;
-
-        if (decimalLocation > -1) {
-            const firstDecimal = dividendStr.at(decimalLocation + 1);
-            console.log(`FIRST DECIMAL = ${firstDecimal}`);
-            // wholePart = dividendStr.substring(0, decimalLocation);
-            // fractialPart = `.${firstDecimal}`;
-            abbreviation = dividendStr.substring(0, decimalLocation + 2);
-            console.log(`ABBRE = ${abbreviation}`);
-        }
-
-        return `${abbreviation}kcr`;
-        //return `${((absCredits * negativeMultiplier) / 1000).toFixed(1)}kcr`;
-        //return `${Math.floor((absCredits * negativeMultiplier) / 1000)}kcr`;
+        return `${dividend}${unit}`;
     }
 }
