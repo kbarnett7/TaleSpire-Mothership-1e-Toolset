@@ -5,6 +5,8 @@ import { IRepository } from "./repositoy-interface";
 import { IUnitOfWork } from "./unit-of-work-interface";
 
 export class UnitOfWork implements IUnitOfWork {
+    public static inject = ["database"] as const;
+
     private db: IDatabase;
 
     constructor(db: IDatabase) {
