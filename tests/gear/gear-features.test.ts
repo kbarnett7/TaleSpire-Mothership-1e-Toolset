@@ -2,11 +2,15 @@ import { EquipmentItem } from "../../src/features/gear/equipment-item";
 import { ArmorItem } from "../../src/features/gear/armor-item";
 import { GearListItem } from "../../src/features/gear/gear-list-item";
 import { GetAllGearFeature } from "../../src/features/gear/get-all-gear/get-all-gear-feature";
+import { JsonFileDatabase } from "../../src/data-access/json-file-database";
+import { UnitOfWork } from "../../src/data-access/unit-of-work";
 
 describe("Gear Features", () => {
     it("GetAllGearFeature returns all gear list items", () => {
         // Arranges
-        const handler = new GetAllGearFeature();
+        const db = new JsonFileDatabase();
+        const unitOfWork = new UnitOfWork(db);
+        const handler = new GetAllGearFeature(unitOfWork);
 
         // Act
         const gear: GearListItem[] = handler.handle();

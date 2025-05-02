@@ -2,6 +2,8 @@ import html from "./gear-list.html";
 import { BaseComponent } from "../base.component";
 import { GetAllGearFeature } from "../../features/gear/get-all-gear/get-all-gear-feature";
 import { GearListItem } from "../../features/gear/gear-list-item";
+import { JsonFileDatabase } from "../../data-access/json-file-database";
+import { UnitOfWork } from "../../data-access/unit-of-work";
 
 export class GearListComponent extends BaseComponent {
     private getAllGearFeature: GetAllGearFeature;
@@ -9,7 +11,9 @@ export class GearListComponent extends BaseComponent {
 
     constructor() {
         super();
-        this.getAllGearFeature = new GetAllGearFeature();
+        const db = new JsonFileDatabase();
+        const unitOfWork = new UnitOfWork(db);
+        this.getAllGearFeature = new GetAllGearFeature(unitOfWork);
     }
 
     public connectedCallback() {
