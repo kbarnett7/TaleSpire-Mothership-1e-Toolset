@@ -6,7 +6,7 @@ export class HomeComponent extends BaseComponent {
         super();
     }
 
-    public async connectedCallback() {
+    public connectedCallback() {
         this.render(html);
     }
 }

@@ -67,6 +67,15 @@ TypeScript: `npm install typescript --save-dev`
 -   https://www.w3schools.com/howto/howto_js_sidenav.asp
 -   https://tailwindcss.com/docs/z-index
 
+### Databases and ORMs
+
+-   [sqlite3 npm package](https://www.npmjs.com/package/sqlite3?activeTab=readme)
+-   [Get started with SQLite database in a TypeScript project](https://www.octans-solutions.fr/en/articles/sqlite-typescript)
+-   [Implementing SQLite3 with Node.js and TypeScript](https://koraytug.hashnode.dev/implementing-sqlite3-with-nodejs-and-typescript)
+-   [Kysely](https://kysely.dev/)
+-   [Most complete typescript ORM available right now?](https://www.reddit.com/r/node/comments/1627z0m/most_complete_typescript_orm_available_right_now/)
+-   [The best TypeScript ORMs](https://blog.logrocket.com/best-typescript-orms/)
+
 ### Misc
 
 -   [Starting an Open Source Project](https://opensource.guide/starting-a-project/)
@@ -74,3 +83,18 @@ TypeScript: `npm install typescript --save-dev`
     -   [Talespire 5e Toolset GitHub](https://github.com/Roger4325/TaleSpire-VTT)
 -   [Gainwell MVC Web App](https://dev.azure.com/stanfieldsystems/Gainwell%20AFL-PA/_git/Gainwell%20AFL-PA?version=GBmain&path=/Gainwell.MediCal.AFLPA/Gainwell.MediCal.AFLPA.Presentation.MvcWebApp)
 -   [App Templates - Next.js React App](https://dev.azure.com/stanfieldsystems/SSI%20Application%20Templates/_git/SSI%20Application%20Templates?version=GBmain&path=/react/src/NextJsWebApp)
+
+## ERD
+
+Gear Item
+
+-   Equipment (pet is an equipment item)
+    -   Weapon - Categories: Firearm, Industrial Equipment, Melee
+    -   Armor
+
+Patch
+Trinket
+Pet
+PlayerCharacter
+NPC
+Contractors

@@ -1,7 +1,7 @@
-import html from "./about.component.html";
+import html from "./page-heading-1.html";
 import { BaseComponent } from "../../base.component";
 
-export class AboutComponent extends BaseComponent {
+export class PageHeading1Component extends BaseComponent {
     constructor() {
         super();
     }
@@ -11,4 +11,4 @@ export class AboutComponent extends BaseComponent {
     }
 }
 
-customElements.define("about-component", AboutComponent);
+customElements.define("page-heading-1", PageHeading1Component);
