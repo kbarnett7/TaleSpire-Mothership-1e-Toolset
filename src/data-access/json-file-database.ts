@@ -1,9 +1,9 @@
-import { Constructor } from "../common/constructor-type";
+import { Constructor } from "../common/types/constructor-type";
 import armorData from "../database/json/armor.data.json";
 import equipmentData from "../database/json/equipment.data.json";
 import { ArmorItem } from "../features/gear/armor-item";
 import { EquipmentItem } from "../features/gear/equipment-item";
-import { IDatabase } from "./database-interface";
+import { IDatabase } from "./contracts/database-interface";
 import { DbSet } from "./db-set";
 
 export class JsonFileDatabase implements IDatabase {

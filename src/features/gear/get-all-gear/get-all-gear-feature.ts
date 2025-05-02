@@ -1,4 +1,4 @@
-import { IUnitOfWork } from "../../../data-access/unit-of-work-interface";
+import { IUnitOfWork } from "../../../data-access/contracts/unit-of-work-interface";
 import { ArmorItem } from "../armor-item";
 import { EquipmentItem } from "../equipment-item";
 import { GearListItem } from "../gear-list-item";

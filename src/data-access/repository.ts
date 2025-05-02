@@ -1,6 +1,6 @@
-import { Constructor } from "../common/constructor-type";
+import { Constructor } from "../common/types/constructor-type";
 import { BaseRepository } from "./base-repository";
-import { IDatabase } from "./database-interface";
+import { IDatabase } from "./contracts/database-interface";
 
 export class Repository<T> extends BaseRepository<T> {
     constructor(type: Constructor<T>, db: IDatabase) {
