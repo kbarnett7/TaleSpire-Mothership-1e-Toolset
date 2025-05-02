@@ -1,14 +1,15 @@
 import { JsonFileDatabase } from "../../../data-access/json-file-database";
-import { ArmorRepository } from "../armor-repository";
-import { EquipmentRepository } from "../equipment-repository";
+import { Repository } from "../../../data-access/repository";
+import { ArmorItem } from "../armor-item";
+import { EquipmentItem } from "../equipment-item";
 import { GearListItem } from "../gear-list-item";
 import { GearListItemMap } from "../gear-list-item-map";
 
 export class GetAllGearFeature {
     public handle(): GearListItem[] {
         const db = new JsonFileDatabase();
-        const equipmentRepository = new EquipmentRepository(db);
-        const armorRepository = new ArmorRepository(db);
+        const equipmentRepository = new Repository<EquipmentItem>(EquipmentItem.name, db);
+        const armorRepository = new Repository<ArmorItem>(ArmorItem.name, db);
 
         let gearListItems: GearListItem[] = [];
 
