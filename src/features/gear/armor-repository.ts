@@ -1,10 +1,14 @@
 import { ArmorItem } from "./armor-item";
-import data from "../../database/armor.data.json";
+import { IDatabase } from "../../data-access/database-interface";
 
 export class ArmorRepository {
-    constructor() {}
+    private db: IDatabase;
+
+    constructor(db: IDatabase) {
+        this.db = db;
+    }
 
     public list(): ArmorItem[] {
-        return data;
+        return this.db.getSet<ArmorItem>(ArmorItem.name).toArray();
     }
 }

@@ -1,10 +1,14 @@
 import { EquipmentItem } from "./equipment-item";
-import data from "../../database/equipment.data.json";
+import { IDatabase } from "../../data-access/database-interface";
 
 export class EquipmentRepository {
-    constructor() {}
+    private db: IDatabase;
+
+    constructor(db: IDatabase) {
+        this.db = db;
+    }
 
     public list(): EquipmentItem[] {
-        return data;
+        return this.db.getSet<EquipmentItem>(EquipmentItem.name).toArray();
     }
 }
