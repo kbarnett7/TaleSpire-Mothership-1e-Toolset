@@ -1,7 +1,7 @@
-import { ArmorRepository } from "./armor-repository";
-import { EquipmentRepository } from "./equipment-repository";
-import { GearListItem } from "./gear-list-item";
-import { GearListItemMap } from "./gear-list-item-map";
+import { ArmorRepository } from "../armor-repository";
+import { EquipmentRepository } from "../equipment-repository";
+import { GearListItem } from "../gear-list-item";
+import { GearListItemMap } from "../gear-list-item-map";
 
 export class GetAllGearFeature {
     public handle(): GearListItem[] {

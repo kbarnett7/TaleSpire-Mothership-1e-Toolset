@@ -1,7 +1,7 @@
 import { EquipmentItem } from "../../src/features/gear/equipment-item";
 import { ArmorItem } from "../../src/features/gear/armor-item";
 import { GearListItem } from "../../src/features/gear/gear-list-item";
-import { GetAllGearFeature } from "../../src/features/gear/get-all-gear-feature";
+import { GetAllGearFeature } from "../../src/features/gear/get-all-gear/get-all-gear-feature";
 
 describe("Gear Features", () => {
     it("GetAllGearFeature returns all gear list items", () => {
@@ -39,15 +39,4 @@ describe("Gear Features", () => {
         expect(actualItem.cost).toBe(expectedCost);
         expect(actualItem.category).toBe(expectedCategory);
     }
-
-    // it("get all gear returns all gear list items", () => {
-    //     // Arrange
-    //     const repository = new GearRepository();
-
-    //     // Act
-    //     const gear: GearItem[] = repository.list();
-
-    //     // Assert
-    //     expect(gear.length).toBeGreaterThan(0);
-    // });
 });

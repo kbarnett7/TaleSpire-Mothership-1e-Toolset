@@ -1,6 +1,6 @@
 import html from "./gear-list.html";
 import { BaseComponent } from "../base.component";
-import { GetAllGearFeature } from "../../features/gear/get-all-gear-feature";
+import { GetAllGearFeature } from "../../features/gear/get-all-gear/get-all-gear-feature";
 import { GearListItem } from "../../features/gear/gear-list-item";
 
 export class GearListComponent extends BaseComponent {
