@@ -4,6 +4,7 @@ import { GearListItem } from "../../src/features/gear/gear-list-item";
 import { GetAllGearFeature } from "../../src/features/gear/get-all-gear/get-all-gear-feature";
 import { JsonFileDatabase } from "../../src/data-access/json-file-database";
 import { UnitOfWork } from "../../src/data-access/unit-of-work";
+import { EmptyRequest } from "../../src/common/features/empty-request";
 
 describe("Gear Features", () => {
     it("GetAllGearFeature returns all gear list items", () => {
@@ -13,7 +14,7 @@ describe("Gear Features", () => {
         const handler = new GetAllGearFeature(unitOfWork);
 
         // Act
-        const gear: GearListItem[] = handler.handle();
+        const gear: GearListItem[] = handler.handle(new EmptyRequest());
 
         // Assert
         expect(gear.length).toBeGreaterThan(0);

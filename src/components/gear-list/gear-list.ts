@@ -4,6 +4,7 @@ import { GetAllGearFeature } from "../../features/gear/get-all-gear/get-all-gear
 import { GearListItem } from "../../features/gear/gear-list-item";
 import { UnitOfWork } from "../../data-access/unit-of-work";
 import { appInjector } from "../../infrastructure/app-injector";
+import { EmptyRequest } from "../../common/features/empty-request";
 
 export class GearListComponent extends BaseComponent {
     private getAllGearFeature: GetAllGearFeature;
@@ -22,7 +23,7 @@ export class GearListComponent extends BaseComponent {
 
         if (!shadowRoot) return;
 
-        this.gearList = this.getAllGearFeature.handle();
+        this.gearList = this.getAllGearFeature.handle(new EmptyRequest());
 
         this.populateGearTable(shadowRoot);
     }

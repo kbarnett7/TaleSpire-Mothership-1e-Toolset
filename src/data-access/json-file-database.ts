@@ -3,8 +3,8 @@ import armorData from "../database/json/armor.data.json";
 import equipmentData from "../database/json/equipment.data.json";
 import { ArmorItem } from "../features/gear/armor-item";
 import { EquipmentItem } from "../features/gear/equipment-item";
-import { IDatabase } from "./contracts/database-interface";
-import { DbSet } from "./db-set";
+import { IDatabase } from "../common/data-access/database-interface";
+import { DbSet } from "../common/data-access/db-set";
 
 export class JsonFileDatabase implements IDatabase {
     private _dbSets: Map<string, DbSet<any>>;

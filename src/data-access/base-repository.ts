@@ -1,6 +1,6 @@
 import { Constructor } from "../common/types/constructor-type";
-import { IDatabase } from "./contracts/database-interface";
-import { IRepository } from "./contracts/repositoy-interface";
+import { IDatabase } from "../common/data-access/database-interface";
+import { IRepository } from "../common/data-access/repositoy-interface";
 
 export abstract class BaseRepository<T> implements IRepository<T> {
     private type: Constructor<T>;

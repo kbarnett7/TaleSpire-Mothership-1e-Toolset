@@ -1,4 +1,4 @@
-import { Constructor } from "../../common/types/constructor-type";
+import { Constructor } from "../types/constructor-type";
 import { IRepository } from "./repositoy-interface";
 
 export interface IUnitOfWork {
