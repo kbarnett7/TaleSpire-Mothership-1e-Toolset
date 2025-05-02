@@ -86,4 +86,11 @@ TypeScript: `npm install typescript --save-dev`
 
 ## ERD
 
-Gear Item - Patch - Trinket - Equipment - Weapon - Categories: Firearm, Industrial Equipment, Melee - Armor - Pet
+Gear Item
+
+-   Patch
+-   Trinket
+-   Equipment
+    -   Weapon - Categories: Firearm, Industrial Equipment, Melee
+    -   Armor
+    -   Pet

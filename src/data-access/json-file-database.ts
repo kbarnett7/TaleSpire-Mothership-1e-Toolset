@@ -1,6 +1,6 @@
 import { Constructor } from "../common/constructor-type";
-import armorData from "../database/armor.data.json";
-import equipmentData from "../database/equipment.data.json";
+import armorData from "../database/json/armor.data.json";
+import equipmentData from "../database/json/equipment.data.json";
 import { ArmorItem } from "../features/gear/armor-item";
 import { EquipmentItem } from "../features/gear/equipment-item";
 import { IDatabase } from "./database-interface";
