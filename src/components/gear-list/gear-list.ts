@@ -49,7 +49,7 @@ export class GearListComponent extends BaseComponent {
 
         row.innerHTML = `
             <td class="p-2">${gearItem.name}</td>
-            <td class="p-2">${gearItem.cost}</td>
+            <td class="p-2">${gearItem.abbreviatedCost}</td>
             <td class="p-2">${gearItem.category}</td>
             <td class="p-2">${gearItem.description}</td>
         `;

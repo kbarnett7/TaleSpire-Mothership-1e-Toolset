@@ -5,6 +5,10 @@ export class GearListItem {
     public cost: number;
     public category: string;
 
+    public get abbreviatedCost(): string {
+        return `${this.cost}cr`;
+    }
+
     constructor(id: number, name: string, description: string, cost: number, category: string) {
         this.id = id;
         this.name = name;
