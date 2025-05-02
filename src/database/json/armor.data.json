@@ -16,7 +16,7 @@
         "description": "Designed for outer space operations.",
         "armorPoints": 3,
         "oxygen": 12,
-        "speed": "Disadvantage",
+        "speed": "[-]",
         "special": "Includes short-range comms, headlamp, and radiation shielding. Decompression within 1d5 rounds if punctured."
     },
     {
@@ -46,7 +46,7 @@
         "description": "Heavy armor for marines deployed in high combat offworld engagements.",
         "armorPoints": 10,
         "oxygen": 1,
-        "speed": "Disadvantage",
+        "speed": "[-]",
         "special": "Includes short-range comms, body cam, headlamp, HUD, exoskeletal weave (Strength Checks [+]), and radiation shielding. Damage Reduction: 3."
     }
 ]

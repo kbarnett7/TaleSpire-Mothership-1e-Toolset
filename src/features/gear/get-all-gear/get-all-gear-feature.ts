@@ -5,6 +5,7 @@ import { ArmorItem } from "../armor-item";
 import { EquipmentItem } from "../equipment-item";
 import { GearListItem } from "../gear-list-item";
 import { GearListItemMap } from "../gear-list-item-map";
+import { WeaponItem } from "../weapon-item";
 
 export class GetAllGearFeature implements IFeature<EmptyRequest, GearListItem[]> {
     private unitOfWork: IUnitOfWork;
@@ -21,6 +22,9 @@ export class GetAllGearFeature implements IFeature<EmptyRequest, GearListItem[]>
         );
 
         gearListItems = gearListItems.concat(this.unitOfWork.repo(ArmorItem).list().map(GearListItemMap.fromArmorItem));
+        gearListItems = gearListItems.concat(
+            this.unitOfWork.repo(WeaponItem).list().map(GearListItemMap.fromWeaponItem)
+        );
 
         return gearListItems;
     }

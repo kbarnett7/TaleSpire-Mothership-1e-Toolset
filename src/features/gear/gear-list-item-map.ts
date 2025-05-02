@@ -1,6 +1,7 @@
 import { ArmorItem } from "./armor-item";
 import { EquipmentItem } from "./equipment-item";
 import { GearListItem } from "./gear-list-item";
+import { WeaponItem } from "./weapon-item";
 
 export class GearListItemMap {
     static fromArmorItem(item: ArmorItem): GearListItem {
@@ -9,5 +10,9 @@ export class GearListItemMap {
 
     static fromEquipmentItem(item: EquipmentItem): GearListItem {
         return new GearListItem(item.id, item.name, item.description, item.cost, EquipmentItem.name);
+    }
+
+    static fromWeaponItem(item: WeaponItem): GearListItem {
+        return new GearListItem(item.id, item.name, item.description, item.cost, WeaponItem.name);
     }
 }
