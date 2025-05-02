@@ -12,15 +12,27 @@
 
 /*! !../node_modules/style-loader/dist/runtime/styleTagTransform.js */
 
+/*! ../../../data-access/json-file-database */
+
 /*! ../../base.component */
 
-/*! ../../database/armor.data.json */
+/*! ../../features/gear/get-all-gear/get-all-gear-feature */
 
-/*! ../../database/equipment.data.json */
-
-/*! ../../features/gear/get-all-gear-feature */
+/*! ../armor-repository */
 
 /*! ../base.component */
+
+/*! ../database/armor.data.json */
+
+/*! ../database/equipment.data.json */
+
+/*! ../equipment-repository */
+
+/*! ../features/gear/armor-item */
+
+/*! ../features/gear/equipment-item */
+
+/*! ../gear-list-item-map */
 
 /*! ../node_modules/css-loader/dist/runtime/api.js */
 
@@ -32,17 +44,13 @@
 
 /*! ./armor-item */
 
-/*! ./armor-repository */
+/*! ./db-set */
 
 /*! ./equipment-item */
-
-/*! ./equipment-repository */
 
 /*! ./gear-item */
 
 /*! ./gear-list-item */
-
-/*! ./gear-list-item-map */
 
 /*! ./gear-list.html */
 
@@ -69,6 +77,10 @@
 /*!*********************************!*\
   !*** ./src/features/temp_ts.ts ***!
   \*********************************/
+
+/*!***********************************!*\
+  !*** ./src/data-access/db-set.ts ***!
+  \***********************************/
 
 /*!**************************************!*\
   !*** ./src/database/armor.data.json ***!
@@ -119,6 +131,14 @@
   \***********************************************/
 
 /*!***********************************************!*\
+  !*** ./src/data-access/database-interface.ts ***!
+  \***********************************************/
+
+/*!***********************************************!*\
+  !*** ./src/data-access/json-file-database.ts ***!
+  \***********************************************/
+
+/*!***********************************************!*\
   !*** ./src/features/gear/armor-repository.ts ***!
   \***********************************************/
 
@@ -130,16 +150,8 @@
   !*** ./src/features/gear/gear-list-item-map.ts ***!
   \*************************************************/
 
-/*!**************************************************!*\
-  !*** ./src/features/gear/gear-item-interface.ts ***!
-  \**************************************************/
-
 /*!***************************************************!*\
   !*** ./src/features/gear/equipment-repository.ts ***!
-  \***************************************************/
-
-/*!***************************************************!*\
-  !*** ./src/features/gear/get-all-gear-feature.ts ***!
   \***************************************************/
 
 /*!*****************************************************!*\
@@ -188,6 +200,10 @@
 
 /*!****************************************************************!*\
   !*** ./src/components/layout/nav-menu/nav-menu.component.html ***!
+  \****************************************************************/
+
+/*!****************************************************************!*\
+  !*** ./src/features/gear/get-all-gear/get-all-gear-feature.ts ***!
   \****************************************************************/
 
 /*!******************************************************************!*\
