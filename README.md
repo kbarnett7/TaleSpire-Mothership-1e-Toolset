@@ -84,14 +84,6 @@ TypeScript: `npm install typescript --save-dev`
 -   [Gainwell MVC Web App](https://dev.azure.com/stanfieldsystems/Gainwell%20AFL-PA/_git/Gainwell%20AFL-PA?version=GBmain&path=/Gainwell.MediCal.AFLPA/Gainwell.MediCal.AFLPA.Presentation.MvcWebApp)
 -   [App Templates - Next.js React App](https://dev.azure.com/stanfieldsystems/SSI%20Application%20Templates/_git/SSI%20Application%20Templates?version=GBmain&path=/react/src/NextJsWebApp)
 
-
 ## ERD
 
-Gear Item
-    - Patch
-    - Trinket
-    - Equipment
-    - Weapon
-        - Categories: Firearm, Industrial Equipment
-    - Armor
-    - Pet
+Gear Item - Patch - Trinket - Equipment - Weapon - Categories: Firearm, Industrial Equipment, Melee - Armor - Pet

@@ -1,16 +1,15 @@
 import html from "./gear-list.html";
 import { BaseComponent } from "../base.component";
-import { GearItem } from "../../features/gear/gear-item";
-import { GearRepository } from "../../features/gear/gear-repository";
+import { GetAllGearFeature } from "../../features/gear/get-all-gear-feature";
+import { GearListItem } from "../../features/gear/gear-list-item";
 
 export class GearListComponent extends BaseComponent {
-    private gearRepository: GearRepository
-    private gearList: Array<GearItem> = [];
+    private getAllGearFeature: GetAllGearFeature;
+    private gearList: Array<GearListItem> = [];
 
     constructor() {
         super();
-        this.gearRepository = new GearRepository();
-        this.gearList = this.gearRepository.list();
+        this.getAllGearFeature = new GetAllGearFeature();
     }
 
     public connectedCallback() {
@@ -20,6 +19,8 @@ export class GearListComponent extends BaseComponent {
 
         if (!shadowRoot) return;
 
+        this.gearList = this.getAllGearFeature.handle();
+
         this.populateGearTable(shadowRoot);
     }
 
@@ -28,7 +29,7 @@ export class GearListComponent extends BaseComponent {
 
         if (!gearListContainer) return;
 
-        const tableBody = gearListContainer.querySelector("tbody")
+        const tableBody = gearListContainer.querySelector("tbody");
 
         if (!tableBody) return;
 
@@ -37,7 +38,7 @@ export class GearListComponent extends BaseComponent {
         });
     }
 
-    private createTableRowElement(gearItem: GearItem): HTMLTableRowElement {
+    private createTableRowElement(gearItem: GearListItem): HTMLTableRowElement {
         const row = document.createElement("tr");
 
         row.className = "border-b-2 border-gray-200";
