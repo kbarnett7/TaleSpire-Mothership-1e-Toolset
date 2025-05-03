@@ -1,6 +1,13 @@
 import { AppEvent } from "./app-event";
 import { AppEventListener } from "./app-event-listener-interface";
 
+/**
+ * A singleton class that acts as a global event bus for dispatching and listening to application events.
+ *
+ * The `EventBus` uses the `EventTarget` API to manage custom events, allowing components to communicate
+ * with each other in a decoupled manner. Events are dispatched as `CustomEvent` objects, and listeners
+ * can register callbacks for specific event types.
+ */
 export class EventBus {
     private _eventBus: EventTarget;
     private static _instance: EventBus;
@@ -9,6 +16,11 @@ export class EventBus {
         this._eventBus = new EventTarget();
     }
 
+    /**
+     * Gets the singleton instance of the `EventBus`.
+     *
+     * @returns {EventBus} The singleton instance of the `EventBus`.
+     */
     public static get instance(): EventBus {
         if (!EventBus._instance) {
             EventBus._instance = new EventBus();
@@ -17,6 +29,14 @@ export class EventBus {
         return EventBus._instance;
     }
 
+    /**
+     * Dispatches an application event.
+     *
+     * The event is wrapped in a `CustomEvent` object and dispatched on the internal `EventTarget`.
+     * The event can bubble and pass through shadow DOM boundaries.
+     *
+     * @param {AppEvent} event - The application event to dispatch.
+     */
     dispatch(event: AppEvent) {
         const customEvent = new CustomEvent<AppEvent>(event.type, {
             detail: event,
@@ -27,6 +47,15 @@ export class EventBus {
         this._eventBus.dispatchEvent(customEvent);
     }
 
+    /**
+     * Registers a listener for a specific event type.
+     *
+     * The listener is called whenever an event of the specified type is dispatched.
+     *
+     * @param {string} type - The type of the event to listen for.
+     * @param {AppEventListener} callback - The callback function to invoke when the event is dispatched.
+     * The callback receives the `AppEvent` object as its argument.
+     */
     register(type: string, callback: AppEventListener) {
         this._eventBus.addEventListener(type, (event: Event) => {
             const customEvent = event as CustomEvent<AppEvent>;
