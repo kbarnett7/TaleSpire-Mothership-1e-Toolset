@@ -5,7 +5,7 @@ import { GearListItem } from "../../features/gear/gear-list-item";
 import { UnitOfWork } from "../../lib/data-access/unit-of-work";
 import { appInjector } from "../../lib/infrastructure/app-injector";
 import { EmptyRequest } from "../../lib/common/features/empty-request";
-import { EventService } from "../../lib/services/event-service";
+import { EventService } from "../../lib/events/event-service";
 import { GearCategoryChangedEvent } from "../../lib/events/gear-category-changed-event";
 import { AppEvent } from "../../lib/events/app-event";
 
@@ -30,11 +30,7 @@ export class GearListComponent extends BaseComponent {
 
         this.populateGearTable(shadowRoot);
 
-        EventService.instance.addEventListener(GearCategoryChangedEvent.name, (event: AppEvent) => {
-            const customEvent = event as GearCategoryChangedEvent;
-
-            this.filterByCategory(customEvent.category);
-        });
+        this.registerGearCategoryChangedEvent();
     }
 
     private populateGearTable(shadowRoot: ShadowRoot) {
@@ -64,6 +60,14 @@ export class GearListComponent extends BaseComponent {
         `;
 
         return row;
+    }
+
+    private registerGearCategoryChangedEvent() {
+        EventService.instance.addEventListener(GearCategoryChangedEvent.name, (event: AppEvent) => {
+            const customEvent = event as GearCategoryChangedEvent;
+
+            this.filterByCategory(customEvent.category);
+        });
     }
 
     private filterByCategory(category: string) {

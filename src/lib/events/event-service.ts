@@ -1,8 +1,5 @@
-import { AppEvent } from "../events/app-event";
-
-export interface AppEventListener {
-    (event: AppEvent): void;
-}
+import { AppEvent } from "./app-event";
+import { AppEventListener } from "./app-event-listener-interface";
 
 export class EventService {
     private _eventBus: EventTarget;
