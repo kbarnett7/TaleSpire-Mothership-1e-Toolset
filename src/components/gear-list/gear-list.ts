@@ -2,9 +2,9 @@ import html from "./gear-list.html";
 import { BaseComponent } from "../base.component";
 import { GetAllGearFeature } from "../../features/gear/get-all-gear/get-all-gear-feature";
 import { GearListItem } from "../../features/gear/gear-list-item";
-import { UnitOfWork } from "../../data-access/unit-of-work";
-import { appInjector } from "../../infrastructure/app-injector";
-import { EmptyRequest } from "../../common/features/empty-request";
+import { UnitOfWork } from "../../lib/data-access/unit-of-work";
+import { appInjector } from "../../lib/infrastructure/app-injector";
+import { EmptyRequest } from "../../lib/common/features/empty-request";
 
 export class GearListComponent extends BaseComponent {
     private getAllGearFeature: GetAllGearFeature;

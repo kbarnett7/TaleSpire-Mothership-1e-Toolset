@@ -1,4 +1,4 @@
-import { StylesService } from "../services/styles-service";
+import { StylesService } from "../lib/services/styles-service";
 
 export class BaseComponent extends HTMLElement {
     constructor() {

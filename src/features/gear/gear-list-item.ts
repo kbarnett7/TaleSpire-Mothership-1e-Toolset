@@ -1,4 +1,4 @@
-import { CreditsAbbreviator } from "../../services/credits-abbreviator";
+import { CreditsAbbreviator } from "../../lib/services/credits-abbreviator";
 
 export class GearListItem {
     public id: number;

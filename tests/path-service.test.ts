@@ -1,4 +1,4 @@
-import { PathService } from "../src/services/path-service";
+import { PathService } from "../src/lib/services/path-service";
 
 describe("PathService", () => {
     it("getSymbioteRootPath(): for URL without '/dist/' should throw an Error", () => {

@@ -2,9 +2,9 @@ import { EquipmentItem } from "../../src/features/gear/equipment-item";
 import { ArmorItem } from "../../src/features/gear/armor-item";
 import { GearListItem } from "../../src/features/gear/gear-list-item";
 import { GetAllGearFeature } from "../../src/features/gear/get-all-gear/get-all-gear-feature";
-import { JsonFileDatabase } from "../../src/data-access/json-file-database";
-import { UnitOfWork } from "../../src/data-access/unit-of-work";
-import { EmptyRequest } from "../../src/common/features/empty-request";
+import { JsonFileDatabase } from "../../src/lib/data-access/json-file-database";
+import { UnitOfWork } from "../../src/lib/data-access/unit-of-work";
+import { EmptyRequest } from "../../src/lib/common/features/empty-request";
 
 describe("Gear Features", () => {
     it("GetAllGearFeature returns all gear list items", () => {
