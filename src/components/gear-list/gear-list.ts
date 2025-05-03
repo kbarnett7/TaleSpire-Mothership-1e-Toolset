@@ -2,40 +2,51 @@ import html from "./gear-list.html";
 import { BaseComponent } from "../base.component";
 import { GetAllGearFeature } from "../../features/gear/get-all-gear/get-all-gear-feature";
 import { GearListItem } from "../../features/gear/gear-list-item";
-import { UnitOfWork } from "../../data-access/unit-of-work";
-import { appInjector } from "../../infrastructure/app-injector";
-import { EmptyRequest } from "../../common/features/empty-request";
+import { UnitOfWork } from "../../lib/data-access/unit-of-work";
+import { appInjector } from "../../lib/infrastructure/app-injector";
+import { EmptyRequest } from "../../lib/common/features/empty-request";
+import { EventBus } from "../../lib/events/event-bus";
+import { GearCategoryChangedEvent } from "../../lib/events/gear-category-changed-event";
+import { AppEvent } from "../../lib/events/app-event";
+import { FilterGearListFeature } from "../../features/gear/filter-gear-list/filter-gear-list-feature";
+import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface";
+import { FilterGearListRequest } from "../../features/gear/filter-gear-list/filter-gear-list-request";
+import { AppErrorEvent } from "../../lib/events/app-error-event";
+import { EventType } from "../../lib/events/event-type";
 
 export class GearListComponent extends BaseComponent {
     private getAllGearFeature: GetAllGearFeature;
     private gearList: Array<GearListItem> = [];
+    private unitOfWork: IUnitOfWork;
 
     constructor() {
         super();
-        const unitOfWork = appInjector.injectClass(UnitOfWork);
-        this.getAllGearFeature = new GetAllGearFeature(unitOfWork);
+        this.unitOfWork = appInjector.injectClass(UnitOfWork);
+        this.getAllGearFeature = new GetAllGearFeature(this.unitOfWork);
     }
 
     public connectedCallback() {
         this.render(html);
 
-        const { shadowRoot } = this;
-
-        if (!shadowRoot) return;
-
         this.gearList = this.getAllGearFeature.handle(new EmptyRequest());
 
-        this.populateGearTable(shadowRoot);
+        this.populateGearTable();
+
+        this.registerGearCategoryChangedEvent();
     }
 
-    private populateGearTable(shadowRoot: ShadowRoot) {
-        const gearListContainer = shadowRoot.querySelector("#gear-list-container");
+    private populateGearTable(clearOldRows: boolean = false) {
+        const gearListContainer = this.shadow.querySelector("#gear-list-container");
 
         if (!gearListContainer) return;
 
         const tableBody = gearListContainer.querySelector("tbody");
 
         if (!tableBody) return;
+
+        if (clearOldRows && tableBody.hasChildNodes()) {
+            tableBody.replaceChildren();
+        }
 
         this.gearList.forEach((item) => {
             tableBody.appendChild(this.createTableRowElement(item));
@@ -45,7 +56,7 @@ export class GearListComponent extends BaseComponent {
     private createTableRowElement(gearItem: GearListItem): HTMLTableRowElement {
         const row = document.createElement("tr");
 
-        row.className = "border-b-2 border-gray-200";
+        row.className = "border-2 border-y-gray-300";
 
         row.innerHTML = `
             <td class="p-2">${gearItem.name}</td>
@@ -55,6 +66,31 @@ export class GearListComponent extends BaseComponent {
         `;
 
         return row;
+    }
+
+    private registerGearCategoryChangedEvent() {
+        EventBus.instance.register(GearCategoryChangedEvent.name, (event: AppEvent) => {
+            this.filterByCategory((event as GearCategoryChangedEvent).category);
+        });
+    }
+
+    private filterByCategory(category: string) {
+        const feature = new FilterGearListFeature(this.unitOfWork);
+        const request = new FilterGearListRequest();
+        request.category = category;
+
+        const result = feature.handle(request);
+
+        if (result.isFailure) {
+            EventBus.instance.dispatch(new AppErrorEvent(EventType.ErrorPanelShow, result.error.description));
+            return;
+        }
+
+        EventBus.instance.dispatch(new AppEvent(EventType.ErrorPanelHide));
+
+        this.gearList = result.value ?? [];
+
+        this.populateGearTable(true);
     }
 }
 

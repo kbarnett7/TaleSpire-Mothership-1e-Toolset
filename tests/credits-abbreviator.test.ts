@@ -1,4 +1,4 @@
-import { CreditsAbbreviator } from "../src/services/credits-abbreviator";
+import { CreditsAbbreviator } from "../src/lib/services/credits-abbreviator";
 
 describe("Credits Abbreviator", () => {
     it.each([

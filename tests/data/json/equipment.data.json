@@ -28,35 +28,5 @@
         "name": "Bioscanner",
         "cost": 3000,
         "description": "Long Range. Allows the user to scan for signs of life. Can tell the location of signs of life, but not what that life is. Blocked by some materials at the Warden's discretion."
-    },
-    {
-        "id": 6,
-        "name": "Body Cam",
-        "cost": 50,
-        "description": "A camera worn on your clothing that can stream video back to a control center so your other crewmembers can see what you're seeing. Add night vision (+300cr) or thermal vision (+1kcr)."
-    },
-    {
-        "id": 7,
-        "name": "Chemlight (x5)",
-        "cost": 5,
-        "description": "Small disposable glowsticks capable of dim illumination in a 1m radius."
-    },
-    {
-        "id": 8,
-        "name": "Crowbar",
-        "cost": 25,
-        "description": "Grants Advantage on Strength Checks to open jammed airlocks, lift heavy objects, etc."
-    },
-    {
-        "id": 9,
-        "name": "Cybernetic Diagnostic Scanner",
-        "cost": 2000,
-        "description": "Allows the user to scan androids and other cybernetic organisms in order to diagnose any physical or mental issues they may be having. Often distrusted by androids."
-    },
-    {
-        "id": 10,
-        "name": "Electronic Tool Set",
-        "cost": 100,
-        "description": "A full set of tools for doing detailed repair or construction work on electronics."
     }
 ]

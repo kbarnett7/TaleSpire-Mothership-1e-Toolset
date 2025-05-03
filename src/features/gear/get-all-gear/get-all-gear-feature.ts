@@ -1,6 +1,6 @@
-import { IUnitOfWork } from "../../../common/data-access/unit-of-work-interface";
-import { EmptyRequest } from "../../../common/features/empty-request";
-import { IFeature } from "../../../common/features/feature-interface";
+import { IUnitOfWork } from "../../../lib/common/data-access/unit-of-work-interface";
+import { EmptyRequest } from "../../../lib/common/features/empty-request";
+import { IFeature } from "../../../lib/common/features/feature-interface";
 import { ArmorItem } from "../armor-item";
 import { EquipmentItem } from "../equipment-item";
 import { GearListItem } from "../gear-list-item";

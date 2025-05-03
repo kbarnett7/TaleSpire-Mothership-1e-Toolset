@@ -1,4 +1,6 @@
 export class GearItem {
+    public static gearCategory: string = "All";
+
     public id: number;
     public name: string;
 

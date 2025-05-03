@@ -84,6 +84,21 @@ TypeScript: `npm install typescript --save-dev`
 -   [Gainwell MVC Web App](https://dev.azure.com/stanfieldsystems/Gainwell%20AFL-PA/_git/Gainwell%20AFL-PA?version=GBmain&path=/Gainwell.MediCal.AFLPA/Gainwell.MediCal.AFLPA.Presentation.MvcWebApp)
 -   [App Templates - Next.js React App](https://dev.azure.com/stanfieldsystems/SSI%20Application%20Templates/_git/SSI%20Application%20Templates?version=GBmain&path=/react/src/NextJsWebApp)
 
+Add semantic tags to index.html
+
+-   <nav>
+-   <main>
+
+https://www.youtube.com/watch?v=R7b3OlEyqug
+https://www.youtube.com/watch?v=pfaSUYaSgRo
+https://www.youtube.com/watch?v=MszSqhEw__8
+
+https://fonts.google.com/
+https://fonts.google.com/icons
+https://simpleicons.org/
+
+Tailwind CSS IntelliSense VSCode Extension: https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss
+
 ## ERD
 
 Gear Item

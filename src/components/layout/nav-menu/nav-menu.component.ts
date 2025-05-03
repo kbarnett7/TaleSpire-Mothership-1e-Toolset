@@ -19,14 +19,14 @@ export class NavMenuComponent extends BaseComponent {
     }
 
     public openNav() {
-        const sidenav = this.shadowRoot?.querySelector("#mySidenav");
+        const sidenav = this.shadow.querySelector("#mySidenav");
         if (sidenav) {
             (sidenav as HTMLElement).style.width = "250px";
         }
     }
 
     private closeNav() {
-        const sidenav = this.shadowRoot?.querySelector("#mySidenav");
+        const sidenav = this.shadow.querySelector("#mySidenav");
         if (sidenav) {
             (sidenav as HTMLElement).style.width = "0";
         }
