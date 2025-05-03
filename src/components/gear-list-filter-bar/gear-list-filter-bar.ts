@@ -1,6 +1,7 @@
 import html from "./gear-list-filter-bar.html";
 import { BaseComponent } from "../base.component";
-import { EventBus } from "../../lib/infrastructure/event-bus";
+import { GearCategoryChangedEvent } from "../../lib/events/gear-category-changed-event";
+import { EventService } from "../../lib/services/event-service";
 
 export class GearListFilterBarComponent extends BaseComponent {
     constructor() {
@@ -17,13 +18,9 @@ export class GearListFilterBarComponent extends BaseComponent {
 
     public onCategoryButtonClick(event: MouseEvent) {
         const target = event.target as HTMLButtonElement;
-        const testEvent = new CustomEvent("test-event", {
-            detail: { category: target.id },
-            bubbles: true, // Allow the event to bubble up
-            composed: true, // Allow the event to pass through shadow DOM boundaries
-        });
+        const appEvent = new GearCategoryChangedEvent(target.id.replace("category", ""));
         console.log("Button Clicked!", event);
-        EventBus.dispatchEvent(testEvent);
+        EventService.instance.dispatchEvent(appEvent);
     }
 }
 

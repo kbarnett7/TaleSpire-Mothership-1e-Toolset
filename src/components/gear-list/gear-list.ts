@@ -5,7 +5,9 @@ import { GearListItem } from "../../features/gear/gear-list-item";
 import { UnitOfWork } from "../../lib/data-access/unit-of-work";
 import { appInjector } from "../../lib/infrastructure/app-injector";
 import { EmptyRequest } from "../../lib/common/features/empty-request";
-import { EventBus } from "../../lib/infrastructure/event-bus";
+import { EventService } from "../../lib/services/event-service";
+import { GearCategoryChangedEvent } from "../../lib/events/gear-category-changed-event";
+import { AppEvent } from "../../lib/events/app-event";
 
 export class GearListComponent extends BaseComponent {
     private getAllGearFeature: GetAllGearFeature;
@@ -28,10 +30,10 @@ export class GearListComponent extends BaseComponent {
 
         this.populateGearTable(shadowRoot);
 
-        EventBus.addEventListener("test-event", (event: Event) => {
-            const customEvent = event as CustomEvent;
+        EventService.instance.addEventListener(GearCategoryChangedEvent.name, (event: AppEvent) => {
+            const customEvent = event as GearCategoryChangedEvent;
 
-            this.filterByCategory(customEvent.detail.category);
+            this.filterByCategory(customEvent.category);
         });
     }
 
