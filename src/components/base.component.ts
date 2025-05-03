@@ -1,22 +1,20 @@
 import { StylesService } from "../lib/services/styles-service";
 
 export class BaseComponent extends HTMLElement {
+    protected shadow: ShadowRoot;
+
     constructor() {
         super();
-        this.attachShadow({ mode: "open" });
+        this.shadow = this.attachShadow({ mode: "open" });
     }
 
     protected render(html: string): void {
-        const { shadowRoot } = this;
-
-        if (!shadowRoot) return;
-
-        StylesService.instance.addGlobalStylesToShadowRoot(shadowRoot);
+        StylesService.instance.addGlobalStylesToShadowRoot(this.shadow);
 
         const template = document.createElement("template");
         template.innerHTML = this.attachCallbacks(html);
         const templateContent = template.content;
-        shadowRoot.appendChild(templateContent.cloneNode(true));
+        this.shadow.appendChild(templateContent.cloneNode(true));
     }
 
     private attachCallbacks(html: string): string {

@@ -26,19 +26,15 @@ export class GearListComponent extends BaseComponent {
     public connectedCallback() {
         this.render(html);
 
-        const { shadowRoot } = this;
-
-        if (!shadowRoot) return;
-
         this.gearList = this.getAllGearFeature.handle(new EmptyRequest());
 
-        this.populateGearTable(shadowRoot);
+        this.populateGearTable();
 
         this.registerGearCategoryChangedEvent();
     }
 
-    private populateGearTable(shadowRoot: ShadowRoot, clearOldRows: boolean = false) {
-        const gearListContainer = shadowRoot.querySelector("#gear-list-container");
+    private populateGearTable(clearOldRows: boolean = false) {
+        const gearListContainer = this.shadow.querySelector("#gear-list-container");
 
         if (!gearListContainer) return;
 
@@ -89,11 +85,7 @@ export class GearListComponent extends BaseComponent {
 
         this.gearList = result.value ?? [];
 
-        const { shadowRoot } = this;
-
-        if (!shadowRoot) return;
-
-        this.populateGearTable(shadowRoot, true);
+        this.populateGearTable(true);
     }
 }
 

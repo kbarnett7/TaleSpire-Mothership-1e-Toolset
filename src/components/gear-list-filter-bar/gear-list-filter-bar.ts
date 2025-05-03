@@ -10,10 +10,6 @@ export class GearListFilterBarComponent extends BaseComponent {
 
     public connectedCallback() {
         this.render(html);
-
-        const { shadowRoot } = this;
-
-        if (!shadowRoot) return;
     }
 
     public onCategoryButtonClick(event: MouseEvent) {
