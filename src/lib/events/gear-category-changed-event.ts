@@ -1,6 +1,3 @@
-// type GearCategoryChanged = { category: string };
-// export class GearCategoryChangedEvent extends CustomEvent<GearCategoryChanged> {}
-
 import { AppEvent } from "./app-event";
 
 export class GearCategoryChangedEvent extends AppEvent {

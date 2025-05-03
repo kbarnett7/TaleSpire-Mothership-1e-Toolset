@@ -10,6 +10,7 @@ import { Result } from "../../src/lib/result/result";
 import { UnitTestDatabase } from "../data/unit-test-database";
 import { WeaponItem } from "../../src/features/gear/weapon-item";
 import { GearItem } from "../../src/features/gear/gear-item";
+import { ErrorCode } from "../../src/lib/errors/error-code";
 
 describe("Gear Features", () => {
     it("GetAllGearFeature returns all gear list items", () => {
@@ -167,6 +168,28 @@ describe("Gear Features", () => {
 
         item = getGearItemByName(gear, "Boarding Axe");
         expectItemToBe(item, 1, "Boarding Axe", 150, WeaponItem.gearCategory);
+    });
+
+    it("FilterGearListFeature when exception occurs returns a failure result with error information", () => {
+        // Arrange
+        const db = new UnitTestDatabase();
+        const unitOfWork = new UnitOfWork(db);
+        const feature = new FilterGearListFeature(unitOfWork);
+        const request = new FilterGearListRequest();
+        request.category = GearItem.gearCategory;
+
+        jest.spyOn(feature as any, "isValidGearCategory").mockImplementation(() => {
+            throw new Error("Mocked exception");
+        });
+
+        // Act
+        const result: Result<GearListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isFailure).toBe(true);
+        expect(result.value).not.toBeDefined();
+        expect(result.error).toBeDefined();
+        expect(result.error.code).toBe(ErrorCode.QueryError);
     });
 
     function getGearItemByName(gear: GearListItem[], name: string): GearListItem {
