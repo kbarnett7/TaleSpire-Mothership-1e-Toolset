@@ -1,5 +1,6 @@
 import html from "./gear-list-filter-bar.html";
 import { BaseComponent } from "../base.component";
+import { EventBus } from "../../lib/infrastructure/event-bus";
 
 export class GearListFilterBarComponent extends BaseComponent {
     constructor() {
@@ -22,7 +23,7 @@ export class GearListFilterBarComponent extends BaseComponent {
             composed: true, // Allow the event to pass through shadow DOM boundaries
         });
         console.log("Button Clicked!", event);
-        this.dispatchEvent(testEvent);
+        EventBus.dispatchEvent(testEvent);
     }
 }
 
