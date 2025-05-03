@@ -11,8 +11,12 @@ import { AppEvent } from "../../lib/events/app-event";
 import { FilterGearListFeature } from "../../features/gear/filter-gear-list/filter-gear-list-feature";
 import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface";
 import { FilterGearListRequest } from "../../features/gear/filter-gear-list/filter-gear-list-request";
+import { AppErrorEvent } from "../../lib/events/app-error-event";
+import { EventType } from "../../lib/events/event-type";
 
 export class GearListComponent extends BaseComponent {
+    private readonly errorPanelId: string = "gearListErrorPanel";
+
     private getAllGearFeature: GetAllGearFeature;
     private gearList: Array<GearListItem> = [];
     private unitOfWork: IUnitOfWork;
@@ -81,11 +85,20 @@ export class GearListComponent extends BaseComponent {
 
         const result = feature.handle(request);
 
-        if (result.isFailure) return;
+        if (result.isFailure) {
+            EventBus.instance.dispatch(new AppErrorEvent(EventType.ErrorPanelShow, result.error.description));
+            return;
+        }
+
+        EventBus.instance.dispatch(new AppEvent(EventType.ErrorPanelHide));
 
         this.gearList = result.value ?? [];
 
         this.populateGearTable(true);
+    }
+
+    private getErrorPanel(): HTMLElement | null {
+        return this.shadow.querySelector(`#${this.errorPanelId}`);
     }
 }
 
