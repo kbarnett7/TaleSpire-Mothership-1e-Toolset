@@ -1,6 +1,66 @@
-<div class="flex">
-    <button type="button" id="categoryAll" onclick="this.onCategoryButtonClick(event)">ALL</button>
-    <button type="button" id="categoryArmor" onclick="this.onCategoryButtonClick(event)">Armor</button>
-    <button type="button" id="categoryEquipment" onclick="this.onCategoryButtonClick(event)">Equipment</button>
-    <button type="button" id="categoryWeapon" onclick="this.onCategoryButtonClick(event)">Weapons</button>
+<style>
+    /* text-white bg-black hover:bg-gray-900 active:bg-gray-700*/
+    .active-filter-button {
+        color: var(--color-white); /*text-white*/
+        background-color: var(--color-black); /*bg-black*/
+    }
+
+    .active-filter-button:hover {
+        background-color: var(--color-gray-900);
+    }
+
+    .active-filter-button:active {
+        background-color: var(--color-gray-700);
+    }
+
+    /* text-black bg-white border-3 border-black hover:bg-gray-100 active:bg-gray-300 */
+    .inactive-filter-button {
+        color: var(--color-black);
+        background-color: var(--color-white);
+        border-width: 3px;
+        border-color: var(--color-black);
+    }
+
+    .inactive-filter-button:hover {
+        background-color: var(--color-gray-100);
+    }
+
+    .inactive-filter-button:active {
+        background-color: var(--color-gray-300);
+    }
+</style>
+
+<div class="flex justify-evenly">
+    <button
+        type="button"
+        id="categoryAll"
+        class="active-filter-button font-bold min-w-32 px-4 py-1 my-2 rounded-full transition duration-150 ease-in-out cursor-pointer uppercase"
+        onclick="this.onCategoryButtonClick(event)"
+    >
+        ALL
+    </button>
+    <button
+        type="button"
+        id="categoryArmor"
+        class="inactive-filter-button font-bold min-w-32 px-4 py-1 my-2 rounded-full transition duration-150 ease-in-out cursor-pointer uppercase"
+        onclick="this.onCategoryButtonClick(event)"
+    >
+        Armor
+    </button>
+    <button
+        type="button"
+        id="categoryEquipment"
+        class="inactive-filter-button font-bold min-w-32 px-4 py-1 my-2 rounded-full transition duration-150 ease-in-out cursor-pointer uppercase"
+        onclick="this.onCategoryButtonClick(event)"
+    >
+        Equipment
+    </button>
+    <button
+        type="button"
+        id="categoryWeapon"
+        class="inactive-filter-button font-bold min-w-32 px-4 py-1 my-2 rounded-full transition duration-150 ease-in-out cursor-pointer uppercase"
+        onclick="this.onCategoryButtonClick(event)"
+    >
+        Weapons
+    </button>
 </div>

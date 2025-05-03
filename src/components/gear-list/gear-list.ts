@@ -56,7 +56,7 @@ export class GearListComponent extends BaseComponent {
     private createTableRowElement(gearItem: GearListItem): HTMLTableRowElement {
         const row = document.createElement("tr");
 
-        row.className = "border-b-2 border-gray-200";
+        row.className = "border-2 border-y-gray-300";
 
         row.innerHTML = `
             <td class="p-2">${gearItem.name}</td>

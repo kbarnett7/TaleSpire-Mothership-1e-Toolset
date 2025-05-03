@@ -4,6 +4,9 @@ import { GearCategoryChangedEvent } from "../../lib/events/gear-category-changed
 import { EventBus } from "../../lib/events/event-bus";
 
 export class GearListFilterBarComponent extends BaseComponent {
+    private readonly activeButtonCssClass = "active-filter-button";
+    private readonly inactiveButtonCssClass = "inactive-filter-button";
+
     constructor() {
         super();
     }
@@ -18,6 +21,18 @@ export class GearListFilterBarComponent extends BaseComponent {
         const appEvent = new GearCategoryChangedEvent(target.id.replace("category", ""));
 
         EventBus.instance.dispatch(appEvent);
+
+        const allButtons = this.shadow.querySelectorAll("button");
+
+        allButtons.forEach((button) => {
+            if (button.id === target.id) {
+                button.classList.remove(this.inactiveButtonCssClass);
+                button.classList.add(this.activeButtonCssClass);
+            } else {
+                button.classList.add(this.inactiveButtonCssClass);
+                button.classList.remove(this.activeButtonCssClass);
+            }
+        });
     }
 }
 

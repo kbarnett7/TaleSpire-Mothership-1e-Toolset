@@ -7,7 +7,7 @@ body {
     font-size: 1.2rem;
 }
 
-button {
+/* button {
     border: 1px solid var(--ts-accessibility-border);
     color: var(--ts-color-primary);
     font-family: "OptimusPrinceps", sans-serif;
@@ -29,7 +29,7 @@ button:focus-visible {
     outline: 3px solid var(--ts-accessibility-focus);
     outline-offset: -1px;
     transition: outline-color 0s;
-}
+} */
 
 /* .sidenav {
     height: 100%;
