@@ -3,6 +3,8 @@ import { WeaponCategory } from "./weapon-category";
 import { WeaponRange } from "./weapon-range";
 
 export class WeaponItem extends EquipmentItem {
+    public static gearCategory: string = "Weapon";
+
     public category: string;
     public range: string;
     public damage: string;

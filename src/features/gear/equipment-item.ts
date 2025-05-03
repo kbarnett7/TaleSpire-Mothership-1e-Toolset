@@ -1,6 +1,8 @@
 import { GearItem } from "./gear-item";
 
 export class EquipmentItem extends GearItem {
+    public static gearCategory: string = "Equipment";
+
     public description: string;
     public cost: number;
 

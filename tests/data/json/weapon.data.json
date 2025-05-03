@@ -1,0 +1,62 @@
+[
+    {
+        "id": 1,
+        "name": "Boarding Axe",
+        "cost": 150,
+        "description": "",
+        "category": "Melee",
+        "range": "Adjacent",
+        "damage": "2d10",
+        "shots": 0,
+        "wound": "Gore [+]",
+        "special": ""
+    },
+    {
+        "id": 2,
+        "name": "Combat Shotgun",
+        "cost": 1400,
+        "description": "KANO X9",
+        "category": "Firearm",
+        "range": "Close",
+        "damage": "4d10",
+        "shots": 4,
+        "wound": "Gunshot",
+        "special": "1d10 DMG at Long Range or greater."
+    },
+    {
+        "id": 3,
+        "name": "Crowbar",
+        "cost": 25,
+        "description": "",
+        "category": "Melee",
+        "range": "Adjacent",
+        "damage": "1d5",
+        "shots": 0,
+        "wound": "Blunt Force [+]",
+        "special": "Grants [+] on Strength Checks to open jammed airlocks, lift heavy objects, etc."
+    },
+    {
+        "id": 4,
+        "name": "Flamethrower",
+        "cost": 4000,
+        "description": "RAMHORN 1",
+        "category": "Industrial Equipment",
+        "range": "Close",
+        "damage": "2d10",
+        "shots": 4,
+        "wound": "Fire/Explosives [+]",
+        "special": "Body Save [-] or be set on fire (2d10 DMG / round)."
+    },
+    {
+        "id": 5,
+        "name": "Flare Gun",
+        "cost": 25,
+        "description": "PEABODY",
+        "category": "Firearm",
+        "range": "Long",
+        "damage": "1d5",
+        "shots": 2,
+        "wound": "Fire/Explosives [-]",
+        "special": "High intensity flare visible day and night from Long Range."
+    }
+]

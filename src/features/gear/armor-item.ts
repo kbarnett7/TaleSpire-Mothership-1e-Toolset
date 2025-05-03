@@ -1,6 +1,8 @@
 import { EquipmentItem } from "./equipment-item";
 
 export class ArmorItem extends EquipmentItem {
+    public static gearCategory: string = "Armor";
+
     public armorPoints: number;
     public oxygen: number;
     public speed: string;

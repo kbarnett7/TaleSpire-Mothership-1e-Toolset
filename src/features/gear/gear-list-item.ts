@@ -16,6 +16,6 @@ export class GearListItem {
         this.name = name;
         this.description = description;
         this.cost = cost;
-        this.category = category.replace("Item", "");
+        this.category = category;
     }
 }

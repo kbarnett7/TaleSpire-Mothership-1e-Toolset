@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "name": "Assorted Tools",
+        "cost": 20,
+        "description": "Wrenches, spanners, screwdrivers, etc. Can be used as weapons in a pinch (1d5 DMG)."
+    },
+    {
+        "id": 2,
+        "name": "Automed (x5)",
+        "cost": 1500,
+        "description": "Nanotech pills that assist your body in repairing Damage by granting Advantage to Body Saves meant to repel disease and poison, as well as attempts to heal from rest."
+    },
+    {
+        "id": 3,
+        "name": "Battery (High Power)",
+        "cost": 500,
+        "description": "Heavy duty battery used for powering laser cutters, salvage drones, and other items. Can be recharged in 1 hour if connected to power or in 6 hours with solar power. Add waterproofing (+500cr)."
+    },
+    {
+        "id": 4,
+        "name": "Binoculars",
+        "cost": 150,
+        "description": "20x magnification. Add night vision (+300cr) or thermal vision (+1kcr)."
+    },
+    {
+        "id": 5,
+        "name": "Bioscanner",
+        "cost": 3000,
+        "description": "Long Range. Allows the user to scan for signs of life. Can tell the location of signs of life, but not what that life is. Blocked by some materials at the Warden's discretion."
+    }
+]
