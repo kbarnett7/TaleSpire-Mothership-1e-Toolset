@@ -15,8 +15,6 @@ import { AppErrorEvent } from "../../lib/events/app-error-event";
 import { EventType } from "../../lib/events/event-type";
 
 export class GearListComponent extends BaseComponent {
-    private readonly errorPanelId: string = "gearListErrorPanel";
-
     private getAllGearFeature: GetAllGearFeature;
     private gearList: Array<GearListItem> = [];
     private unitOfWork: IUnitOfWork;
@@ -72,9 +70,7 @@ export class GearListComponent extends BaseComponent {
 
     private registerGearCategoryChangedEvent() {
         EventBus.instance.register(GearCategoryChangedEvent.name, (event: AppEvent) => {
-            const customEvent = event as GearCategoryChangedEvent;
-
-            this.filterByCategory(customEvent.category);
+            this.filterByCategory((event as GearCategoryChangedEvent).category);
         });
     }
 
@@ -95,10 +91,6 @@ export class GearListComponent extends BaseComponent {
         this.gearList = result.value ?? [];
 
         this.populateGearTable(true);
-    }
-
-    private getErrorPanel(): HTMLElement | null {
-        return this.shadow.querySelector(`#${this.errorPanelId}`);
     }
 }
 

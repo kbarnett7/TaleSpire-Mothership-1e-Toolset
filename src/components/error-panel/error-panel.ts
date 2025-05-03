@@ -6,6 +6,9 @@ import { AppErrorEvent } from "../../lib/events/app-error-event";
 import { EventType } from "../../lib/events/event-type";
 
 export class ErrorPanelComponent extends BaseComponent {
+    private readonly errorPanelId = "errorPanel";
+    private readonly errorDetailsId = "errorDetails";
+
     constructor() {
         super();
     }
@@ -14,28 +17,36 @@ export class ErrorPanelComponent extends BaseComponent {
         this.render(html);
 
         this.registerShowErrorEvent();
-        this.registerHideEvent();
+        this.registerHideErrorEvent();
     }
 
     private registerShowErrorEvent() {
         EventBus.instance.register(EventType.ErrorPanelShow, (event: AppEvent) => {
-            const panel = this.shadow.querySelector("#errorPanel");
-            const details = this.shadow.querySelector("#errorDetails");
-
-            panel?.classList.remove("hidden");
-
-            if (!details) return;
-
-            details.innerHTML = (event as AppErrorEvent).error;
+            this.handleShowEvent(event as AppErrorEvent);
         });
     }
 
-    private registerHideEvent() {
+    private registerHideErrorEvent() {
         EventBus.instance.register(EventType.ErrorPanelHide, (event: AppEvent) => {
-            const panel = this.shadow.querySelector("#errorPanel");
-
-            panel?.classList.add("hidden");
+            this.handleHideEvent(event);
         });
+    }
+
+    private handleShowEvent(event: AppErrorEvent) {
+        const panel = this.shadow.querySelector(`#${this.errorPanelId}`);
+        const details = this.shadow.querySelector(`#${this.errorDetailsId}`);
+
+        panel?.classList.remove("hidden");
+
+        if (!details) return;
+
+        details.innerHTML = event.error;
+    }
+
+    private handleHideEvent(event: AppEvent) {
+        const panel = this.shadow.querySelector(`#${this.errorPanelId}`);
+
+        panel?.classList.add("hidden");
     }
 }
 
