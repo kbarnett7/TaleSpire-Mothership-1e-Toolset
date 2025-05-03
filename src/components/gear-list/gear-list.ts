@@ -26,6 +26,12 @@ export class GearListComponent extends BaseComponent {
         this.gearList = this.getAllGearFeature.handle(new EmptyRequest());
 
         this.populateGearTable(shadowRoot);
+
+        this.addEventListener("test-event", (event: Event) => {
+            const customEvent = event as CustomEvent;
+
+            console.log(`Caught Custom Event for category ${customEvent.detail.category}`);
+        });
     }
 
     private populateGearTable(shadowRoot: ShadowRoot) {
