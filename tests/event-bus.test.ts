@@ -1,5 +1,5 @@
 import { AppEvent } from "../src/lib/events/app-event";
-import { EventService } from "../src/lib/events/event-service";
+import { EventBus } from "../src/lib/events/event-bus";
 import { ChildEvent } from "./models/child-event";
 
 describe("Event Service", () => {
@@ -10,11 +10,11 @@ describe("Event Service", () => {
         let wasCaught = false;
 
         // Act
-        EventService.instance.addEventListener(type, (event: AppEvent) => {
+        EventBus.instance.addEventListener(type, (event: AppEvent) => {
             wasCaught = true;
         });
 
-        EventService.instance.dispatchEvent(event);
+        EventBus.instance.dispatchEvent(event);
 
         // Assert
         expect(wasCaught).toBe(true);
@@ -27,15 +27,15 @@ describe("Event Service", () => {
         let wasBCaught = false;
 
         // Act
-        EventService.instance.addEventListener(AppEvent.name, (event: AppEvent) => {
+        EventBus.instance.addEventListener(AppEvent.name, (event: AppEvent) => {
             wasACaught = true;
         });
 
-        EventService.instance.addEventListener(AppEvent.name, (event: AppEvent) => {
+        EventBus.instance.addEventListener(AppEvent.name, (event: AppEvent) => {
             wasBCaught = true;
         });
 
-        EventService.instance.dispatchEvent(event);
+        EventBus.instance.dispatchEvent(event);
 
         // Assert
         expect(wasACaught).toBe(true);
@@ -49,12 +49,12 @@ describe("Event Service", () => {
         let result = "";
 
         // Act
-        EventService.instance.addEventListener(ChildEvent.name, (event: AppEvent) => {
+        EventBus.instance.addEventListener(ChildEvent.name, (event: AppEvent) => {
             const castedEvent = event as ChildEvent;
             result = castedEvent.value;
         });
 
-        EventService.instance.dispatchEvent(event);
+        EventBus.instance.dispatchEvent(event);
 
         // Assert
         expect(result).toBe(expectedValue);

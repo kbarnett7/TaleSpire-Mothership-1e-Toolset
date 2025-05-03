@@ -1,20 +1,20 @@
 import { AppEvent } from "./app-event";
 import { AppEventListener } from "./app-event-listener-interface";
 
-export class EventService {
+export class EventBus {
     private _eventBus: EventTarget;
-    private static _instance: EventService;
+    private static _instance: EventBus;
 
     private constructor() {
         this._eventBus = new EventTarget();
     }
 
-    public static get instance(): EventService {
-        if (!EventService._instance) {
-            EventService._instance = new EventService();
+    public static get instance(): EventBus {
+        if (!EventBus._instance) {
+            EventBus._instance = new EventBus();
         }
 
-        return EventService._instance;
+        return EventBus._instance;
     }
 
     dispatchEvent(event: AppEvent) {

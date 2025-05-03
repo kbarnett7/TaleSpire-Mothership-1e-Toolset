@@ -1,7 +1,7 @@
 import html from "./gear-list-filter-bar.html";
 import { BaseComponent } from "../base.component";
 import { GearCategoryChangedEvent } from "../../lib/events/gear-category-changed-event";
-import { EventService } from "../../lib/events/event-service";
+import { EventBus } from "../../lib/events/event-bus";
 
 export class GearListFilterBarComponent extends BaseComponent {
     constructor() {
@@ -21,7 +21,7 @@ export class GearListFilterBarComponent extends BaseComponent {
 
         const appEvent = new GearCategoryChangedEvent(target.id.replace("category", ""));
 
-        EventService.instance.dispatchEvent(appEvent);
+        EventBus.instance.dispatchEvent(appEvent);
     }
 }
 

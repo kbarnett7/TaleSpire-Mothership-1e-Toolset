@@ -5,7 +5,7 @@ import { GearListItem } from "../../features/gear/gear-list-item";
 import { UnitOfWork } from "../../lib/data-access/unit-of-work";
 import { appInjector } from "../../lib/infrastructure/app-injector";
 import { EmptyRequest } from "../../lib/common/features/empty-request";
-import { EventService } from "../../lib/events/event-service";
+import { EventBus } from "../../lib/events/event-bus";
 import { GearCategoryChangedEvent } from "../../lib/events/gear-category-changed-event";
 import { AppEvent } from "../../lib/events/app-event";
 
@@ -63,7 +63,7 @@ export class GearListComponent extends BaseComponent {
     }
 
     private registerGearCategoryChangedEvent() {
-        EventService.instance.addEventListener(GearCategoryChangedEvent.name, (event: AppEvent) => {
+        EventBus.instance.addEventListener(GearCategoryChangedEvent.name, (event: AppEvent) => {
             const customEvent = event as GearCategoryChangedEvent;
 
             this.filterByCategory(customEvent.category);
