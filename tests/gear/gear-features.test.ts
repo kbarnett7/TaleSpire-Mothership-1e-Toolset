@@ -34,30 +34,12 @@ describe("Gear Features", () => {
         expectItemToBe(item, 1, "Boarding Axe", 150, WeaponItem.gearCategory);
     });
 
-    it("FilterGearListFeature for empty list returns an empty list of gear list items", () => {
-        // Arrange
-        const db = new UnitTestDatabase();
-        const unitOfWork = new UnitOfWork(db);
-        const feature = new FilterGearListFeature(unitOfWork);
-        const request = new FilterGearListRequest();
-        request.gearItemList = new Array<GearListItem>();
-
-        // Act
-        const result: Result<GearListItem[]> = feature.handle(request);
-
-        // Assert
-        expect(result.isSuccess).toBe(true);
-        expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(0);
-    });
-
     it("FilterGearListFeature by invalid category returns the original list", () => {
         // Arrange
         const db = new UnitTestDatabase();
         const unitOfWork = new UnitOfWork(db);
         const feature = new FilterGearListFeature(unitOfWork);
         const request = new FilterGearListRequest();
-        request.gearItemList = getAllGearListItems();
         request.category = "invalid-category";
 
         // Act
@@ -85,7 +67,6 @@ describe("Gear Features", () => {
         const unitOfWork = new UnitOfWork(db);
         const feature = new FilterGearListFeature(unitOfWork);
         const request = new FilterGearListRequest();
-        request.gearItemList = getAllGearListItems();
         request.category = GearItem.gearCategory;
 
         // Act
@@ -113,7 +94,6 @@ describe("Gear Features", () => {
         const unitOfWork = new UnitOfWork(db);
         const feature = new FilterGearListFeature(unitOfWork);
         const request = new FilterGearListRequest();
-        request.gearItemList = getAllGearListItems();
         request.category = ArmorItem.gearCategory;
 
         // Act
@@ -141,7 +121,6 @@ describe("Gear Features", () => {
         const unitOfWork = new UnitOfWork(db);
         const feature = new FilterGearListFeature(unitOfWork);
         const request = new FilterGearListRequest();
-        request.gearItemList = getAllGearListItems();
         request.category = EquipmentItem.gearCategory;
 
         // Act
@@ -169,7 +148,6 @@ describe("Gear Features", () => {
         const unitOfWork = new UnitOfWork(db);
         const feature = new FilterGearListFeature(unitOfWork);
         const request = new FilterGearListRequest();
-        request.gearItemList = getAllGearListItems();
         request.category = WeaponItem.gearCategory;
 
         // Act
