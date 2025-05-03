@@ -17,7 +17,7 @@ export class EventBus {
         return EventBus._instance;
     }
 
-    dispatchEvent(event: AppEvent) {
+    dispatch(event: AppEvent) {
         const customEvent = new CustomEvent<AppEvent>(event.type, {
             detail: event,
             bubbles: true, // Allow the event to bubble up
@@ -27,7 +27,7 @@ export class EventBus {
         this._eventBus.dispatchEvent(customEvent);
     }
 
-    addEventListener(type: string, callback: AppEventListener) {
+    register(type: string, callback: AppEventListener) {
         this._eventBus.addEventListener(type, (event: Event) => {
             const customEvent = event as CustomEvent<AppEvent>;
             callback(customEvent.detail);

@@ -21,7 +21,7 @@ export class GearListFilterBarComponent extends BaseComponent {
 
         const appEvent = new GearCategoryChangedEvent(target.id.replace("category", ""));
 
-        EventBus.instance.dispatchEvent(appEvent);
+        EventBus.instance.dispatch(appEvent);
     }
 }
 

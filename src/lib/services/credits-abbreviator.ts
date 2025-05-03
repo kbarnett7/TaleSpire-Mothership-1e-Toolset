@@ -12,20 +12,23 @@ export class CreditsAbbreviator {
     }
 
     public abbreviate(credits: number) {
-        const absCredits = Math.abs(credits);
-        let divisor = 1;
-        let unit = "cr";
+        const absCredits: number = Math.abs(credits);
+        const aThousand: number = 1000;
+        const aMillion: number = 1000000;
+        const aBillion: number = 1000000000;
+        let divisor: number = 1;
+        let unit: string = "cr";
 
-        if (absCredits < 1000) {
+        if (absCredits < aThousand) {
             // use default divisor and unit ...
-        } else if (absCredits < 1000000) {
-            divisor = 1000;
+        } else if (absCredits < aMillion) {
+            divisor = aThousand;
             unit = "kcr";
-        } else if (absCredits < 1000000000) {
-            divisor = 1000000;
+        } else if (absCredits < aBillion) {
+            divisor = aMillion;
             unit = "mcr";
         } else {
-            divisor = 1000000000;
+            divisor = aBillion;
             unit = "bcr";
         }
 

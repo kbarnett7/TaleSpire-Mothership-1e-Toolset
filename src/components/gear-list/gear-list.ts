@@ -63,7 +63,7 @@ export class GearListComponent extends BaseComponent {
     }
 
     private registerGearCategoryChangedEvent() {
-        EventBus.instance.addEventListener(GearCategoryChangedEvent.name, (event: AppEvent) => {
+        EventBus.instance.register(GearCategoryChangedEvent.name, (event: AppEvent) => {
             const customEvent = event as GearCategoryChangedEvent;
 
             this.filterByCategory(customEvent.category);

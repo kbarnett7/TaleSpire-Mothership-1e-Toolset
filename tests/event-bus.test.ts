@@ -10,11 +10,11 @@ describe("Event Service", () => {
         let wasCaught = false;
 
         // Act
-        EventBus.instance.addEventListener(type, (event: AppEvent) => {
+        EventBus.instance.register(type, (event: AppEvent) => {
             wasCaught = true;
         });
 
-        EventBus.instance.dispatchEvent(event);
+        EventBus.instance.dispatch(event);
 
         // Assert
         expect(wasCaught).toBe(true);
@@ -27,15 +27,15 @@ describe("Event Service", () => {
         let wasBCaught = false;
 
         // Act
-        EventBus.instance.addEventListener(AppEvent.name, (event: AppEvent) => {
+        EventBus.instance.register(AppEvent.name, (event: AppEvent) => {
             wasACaught = true;
         });
 
-        EventBus.instance.addEventListener(AppEvent.name, (event: AppEvent) => {
+        EventBus.instance.register(AppEvent.name, (event: AppEvent) => {
             wasBCaught = true;
         });
 
-        EventBus.instance.dispatchEvent(event);
+        EventBus.instance.dispatch(event);
 
         // Assert
         expect(wasACaught).toBe(true);
@@ -49,12 +49,12 @@ describe("Event Service", () => {
         let result = "";
 
         // Act
-        EventBus.instance.addEventListener(ChildEvent.name, (event: AppEvent) => {
+        EventBus.instance.register(ChildEvent.name, (event: AppEvent) => {
             const castedEvent = event as ChildEvent;
             result = castedEvent.value;
         });
 
-        EventBus.instance.dispatchEvent(event);
+        EventBus.instance.dispatch(event);
 
         // Assert
         expect(result).toBe(expectedValue);
