@@ -29,7 +29,7 @@ module.exports = {
     output: {
         filename: "bundle.js",
         path: path.resolve(__dirname, "dist"),
-        publicPath: "./",
+        publicPath: "/",
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -52,6 +52,8 @@ module.exports = {
         static: path.join(__dirname, "/"),
         compress: true,
         port: 4000,
-        historyApiFallback: true, // SPA
+        historyApiFallback: {
+            index: "/index.html", // Redirect all routes to index.html
+        },
     },
 };

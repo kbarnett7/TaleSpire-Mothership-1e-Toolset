@@ -20,6 +20,8 @@ export class PageRouterComponent extends BaseComponent {
 
         // popstate is fired when the user hits the browser's "forward" and "back" buttons
         window.addEventListener("popstate", (event) => {
+            console.log(`popstate: ${event}`);
+
             if (event.state) {
                 this.currentPage = event.state;
             } else {
@@ -28,6 +30,11 @@ export class PageRouterComponent extends BaseComponent {
 
             this.renderCorrectPage();
         });
+
+        // window.addEventListener("beforeunload", (event) => {
+        //     event.preventDefault();
+        //     //event.returnValue = ""; // Prompt the user before leaving
+        // });
     }
 
     private getCurrentPageFromUrl(): PageRouteData {
@@ -65,7 +72,7 @@ export class PageRouterComponent extends BaseComponent {
         history.pushState(
             this.currentPage,
             this.currentPage.title,
-            `${window.location.origin}/dist${this.currentPage.path}`
+            `${window.location.origin}${this.currentPage.path}`
         );
     }
 }
