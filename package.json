@@ -5,7 +5,8 @@
     "license": "MIT",
     "main": "./src/index.ts",
     "scripts": {
-        "build": "webpack --mode development",
+        "build:local": "webpack --mode development",
+        "build:talespire": "webpack --mode development && node ./build/talespire-bundle-updater.js",
         "test": "jest",
         "test:coverage": "jest --coverage",
         "serve": "webpack-dev-server --mode development"
