@@ -11,4 +11,4 @@ export class GearComponent extends BaseComponent {
     }
 }
 
-customElements.define("gear-component", GearComponent);
+customElements.define("gear-page", GearComponent);

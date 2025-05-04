@@ -1,5 +1,8 @@
 import html from "./nav-menu.component.html";
 import { BaseComponent } from "../../base.component";
+import { PageRouterService } from "../../../lib/pages/page-router-service";
+import { ChangePageEvent } from "../../../lib/events/change-page-event";
+import { EventBus } from "../../../lib/events/event-bus";
 
 export class NavMenuComponent extends BaseComponent {
     constructor() {
@@ -11,11 +14,10 @@ export class NavMenuComponent extends BaseComponent {
     }
 
     private loadPageComponent(page: string) {
-        let pageDiv = document.querySelector("#page");
+        console.log(`Try to go to page: ${page}`);
 
-        if (pageDiv) {
-            pageDiv.innerHTML = `<${page}-component></${page}-component>`;
-        }
+        const changePageEvent = new ChangePageEvent(PageRouterService.instance.getPageByTitle(page));
+        EventBus.instance.dispatch(changePageEvent);
     }
 
     public openNav() {

@@ -11,4 +11,4 @@ export class AboutComponent extends BaseComponent {
     }
 }
 
-customElements.define("about-component", AboutComponent);
+customElements.define("about-page", AboutComponent);

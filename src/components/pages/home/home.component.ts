@@ -11,4 +11,4 @@ export class HomeComponent extends BaseComponent {
     }
 }
 
-customElements.define("home-component", HomeComponent);
+customElements.define("home-page", HomeComponent);

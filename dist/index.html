@@ -5,13 +5,17 @@
     <script defer src="./bundle.js"></script></head>
 
     <body>
-        <nav-menu></nav-menu>
+        <nav>
+            <nav-menu></nav-menu>
+        </nav>
 
-        <div class="mx-2">
-            <nav-menu-hamburger-button></nav-menu-hamburger-button>
-            <div id="page">
-                <home-component></home-component>
+        <main>
+            <div class="mx-2">
+                <nav-menu-hamburger-button></nav-menu-hamburger-button>
+                <div id="pageContainer" class="page-container">
+                    <page-router></page-router>
+                </div>
             </div>
-        </div>
+        </main>
     </body>
 </html>
