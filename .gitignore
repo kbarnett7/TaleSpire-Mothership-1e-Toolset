@@ -136,8 +136,5 @@ out
 .yarn/install-state.gz
 .pnp.*
 
-# TypeScript Build
-build
-
 # VSCode
 .vscode

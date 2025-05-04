@@ -62,4 +62,18 @@ export class EventBus {
             callback(customEvent.detail);
         });
     }
+
+    /**
+     * Registers a listener for a browser event type.
+     *
+     * This method allows components to listen for standard browser events (e.g., "click", "popstate")
+     * or custom events dispatched on the `window` global oject.
+     *
+     * @param {string} type - The type of the browser event to listen for.
+     * @param {EventListenerOrEventListenerObject} callback - The callback function or event listener object
+     * to invoke when the event is triggered. The callback receives the `Event` object as its argument.
+     */
+    registerBrowserEvent(type: string, callback: EventListenerOrEventListenerObject) {
+        window.addEventListener(type, callback);
+    }
 }
