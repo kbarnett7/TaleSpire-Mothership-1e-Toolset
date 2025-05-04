@@ -29,8 +29,7 @@ const path = require("path");
  */
 function updateBundlePathInIndexHtml() {
     console.log("Updating bundle.js path in index.html to a referenceable path in TaleSpire...");
-    console.log("TEST TALESPIre bundle UPDATEER");
-    console.log(`__dirname = ${__dirname}`);
+
     const indexHtmlPath = path.resolve(__dirname, "../dist/index.html");
     const newBundlePath = "./bundle.js";
 
