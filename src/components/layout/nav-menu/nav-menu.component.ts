@@ -14,9 +14,8 @@ export class NavMenuComponent extends BaseComponent {
     }
 
     private loadPageComponent(page: string) {
-        console.log(`Try to go to page: ${page}`);
-
         const changePageEvent = new ChangePageEvent(PageRouterService.instance.getPageByTitle(page));
+
         EventBus.instance.dispatch(changePageEvent);
     }
 

@@ -19,22 +19,19 @@ export class PageRouterComponent extends BaseComponent {
         this.renderCorrectPage();
 
         // popstate is fired when the user hits the browser's "forward" and "back" buttons
-        window.addEventListener("popstate", (event) => {
+        EventBus.instance.registerBrowserEvent("popstate", (event) => {
             console.log(`popstate: ${event}`);
 
-            if (event.state) {
-                this.currentPage = event.state;
+            const popStateEvent = event as PopStateEvent;
+
+            if (popStateEvent.state) {
+                this.currentPage = popStateEvent.state;
             } else {
                 this.currentPage = PageRouterService.instance.getPageByTitle(PageRouterService.homePage);
             }
 
             this.renderCorrectPage();
         });
-
-        // window.addEventListener("beforeunload", (event) => {
-        //     event.preventDefault();
-        //     //event.returnValue = ""; // Prompt the user before leaving
-        // });
     }
 
     private getCurrentPageFromUrl(): PageRouteData {
@@ -53,13 +50,12 @@ export class PageRouterComponent extends BaseComponent {
         newPage.id = elementId;
 
         EventBus.instance.register(ChangePageEvent.name, (event: AppEvent) => {
-            console.log(`Change Page: ${event}`);
             this.gotoNewPage((event as ChangePageEvent).page);
         });
 
         this.shadow.appendChild(newPage);
 
-        document.title = this.currentPage.title;
+        document.title = `${this.currentPage.title} - TaleSpire Mothership 1e Toolset`;
     }
 
     private gotoNewPage(newPage: PageRouteData) {
