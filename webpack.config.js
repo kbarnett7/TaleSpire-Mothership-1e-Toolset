@@ -52,5 +52,6 @@ module.exports = {
         static: path.join(__dirname, "/"),
         compress: true,
         port: 4000,
+        historyApiFallback: true, // SPA
     },
 };
