@@ -11,6 +11,8 @@ import { UnitTestDatabase } from "../data/unit-test-database";
 import { WeaponItem } from "../../src/features/gear/weapon-item";
 import { GearItem } from "../../src/features/gear/gear-item";
 import { ErrorCode } from "../../src/lib/errors/error-code";
+import { SortState } from "../../src/lib/sorting/sort-state";
+import { SortDirection } from "../../src/lib/sorting/sort-direction";
 
 describe("Gear Features", () => {
     it("GetAllGearFeature returns all gear list items", () => {
@@ -268,6 +270,73 @@ describe("Gear Features", () => {
         gear.forEach((item) => {
             expect(item.name.toLowerCase()).toMatch(searchRegEx);
         });
+    });
+
+    it("SortState default has no field and no order", () => {
+        // Arrange
+        // Act
+        const sortState = new SortState();
+
+        // Assert
+        expect(sortState.field).toBe("");
+        expect(sortState.direction).toBe(SortDirection.None);
+    });
+
+    it("SortState setting field once sets the field and direction to be ascending.", () => {
+        // Arrange
+        const field = "field";
+        const sortState = new SortState();
+
+        // Act
+        sortState.set(field);
+
+        // Assert
+        expect(sortState.field).toBe(field);
+        expect(sortState.direction).toBe(SortDirection.Ascending);
+    });
+
+    it("SortState setting same field twice sets the field and direction to be descending.", () => {
+        // Arrange
+        const field = "field";
+        const sortState = new SortState();
+
+        // Act
+        sortState.set(field);
+        sortState.set(field);
+
+        // Assert
+        expect(sortState.field).toBe(field);
+        expect(sortState.direction).toBe(SortDirection.Descending);
+    });
+
+    it("SortState setting same field three times sets the field to empty and direction to be none.", () => {
+        // Arrange
+        const field = "field";
+        const sortState = new SortState();
+
+        // Act
+        sortState.set(field);
+        sortState.set(field);
+        sortState.set(field);
+
+        // Assert
+        expect(sortState.field).toBe(field);
+        expect(sortState.direction).toBe(SortDirection.None);
+    });
+
+    it("SortState setting new field sets the state to the new field and direction to be ascending.", () => {
+        // Arrange
+        const fieldA = "fieldA";
+        const fieldB = "fieldB";
+        const sortState = new SortState();
+
+        // Act
+        sortState.set(fieldA);
+        sortState.set(fieldB);
+
+        // Assert
+        expect(sortState.field).toBe(fieldB);
+        expect(sortState.direction).toBe(SortDirection.Ascending);
     });
 
     function getGearItemByName(gear: GearListItem[], name: string): GearListItem {

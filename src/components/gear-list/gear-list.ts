@@ -13,10 +13,12 @@ import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface
 import { FilterGearListRequest } from "../../features/gear/filter-gear-list/filter-gear-list-request";
 import { AppErrorEvent } from "../../lib/events/app-error-event";
 import { EventType } from "../../lib/events/event-type";
+import { SortState } from "../../lib/sorting/sort-state";
 
 export class GearListComponent extends BaseComponent {
     private getAllGearFeature: GetAllGearFeature;
     private gearList: Array<GearListItem> = [];
+    private sortState: SortState = new SortState();
     private unitOfWork: IUnitOfWork;
 
     constructor() {
@@ -93,6 +95,12 @@ export class GearListComponent extends BaseComponent {
         this.gearList = result.value ?? [];
 
         this.populateGearTable(true);
+    }
+
+    public onTableHeaderClick(header: string) {
+        this.sortState.set(header);
+        console.log(`Field: ${this.sortState.field}`);
+        console.log(`Direction: ${this.sortState.direction}`);
     }
 }
 
