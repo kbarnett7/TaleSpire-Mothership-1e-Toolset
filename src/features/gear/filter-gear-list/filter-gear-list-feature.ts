@@ -20,15 +20,9 @@ export class FilterGearListFeature implements IFeature<FilterGearListRequest, Re
 
     public handle(request: FilterGearListRequest): Result<GearListItem[]> {
         try {
-            const getAllGearListItemsFeature = new GetAllGearFeature(this.unitOfWork);
-            const allGearListItems = getAllGearListItemsFeature.handle(new EmptyRequest());
-            let filteredItems: GearListItem[];
+            let filteredItems: GearListItem[] = this.applyCategoryFilter(request.category);
 
-            if (this.isValidGearCategory(request.category)) {
-                filteredItems = allGearListItems.filter((item) => item.category === request.category);
-            } else {
-                filteredItems = allGearListItems;
-            }
+            filteredItems = this.applySearchFilter(filteredItems, request.search);
 
             return Result.success(filteredItems);
         } catch (error) {
@@ -42,9 +36,30 @@ export class FilterGearListFeature implements IFeature<FilterGearListRequest, Re
         }
     }
 
+    private applyCategoryFilter(category: string): GearListItem[] {
+        const getAllGearListItemsFeature = new GetAllGearFeature(this.unitOfWork);
+        const allGearListItems = getAllGearListItemsFeature.handle(new EmptyRequest());
+
+        if (this.isValidGearCategory(category)) {
+            return allGearListItems.filter((item) => item.category === category);
+        }
+
+        return allGearListItems;
+    }
+
     private isValidGearCategory(category: string) {
         const categories: string[] = [ArmorItem.gearCategory, EquipmentItem.gearCategory, WeaponItem.gearCategory];
 
         return categories.includes(category);
+    }
+
+    private applySearchFilter(gearLisItems: GearListItem[], search: string): GearListItem[] {
+        const trimmedSearch: string = search.trim();
+
+        if (trimmedSearch === "") return gearLisItems;
+
+        const searchRegEx = new RegExp(`^.*(${trimmedSearch})+.*$`);
+
+        return gearLisItems.filter((item) => item.name.trim().toLowerCase().match(searchRegEx));
     }
 }
