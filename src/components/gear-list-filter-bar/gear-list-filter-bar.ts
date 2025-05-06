@@ -1,14 +1,20 @@
 import html from "./gear-list-filter-bar.html";
 import { BaseComponent } from "../base.component";
-import { GearCategoryChangedEvent } from "../../lib/events/gear-category-changed-event";
+import { GearFilterChangedEvent } from "../../lib/events/gear-filter-changed-event";
 import { EventBus } from "../../lib/events/event-bus";
+import { GearItem } from "../../features/gear/gear-item";
 
 export class GearListFilterBarComponent extends BaseComponent {
     private readonly activeButtonCssClass = "active-filter-button";
     private readonly inactiveButtonCssClass = "inactive-filter-button";
 
+    private activeCategory: string;
+    private currentSearch: string;
+
     constructor() {
         super();
+        this.activeCategory = GearItem.gearCategory;
+        this.currentSearch = "";
     }
 
     public connectedCallback() {
@@ -18,7 +24,9 @@ export class GearListFilterBarComponent extends BaseComponent {
     public onCategoryButtonClick(event: MouseEvent) {
         const target = event.target as HTMLButtonElement;
 
-        const appEvent = new GearCategoryChangedEvent(target.id.replace("category", ""));
+        this.activeCategory = target.id.replace("category", "");
+
+        const appEvent = new GearFilterChangedEvent(this.activeCategory, this.currentSearch);
 
         EventBus.instance.dispatch(appEvent);
 
@@ -36,8 +44,11 @@ export class GearListFilterBarComponent extends BaseComponent {
     }
 
     public onSearchBoxKeyUp(event: KeyboardEvent) {
-        console.log(`Key released: ${event.key}`);
-        console.log(`Input value: ${(event.target as HTMLInputElement).value}`);
+        this.currentSearch = (event.target as HTMLInputElement).value;
+
+        const appEvent = new GearFilterChangedEvent(this.activeCategory, this.currentSearch);
+
+        EventBus.instance.dispatch(appEvent);
     }
 }
 

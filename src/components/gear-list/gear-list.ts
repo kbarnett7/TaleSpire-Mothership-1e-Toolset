@@ -6,7 +6,7 @@ import { UnitOfWork } from "../../lib/data-access/unit-of-work";
 import { appInjector } from "../../lib/infrastructure/app-injector";
 import { EmptyRequest } from "../../lib/common/features/empty-request";
 import { EventBus } from "../../lib/events/event-bus";
-import { GearCategoryChangedEvent } from "../../lib/events/gear-category-changed-event";
+import { GearFilterChangedEvent } from "../../lib/events/gear-filter-changed-event";
 import { AppEvent } from "../../lib/events/app-event";
 import { FilterGearListFeature } from "../../features/gear/filter-gear-list/filter-gear-list-feature";
 import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface";
@@ -69,15 +69,17 @@ export class GearListComponent extends BaseComponent {
     }
 
     private registerGearCategoryChangedEvent() {
-        EventBus.instance.register(GearCategoryChangedEvent.name, (event: AppEvent) => {
-            this.filterByCategory((event as GearCategoryChangedEvent).category);
+        EventBus.instance.register(GearFilterChangedEvent.name, (event: AppEvent) => {
+            this.filterGear(event as GearFilterChangedEvent);
         });
     }
 
-    private filterByCategory(category: string) {
+    private filterGear(event: GearFilterChangedEvent) {
         const feature = new FilterGearListFeature(this.unitOfWork);
         const request = new FilterGearListRequest();
-        request.category = category;
+
+        request.category = event.category;
+        request.search = event.search;
 
         const result = feature.handle(request);
 
