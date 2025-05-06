@@ -18,6 +18,7 @@ import { SortState } from "../../lib/sorting/sort-state";
 export class GearListComponent extends BaseComponent {
     private getAllGearFeature: GetAllGearFeature;
     private gearList: Array<GearListItem> = [];
+    private tableHeaders: string[] = ["Item", "Cost", "Category", "Description"];
     private sortState: SortState = new SortState();
     private unitOfWork: IUnitOfWork;
 
@@ -32,9 +33,39 @@ export class GearListComponent extends BaseComponent {
 
         this.gearList = this.getAllGearFeature.handle(new EmptyRequest());
 
+        this.populateTableHeaderRow();
         this.populateGearTable();
 
         this.registerGearCategoryChangedEvent();
+    }
+
+    private populateTableHeaderRow() {
+        const gearListContainer = this.shadow.querySelector("#gear-list-container");
+
+        if (!gearListContainer) return;
+
+        const tableHeader = gearListContainer.querySelector("thead");
+
+        if (!tableHeader) return;
+
+        tableHeader.appendChild(this.createTableHeaderRowElement());
+    }
+
+    private createTableHeaderRowElement(): HTMLTableRowElement {
+        const row = document.createElement("tr");
+
+        this.tableHeaders.forEach((header) => {
+            const th = document.createElement("th");
+
+            th.id = `header${header}`;
+            th.className = "uppercase p-2";
+            th.onclick = () => this.onTableHeaderClick(header);
+            th.innerHTML = header;
+
+            row.appendChild(th);
+        });
+
+        return row;
     }
 
     private populateGearTable(clearOldRows: boolean = false) {
@@ -101,6 +132,16 @@ export class GearListComponent extends BaseComponent {
         this.sortState.set(header);
         console.log(`Field: ${this.sortState.field}`);
         console.log(`Direction: ${this.sortState.direction}`);
+
+        this.tableHeaders.forEach((currentHeader) => {
+            if (currentHeader === header) {
+                // make directio icon visible and update to the appropriate direction
+            } else {
+                // make sure no icon is visible for this header
+            }
+        });
+
+        // Call sort feature: .handle(this.gearList);
     }
 }
 
