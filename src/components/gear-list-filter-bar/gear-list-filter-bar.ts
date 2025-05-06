@@ -34,6 +34,11 @@ export class GearListFilterBarComponent extends BaseComponent {
             }
         });
     }
+
+    public onSearchBoxKeyUp(event: KeyboardEvent) {
+        console.log(`Key released: ${event.key}`);
+        console.log(`Input value: ${(event.target as HTMLInputElement).value}`);
+    }
 }
 
 customElements.define("gear-list-filter-bar", GearListFilterBarComponent);
