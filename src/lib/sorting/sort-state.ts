@@ -12,6 +12,10 @@ export class SortState {
         return this._direction;
     }
 
+    constructor(field: string = "") {
+        this._field = field;
+    }
+
     public set(field: string) {
         if (this.field !== field) {
             this._field = field;

@@ -9,14 +9,17 @@ export class SortGearListFeature implements IFeature<SortGearListRequest, Result
     public handle(request: SortGearListRequest): Result<GearListItem[]> {
         if (request.sortState.field === "") return Result.success(request.gearLisItems);
 
-        if (request.sortState.direction === SortDirection.None) return Result.success(request.gearLisItems);
-
         const sortedResults = [...request.gearLisItems].sort((a, b) => {
-            if (request.sortState.field === "Item") return this.sortByName(a, b, request.sortState);
+            if (request.sortState.direction === SortDirection.None) return this.sortById(a, b);
+            else if (request.sortState.field === "Item") return this.sortByName(a, b, request.sortState);
             else return this.sortByCost(a, b, request.sortState);
         });
 
         return Result.success(sortedResults);
+    }
+
+    private sortById(a: GearListItem, b: GearListItem): number {
+        return a.id - b.id;
     }
 
     private sortByName(a: GearListItem, b: GearListItem, sortState: SortState): number {

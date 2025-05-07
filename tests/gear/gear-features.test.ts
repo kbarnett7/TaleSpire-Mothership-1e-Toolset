@@ -296,14 +296,15 @@ describe("Gear Features", () => {
         }
     });
 
-    it('SortGearListFeature by item name in "None" direction returns gear list items in same order as before', () => {
+    it('SortGearListFeature by item name in "None" direction returns gear list items sorted by id from lowest to highest', () => {
         // Arrange
         const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
         const sortState = new SortState();
         sortState.set("Item");
         sortState.set("Item");
         sortState.set("Item");
-
+        const firstElement = filteredGearItems.shift();
+        if (firstElement) filteredGearItems.push(firstElement);
         const feature = new SortGearListFeature();
         const request = new SortGearListRequest();
         request.gearLisItems = filteredGearItems;
@@ -320,7 +321,7 @@ describe("Gear Features", () => {
         const gear = result.value ?? [];
 
         for (let i = 0; i < gear.length; i++) {
-            expect(gear[i].id).toBe(filteredGearItems[i].id);
+            expect(gear[i].id).toBe(i + 1);
         }
     });
 

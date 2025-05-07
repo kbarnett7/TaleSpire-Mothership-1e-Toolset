@@ -2,13 +2,23 @@ import { SortDirection } from "../src/lib/sorting/sort-direction";
 import { SortState } from "../src/lib/sorting/sort-state";
 
 describe("SortState", () => {
-    it("Default has no field and no order", () => {
+    it('Default has empty field and an direction of "None"', () => {
         // Arrange
         // Act
         const sortState = new SortState();
 
         // Assert
         expect(sortState.field).toBe("");
+        expect(sortState.direction).toBe(SortDirection.None);
+    });
+
+    it('Constructor with field has default direction of "None"', () => {
+        // Arrange
+        // Act
+        const sortState = new SortState("field");
+
+        // Assert
+        expect(sortState.field).toBe("field");
         expect(sortState.direction).toBe(SortDirection.None);
     });
 

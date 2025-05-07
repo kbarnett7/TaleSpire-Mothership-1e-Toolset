@@ -22,7 +22,7 @@ export class GearListComponent extends BaseComponent {
     private getAllGearFeature: GetAllGearFeature;
     private gearList: Array<GearListItem> = [];
     private tableHeaders: string[] = ["Item", "Cost", "Category", "Description"];
-    private sortState: SortState = new SortState();
+    private sortState: SortState = new SortState("Id");
     private unitOfWork: IUnitOfWork;
 
     constructor() {
@@ -35,6 +35,8 @@ export class GearListComponent extends BaseComponent {
         this.render(html);
 
         this.gearList = this.getAllGearFeature.handle(new EmptyRequest());
+
+        this.sortGear();
 
         this.populateTableHeaderRow();
         this.populateGearTable();
@@ -68,7 +70,7 @@ export class GearListComponent extends BaseComponent {
         const tableHeaderElement = document.createElement("th");
 
         tableHeaderElement.id = `header${header}`;
-        tableHeaderElement.className = "uppercase p-2";
+        tableHeaderElement.className = "uppercase p-2 cursor-pointer";
         tableHeaderElement.onclick = () => this.onTableHeaderClick(header);
         tableHeaderElement.appendChild(this.createHeaderDivElement(header));
 
@@ -144,25 +146,29 @@ export class GearListComponent extends BaseComponent {
 
         this.gearList = result.value ?? [];
 
+        this.sortGear();
+
         this.populateGearTable(true);
     }
 
     public onTableHeaderClick(header: string) {
         this.sortState.set(header);
+        this.sortGear();
+        this.populateGearTable(true);
+    }
 
+    private sortGear() {
         this.tableHeaders.forEach((currentHeader) => {
             this.updateSortIcons(currentHeader);
         });
 
         const feature = new SortGearListFeature();
         const request = new SortGearListRequest();
+
         request.gearLisItems = this.gearList;
         request.sortState = this.sortState;
 
         const result = feature.handle(request);
-
-        // BUG: going back to None does not reset it to the original order
-        // - Possible solution: remove None as a state. Windows File Explorer does not have a non state, it always go between the asc/desc states once clicked
 
         if (result.isFailure) {
             // handle the error
@@ -170,8 +176,6 @@ export class GearListComponent extends BaseComponent {
         }
 
         this.gearList = result.value ?? [];
-
-        this.populateGearTable(true);
     }
 
     private updateSortIcons(currentHeader: string) {
