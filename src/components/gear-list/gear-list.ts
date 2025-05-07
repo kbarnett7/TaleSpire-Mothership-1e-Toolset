@@ -14,6 +14,7 @@ import { FilterGearListRequest } from "../../features/gear/filter-gear-list/filt
 import { AppErrorEvent } from "../../lib/events/app-error-event";
 import { EventType } from "../../lib/events/event-type";
 import { SortState } from "../../lib/sorting/sort-state";
+import { SortDirection } from "../../lib/sorting/sort-direction";
 
 export class GearListComponent extends BaseComponent {
     private getAllGearFeature: GetAllGearFeature;
@@ -55,17 +56,33 @@ export class GearListComponent extends BaseComponent {
         const row = document.createElement("tr");
 
         this.tableHeaders.forEach((header) => {
-            const th = document.createElement("th");
-
-            th.id = `header${header}`;
-            th.className = "uppercase p-2";
-            th.onclick = () => this.onTableHeaderClick(header);
-            th.innerHTML = header;
-
-            row.appendChild(th);
+            row.appendChild(this.createTableHeaderElement(header));
         });
 
         return row;
+    }
+
+    private createTableHeaderElement(header: string): HTMLTableCellElement {
+        const tableHeaderElement = document.createElement("th");
+
+        tableHeaderElement.id = `header${header}`;
+        tableHeaderElement.className = "uppercase p-2";
+        tableHeaderElement.onclick = () => this.onTableHeaderClick(header);
+        tableHeaderElement.appendChild(this.createHeaderDivElement(header));
+
+        return tableHeaderElement;
+    }
+
+    private createHeaderDivElement(header: string): HTMLDivElement {
+        const headerDiv = document.createElement("div");
+
+        headerDiv.className = "flex justify-between";
+        headerDiv.innerHTML = `
+            <div>${header}</div>
+            <div id="${header}SortIcon"></div>
+        `;
+
+        return headerDiv;
     }
 
     private populateGearTable(clearOldRows: boolean = false) {
@@ -130,18 +147,31 @@ export class GearListComponent extends BaseComponent {
 
     public onTableHeaderClick(header: string) {
         this.sortState.set(header);
-        console.log(`Field: ${this.sortState.field}`);
-        console.log(`Direction: ${this.sortState.direction}`);
 
         this.tableHeaders.forEach((currentHeader) => {
-            if (currentHeader === header) {
-                // make directio icon visible and update to the appropriate direction
-            } else {
-                // make sure no icon is visible for this header
-            }
+            this.updateSortIcons(currentHeader);
         });
 
         // Call sort feature: .handle(this.gearList);
+    }
+
+    private updateSortIcons(currentHeader: string) {
+        const sortIcon = this.shadow.querySelector(`#${currentHeader}SortIcon`);
+
+        if (!sortIcon) return;
+
+        if (currentHeader !== this.sortState.field) {
+            sortIcon.className = "";
+            return;
+        }
+
+        if (this.sortState.direction === SortDirection.Ascending) {
+            sortIcon.className = "icon-chevron-up";
+        } else if (this.sortState.direction === SortDirection.Descending) {
+            sortIcon.className = "icon-chevron-down";
+        } else {
+            sortIcon.className = "";
+        }
     }
 }
 
