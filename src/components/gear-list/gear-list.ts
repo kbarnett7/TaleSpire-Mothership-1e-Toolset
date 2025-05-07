@@ -15,6 +15,8 @@ import { AppErrorEvent } from "../../lib/events/app-error-event";
 import { EventType } from "../../lib/events/event-type";
 import { SortState } from "../../lib/sorting/sort-state";
 import { SortDirection } from "../../lib/sorting/sort-direction";
+import { SortGearListFeature } from "../../features/gear/sort-gear-list/sort-gear-list-feature";
+import { SortGearListRequest } from "../../features/gear/sort-gear-list/sort-gear-list-request";
 
 export class GearListComponent extends BaseComponent {
     private getAllGearFeature: GetAllGearFeature;
@@ -152,7 +154,24 @@ export class GearListComponent extends BaseComponent {
             this.updateSortIcons(currentHeader);
         });
 
-        // Call sort feature: .handle(this.gearList);
+        const feature = new SortGearListFeature();
+        const request = new SortGearListRequest();
+        request.gearLisItems = this.gearList;
+        request.sortState = this.sortState;
+
+        const result = feature.handle(request);
+
+        // BUG: going back to None does not reset it to the original order
+        // - Possible solution: remove None as a state. Windows File Explorer does not have a non state, it always go between the asc/desc states once clicked
+
+        if (result.isFailure) {
+            // handle the error
+            return;
+        }
+
+        this.gearList = result.value ?? [];
+
+        this.populateGearTable(true);
     }
 
     private updateSortIcons(currentHeader: string) {

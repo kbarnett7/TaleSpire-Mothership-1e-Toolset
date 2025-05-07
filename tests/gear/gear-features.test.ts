@@ -1,6 +1,8 @@
 import { GetAllGearFeature } from "../../src/features/gear/get-all-gear/get-all-gear-feature";
 import { FilterGearListFeature } from "../../src/features/gear/filter-gear-list/filter-gear-list-feature";
 import { FilterGearListRequest } from "../../src/features/gear/filter-gear-list/filter-gear-list-request";
+import { SortGearListFeature } from "../../src/features/gear/sort-gear-list/sort-gear-list-feature";
+import { SortGearListRequest } from "../../src/features/gear/sort-gear-list/sort-gear-list-request";
 import { EquipmentItem } from "../../src/features/gear/equipment-item";
 import { ArmorItem } from "../../src/features/gear/armor-item";
 import { GearListItem } from "../../src/features/gear/gear-list-item";
@@ -12,7 +14,6 @@ import { WeaponItem } from "../../src/features/gear/weapon-item";
 import { GearItem } from "../../src/features/gear/gear-item";
 import { ErrorCode } from "../../src/lib/errors/error-code";
 import { SortState } from "../../src/lib/sorting/sort-state";
-import { SortDirection } from "../../src/lib/sorting/sort-direction";
 
 describe("Gear Features", () => {
     it("GetAllGearFeature returns all gear list items", () => {
@@ -272,18 +273,226 @@ describe("Gear Features", () => {
         });
     });
 
+    it("SortGearListFeature by no field returns gear list items in same order as before", () => {
+        // Arrange
+        const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
+
+        const feature = new SortGearListFeature();
+        const request = new SortGearListRequest();
+        request.gearLisItems = filteredGearItems;
+
+        // Act
+        const result: Result<GearListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(5);
+
+        const gear = result.value ?? [];
+
+        for (let i = 0; i < gear.length; i++) {
+            expect(gear[i].id).toBe(filteredGearItems[i].id);
+        }
+    });
+
+    it('SortGearListFeature by item name in "None" direction returns gear list items in same order as before', () => {
+        // Arrange
+        const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
+        const sortState = new SortState();
+        sortState.set("Item");
+        sortState.set("Item");
+        sortState.set("Item");
+
+        const feature = new SortGearListFeature();
+        const request = new SortGearListRequest();
+        request.gearLisItems = filteredGearItems;
+        request.sortState = sortState;
+
+        // Act
+        const result: Result<GearListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(5);
+
+        const gear = result.value ?? [];
+
+        for (let i = 0; i < gear.length; i++) {
+            expect(gear[i].id).toBe(filteredGearItems[i].id);
+        }
+    });
+
+    it('SortGearListFeature by item name in "Ascending" direction returns gear list items sorted by item name in alphabetical order', () => {
+        // Arrange
+        const expectedItemNameOrder: string[] = [
+            "Advanced Battle Dress",
+            "Hazard Suit",
+            "Standard Battle Dress",
+            "Standard Crew Attire",
+            "Vaccsuit",
+        ];
+        const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
+        const sortState = new SortState();
+        sortState.set("Item");
+
+        const feature = new SortGearListFeature();
+        const request = new SortGearListRequest();
+        request.gearLisItems = filteredGearItems;
+        request.sortState = sortState;
+
+        // Act
+        const result: Result<GearListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(5);
+
+        const gear = result.value ?? [];
+
+        for (let i = 0; i < gear.length; i++) {
+            expect(gear[i].name).toBe(expectedItemNameOrder[i]);
+        }
+    });
+
+    it('SortGearListFeature by item name in "Descending" direction returns gear list items sorted by item name in reverse alphabetical order', () => {
+        // Arrange
+        const expectedItemNameOrder: string[] = [
+            "Vaccsuit",
+            "Standard Crew Attire",
+            "Standard Battle Dress",
+            "Hazard Suit",
+            "Advanced Battle Dress",
+        ];
+        const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
+        const sortState = new SortState();
+        sortState.set("Item");
+        sortState.set("Item");
+
+        const feature = new SortGearListFeature();
+        const request = new SortGearListRequest();
+        request.gearLisItems = filteredGearItems;
+        request.sortState = sortState;
+
+        // Act
+        const result: Result<GearListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(5);
+
+        const gear = result.value ?? [];
+
+        for (let i = 0; i < gear.length; i++) {
+            expect(gear[i].name).toBe(expectedItemNameOrder[i]);
+        }
+    });
+
+    it('SortGearListFeature by item cost in "Ascending" direction returns gear list items sorted by lowest to highest cost', () => {
+        // Arrange
+        const expectedItemNameOrder: number[] = [100, 2000, 4000, 10000, 12000];
+        const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
+        const sortState = new SortState();
+        sortState.set("Cost");
+
+        const feature = new SortGearListFeature();
+        const request = new SortGearListRequest();
+        request.gearLisItems = filteredGearItems;
+        request.sortState = sortState;
+
+        // Act
+        const result: Result<GearListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(5);
+
+        const gear = result.value ?? [];
+
+        for (let i = 0; i < gear.length; i++) {
+            expect(gear[i].cost).toBe(expectedItemNameOrder[i]);
+        }
+    });
+
+    it('SortGearListFeature by item cost in "Descending" direction returns gear list items sorted by highest to lowest cost', () => {
+        // Arrange
+        const expectedItemNameOrder: number[] = [12000, 10000, 4000, 2000, 100];
+        const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
+        const sortState = new SortState();
+        sortState.set("Cost");
+        sortState.set("Cost");
+
+        const feature = new SortGearListFeature();
+        const request = new SortGearListRequest();
+        request.gearLisItems = filteredGearItems;
+        request.sortState = sortState;
+
+        // Act
+        const result: Result<GearListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(5);
+
+        const gear = result.value ?? [];
+
+        for (let i = 0; i < gear.length; i++) {
+            expect(gear[i].cost).toBe(expectedItemNameOrder[i]);
+        }
+    });
+
+    // it('SortGearListFeature by item category in "Ascending" direction returns gear list items sorted by item category in alphabetical order', () => {
+    //     // Arrange
+    //     const expectedItemNameOrder: number[] = [100, 2000, 4000, 10000, 12000];
+    //     const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
+    //     const sortState = new SortState();
+    //     sortState.set("Category");
+
+    //     const feature = new SortGearListFeature();
+    //     const request = new SortGearListRequest();
+    //     request.gearLisItems = filteredGearItems;
+    //     request.sortState = sortState;
+
+    //     // Act
+    //     const result: Result<GearListItem[]> = feature.handle(request);
+
+    //     // Assert
+    //     expect(result.isSuccess).toBe(true);
+    //     expect(result.value).toBeDefined();
+    //     expect(result.value?.length).toBe(5);
+
+    //     const gear = result.value ?? [];
+
+    //     for (let i = 0; i < gear.length; i++) {
+    //         expect(gear[i].cost).toBe(expectedItemNameOrder[i]);
+    //     }
+    // });
+
     function getGearItemByName(gear: GearListItem[], name: string): GearListItem {
         const foundItem = gear.find((item) => item.name.toLocaleLowerCase() === name.toLocaleLowerCase());
 
         return foundItem || new GearListItem(0, "", "", 0, "");
     }
 
-    function getAllGearListItems(): GearListItem[] {
+    function getAllArmorGearListItems() {
+        const filterFeature = getFilterGearListFeature();
+        const filterRequest = new FilterGearListRequest();
+
+        filterRequest.category = ArmorItem.gearCategory;
+
+        return filterFeature.handle(filterRequest).value ?? [];
+    }
+
+    function getFilterGearListFeature() {
         const db = new UnitTestDatabase();
         const unitOfWork = new UnitOfWork(db);
-        const feature = new GetAllGearFeature(unitOfWork);
 
-        return feature.handle(new EmptyRequest());
+        return new FilterGearListFeature(unitOfWork);
     }
 
     function expectItemToBe(
