@@ -170,7 +170,7 @@ export class GearListComponent extends BaseComponent {
         const feature = new SortGearListFeature();
         const request = new SortGearListRequest();
 
-        request.gearLisItems = this.gearList;
+        request.gearListItems = this.gearList;
         request.sortState = this.sortState;
 
         const result = feature.handle(request);

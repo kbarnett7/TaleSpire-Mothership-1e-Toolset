@@ -24,7 +24,7 @@ export class SortGearListFeature implements IFeature<SortGearListRequest, Result
 
     public handle(request: SortGearListRequest): Result<GearListItem[]> {
         try {
-            if (!this.isValidField(request.sortState.field)) return Result.success(request.gearLisItems);
+            if (!this.isValidField(request.sortState.field)) return Result.success(request.gearListItems);
 
             const sortedResults = this.sortGearListItems(request);
 
@@ -41,7 +41,7 @@ export class SortGearListFeature implements IFeature<SortGearListRequest, Result
     }
 
     public sortGearListItems(request: SortGearListRequest): GearListItem[] {
-        return [...request.gearLisItems].sort((a, b) => {
+        return [...request.gearListItems].sort((a, b) => {
             if (request.sortState.direction === SortDirection.None) {
                 return a.id - b.id;
             } else if (request.sortState.field === SortGearListFeature.fieldItem) {

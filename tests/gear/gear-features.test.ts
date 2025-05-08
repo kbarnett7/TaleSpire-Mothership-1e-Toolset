@@ -261,7 +261,7 @@ describe("Gear Features", () => {
 
         const feature = new SortGearListFeature();
         const request = new SortGearListRequest();
-        request.gearLisItems = [...filteredGearItems];
+        request.gearListItems = [...filteredGearItems];
         request.sortState = new SortState(SortGearListFeature.fieldId);
 
         jest.spyOn(feature as any, "sortGearListItems").mockImplementation(() => {
@@ -284,7 +284,7 @@ describe("Gear Features", () => {
 
         const feature = new SortGearListFeature();
         const request = new SortGearListRequest();
-        request.gearLisItems = [...filteredGearItems];
+        request.gearListItems = [...filteredGearItems];
 
         // Act
         const result: Result<GearListItem[]> = feature.handle(request);
@@ -307,7 +307,7 @@ describe("Gear Features", () => {
 
         const feature = new SortGearListFeature();
         const request = new SortGearListRequest();
-        request.gearLisItems = [...filteredGearItems];
+        request.gearListItems = [...filteredGearItems];
         request.sortState = new SortState("invalid_field");
 
         // Act
@@ -333,7 +333,7 @@ describe("Gear Features", () => {
         if (firstElement) filteredGearItems.push(firstElement);
         const feature = new SortGearListFeature();
         const request = new SortGearListRequest();
-        request.gearLisItems = filteredGearItems;
+        request.gearListItems = filteredGearItems;
         request.sortState = sortState;
 
         // Act
@@ -360,7 +360,7 @@ describe("Gear Features", () => {
         if (firstElement) filteredGearItems.push(firstElement);
         const feature = new SortGearListFeature();
         const request = new SortGearListRequest();
-        request.gearLisItems = filteredGearItems;
+        request.gearListItems = filteredGearItems;
         request.sortState = sortState;
 
         // Act
@@ -390,7 +390,7 @@ describe("Gear Features", () => {
         if (firstElement) filteredGearItems.push(firstElement);
         const feature = new SortGearListFeature();
         const request = new SortGearListRequest();
-        request.gearLisItems = filteredGearItems;
+        request.gearListItems = filteredGearItems;
         request.sortState = sortState;
 
         // Act
@@ -425,7 +425,7 @@ describe("Gear Features", () => {
 
         const feature = new SortGearListFeature();
         const request = new SortGearListRequest();
-        request.gearLisItems = filteredGearItems;
+        request.gearListItems = filteredGearItems;
         request.sortState = sortState;
 
         // Act
@@ -459,7 +459,7 @@ describe("Gear Features", () => {
 
         const feature = new SortGearListFeature();
         const request = new SortGearListRequest();
-        request.gearLisItems = filteredGearItems;
+        request.gearListItems = filteredGearItems;
         request.sortState = sortState;
 
         // Act
@@ -486,7 +486,7 @@ describe("Gear Features", () => {
 
         const feature = new SortGearListFeature();
         const request = new SortGearListRequest();
-        request.gearLisItems = filteredGearItems;
+        request.gearListItems = filteredGearItems;
         request.sortState = sortState;
 
         // Act
@@ -514,7 +514,7 @@ describe("Gear Features", () => {
 
         const feature = new SortGearListFeature();
         const request = new SortGearListRequest();
-        request.gearLisItems = filteredGearItems;
+        request.gearListItems = filteredGearItems;
         request.sortState = sortState;
 
         // Act
@@ -540,7 +540,7 @@ describe("Gear Features", () => {
 
         const feature = new SortGearListFeature();
         const request = new SortGearListRequest();
-        request.gearLisItems = filteredGearItems;
+        request.gearListItems = filteredGearItems;
         request.sortState = sortState;
 
         // Act
@@ -567,7 +567,7 @@ describe("Gear Features", () => {
 
         const feature = new SortGearListFeature();
         const request = new SortGearListRequest();
-        request.gearLisItems = filteredGearItems;
+        request.gearListItems = filteredGearItems;
         request.sortState = sortState;
 
         // Act
@@ -600,7 +600,7 @@ describe("Gear Features", () => {
 
         const feature = new SortGearListFeature();
         const request = new SortGearListRequest();
-        request.gearLisItems = filteredGearItems;
+        request.gearListItems = filteredGearItems;
         request.sortState = sortState;
 
         // Act
@@ -634,7 +634,7 @@ describe("Gear Features", () => {
 
         const feature = new SortGearListFeature();
         const request = new SortGearListRequest();
-        request.gearLisItems = filteredGearItems;
+        request.gearListItems = filteredGearItems;
         request.sortState = sortState;
 
         // Act
