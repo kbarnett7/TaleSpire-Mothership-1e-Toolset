@@ -49,7 +49,7 @@ describe("SortState", () => {
         expect(sortState.direction).toBe(SortDirection.Descending);
     });
 
-    it("Setting same field three times sets the field to empty and direction to be none.", () => {
+    it("Setting same field three times sets the field keeps the field unchanged and resets the direction to be none.", () => {
         // Arrange
         const field = "field";
         const sortState = new SortState();
