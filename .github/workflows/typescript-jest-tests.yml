@@ -25,13 +25,13 @@ on:
         branches:
             - main
 
-strategy:
-    matrix:
-        node-version: ["22.x"]
-
 jobs:
     build_and_test:
         runs_on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: ["22.x"]
 
         steps:
             - name: Checkout code
