@@ -143,7 +143,7 @@ export class GearListComponent extends BaseComponent {
         const result = feature.handle(request);
 
         if (result.isFailure) {
-            EventBus.instance.dispatch(new AppErrorEvent(EventType.ErrorPanelShow, result.error.description));
+            this.dispatchErrorEvent(result.error.description);
             return;
         }
 
@@ -176,7 +176,7 @@ export class GearListComponent extends BaseComponent {
         const result = feature.handle(request);
 
         if (result.isFailure) {
-            // handle the error
+            this.dispatchErrorEvent(result.error.description);
             return;
         }
 
@@ -200,6 +200,10 @@ export class GearListComponent extends BaseComponent {
         } else {
             sortIcon.className = "";
         }
+    }
+
+    private dispatchErrorEvent(error: string) {
+        EventBus.instance.dispatch(new AppErrorEvent(EventType.ErrorPanelShow, error));
     }
 }
 

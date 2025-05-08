@@ -1,5 +1,7 @@
 import { IFeature } from "../../../lib/common/features/feature-interface";
+import { ErrorCode } from "../../../lib/errors/error-code";
 import { Result } from "../../../lib/result/result";
+import { ResultError } from "../../../lib/result/result-error";
 import { SortDirection } from "../../../lib/sorting/sort-direction";
 import { SortState } from "../../../lib/sorting/sort-state";
 import { GearListItem } from "../gear-list-item";
@@ -21,11 +23,21 @@ export class SortGearListFeature implements IFeature<SortGearListRequest, Result
     ];
 
     public handle(request: SortGearListRequest): Result<GearListItem[]> {
-        if (!this.isValidField(request.sortState.field)) return Result.success(request.gearLisItems);
+        try {
+            if (!this.isValidField(request.sortState.field)) return Result.success(request.gearLisItems);
 
-        const sortedResults = this.sortGearListItems(request);
+            const sortedResults = this.sortGearListItems(request);
 
-        return Result.success(sortedResults);
+            return Result.success(sortedResults);
+        } catch (error) {
+            const ex = error as Error;
+            return Result.failure(
+                new ResultError(
+                    ErrorCode.QueryError,
+                    `Failed to sort gear item list due to the follow error: ${ex.message}`
+                )
+            );
+        }
     }
 
     public sortGearListItems(request: SortGearListRequest): GearListItem[] {

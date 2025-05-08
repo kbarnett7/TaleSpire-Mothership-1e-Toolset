@@ -38,6 +38,26 @@ describe("Gear Features", () => {
         expectItemToBe(item, 1, "Boarding Axe", 150, WeaponItem.gearCategory);
     });
 
+    it("FilterGearListFeature when exception occurs returns a failure result with error information", () => {
+        // Arrange
+        const feature = getFilterGearListFeature();
+        const request = new FilterGearListRequest();
+        request.category = GearItem.gearCategory;
+
+        jest.spyOn(feature as any, "isValidGearCategory").mockImplementation(() => {
+            throw new Error("Mocked exception");
+        });
+
+        // Act
+        const result: Result<GearListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isFailure).toBe(true);
+        expect(result.value).not.toBeDefined();
+        expect(result.error).toBeDefined();
+        expect(result.error.code).toBe(ErrorCode.QueryError);
+    });
+
     it("FilterGearListFeature by invalid category returns the original list", () => {
         // Arrange
         const feature = getFilterGearListFeature();
@@ -163,26 +183,6 @@ describe("Gear Features", () => {
         expectItemToBe(item, 1, "Boarding Axe", 150, WeaponItem.gearCategory);
     });
 
-    it("FilterGearListFeature when exception occurs returns a failure result with error information", () => {
-        // Arrange
-        const feature = getFilterGearListFeature();
-        const request = new FilterGearListRequest();
-        request.category = GearItem.gearCategory;
-
-        jest.spyOn(feature as any, "isValidGearCategory").mockImplementation(() => {
-            throw new Error("Mocked exception");
-        });
-
-        // Act
-        const result: Result<GearListItem[]> = feature.handle(request);
-
-        // Assert
-        expect(result.isFailure).toBe(true);
-        expect(result.value).not.toBeDefined();
-        expect(result.error).toBeDefined();
-        expect(result.error.code).toBe(ErrorCode.QueryError);
-    });
-
     it("FilterGearListFeature by empty item name returns a list of all gear list items", () => {
         // Arrange
         const feature = getFilterGearListFeature();
@@ -255,6 +255,29 @@ describe("Gear Features", () => {
         });
     });
 
+    it("SortGearListFeature when exception occurs returns a failure result with error information", () => {
+        // Arrange
+        const filteredGearItems: GearListItem[] = getAllGearListItems();
+
+        const feature = new SortGearListFeature();
+        const request = new SortGearListRequest();
+        request.gearLisItems = [...filteredGearItems];
+        request.sortState = new SortState(SortGearListFeature.fieldId);
+
+        jest.spyOn(feature as any, "sortGearListItems").mockImplementation(() => {
+            throw new Error("Mocked exception");
+        });
+
+        // Act
+        const result: Result<GearListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isFailure).toBe(true);
+        expect(result.value).not.toBeDefined();
+        expect(result.error).toBeDefined();
+        expect(result.error.code).toBe(ErrorCode.QueryError);
+    });
+
     it("SortGearListFeature by no field returns gear list items in same order as before", () => {
         // Arrange
         const filteredGearItems: GearListItem[] = getAllGearListItems();
@@ -305,7 +328,7 @@ describe("Gear Features", () => {
     it('SortGearListFeature by any field in "None" direction returns gear list items sorted by id from lowest to highest', () => {
         // Arrange
         const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
-        const sortState = new SortState("Item");
+        const sortState = new SortState(SortGearListFeature.fieldItem);
         const firstElement = filteredGearItems.shift();
         if (firstElement) filteredGearItems.push(firstElement);
         const feature = new SortGearListFeature();
@@ -332,7 +355,7 @@ describe("Gear Features", () => {
         // Arrange
         const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
         const sortState = new SortState();
-        sortState.set("Id");
+        sortState.set(SortGearListFeature.fieldId);
         const firstElement = filteredGearItems.shift();
         if (firstElement) filteredGearItems.push(firstElement);
         const feature = new SortGearListFeature();
@@ -361,8 +384,8 @@ describe("Gear Features", () => {
         // Arrange
         const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
         const sortState = new SortState();
-        sortState.set("Id");
-        sortState.set("Id");
+        sortState.set(SortGearListFeature.fieldId);
+        sortState.set(SortGearListFeature.fieldId);
         const firstElement = filteredGearItems.shift();
         if (firstElement) filteredGearItems.push(firstElement);
         const feature = new SortGearListFeature();
@@ -398,7 +421,7 @@ describe("Gear Features", () => {
         ];
         const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
         const sortState = new SortState();
-        sortState.set("Item");
+        sortState.set(SortGearListFeature.fieldItem);
 
         const feature = new SortGearListFeature();
         const request = new SortGearListRequest();
@@ -431,8 +454,8 @@ describe("Gear Features", () => {
         ];
         const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
         const sortState = new SortState();
-        sortState.set("Item");
-        sortState.set("Item");
+        sortState.set(SortGearListFeature.fieldItem);
+        sortState.set(SortGearListFeature.fieldItem);
 
         const feature = new SortGearListFeature();
         const request = new SortGearListRequest();
@@ -459,7 +482,7 @@ describe("Gear Features", () => {
         const expectedItemNameOrder: number[] = [100, 2000, 4000, 10000, 12000];
         const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
         const sortState = new SortState();
-        sortState.set("Cost");
+        sortState.set(SortGearListFeature.fieldCost);
 
         const feature = new SortGearListFeature();
         const request = new SortGearListRequest();
@@ -486,8 +509,8 @@ describe("Gear Features", () => {
         const expectedItemNameOrder: number[] = [12000, 10000, 4000, 2000, 100];
         const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
         const sortState = new SortState();
-        sortState.set("Cost");
-        sortState.set("Cost");
+        sortState.set(SortGearListFeature.fieldCost);
+        sortState.set(SortGearListFeature.fieldCost);
 
         const feature = new SortGearListFeature();
         const request = new SortGearListRequest();
@@ -513,7 +536,7 @@ describe("Gear Features", () => {
         // Arrange
         const filteredGearItems: GearListItem[] = getAllGearListItems();
         const sortState = new SortState();
-        sortState.set("Category");
+        sortState.set(SortGearListFeature.fieldCategory);
 
         const feature = new SortGearListFeature();
         const request = new SortGearListRequest();
@@ -539,8 +562,8 @@ describe("Gear Features", () => {
         // Arrange
         const filteredGearItems: GearListItem[] = getAllGearListItems();
         const sortState = new SortState();
-        sortState.set("Category");
-        sortState.set("Category");
+        sortState.set(SortGearListFeature.fieldCategory);
+        sortState.set(SortGearListFeature.fieldCategory);
 
         const feature = new SortGearListFeature();
         const request = new SortGearListRequest();
@@ -573,7 +596,7 @@ describe("Gear Features", () => {
         ];
         const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
         const sortState = new SortState();
-        sortState.set("Description");
+        sortState.set(SortGearListFeature.fieldDescription);
 
         const feature = new SortGearListFeature();
         const request = new SortGearListRequest();
@@ -606,8 +629,8 @@ describe("Gear Features", () => {
         ];
         const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
         const sortState = new SortState();
-        sortState.set("Description");
-        sortState.set("Description");
+        sortState.set(SortGearListFeature.fieldDescription);
+        sortState.set(SortGearListFeature.fieldDescription);
 
         const feature = new SortGearListFeature();
         const request = new SortGearListRequest();
