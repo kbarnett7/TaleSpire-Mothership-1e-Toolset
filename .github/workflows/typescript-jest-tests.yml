@@ -1,0 +1,49 @@
+# This GitHub Actions workflow is used to run TypeScript Jest tests as part of the CI (Continuous Integration) process.
+#
+# Purpose:
+# - Ensures that all Jest unit tests for the project are executed automatically on every push or pull request to the `main` branch.
+# - Verifies that the codebase is functioning correctly and maintains high test coverage.
+#
+# How It Works:
+# 1. The workflow is triggered on `push` and `pull_request` events targeting the `main` branch.
+# 2. It uses a matrix strategy to specify the Node.js version (currently set to `22.x`).
+# 3. The `build_and_test` job performs the following steps:
+#    - Checks out the repository code.
+#    - Sets up the specified Node.js version using the `actions/setup-node` action.
+#    - Installs dependencies using `npm ci` for a clean and reproducible environment.
+#    - Runs Jest tests with coverage reporting using the `npm run test:coverage` script.
+#
+# This workflow ensures that the codebase is tested consistently and provides feedback on test results for every change.
+
+name: CI - Run TypeScript Jest Tests
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    build_and_test:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: ["22.x"]
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Use Node.js ${{matrix.node-version}}
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{matrix.node-version}}
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Run Jest Tests
+              run: npm run test:coverage
