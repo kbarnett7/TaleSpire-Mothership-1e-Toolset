@@ -6,32 +6,56 @@ import { GearListItem } from "../gear-list-item";
 import { SortGearListRequest } from "./sort-gear-list-request";
 
 export class SortGearListFeature implements IFeature<SortGearListRequest, Result<GearListItem[]>> {
+    private readonly fieldId: string = "Id";
+    private readonly fieldItem: string = "Item";
+    private readonly fieldCost: string = "Cost";
+    private readonly fieldCategory: string = "Category";
+    private readonly fieldDescription: string = "Description";
+    private readonly validFields: string[] = [
+        this.fieldId,
+        this.fieldItem,
+        this.fieldCost,
+        this.fieldCategory,
+        this.fieldDescription,
+    ];
+
     public handle(request: SortGearListRequest): Result<GearListItem[]> {
-        if (request.sortState.field === "") return Result.success(request.gearLisItems);
+        if (!this.isValidField(request.sortState.field)) return Result.success(request.gearLisItems);
 
         const sortedResults = [...request.gearLisItems].sort((a, b) => {
-            if (request.sortState.direction === SortDirection.None) return this.sortById(a, b);
-            else if (request.sortState.field === "Item") return this.sortByName(a, b, request.sortState);
-            else return this.sortByCost(a, b, request.sortState);
+            if (request.sortState.direction === SortDirection.None) {
+                return a.id - b.id;
+            } else if (request.sortState.field === this.fieldItem) {
+                return this.sortByStringField(a.name, b.name, request.sortState);
+            } else if (request.sortState.field === this.fieldCost) {
+                return this.sortByNumberField(a.cost, b.cost, request.sortState);
+            } else if (request.sortState.field === this.fieldCategory) {
+                return this.sortByStringField(a.category, b.category, request.sortState);
+            } else if (request.sortState.field === this.fieldDescription) {
+                return this.sortByStringField(a.description, b.description, request.sortState);
+            } else {
+                return this.sortByNumberField(a.id, b.id, request.sortState);
+            }
         });
 
         return Result.success(sortedResults);
     }
 
-    private sortById(a: GearListItem, b: GearListItem): number {
-        return a.id - b.id;
+    private isValidField(field: string): boolean {
+        if (field === "") return false;
+
+        return this.validFields.find((validField) => validField === field) !== undefined;
     }
 
-    private sortByName(a: GearListItem, b: GearListItem, sortState: SortState): number {
-        if (sortState.direction === SortDirection.Ascending)
-            return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+    private sortByStringField(a: string, b: string, sortState: SortState): number {
+        if (sortState.direction === SortDirection.Ascending) return a.toLowerCase().localeCompare(b.toLowerCase());
 
-        return b.name.toLowerCase().localeCompare(a.name.toLowerCase());
+        return b.toLowerCase().localeCompare(a.toLowerCase());
     }
 
-    private sortByCost(a: GearListItem, b: GearListItem, sortState: SortState): number {
-        if (sortState.direction === SortDirection.Ascending) return a.cost - b.cost;
+    private sortByNumberField(a: number, b: number, sortState: SortState): number {
+        if (sortState.direction === SortDirection.Ascending) return a - b;
 
-        return b.cost - a.cost;
+        return b - a;
     }
 }
