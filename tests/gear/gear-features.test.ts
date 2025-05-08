@@ -40,9 +40,7 @@ describe("Gear Features", () => {
 
     it("FilterGearListFeature by invalid category returns the original list", () => {
         // Arrange
-        const db = new UnitTestDatabase();
-        const unitOfWork = new UnitOfWork(db);
-        const feature = new FilterGearListFeature(unitOfWork);
+        const feature = getFilterGearListFeature();
         const request = new FilterGearListRequest();
         request.category = "invalid-category";
 
@@ -67,9 +65,7 @@ describe("Gear Features", () => {
 
     it('FilterGearListFeature by "All" category returns a list of all gear list items', () => {
         // Arrange
-        const db = new UnitTestDatabase();
-        const unitOfWork = new UnitOfWork(db);
-        const feature = new FilterGearListFeature(unitOfWork);
+        const feature = getFilterGearListFeature();
         const request = new FilterGearListRequest();
         request.category = GearItem.gearCategory;
 
@@ -94,9 +90,7 @@ describe("Gear Features", () => {
 
     it('FilterGearListFeature by "Armor" category returns a list of all armor gear list items', () => {
         // Arrange
-        const db = new UnitTestDatabase();
-        const unitOfWork = new UnitOfWork(db);
-        const feature = new FilterGearListFeature(unitOfWork);
+        const feature = getFilterGearListFeature();
         const request = new FilterGearListRequest();
         request.category = ArmorItem.gearCategory;
 
@@ -121,9 +115,7 @@ describe("Gear Features", () => {
 
     it('FilterGearListFeature by "Equipment" category returns a list of all equipment gear list items', () => {
         // Arrange
-        const db = new UnitTestDatabase();
-        const unitOfWork = new UnitOfWork(db);
-        const feature = new FilterGearListFeature(unitOfWork);
+        const feature = getFilterGearListFeature();
         const request = new FilterGearListRequest();
         request.category = EquipmentItem.gearCategory;
 
@@ -148,9 +140,7 @@ describe("Gear Features", () => {
 
     it('FilterGearListFeature by "Weapon" category returns a list of all weapon gear list items', () => {
         // Arrange
-        const db = new UnitTestDatabase();
-        const unitOfWork = new UnitOfWork(db);
-        const feature = new FilterGearListFeature(unitOfWork);
+        const feature = getFilterGearListFeature();
         const request = new FilterGearListRequest();
         request.category = WeaponItem.gearCategory;
 
@@ -175,9 +165,7 @@ describe("Gear Features", () => {
 
     it("FilterGearListFeature when exception occurs returns a failure result with error information", () => {
         // Arrange
-        const db = new UnitTestDatabase();
-        const unitOfWork = new UnitOfWork(db);
-        const feature = new FilterGearListFeature(unitOfWork);
+        const feature = getFilterGearListFeature();
         const request = new FilterGearListRequest();
         request.category = GearItem.gearCategory;
 
@@ -197,9 +185,7 @@ describe("Gear Features", () => {
 
     it("FilterGearListFeature by empty item name returns a list of all gear list items", () => {
         // Arrange
-        const db = new UnitTestDatabase();
-        const unitOfWork = new UnitOfWork(db);
-        const feature = new FilterGearListFeature(unitOfWork);
+        const feature = getFilterGearListFeature();
         const request = new FilterGearListRequest();
         request.category = GearItem.gearCategory;
         request.search = "";
@@ -225,9 +211,7 @@ describe("Gear Features", () => {
 
     it('FilterGearListFeature by "ba" item name returns gear list items with names that have "ba" in them', () => {
         // Arrange
-        const db = new UnitTestDatabase();
-        const unitOfWork = new UnitOfWork(db);
-        const feature = new FilterGearListFeature(unitOfWork);
+        const feature = getFilterGearListFeature();
         const request = new FilterGearListRequest();
         request.category = GearItem.gearCategory;
         request.search = "ba";
@@ -250,9 +234,7 @@ describe("Gear Features", () => {
 
     it('FilterGearListFeature by "Armor" category AND by "ba" item name returns armor gear list items with names that have "ba" in them', () => {
         // Arrange
-        const db = new UnitTestDatabase();
-        const unitOfWork = new UnitOfWork(db);
-        const feature = new FilterGearListFeature(unitOfWork);
+        const feature = getFilterGearListFeature();
         const request = new FilterGearListRequest();
         request.category = ArmorItem.gearCategory;
         request.search = "ba";
