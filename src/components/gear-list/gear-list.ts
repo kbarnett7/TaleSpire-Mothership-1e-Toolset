@@ -13,10 +13,21 @@ import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface
 import { FilterGearListRequest } from "../../features/gear/filter-gear-list/filter-gear-list-request";
 import { AppErrorEvent } from "../../lib/events/app-error-event";
 import { EventType } from "../../lib/events/event-type";
+import { SortState } from "../../lib/sorting/sort-state";
+import { SortDirection } from "../../lib/sorting/sort-direction";
+import { SortGearListFeature } from "../../features/gear/sort-gear-list/sort-gear-list-feature";
+import { SortGearListRequest } from "../../features/gear/sort-gear-list/sort-gear-list-request";
 
 export class GearListComponent extends BaseComponent {
     private getAllGearFeature: GetAllGearFeature;
     private gearList: Array<GearListItem> = [];
+    private tableHeaders: string[] = [
+        SortGearListFeature.fieldItem,
+        SortGearListFeature.fieldCost,
+        SortGearListFeature.fieldCategory,
+        SortGearListFeature.fieldDescription,
+    ];
+    private sortState: SortState = new SortState(SortGearListFeature.fieldId);
     private unitOfWork: IUnitOfWork;
 
     constructor() {
@@ -30,9 +41,57 @@ export class GearListComponent extends BaseComponent {
 
         this.gearList = this.getAllGearFeature.handle(new EmptyRequest());
 
+        this.sortGear();
+
+        this.populateTableHeaderRow();
         this.populateGearTable();
 
         this.registerGearCategoryChangedEvent();
+    }
+
+    private populateTableHeaderRow() {
+        const gearListContainer = this.shadow.querySelector("#gear-list-container");
+
+        if (!gearListContainer) return;
+
+        const tableHeader = gearListContainer.querySelector("thead");
+
+        if (!tableHeader) return;
+
+        tableHeader.appendChild(this.createTableHeaderRowElement());
+    }
+
+    private createTableHeaderRowElement(): HTMLTableRowElement {
+        const row = document.createElement("tr");
+
+        this.tableHeaders.forEach((header) => {
+            row.appendChild(this.createTableHeaderElement(header));
+        });
+
+        return row;
+    }
+
+    private createTableHeaderElement(header: string): HTMLTableCellElement {
+        const tableHeaderElement = document.createElement("th");
+
+        tableHeaderElement.id = `header${header}`;
+        tableHeaderElement.className = "uppercase p-2 cursor-pointer";
+        tableHeaderElement.onclick = () => this.onTableHeaderClick(header);
+        tableHeaderElement.appendChild(this.createHeaderDivElement(header));
+
+        return tableHeaderElement;
+    }
+
+    private createHeaderDivElement(header: string): HTMLDivElement {
+        const headerDiv = document.createElement("div");
+
+        headerDiv.className = "flex justify-between";
+        headerDiv.innerHTML = `
+            <div>${header}</div>
+            <div id="${header}SortIcon"></div>
+        `;
+
+        return headerDiv;
     }
 
     private populateGearTable(clearOldRows: boolean = false) {
@@ -84,7 +143,7 @@ export class GearListComponent extends BaseComponent {
         const result = feature.handle(request);
 
         if (result.isFailure) {
-            EventBus.instance.dispatch(new AppErrorEvent(EventType.ErrorPanelShow, result.error.description));
+            this.dispatchErrorEvent(result.error.description);
             return;
         }
 
@@ -92,7 +151,59 @@ export class GearListComponent extends BaseComponent {
 
         this.gearList = result.value ?? [];
 
+        this.sortGear();
+
         this.populateGearTable(true);
+    }
+
+    public onTableHeaderClick(header: string) {
+        this.sortState.set(header);
+        this.sortGear();
+        this.populateGearTable(true);
+    }
+
+    private sortGear() {
+        this.tableHeaders.forEach((currentHeader) => {
+            this.updateSortIcons(currentHeader);
+        });
+
+        const feature = new SortGearListFeature();
+        const request = new SortGearListRequest();
+
+        request.gearListItems = this.gearList;
+        request.sortState = this.sortState;
+
+        const result = feature.handle(request);
+
+        if (result.isFailure) {
+            this.dispatchErrorEvent(result.error.description);
+            return;
+        }
+
+        this.gearList = result.value ?? [];
+    }
+
+    private updateSortIcons(currentHeader: string) {
+        const sortIcon = this.shadow.querySelector(`#${currentHeader}SortIcon`);
+
+        if (!sortIcon) return;
+
+        if (currentHeader !== this.sortState.field) {
+            sortIcon.className = "";
+            return;
+        }
+
+        if (this.sortState.direction === SortDirection.Ascending) {
+            sortIcon.className = "icon-chevron icon-chevron-up";
+        } else if (this.sortState.direction === SortDirection.Descending) {
+            sortIcon.className = "icon-chevron icon-chevron-down";
+        } else {
+            sortIcon.className = "";
+        }
+    }
+
+    private dispatchErrorEvent(error: string) {
+        EventBus.instance.dispatch(new AppErrorEvent(EventType.ErrorPanelShow, error));
     }
 }
 
