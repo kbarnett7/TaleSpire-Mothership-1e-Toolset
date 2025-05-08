@@ -21,8 +21,13 @@ import { SortGearListRequest } from "../../features/gear/sort-gear-list/sort-gea
 export class GearListComponent extends BaseComponent {
     private getAllGearFeature: GetAllGearFeature;
     private gearList: Array<GearListItem> = [];
-    private tableHeaders: string[] = ["Item", "Cost", "Category", "Description"];
-    private sortState: SortState = new SortState("Id");
+    private tableHeaders: string[] = [
+        SortGearListFeature.fieldItem,
+        SortGearListFeature.fieldCost,
+        SortGearListFeature.fieldCategory,
+        SortGearListFeature.fieldDescription,
+    ];
+    private sortState: SortState = new SortState(SortGearListFeature.fieldId);
     private unitOfWork: IUnitOfWork;
 
     constructor() {
@@ -189,9 +194,9 @@ export class GearListComponent extends BaseComponent {
         }
 
         if (this.sortState.direction === SortDirection.Ascending) {
-            sortIcon.className = "icon-chevron-up";
+            sortIcon.className = "icon-chevron icon-chevron-up";
         } else if (this.sortState.direction === SortDirection.Descending) {
-            sortIcon.className = "icon-chevron-down";
+            sortIcon.className = "icon-chevron icon-chevron-down";
         } else {
             sortIcon.className = "";
         }

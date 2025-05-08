@@ -17,7 +17,7 @@ export class BaseComponent extends HTMLElement {
         this.shadow.appendChild(templateContent.cloneNode(true));
     }
 
-    protected attachCallbacks(html: string): string {
+    private attachCallbacks(html: string): string {
         const lastId: number = window.lastComponentId ? window.lastComponentId : 0;
         const componentId: number = lastId + 1;
         window.lastComponentId = componentId;
