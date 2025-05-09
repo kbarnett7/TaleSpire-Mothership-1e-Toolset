@@ -3,10 +3,16 @@ import { BaseComponent } from "../base.component";
 import { EventBus } from "../../lib/events/event-bus";
 import { OpenGearModalEvent } from "../../lib/events/open-gear-modal-event";
 import { AppEvent } from "../../lib/events/app-event";
+import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface";
+import { appInjector } from "../../lib/infrastructure/app-injector";
+import { UnitOfWork } from "../../lib/data-access/unit-of-work";
 
 export class GearEquipmentModalComponent extends BaseComponent {
+    private unitOfWork: IUnitOfWork;
+
     constructor() {
         super();
+        this.unitOfWork = appInjector.injectClass(UnitOfWork);
     }
 
     public connectedCallback() {
