@@ -6,6 +6,9 @@ import { AppEvent } from "../../lib/events/app-event";
 import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface";
 import { appInjector } from "../../lib/infrastructure/app-injector";
 import { UnitOfWork } from "../../lib/data-access/unit-of-work";
+import { GetGearByIdFeature } from "../../features/gear/get-gear-by-id/get-gear-by-id-feature";
+import { GetGearByIdRequest } from "../../features/gear/get-gear-by-id/get-gear-by-id-request";
+import { EquipmentItem } from "../../features/gear/equipment-item";
 
 export class GearEquipmentModalComponent extends BaseComponent {
     private unitOfWork: IUnitOfWork;
@@ -24,13 +27,22 @@ export class GearEquipmentModalComponent extends BaseComponent {
     }
 
     public onOpenDialog(event: OpenGearModalEvent) {
-        this.setModalHeader(event);
+        const gearItem = this.getSelectedGearItem(event);
+
+        this.setModalHeader(gearItem.name);
         this.showModal();
     }
 
-    private setModalHeader(event: OpenGearModalEvent) {
+    private getSelectedGearItem(event: OpenGearModalEvent): EquipmentItem {
+        const feature = new GetGearByIdFeature(this.unitOfWork);
+        const request = new GetGearByIdRequest(event.gearItemId, event.gearItemCategory);
+
+        return feature.handle(request) as EquipmentItem;
+    }
+
+    private setModalHeader(gearItemName: string) {
         const header = this.shadow.querySelector("#modalHeaderText") as HTMLHeadElement;
-        header.textContent = "FAKE ITEM";
+        header.textContent = gearItemName;
     }
 
     private showModal() {
