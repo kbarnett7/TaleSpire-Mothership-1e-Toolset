@@ -18,6 +18,7 @@ import { SortDirection } from "../../lib/sorting/sort-direction";
 import { SortGearListFeature } from "../../features/gear/sort-gear-list/sort-gear-list-feature";
 import { SortGearListRequest } from "../../features/gear/sort-gear-list/sort-gear-list-request";
 import { AppLogger } from "../../lib/logging/app-logger";
+import { OpenGearModalEvent } from "../../lib/events/open-gear-modal-event";
 
 export class GearListComponent extends BaseComponent {
     private getAllGearFeature: GetAllGearFeature;
@@ -160,19 +161,7 @@ export class GearListComponent extends BaseComponent {
     }
 
     public onTableDataRowClick(gearItem: GearListItem) {
-        AppLogger.instance.debug(`Row clicked for item id = ${gearItem.id} and category = ${gearItem.category}`);
-
-        const dialog = this.shadow.querySelector("#gearItemDialog") as HTMLDivElement;
-
-        dialog.classList.remove("hidden");
-        dialog.classList.add("flex");
-    }
-
-    public onCloseDialog(event: MouseEvent) {
-        const dialog = this.shadow.querySelector("#gearItemDialog") as HTMLDivElement;
-
-        dialog.classList.add("hidden");
-        dialog.classList.remove("flex");
+        EventBus.instance.dispatch(new OpenGearModalEvent(gearItem.id, gearItem.category));
     }
 
     public onTableHeaderClick(header: string) {
