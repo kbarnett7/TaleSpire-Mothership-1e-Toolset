@@ -161,6 +161,21 @@ export class GearListComponent extends BaseComponent {
 
     public onTableDataRowClick(gearItem: GearListItem) {
         AppLogger.instance.debug(`Row clicked for item id = ${gearItem.id} and category = ${gearItem.category}`);
+        // const dialog = this.shadow.querySelector("#gearItemDialog") as HTMLDialogElement;
+
+        // dialog.showModal();
+
+        const dialog = this.shadow.querySelector("#gearItemDialog") as HTMLDivElement;
+        dialog.classList.remove("hidden");
+    }
+
+    public onCloseDialog(event: MouseEvent) {
+        // const dialog = this.shadow.querySelector("#gearItemDialog") as HTMLDialogElement;
+
+        // dialog.close();
+
+        const dialog = this.shadow.querySelector("#gearItemDialog") as HTMLDivElement;
+        dialog.classList.add("hidden");
     }
 
     public onTableHeaderClick(header: string) {
