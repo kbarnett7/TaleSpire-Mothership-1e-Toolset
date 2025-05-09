@@ -37,7 +37,7 @@ export class EventBus {
      *
      * @param {AppEvent} event - The application event to dispatch.
      */
-    dispatch(event: AppEvent) {
+    public dispatch(event: AppEvent) {
         const customEvent = new CustomEvent<AppEvent>(event.type, {
             detail: event,
             bubbles: true, // Allow the event to bubble up
@@ -56,7 +56,7 @@ export class EventBus {
      * @param {AppEventListener} callback - The callback function to invoke when the event is dispatched.
      * The callback receives the `AppEvent` object as its argument.
      */
-    register(type: string, callback: AppEventListener) {
+    public register(type: string, callback: AppEventListener) {
         this._eventBus.addEventListener(type, (event: Event) => {
             const customEvent = event as CustomEvent<AppEvent>;
             callback(customEvent.detail);
@@ -73,7 +73,38 @@ export class EventBus {
      * @param {EventListenerOrEventListenerObject} callback - The callback function or event listener object
      * to invoke when the event is triggered. The callback receives the `Event` object as its argument.
      */
-    registerBrowserEvent(type: string, callback: EventListenerOrEventListenerObject) {
+    public registerBrowserEvent(type: string, callback: EventListenerOrEventListenerObject) {
         window.addEventListener(type, callback);
+    }
+
+    /**
+     * Unregisters a listener for a specific browser event type.
+     *
+     * This method removes a previously registered event listener for standard browser events
+     * (e.g., "click", "keyup") or custom events dispatched on the `window` global object.
+     *
+     * @param {string} type - The type of the browser event to stop listening for.
+     * @param {EventListenerOrEventListenerObject} callback - The callback function or event listener object
+     * that was previously registered with `registerBrowserEvent`. This must be the same reference as the one
+     * used during registration.
+     *
+     * @example
+     * // Registering an event listener
+     * const onKeyUp = (event: KeyboardEvent) => {
+     *     if (event.key === "Escape") {
+     *         console.log("Escape key pressed");
+     *     }
+     * };
+     * EventBus.instance.registerBrowserEvent("keyup", onKeyUp);
+     *
+     * // Unregistering the event listener
+     * EventBus.instance.unregisterBrowserEvent("keyup", onKeyUp);
+     *
+     * @remarks
+     * If the callback provided does not match a previously registered listener, the method will have no effect.
+     * This ensures that only the intended listener is removed.
+     */
+    public unregisterBrowserEvent(type: string, callback: EventListenerOrEventListenerObject) {
+        window.removeEventListener(type, callback);
     }
 }

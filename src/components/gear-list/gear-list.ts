@@ -17,6 +17,8 @@ import { SortState } from "../../lib/sorting/sort-state";
 import { SortDirection } from "../../lib/sorting/sort-direction";
 import { SortGearListFeature } from "../../features/gear/sort-gear-list/sort-gear-list-feature";
 import { SortGearListRequest } from "../../features/gear/sort-gear-list/sort-gear-list-request";
+import { AppLogger } from "../../lib/logging/app-logger";
+import { OpenGearModalEvent } from "../../lib/events/open-gear-modal-event";
 
 export class GearListComponent extends BaseComponent {
     private getAllGearFeature: GetAllGearFeature;
@@ -115,14 +117,16 @@ export class GearListComponent extends BaseComponent {
     private createTableRowElement(gearItem: GearListItem): HTMLTableRowElement {
         const row = document.createElement("tr");
 
-        row.className = "border-2 border-y-gray-300";
+        row.className = "border-2 border-y-gray-300 cursor-pointer hover:bg-gray-300";
 
         row.innerHTML = `
             <td class="p-2">${gearItem.name}</td>
             <td class="p-2">${gearItem.abbreviatedCost}</td>
             <td class="p-2">${gearItem.category}</td>
-            <td class="p-2">${gearItem.description}</td>
+            <td class="p-2 truncate max-w-50">${gearItem.description}</td>
         `;
+
+        row.addEventListener("click", (event: MouseEvent) => this.onTableDataRowClick(gearItem));
 
         return row;
     }
@@ -154,6 +158,10 @@ export class GearListComponent extends BaseComponent {
         this.sortGear();
 
         this.populateGearTable(true);
+    }
+
+    public onTableDataRowClick(gearItem: GearListItem) {
+        EventBus.instance.dispatch(new OpenGearModalEvent(gearItem.id, gearItem.category));
     }
 
     public onTableHeaderClick(header: string) {

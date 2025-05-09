@@ -1,4 +1,6 @@
 import { GetAllGearFeature } from "../../src/features/gear/get-all-gear/get-all-gear-feature";
+import { GetGearByIdFeature } from "../../src/features/gear/get-gear-by-id/get-gear-by-id-feature";
+import { GetGearByIdRequest } from "../../src/features/gear/get-gear-by-id/get-gear-by-id-request";
 import { FilterGearListFeature } from "../../src/features/gear/filter-gear-list/filter-gear-list-feature";
 import { FilterGearListRequest } from "../../src/features/gear/filter-gear-list/filter-gear-list-request";
 import { SortGearListFeature } from "../../src/features/gear/sort-gear-list/sort-gear-list-feature";
@@ -16,6 +18,85 @@ import { ErrorCode } from "../../src/lib/errors/error-code";
 import { SortState } from "../../src/lib/sorting/sort-state";
 
 describe("Gear Features", () => {
+    it("GetGearByIdFeature with id of 1 and category of equipment returns the equipment gear item with an id of 1", () => {
+        // Arrange
+        const db = new UnitTestDatabase();
+        const unitOfWork = new UnitOfWork(db);
+        const feature = new GetGearByIdFeature(unitOfWork);
+        const request = new GetGearByIdRequest(1, EquipmentItem.gearCategory);
+
+        // Act
+        const gearItem: EquipmentItem = feature.handle(request) as EquipmentItem;
+
+        // Assert
+        expect(gearItem.id).toBe(1);
+        expect(gearItem.name).toBe("Assorted Tools");
+        expect(gearItem.cost).toBe(20);
+    });
+
+    it("GetGearByIdFeature with id of 1 and category of armor returns the armor gear item with an id of 1", () => {
+        // Arrange
+        const db = new UnitTestDatabase();
+        const unitOfWork = new UnitOfWork(db);
+        const feature = new GetGearByIdFeature(unitOfWork);
+        const request = new GetGearByIdRequest(1, ArmorItem.gearCategory);
+
+        // Act
+        const gearItem: ArmorItem = feature.handle(request) as ArmorItem;
+
+        // Assert
+        expect(gearItem.id).toBe(1);
+        expect(gearItem.name).toBe("Standard Crew Attire");
+        expect(gearItem.armorPoints).toBe(1);
+    });
+
+    it("GetGearByIdFeature with id of 1 and category of weapon returns the weapon gear item with an id of 1", () => {
+        // Arrange
+        const db = new UnitTestDatabase();
+        const unitOfWork = new UnitOfWork(db);
+        const feature = new GetGearByIdFeature(unitOfWork);
+        const request = new GetGearByIdRequest(1, WeaponItem.gearCategory);
+
+        // Act
+        const gearItem: WeaponItem = feature.handle(request) as WeaponItem;
+
+        // Assert
+        expect(gearItem.id).toBe(1);
+        expect(gearItem.name).toBe("Boarding Axe");
+        expect(gearItem.damage).toBe("2d10");
+    });
+
+    it("GetGearByIdFeature with id of 1 and an invalid category returns an empty gear item with an id of 0", () => {
+        // Arrange
+        const db = new UnitTestDatabase();
+        const unitOfWork = new UnitOfWork(db);
+        const feature = new GetGearByIdFeature(unitOfWork);
+        const request = new GetGearByIdRequest(1, "invalid-category");
+
+        // Act
+        const gearItem: GearItem = feature.handle(request);
+
+        // Assert
+        expect(gearItem.id).toBe(0);
+        expect(gearItem.name).toBe("");
+    });
+
+    it("GetGearByIdFeature with id of 2 and category of equipment returns the equipment gear item with an id of 2", () => {
+        // Arrange
+        const db = new UnitTestDatabase();
+        const unitOfWork = new UnitOfWork(db);
+        const feature = new GetGearByIdFeature(unitOfWork);
+        const request = new GetGearByIdRequest(2, EquipmentItem.gearCategory);
+
+        // Act
+        const gearItem: EquipmentItem = feature.handle(request) as EquipmentItem;
+
+        // Assert
+        expect(gearItem.id).toBe(2);
+        expect(gearItem.name).toBe("Automed (x5)");
+        expect(gearItem.cost).toBe(1500);
+    });
+
     it("GetAllGearFeature returns all gear list items", () => {
         // Arrange
         const db = new UnitTestDatabase();
