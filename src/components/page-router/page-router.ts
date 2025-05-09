@@ -5,6 +5,7 @@ import { PageRouterService } from "../../lib/pages/page-router-service";
 import { EventBus } from "../../lib/events/event-bus";
 import { ChangePageEvent } from "../../lib/events/change-page-event";
 import { AppEvent } from "../../lib/events/app-event";
+import { AppLogger } from "../../lib/logging/app-logger";
 
 export class PageRouterComponent extends BaseComponent {
     private currentPage: PageRouteData;
@@ -20,8 +21,6 @@ export class PageRouterComponent extends BaseComponent {
 
         // popstate is fired when the user hits the browser's "forward" and "back" buttons
         EventBus.instance.registerBrowserEvent("popstate", (event) => {
-            console.log(`popstate: ${event}`);
-
             const popStateEvent = event as PopStateEvent;
 
             if (popStateEvent.state) {

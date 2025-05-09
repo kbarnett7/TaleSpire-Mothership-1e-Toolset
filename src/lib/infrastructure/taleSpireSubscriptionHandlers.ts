@@ -1,9 +1,12 @@
+import { AppLogger } from "../logging/app-logger";
+
 function logSymbioteEvent(event: any) {
-    console.log(event);
+    AppLogger.instance.info("Symbiote Event", event);
 }
 
 function handleRollResult(event: { kind: string; payload: any }): void {
-    console.log(event);
+    AppLogger.instance.info("Roll Result Event", event);
+
     if (event.kind === "rollResults") {
         TS.dice.evaluateDiceResultsGroup(event.payload.resultsGroups[0]).then((summedRoll: number) => {
             const diceResultElement = document.getElementById("dice-result");

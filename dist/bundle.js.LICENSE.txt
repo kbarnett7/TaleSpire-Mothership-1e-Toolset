@@ -26,6 +26,10 @@
 
 /*! ../../../lib/result/result-error */
 
+/*! ../../../lib/sorting/sort-direction */
+
+/*! ../../../lib/sorting/sort-state */
+
 /*! ../../base.component */
 
 /*! ../../database/json/armor.data.json */
@@ -45,6 +49,10 @@
 /*! ../../features/gear/gear-item */
 
 /*! ../../features/gear/get-all-gear/get-all-gear-feature */
+
+/*! ../../features/gear/sort-gear-list/sort-gear-list-feature */
+
+/*! ../../features/gear/sort-gear-list/sort-gear-list-request */
 
 /*! ../../features/gear/weapon-item */
 
@@ -93,6 +101,10 @@
 /*! ../get-all-gear/get-all-gear-feature */
 
 /*! ../lib/services/styles-service */
+
+/*! ../logging/app-logger */
+
+/*! ../logging/console-logger */
 
 /*! ../node_modules/css-loader/dist/runtime/api.js */
 
@@ -145,6 +157,8 @@
 /*! ./home.component.html */
 
 /*! ./index.css */
+
+/*! ./lib/infrastructure/startup */
 
 /*! ./nav-menu-hamburger-button.component.html */
 
@@ -205,6 +219,10 @@
   \**************************************/
 
 /*!***************************************!*\
+  !*** ./src/lib/logging/app-logger.ts ***!
+  \***************************************/
+
+/*!***************************************!*\
   !*** ./src/lib/sorting/sort-state.ts ***!
   \***************************************/
 
@@ -253,6 +271,14 @@
   \*******************************************/
 
 /*!*******************************************!*\
+  !*** ./src/lib/infrastructure/startup.ts ***!
+  \*******************************************/
+
+/*!*******************************************!*\
+  !*** ./src/lib/logging/console-logger.ts ***!
+  \*******************************************/
+
+/*!*******************************************!*\
   !*** ./src/lib/sorting/sort-direction.ts ***!
   \*******************************************/
 
@@ -282,6 +308,10 @@
 
 /*!*********************************************!*\
   !*** ./src/lib/events/change-page-event.ts ***!
+  \*********************************************/
+
+/*!*********************************************!*\
+  !*** ./src/lib/logging/logger-interface.ts ***!
   \*********************************************/
 
 /*!**********************************************!*\
@@ -490,6 +520,10 @@
 
 /*!********************************************************************!*\
   !*** ./src/features/gear/sort-gear-list/sort-gear-list-feature.ts ***!
+  \********************************************************************/
+
+/*!********************************************************************!*\
+  !*** ./src/features/gear/sort-gear-list/sort-gear-list-request.ts ***!
   \********************************************************************/
 
 /*!*********************************************************************!*\

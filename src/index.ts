@@ -16,6 +16,8 @@
  * a set of related scripts.
  */
 import "./index.css"; // Import the main CSS file for the application
+import { Startup } from "./lib/infrastructure/startup";
+import { AppLogger } from "./lib/logging/app-logger";
 
 function importAll(requireContext: __WebpackModuleApi.RequireContext) {
     requireContext.keys().forEach(requireContext);
@@ -23,3 +25,11 @@ function importAll(requireContext: __WebpackModuleApi.RequireContext) {
 
 // Dynamically require all .ts files in the src directory and subdirectories
 importAll(require.context("./", true, /^(?!.*\.d\.ts$).*\.ts$/));
+
+try {
+    const startup: Startup = new Startup();
+
+    startup.configure();
+} catch (error) {
+    console.error(error);
+}
