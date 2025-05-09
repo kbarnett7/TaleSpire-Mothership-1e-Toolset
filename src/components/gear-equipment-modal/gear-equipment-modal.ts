@@ -9,6 +9,7 @@ import { UnitOfWork } from "../../lib/data-access/unit-of-work";
 import { GetGearByIdFeature } from "../../features/gear/get-gear-by-id/get-gear-by-id-feature";
 import { GetGearByIdRequest } from "../../features/gear/get-gear-by-id/get-gear-by-id-request";
 import { EquipmentItem } from "../../features/gear/equipment-item";
+import { CreditsAbbreviator } from "../../lib/services/credits-abbreviator";
 
 export class GearEquipmentModalComponent extends BaseComponent {
     private unitOfWork: IUnitOfWork;
@@ -30,6 +31,9 @@ export class GearEquipmentModalComponent extends BaseComponent {
         const gearItem = this.getSelectedGearItem(event);
 
         this.setModalHeader(gearItem.name);
+        this.setGearDescription(gearItem.description);
+        this.setGearCost(gearItem.cost);
+
         this.showModal();
     }
 
@@ -43,6 +47,16 @@ export class GearEquipmentModalComponent extends BaseComponent {
     private setModalHeader(gearItemName: string) {
         const header = this.shadow.querySelector("#modalHeaderText") as HTMLHeadElement;
         header.textContent = gearItemName;
+    }
+
+    private setGearDescription(description: string) {
+        const paragraph = this.shadow.querySelector("#gearDescription") as HTMLParagraphElement;
+        paragraph.textContent = description;
+    }
+
+    private setGearCost(cost: number) {
+        const paragraph = this.shadow.querySelector("#gearCost") as HTMLParagraphElement;
+        paragraph.textContent = CreditsAbbreviator.instance.abbreviate(cost);
     }
 
     private showModal() {
