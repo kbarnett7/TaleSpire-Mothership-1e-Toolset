@@ -9,7 +9,7 @@
         <div class="relative rounded-lg shadow-sm bg-gray-300">
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 md:p-5">
-                <h3 id="modalHeaderText" class="text-xl font-bold text-black uppercase"></h3>
+                <h3 id="modalHeaderText" class="text-xl font-bold text-black uppercase">Item Details</h3>
                 <button
                     type="button"
                     class="text-black bg-transparent hover:bg-black hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
@@ -37,10 +37,19 @@
 
             <!-- Modal body -->
             <div class="p-4 md:p-5 space-y-4">
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="text-lg font-semibold uppercase">Name</label>
+                        <p id="gearName" class="text-base leading-relaxed text-black"></p>
+                    </div>
+                    <div>
+                        <label class="text-lg font-semibold uppercase">Cost</label>
+                        <p id="gearCost" class="text-base leading-relaxed text-black"></p>
+                    </div>
+                </div>
+
                 <label class="text-lg font-semibold uppercase">Description</label>
                 <p id="gearDescription" class="text-base leading-relaxed text-black"></p>
-                <label class="text-lg font-semibold uppercase">Cost</label>
-                <p id="gearCost" class="text-base leading-relaxed text-black"></p>
             </div>
 
             <!-- Modal footer -->

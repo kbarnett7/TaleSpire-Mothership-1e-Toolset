@@ -30,7 +30,7 @@ export class GearEquipmentModalComponent extends BaseComponent {
     public onOpenDialog(event: OpenGearModalEvent) {
         const gearItem = this.getSelectedGearItem(event);
 
-        this.setModalHeader(gearItem.name);
+        this.setGearName(gearItem.name);
         this.setGearDescription(gearItem.description);
         this.setGearCost(gearItem.cost);
 
@@ -46,9 +46,9 @@ export class GearEquipmentModalComponent extends BaseComponent {
         return feature.handle(request) as EquipmentItem;
     }
 
-    private setModalHeader(gearItemName: string) {
-        const header = this.shadow.querySelector("#modalHeaderText") as HTMLHeadElement;
-        header.textContent = gearItemName;
+    private setGearName(name: string) {
+        const paragraph = this.shadow.querySelector("#gearName") as HTMLParagraphElement;
+        paragraph.textContent = name;
     }
 
     private setGearDescription(description: string) {
