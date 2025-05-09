@@ -34,6 +34,8 @@ export class GearEquipmentModalComponent extends BaseComponent {
         this.setGearDescription(gearItem.description);
         this.setGearCost(gearItem.cost);
 
+        EventBus.instance.registerBrowserEvent("keyup", this.onKeyupEvent);
+
         this.showModal();
     }
 
@@ -66,6 +68,12 @@ export class GearEquipmentModalComponent extends BaseComponent {
         dialog.classList.add("flex");
     }
 
+    private onKeyupEvent = (event: Event) => {
+        if (event instanceof KeyboardEvent && event.key === "Escape") {
+            this.closeModal();
+        }
+    };
+
     public onCloseDialog(event: MouseEvent) {
         this.closeModal();
     }
@@ -75,6 +83,8 @@ export class GearEquipmentModalComponent extends BaseComponent {
 
         dialog.classList.add("hidden");
         dialog.classList.remove("flex");
+
+        EventBus.instance.unregisterBrowserEvent("keyup", this.onKeyupEvent);
     }
 }
 

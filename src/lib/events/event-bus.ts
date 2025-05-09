@@ -37,7 +37,7 @@ export class EventBus {
      *
      * @param {AppEvent} event - The application event to dispatch.
      */
-    dispatch(event: AppEvent) {
+    public dispatch(event: AppEvent) {
         const customEvent = new CustomEvent<AppEvent>(event.type, {
             detail: event,
             bubbles: true, // Allow the event to bubble up
@@ -56,7 +56,7 @@ export class EventBus {
      * @param {AppEventListener} callback - The callback function to invoke when the event is dispatched.
      * The callback receives the `AppEvent` object as its argument.
      */
-    register(type: string, callback: AppEventListener) {
+    public register(type: string, callback: AppEventListener) {
         this._eventBus.addEventListener(type, (event: Event) => {
             const customEvent = event as CustomEvent<AppEvent>;
             callback(customEvent.detail);
@@ -73,7 +73,11 @@ export class EventBus {
      * @param {EventListenerOrEventListenerObject} callback - The callback function or event listener object
      * to invoke when the event is triggered. The callback receives the `Event` object as its argument.
      */
-    registerBrowserEvent(type: string, callback: EventListenerOrEventListenerObject) {
+    public registerBrowserEvent(type: string, callback: EventListenerOrEventListenerObject) {
         window.addEventListener(type, callback);
+    }
+
+    public unregisterBrowserEvent(type: string, callback: EventListenerOrEventListenerObject) {
+        window.removeEventListener(type, callback);
     }
 }
