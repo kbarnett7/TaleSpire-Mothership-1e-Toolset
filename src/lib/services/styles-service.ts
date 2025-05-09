@@ -1,3 +1,5 @@
+import { AppLogger } from "../logging/app-logger";
+
 export class StylesService {
     private static _instance: StylesService | null = null;
     private _globalSheets: CSSStyleSheet[] | null = null;
@@ -29,7 +31,7 @@ export class StylesService {
                 } catch (e) {
                     // Skip stylesheets that throw a SecurityError
                     if (e instanceof DOMException && e.name === "SecurityError") {
-                        console.warn("Skipped inaccessible stylesheet:", x.href || "inline style");
+                        AppLogger.instance.warn("Skipped inaccessible stylesheet:", x.href || "inline style");
                     }
                     return [];
                 }

@@ -20,8 +20,6 @@ export class PageRouterComponent extends BaseComponent {
 
         // popstate is fired when the user hits the browser's "forward" and "back" buttons
         EventBus.instance.registerBrowserEvent("popstate", (event) => {
-            console.log(`popstate: ${event}`);
-
             const popStateEvent = event as PopStateEvent;
 
             if (popStateEvent.state) {
