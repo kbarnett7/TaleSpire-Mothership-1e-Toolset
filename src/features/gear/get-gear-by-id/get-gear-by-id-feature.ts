@@ -1,4 +1,3 @@
-import { IRepository } from "../../../lib/common/data-access/repositoy-interface";
 import { IUnitOfWork } from "../../../lib/common/data-access/unit-of-work-interface";
 import { IFeature } from "../../../lib/common/features/feature-interface";
 import { ArmorItem } from "../armor-item";

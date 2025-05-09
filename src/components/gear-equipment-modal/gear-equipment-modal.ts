@@ -25,6 +25,15 @@ export class GearEquipmentModalComponent extends BaseComponent {
         EventBus.instance.register(OpenGearModalEvent.name, (event: AppEvent) => {
             this.onOpenDialog(event as OpenGearModalEvent);
         });
+
+        // window.onclick = (event) => {
+        //     const dialog = this.shadow.querySelector("#modalDialog") as HTMLDivElement;
+        //     if (event.target == dialog) this.closeModal();
+        // };
+        // window.addEventListener("click", (event) => {
+        //     const dialog = this.shadow.querySelector("#modalDialog") as HTMLDivElement;
+        //     if (event.target == dialog) this.closeModal();
+        // });
     }
 
     public onOpenDialog(event: OpenGearModalEvent) {
@@ -67,6 +76,10 @@ export class GearEquipmentModalComponent extends BaseComponent {
     }
 
     public onCloseDialog(event: MouseEvent) {
+        this.closeModal();
+    }
+
+    private closeModal() {
         const dialog = this.shadow.querySelector("#modalDialog") as HTMLDivElement;
 
         dialog.classList.add("hidden");
