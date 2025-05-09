@@ -1,3 +1,4 @@
+import { IRepository } from "../../../lib/common/data-access/repositoy-interface";
 import { IUnitOfWork } from "../../../lib/common/data-access/unit-of-work-interface";
 import { IFeature } from "../../../lib/common/features/feature-interface";
 import { ArmorItem } from "../armor-item";
@@ -17,20 +18,11 @@ export class GetGearByIdFeature implements IFeature<GetGearByIdRequest, GearItem
         let foundItem: GearItem | undefined;
 
         if (request.category === ArmorItem.gearCategory) {
-            foundItem = this.unitOfWork
-                .repo(ArmorItem)
-                .list()
-                .find((item) => item.id === request.id);
+            foundItem = this.unitOfWork.repo(ArmorItem).first((item) => item.id === request.id);
         } else if (request.category === EquipmentItem.gearCategory) {
-            foundItem = this.unitOfWork
-                .repo(EquipmentItem)
-                .list()
-                .find((item) => item.id === request.id);
+            foundItem = this.unitOfWork.repo(EquipmentItem).first((item) => item.id === request.id);
         } else if (request.category === WeaponItem.gearCategory) {
-            foundItem = this.unitOfWork
-                .repo(WeaponItem)
-                .list()
-                .find((item) => item.id === request.id);
+            foundItem = this.unitOfWork.repo(WeaponItem).first((item) => item.id === request.id);
         }
 
         return foundItem ?? new GearItem();

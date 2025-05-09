@@ -26,11 +26,12 @@ describe("Gear Features", () => {
         const request = new GetGearByIdRequest(1, EquipmentItem.gearCategory);
 
         // Act
-        const gearItem: GearItem = feature.handle(request);
+        const gearItem: EquipmentItem = feature.handle(request) as EquipmentItem;
 
         // Assert
         expect(gearItem.id).toBe(1);
         expect(gearItem.name).toBe("Assorted Tools");
+        expect(gearItem.cost).toBe(20);
     });
 
     it("GetGearByIdFeature with id of 1 and category of armor returns the armor gear item with an id of 1", () => {
@@ -41,11 +42,12 @@ describe("Gear Features", () => {
         const request = new GetGearByIdRequest(1, ArmorItem.gearCategory);
 
         // Act
-        const gearItem: GearItem = feature.handle(request);
+        const gearItem: ArmorItem = feature.handle(request) as ArmorItem;
 
         // Assert
         expect(gearItem.id).toBe(1);
         expect(gearItem.name).toBe("Standard Crew Attire");
+        expect(gearItem.armorPoints).toBe(1);
     });
 
     it("GetGearByIdFeature with id of 1 and category of weapon returns the weapon gear item with an id of 1", () => {
@@ -56,11 +58,12 @@ describe("Gear Features", () => {
         const request = new GetGearByIdRequest(1, WeaponItem.gearCategory);
 
         // Act
-        const gearItem: GearItem = feature.handle(request);
+        const gearItem: WeaponItem = feature.handle(request) as WeaponItem;
 
         // Assert
         expect(gearItem.id).toBe(1);
         expect(gearItem.name).toBe("Boarding Axe");
+        expect(gearItem.damage).toBe("2d10");
     });
 
     it("GetGearByIdFeature with id of 1 and an invalid category returns an empty gear item with an id of 0", () => {
@@ -86,11 +89,12 @@ describe("Gear Features", () => {
         const request = new GetGearByIdRequest(2, EquipmentItem.gearCategory);
 
         // Act
-        const gearItem: GearItem = feature.handle(request);
+        const gearItem: EquipmentItem = feature.handle(request) as EquipmentItem;
 
         // Assert
         expect(gearItem.id).toBe(2);
         expect(gearItem.name).toBe("Automed (x5)");
+        expect(gearItem.cost).toBe(1500);
     });
 
     it("GetAllGearFeature returns all gear list items", () => {
