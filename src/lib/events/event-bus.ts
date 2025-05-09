@@ -77,6 +77,33 @@ export class EventBus {
         window.addEventListener(type, callback);
     }
 
+    /**
+     * Unregisters a listener for a specific browser event type.
+     *
+     * This method removes a previously registered event listener for standard browser events
+     * (e.g., "click", "keyup") or custom events dispatched on the `window` global object.
+     *
+     * @param {string} type - The type of the browser event to stop listening for.
+     * @param {EventListenerOrEventListenerObject} callback - The callback function or event listener object
+     * that was previously registered with `registerBrowserEvent`. This must be the same reference as the one
+     * used during registration.
+     *
+     * @example
+     * // Registering an event listener
+     * const onKeyUp = (event: KeyboardEvent) => {
+     *     if (event.key === "Escape") {
+     *         console.log("Escape key pressed");
+     *     }
+     * };
+     * EventBus.instance.registerBrowserEvent("keyup", onKeyUp);
+     *
+     * // Unregistering the event listener
+     * EventBus.instance.unregisterBrowserEvent("keyup", onKeyUp);
+     *
+     * @remarks
+     * If the callback provided does not match a previously registered listener, the method will have no effect.
+     * This ensures that only the intended listener is removed.
+     */
     public unregisterBrowserEvent(type: string, callback: EventListenerOrEventListenerObject) {
         window.removeEventListener(type, callback);
     }
