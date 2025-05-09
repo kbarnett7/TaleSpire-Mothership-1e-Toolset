@@ -2,6 +2,7 @@ import { IUnitOfWork } from "../../../lib/common/data-access/unit-of-work-interf
 import { EmptyRequest } from "../../../lib/common/features/empty-request";
 import { IFeature } from "../../../lib/common/features/feature-interface";
 import { ErrorCode } from "../../../lib/errors/error-code";
+import { AppLogger } from "../../../lib/logging/app-logger";
 import { Result } from "../../../lib/result/result";
 import { ResultError } from "../../../lib/result/result-error";
 import { ArmorItem } from "../armor-item";
@@ -27,6 +28,9 @@ export class FilterGearListFeature implements IFeature<FilterGearListRequest, Re
             return Result.success(filteredItems);
         } catch (error) {
             const ex = error as Error;
+
+            AppLogger.instance.error("Error while filtering gear list", ex);
+
             return Result.failure(
                 new ResultError(
                     ErrorCode.QueryError,

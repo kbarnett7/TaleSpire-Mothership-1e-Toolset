@@ -31,5 +31,5 @@ try {
 
     startup.configure();
 } catch (error) {
-    console.error(error);
+    console.error("Error during app startup...", error);
 }

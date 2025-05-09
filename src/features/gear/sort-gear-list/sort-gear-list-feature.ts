@@ -1,5 +1,6 @@
 import { IFeature } from "../../../lib/common/features/feature-interface";
 import { ErrorCode } from "../../../lib/errors/error-code";
+import { AppLogger } from "../../../lib/logging/app-logger";
 import { Result } from "../../../lib/result/result";
 import { ResultError } from "../../../lib/result/result-error";
 import { SortDirection } from "../../../lib/sorting/sort-direction";
@@ -31,6 +32,9 @@ export class SortGearListFeature implements IFeature<SortGearListRequest, Result
             return Result.success(sortedResults);
         } catch (error) {
             const ex = error as Error;
+
+            AppLogger.instance.error("Error while sorting gear list", ex);
+
             return Result.failure(
                 new ResultError(
                     ErrorCode.QueryError,
