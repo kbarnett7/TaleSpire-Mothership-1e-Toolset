@@ -9,11 +9,14 @@ import { AppEventListener } from "./app-event-listener-interface";
  * can register callbacks for specific event types.
  */
 export class EventBus {
-    private _eventBus: EventTarget;
     private static _instance: EventBus;
+
+    private _eventBus: EventTarget;
+    private _callbackMap: Map<string, Map<AppEventListener, EventListenerOrEventListenerObject>>;
 
     private constructor() {
         this._eventBus = new EventTarget();
+        this._callbackMap = new Map();
     }
 
     /**
@@ -57,10 +60,41 @@ export class EventBus {
      * The callback receives the `AppEvent` object as its argument.
      */
     public register(type: string, callback: AppEventListener) {
-        this._eventBus.addEventListener(type, (event: Event) => {
+        const wrappedCallback: EventListenerOrEventListenerObject = (event: Event) => {
             const customEvent = event as CustomEvent<AppEvent>;
             callback(customEvent.detail);
-        });
+        };
+
+        if (!this._callbackMap.has(type)) {
+            this._callbackMap.set(type, new Map());
+        }
+
+        this._callbackMap.get(type)!.set(callback, wrappedCallback);
+
+        this._eventBus.addEventListener(type, wrappedCallback);
+
+        // this._eventBus.addEventListener(type, (event: Event) => {
+        //     const customEvent = event as CustomEvent<AppEvent>;
+        //     callback(customEvent.detail);
+        // });
+    }
+
+    public unregister(type: string, callback: AppEventListener) {
+        const typeMap = this._callbackMap.get(type);
+
+        if (!typeMap) return;
+
+        const wrappedCallback = typeMap.get(callback);
+
+        if (!wrappedCallback) return;
+
+        this._eventBus.removeEventListener(type, wrappedCallback);
+
+        typeMap.delete(callback);
+
+        if (typeMap.size === 0) {
+            this._callbackMap.delete(type);
+        }
     }
 
     /**

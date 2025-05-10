@@ -4,6 +4,8 @@ import { EventBus } from "../../lib/events/event-bus";
 import { AppEvent } from "../../lib/events/app-event";
 import { AppErrorEvent } from "../../lib/events/app-error-event";
 import { EventType } from "../../lib/events/event-type";
+import { AppLogger } from "../../lib/logging/app-logger";
+import { AppEventListener } from "../../lib/events/app-event-listener-interface";
 
 export class ErrorPanelComponent extends BaseComponent {
     private readonly errorPanelId = "errorPanel";
@@ -16,21 +18,23 @@ export class ErrorPanelComponent extends BaseComponent {
     public connectedCallback() {
         this.render(html);
 
-        this.registerShowErrorEvent();
-        this.registerHideErrorEvent();
+        EventBus.instance.register(EventType.ErrorPanelShow, this.onShowErrorEvent);
+        EventBus.instance.register(EventType.ErrorPanelHide, this.onHideErrorEvent);
     }
 
-    private registerShowErrorEvent() {
-        EventBus.instance.register(EventType.ErrorPanelShow, (event: AppEvent) => {
-            this.handleShowEvent(event as AppErrorEvent);
-        });
+    public disconnectedCallback() {
+        AppLogger.instance.debug("disconnectedCallback - ErrorPanelComponent");
+        EventBus.instance.unregister(EventType.ErrorPanelShow, this.onShowErrorEvent);
+        EventBus.instance.unregister(EventType.ErrorPanelHide, this.onHideErrorEvent);
     }
 
-    private registerHideErrorEvent() {
-        EventBus.instance.register(EventType.ErrorPanelHide, (event: AppEvent) => {
-            this.handleHideEvent(event);
-        });
-    }
+    private onShowErrorEvent: AppEventListener = (event: AppEvent) => {
+        this.handleShowEvent(event as AppErrorEvent);
+    };
+
+    private onHideErrorEvent: AppEventListener = (event: AppEvent) => {
+        this.handleHideEvent(event);
+    };
 
     private handleShowEvent(event: AppErrorEvent) {
         const panel = this.shadow.querySelector(`#${this.errorPanelId}`);

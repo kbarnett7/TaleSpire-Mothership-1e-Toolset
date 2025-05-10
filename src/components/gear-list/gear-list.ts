@@ -27,6 +27,7 @@ import { GearArmorFormComponent } from "../gear-armor-form/gear-armor-form";
 import { ArmorItem } from "../../features/gear/armor-item";
 import { WeaponItem } from "../../features/gear/weapon-item";
 import { GearWeaponFormComponent } from "../gear-weapon-form/gear-weapon-form";
+import { AppEventListener } from "../../lib/events/app-event-listener-interface";
 
 export class GearListComponent extends BaseComponent {
     private getAllGearFeature: GetAllGearFeature;
@@ -56,7 +57,11 @@ export class GearListComponent extends BaseComponent {
         this.populateTableHeaderRow();
         this.populateGearTable();
 
-        this.registerGearCategoryChangedEvent();
+        EventBus.instance.register(GearFilterChangedEvent.name, this.onGearCategoryChangedEvent);
+    }
+
+    public disconnectedCallback() {
+        EventBus.instance.unregister(GearFilterChangedEvent.name, this.onGearCategoryChangedEvent);
     }
 
     private populateTableHeaderRow() {
@@ -139,11 +144,9 @@ export class GearListComponent extends BaseComponent {
         return row;
     }
 
-    private registerGearCategoryChangedEvent() {
-        EventBus.instance.register(GearFilterChangedEvent.name, (event: AppEvent) => {
-            this.filterGear(event as GearFilterChangedEvent);
-        });
-    }
+    private onGearCategoryChangedEvent: AppEventListener = (event: AppEvent) => {
+        this.filterGear(event as GearFilterChangedEvent);
+    };
 
     private filterGear(event: GearFilterChangedEvent) {
         const feature = new FilterGearListFeature(this.unitOfWork);

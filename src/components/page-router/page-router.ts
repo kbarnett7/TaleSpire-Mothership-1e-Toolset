@@ -6,6 +6,7 @@ import { EventBus } from "../../lib/events/event-bus";
 import { ChangePageEvent } from "../../lib/events/change-page-event";
 import { AppEvent } from "../../lib/events/app-event";
 import { UpdatePageTitleEvent } from "../../lib/events/update-page-title-event";
+import { AppEventListener } from "../../lib/events/app-event-listener-interface";
 
 export class PageRouterComponent extends BaseComponent {
     private _currentPage: PageRouteData = new PageRouteData("", "", "");
@@ -29,19 +30,26 @@ export class PageRouterComponent extends BaseComponent {
         this.currentPage = this.getCurrentPageFromUrl();
         this.renderCorrectPage();
 
-        // popstate is fired when the user hits the browser's "forward" and "back" buttons
-        EventBus.instance.registerBrowserEvent("popstate", (event) => {
-            const popStateEvent = event as PopStateEvent;
-
-            if (popStateEvent.state) {
-                this.currentPage = popStateEvent.state;
-            } else {
-                this.currentPage = PageRouterService.instance.getPageByTitle(PageRouterService.homePage);
-            }
-
-            this.renderCorrectPage();
-        });
+        EventBus.instance.registerBrowserEvent("popstate", this.onPopStateEvent);
     }
+
+    public disconnectedCallback() {
+        EventBus.instance.unregisterBrowserEvent("popstate", this.onPopStateEvent);
+        EventBus.instance.unregister(ChangePageEvent.name, this.onChangePageEvent);
+    }
+
+    private onPopStateEvent = (event: Event) => {
+        // popstate is fired when the user hits the browser's "forward" and "back" buttons
+        const popStateEvent = event as PopStateEvent;
+
+        if (popStateEvent.state) {
+            this.currentPage = popStateEvent.state;
+        } else {
+            this.currentPage = PageRouterService.instance.getPageByTitle(PageRouterService.homePage);
+        }
+
+        this.renderCorrectPage();
+    };
 
     private getCurrentPageFromUrl(): PageRouteData {
         return PageRouterService.instance.getPageByPath(window.location.pathname);
@@ -52,20 +60,23 @@ export class PageRouterComponent extends BaseComponent {
         const previousPage = this.shadow.getElementById(elementId);
 
         if (previousPage) {
+            EventBus.instance.unregister(ChangePageEvent.name, this.onChangePageEvent);
             this.shadow.removeChild(previousPage);
         }
 
         const newPage = document.createElement(this.currentPage.component);
         newPage.id = elementId;
 
-        EventBus.instance.register(ChangePageEvent.name, (event: AppEvent) => {
-            this.gotoNewPage((event as ChangePageEvent).page);
-        });
+        EventBus.instance.register(ChangePageEvent.name, this.onChangePageEvent);
 
         this.shadow.appendChild(newPage);
 
         document.title = `${this.currentPage.title} - TaleSpire Mothership 1e Toolset`;
     }
+
+    private onChangePageEvent: AppEventListener = (event: AppEvent) => {
+        this.gotoNewPage((event as ChangePageEvent).page);
+    };
 
     private gotoNewPage(newPage: PageRouteData) {
         this.currentPage = newPage;
