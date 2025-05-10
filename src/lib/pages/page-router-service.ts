@@ -43,8 +43,8 @@ export class PageRouterService {
         );
 
         this._pages.set(
-            PageRouterService.gearPage,
-            new PageRouteData("/codex", "codex-page", PageRouterService.gearPage)
+            PageRouterService.codexPage,
+            new PageRouteData("/codex", "codex-page", PageRouterService.codexPage)
         );
 
         this._pages.set(

@@ -18,6 +18,11 @@ export class FooterBarComponent extends BaseComponent {
 
         EventBus.instance.dispatch(changePageEvent);
     }
+
+    private openMoreOptionsMenu() {
+        const moreOptionsMenu = this.shadow.querySelector("#moreOptionsMenu") as HTMLDivElement;
+        moreOptionsMenu.classList.remove("hidden");
+    }
 }
 
 customElements.define("footer-bar", FooterBarComponent);
