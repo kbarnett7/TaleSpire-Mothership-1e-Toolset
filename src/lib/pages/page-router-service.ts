@@ -3,8 +3,9 @@ import { PageRouteData } from "./page-route-data";
 export class PageRouterService {
     public static charactersPage: string = "Characters";
     public static npcsPage: string = "NPCs";
-    public static aboutPage: string = "About";
     public static gearPage: string = "Gear";
+    public static codexPage: string = "Codex";
+    public static aboutPage: string = "About";
 
     private static _instance: PageRouterService;
 
@@ -39,6 +40,11 @@ export class PageRouterService {
         this._pages.set(
             PageRouterService.gearPage,
             new PageRouteData("/gear", "gear-page", PageRouterService.gearPage)
+        );
+
+        this._pages.set(
+            PageRouterService.gearPage,
+            new PageRouteData("/codex", "codex-page", PageRouterService.gearPage)
         );
 
         this._pages.set(
