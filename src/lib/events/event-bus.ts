@@ -9,11 +9,14 @@ import { AppEventListener } from "./app-event-listener-interface";
  * can register callbacks for specific event types.
  */
 export class EventBus {
-    private _eventBus: EventTarget;
     private static _instance: EventBus;
+
+    private _eventBus: EventTarget;
+    private _callbackMap: Map<string, Map<AppEventListener, EventListenerOrEventListenerObject>>;
 
     private constructor() {
         this._eventBus = new EventTarget();
+        this._callbackMap = new Map();
     }
 
     /**
@@ -57,10 +60,61 @@ export class EventBus {
      * The callback receives the `AppEvent` object as its argument.
      */
     public register(type: string, callback: AppEventListener) {
-        this._eventBus.addEventListener(type, (event: Event) => {
+        const wrappedCallback: EventListenerOrEventListenerObject = (event: Event) => {
             const customEvent = event as CustomEvent<AppEvent>;
             callback(customEvent.detail);
-        });
+        };
+
+        if (!this._callbackMap.has(type)) {
+            this._callbackMap.set(type, new Map());
+        }
+
+        this._callbackMap.get(type)!.set(callback, wrappedCallback);
+
+        this._eventBus.addEventListener(type, wrappedCallback);
+    }
+
+    /**
+     * Unregisters a listener for a specific event type.
+     *
+     * This method removes a previously registered event listener for custom application events.
+     * It ensures that the listener is no longer invoked when the specified event type is dispatched.
+     *
+     * @param {string} type - The type of the event to stop listening for.
+     * @param {AppEventListener} callback - The callback function that was previously registered with `register`.
+     * This must be the same reference as the one used during registration.
+     *
+     * @remarks
+     * - If the `type` or `callback` does not match a previously registered listener, the method will have no effect.
+     * - This ensures that only the intended listener is removed.
+     * - If all listeners for a specific event type are removed, the internal mapping for that type is also cleaned up.
+     *
+     * @example
+     * // Registering an event listener
+     * const onCustomEvent: AppEventListener = (event: AppEvent) => {
+     *     console.log("Custom event received:", event);
+     * };
+     * EventBus.instance.register("customEvent", onCustomEvent);
+     *
+     * // Unregistering the event listener
+     * EventBus.instance.unregister("customEvent", onCustomEvent);
+     */
+    public unregister(type: string, callback: AppEventListener) {
+        const typeMap = this._callbackMap.get(type);
+
+        if (!typeMap) return;
+
+        const wrappedCallback = typeMap.get(callback);
+
+        if (!wrappedCallback) return;
+
+        this._eventBus.removeEventListener(type, wrappedCallback);
+
+        typeMap.delete(callback);
+
+        if (typeMap.size === 0) {
+            this._callbackMap.delete(type);
+        }
     }
 
     /**

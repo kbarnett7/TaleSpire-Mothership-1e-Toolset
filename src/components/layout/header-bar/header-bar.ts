@@ -5,6 +5,7 @@ import { AppEvent } from "../../../lib/events/app-event";
 import { UpdatePageTitleEvent } from "../../../lib/events/update-page-title-event";
 import { ChangePageEvent } from "../../../lib/events/change-page-event";
 import { PageRouterService } from "../../../lib/pages/page-router-service";
+import { AppEventListener } from "../../../lib/events/app-event-listener-interface";
 
 export class HeaderBarComponent extends BaseComponent {
     constructor() {
@@ -14,10 +15,16 @@ export class HeaderBarComponent extends BaseComponent {
     public connectedCallback() {
         this.render(html);
 
-        EventBus.instance.register(UpdatePageTitleEvent.name, (event: AppEvent) => {
-            this.updatePageTitle((event as UpdatePageTitleEvent).newTitle);
-        });
+        EventBus.instance.register(UpdatePageTitleEvent.name, this.onUpdatePageTitle);
     }
+
+    public disconnectedCallback() {
+        EventBus.instance.unregister(UpdatePageTitleEvent.name, this.onUpdatePageTitle);
+    }
+
+    private onUpdatePageTitle: AppEventListener = (event: AppEvent) => {
+        this.updatePageTitle((event as UpdatePageTitleEvent).newTitle);
+    };
 
     private updatePageTitle(updatedTitle: string) {
         const pageTitleElement = this.shadow.querySelector("#pageTitle") as HTMLHeadElement;
