@@ -17,9 +17,6 @@ import { SortState } from "../../lib/sorting/sort-state";
 import { SortDirection } from "../../lib/sorting/sort-direction";
 import { SortGearListFeature } from "../../features/gear/sort-gear-list/sort-gear-list-feature";
 import { SortGearListRequest } from "../../features/gear/sort-gear-list/sort-gear-list-request";
-import { AppLogger } from "../../lib/logging/app-logger";
-import { OpenGearModalEvent } from "../../lib/events/open-gear-modal-event";
-import { SelectedGearItem } from "../../features/gear/selected-gear-item";
 import { GearEquipmentFormComponent } from "../gear-equipment-form/gear-equipment-form";
 import { ModalDialogComponent } from "../modal-dialog/modal-dialog";
 import { EquipmentItem } from "../../features/gear/equipment-item";
@@ -39,14 +36,12 @@ export class GearListComponent extends BaseComponent {
         SortGearListFeature.fieldDescription,
     ];
     private sortState: SortState = new SortState(SortGearListFeature.fieldId);
-    private selectedGearItem: SelectedGearItem;
     private unitOfWork: IUnitOfWork;
 
     constructor() {
         super();
         this.unitOfWork = appInjector.injectClass(UnitOfWork);
         this.getAllGearFeature = new GetAllGearFeature(this.unitOfWork);
-        this.selectedGearItem = new SelectedGearItem();
     }
 
     public connectedCallback() {
