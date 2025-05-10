@@ -4,7 +4,6 @@ import { EventBus } from "../../lib/events/event-bus";
 import { AppEvent } from "../../lib/events/app-event";
 import { AppErrorEvent } from "../../lib/events/app-error-event";
 import { EventType } from "../../lib/events/event-type";
-import { AppLogger } from "../../lib/logging/app-logger";
 import { AppEventListener } from "../../lib/events/app-event-listener-interface";
 
 export class ErrorPanelComponent extends BaseComponent {
@@ -23,7 +22,6 @@ export class ErrorPanelComponent extends BaseComponent {
     }
 
     public disconnectedCallback() {
-        AppLogger.instance.debug("disconnectedCallback - ErrorPanelComponent");
         EventBus.instance.unregister(EventType.ErrorPanelShow, this.onShowErrorEvent);
         EventBus.instance.unregister(EventType.ErrorPanelHide, this.onHideErrorEvent);
     }
