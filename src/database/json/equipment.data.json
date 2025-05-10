@@ -58,5 +58,65 @@
         "name": "Electronic Tool Set",
         "cost": 100,
         "description": "A full set of tools for doing detailed repair or construction work on electronics."
+    },
+    {
+        "id": 11,
+        "name": "Emergency Beacon",
+        "cost": 2000,
+        "description": "A small device that sends up a flare and then emits a loud beep every few seconds. Additionally, sends out a call on all radio channels to ships or vehicles in the area, but can be blocked by a radio jammer."
+    },
+    {
+        "id": 12,
+        "name": "Exoloader",
+        "cost": 100000,
+        "description": "Open-air mechanical exoskeleton used for heavy lifting (up to 5000kg). Loader claws deal 1 Wound. User can only wear Standard Crew Attire or Standard Battle Dress while operating. Battery operated (48 hours of use)."
+    },
+    {
+        "id": 13,
+        "name": "Explosives & Detonator",
+        "cost": 500,
+        "description": "Explosive charge powerful enough to blow open an airlock. All organisms in Close Range must make a Body Save or take a Wound (Explosive). Detonator works at Long Range, but can be blocked by a radio jammer."
+    },
+    {
+        "id": 14,
+        "name": "First Aid Kit",
+        "cost": 75,
+        "description": "An assortment of dressings and treatments to help stop bleeding, bandage cuts, and treat other minor injuries."
+    },
+    {
+        "id": 15,
+        "name": "Flashlight",
+        "cost": 30,
+        "description": "Handheld or shoulder mounted. Illuminates 10m ahead of the user."
+    },
+    {
+        "id": 16,
+        "name": "Foldable Stretcher",
+        "cost": 150,
+        "description": "Portable stretcher that can fit within a rucksack. Allows the user to safely strap down the patient and carry them to a location where their wounds can be better treated. Unfolds to roughly 2m."
+    },
+    {
+        "id": 17,
+        "name": "Geiger Counter",
+        "cost": 20,
+        "description": "Detects radiation and displays radiation levels."
+    },
+    {
+        "id": 18,
+        "name": "Heads-Up Display (HUD)",
+        "cost": 100,
+        "description": "Often worn by marines, the HUD allows the wearer to see through the body cams of others in their unit, and connect to any smart-link upgraded weapon."
+    },
+    {
+        "id": 19,
+        "name": "Infrared Goggles",
+        "cost": 1500,
+        "description": "Allows the wearer to see heat signatures, sometimes up to several hours old. Add night vision (+300cr)."
+    },
+    {
+        "id": 20,
+        "name": "Jetpack",
+        "cost": 75000,
+        "description": "Allows wearer to fly up to 100m high and up to a speed of 100km/hr for 2 hours on a tank of fuel. Deals 1d100[+] DMG if destroyed. Fuel can be refilled for 200cr."
     }
 ]

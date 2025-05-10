@@ -25,6 +25,8 @@ import { GetGearByIdRequest } from "../../features/gear/get-gear-by-id/get-gear-
 import { GearItem } from "../../features/gear/gear-item";
 import { GearArmorFormComponent } from "../gear-armor-form/gear-armor-form";
 import { ArmorItem } from "../../features/gear/armor-item";
+import { WeaponItem } from "../../features/gear/weapon-item";
+import { GearWeaponFormComponent } from "../gear-weapon-form/gear-weapon-form";
 
 export class GearListComponent extends BaseComponent {
     private getAllGearFeature: GetAllGearFeature;
@@ -176,26 +178,37 @@ export class GearListComponent extends BaseComponent {
 
         EventBus.instance.dispatch(new AppEvent(EventType.ErrorPanelHide));
 
-        if (gearItem.category === ArmorItem.gearCategory) {
-            this.setArmorForm(gearItem.id);
-        } else if (gearItem.category === EquipmentItem.gearCategory) {
-            this.setEquipmentForm(gearItem.id);
-        }
+        this.populateAppropriateGearItemForm(gearItem);
 
         (modal as ModalDialogComponent).openModal();
     }
 
+    private populateAppropriateGearItemForm(gearItem: GearListItem) {
+        if (gearItem.category === ArmorItem.gearCategory) {
+            this.setArmorForm(gearItem.id);
+        } else if (gearItem.category === EquipmentItem.gearCategory) {
+            this.setEquipmentForm(gearItem.id);
+        } else if (gearItem.category === WeaponItem.gearCategory) {
+            this.setWeaponForm(gearItem.id);
+        }
+    }
+
     private setArmorForm(id: number) {
-        const equipmentForm = this.shadow.querySelector(`#gearArmorForm`) as GearArmorFormComponent;
-        equipmentForm.setEquipmentItem(this.getSelectedEquipmentItem(id, ArmorItem.gearCategory) as ArmorItem);
+        const armorForm = this.shadow.querySelector(`#gearArmorForm`) as GearArmorFormComponent;
+        armorForm.setEquipmentItem(this.getSelectedGearItem(id, ArmorItem.gearCategory) as ArmorItem);
     }
 
     private setEquipmentForm(id: number) {
         const equipmentForm = this.shadow.querySelector(`#gearEquipmentForm`) as GearEquipmentFormComponent;
-        equipmentForm.setEquipmentItem(this.getSelectedEquipmentItem(id, EquipmentItem.gearCategory) as EquipmentItem);
+        equipmentForm.setEquipmentItem(this.getSelectedGearItem(id, EquipmentItem.gearCategory) as EquipmentItem);
     }
 
-    private getSelectedEquipmentItem(id: number, category: string): GearItem {
+    private setWeaponForm(id: number) {
+        const weaponForm = this.shadow.querySelector(`#gearWeaponForm`) as GearWeaponFormComponent;
+        weaponForm.setEquipmentItem(this.getSelectedGearItem(id, WeaponItem.gearCategory) as WeaponItem);
+    }
+
+    private getSelectedGearItem(id: number, category: string): GearItem {
         const feature = new GetGearByIdFeature(this.unitOfWork);
         const request = new GetGearByIdRequest(id, category);
 
