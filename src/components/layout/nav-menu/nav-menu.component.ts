@@ -13,7 +13,7 @@ export class NavMenuComponent extends BaseComponent {
         this.render(html);
     }
 
-    private loadPageComponent(page: string) {
+    private navigateToPage(page: string) {
         const changePageEvent = new ChangePageEvent(PageRouterService.instance.getPageByTitle(page));
 
         EventBus.instance.dispatch(changePageEvent);
