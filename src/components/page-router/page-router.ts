@@ -5,9 +5,20 @@ import { PageRouterService } from "../../lib/pages/page-router-service";
 import { EventBus } from "../../lib/events/event-bus";
 import { ChangePageEvent } from "../../lib/events/change-page-event";
 import { AppEvent } from "../../lib/events/app-event";
+import { UpdatePageTitleEvent } from "../../lib/events/update-page-title-event";
 
 export class PageRouterComponent extends BaseComponent {
-    private currentPage: PageRouteData;
+    private _currentPage: PageRouteData = new PageRouteData("", "", "");
+
+    private get currentPage(): PageRouteData {
+        return this._currentPage;
+    }
+
+    private set currentPage(value: PageRouteData) {
+        this._currentPage = value;
+
+        EventBus.instance.dispatch(new UpdatePageTitleEvent(this.currentPage.title));
+    }
 
     constructor() {
         super();

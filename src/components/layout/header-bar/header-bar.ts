@@ -1,8 +1,8 @@
 import html from "./header-bar.html";
 import { BaseComponent } from "../../base.component";
 import { EventBus } from "../../../lib/events/event-bus";
-import { ChangePageEvent } from "../../../lib/events/change-page-event";
 import { AppEvent } from "../../../lib/events/app-event";
+import { UpdatePageTitleEvent } from "../../../lib/events/update-page-title-event";
 
 export class HeaderBarComponent extends BaseComponent {
     constructor() {
@@ -12,8 +12,8 @@ export class HeaderBarComponent extends BaseComponent {
     public connectedCallback() {
         this.render(html);
 
-        EventBus.instance.register(ChangePageEvent.name, (event: AppEvent) => {
-            this.updatePageTitle((event as ChangePageEvent).page.title);
+        EventBus.instance.register(UpdatePageTitleEvent.name, (event: AppEvent) => {
+            this.updatePageTitle((event as UpdatePageTitleEvent).newTitle);
         });
     }
 
