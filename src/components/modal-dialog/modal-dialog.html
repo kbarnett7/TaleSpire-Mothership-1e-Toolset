@@ -3,7 +3,7 @@
     tabindex="-1"
     aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full h-screen bg-black/30"
-    onclick="this.onCloseDialog(event)"
+    onclick="this.onCloseModal(event)"
 >
     <div class="relative p-4 w-full max-w-2xl max-h-full" onclick="event.stopPropagation()">
         <div class="relative rounded-lg shadow-sm bg-gray-300">
@@ -13,7 +13,7 @@
                 <button
                     type="button"
                     class="text-white bg-transparent hover:bg-white hover:text-black rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center transition duration-150 ease-in-out cursor-pointer"
-                    onclick="this.onCloseDialog(event)"
+                    onclick="this.onCloseModal(event)"
                 >
                     <svg
                         class="w-3 h-3"
@@ -42,7 +42,7 @@
             <!-- Modal footer -->
             <hr class="mx-3 bg-gray-900 border-1" />
             <div class="flex items-center justify-center p-2">
-                <primary-button class="my-2" onclick="this.onCloseDialog(event)">Close</primary-button>
+                <primary-button class="my-2" onclick="this.onCloseModal(event)">Close</primary-button>
             </div>
         </div>
     </div>

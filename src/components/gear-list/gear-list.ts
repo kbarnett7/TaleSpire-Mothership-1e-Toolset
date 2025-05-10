@@ -21,6 +21,10 @@ import { AppLogger } from "../../lib/logging/app-logger";
 import { OpenGearModalEvent } from "../../lib/events/open-gear-modal-event";
 import { SelectedGearItem } from "../../features/gear/selected-gear-item";
 import { GearEquipmentForm } from "../gear-equipment-form/gear-equipment-form";
+import { ModalDialogComponent } from "../modal-dialog/modal-dialog";
+import { EquipmentItem } from "../../features/gear/equipment-item";
+import { GetGearByIdFeature } from "../../features/gear/get-gear-by-id/get-gear-by-id-feature";
+import { GetGearByIdRequest } from "../../features/gear/get-gear-by-id/get-gear-by-id-request";
 
 export class GearListComponent extends BaseComponent {
     private getAllGearFeature: GetAllGearFeature;
@@ -165,17 +169,19 @@ export class GearListComponent extends BaseComponent {
     }
 
     public onTableDataRowClick(gearItem: GearListItem) {
-        EventBus.instance.dispatch(new OpenGearModalEvent(gearItem.id, gearItem.category));
-
-        this.selectedGearItem = new SelectedGearItem(gearItem.id, gearItem.category);
-
         const equipmentForm = this.shadow.querySelector("#gearEquipmentForm") as GearEquipmentForm;
+        const equipmentModal = this.shadow.querySelector("#equipmentModal") as ModalDialogComponent;
 
-        // Approach 1: set attribute and have the component listen for change
-        //equipmentForm.setAttribute("selected-gear-item", JSON.stringify(this.selectedGearItem));
+        equipmentForm.setEquipmentItem(this.getEquipmentItem(gearItem.id));
 
-        // Approach 2: directly call a public method of the component
-        equipmentForm.onGearEquipmentItemChange(this.selectedGearItem);
+        equipmentModal.openModal();
+    }
+
+    private getEquipmentItem(id: number): EquipmentItem {
+        const feature = new GetGearByIdFeature(this.unitOfWork);
+        const request = new GetGearByIdRequest(id, EquipmentItem.gearCategory);
+
+        return feature.handle(request) as EquipmentItem;
     }
 
     public onTableHeaderClick(header: string) {
