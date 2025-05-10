@@ -20,11 +20,14 @@ import { SortGearListRequest } from "../../features/gear/sort-gear-list/sort-gea
 import { AppLogger } from "../../lib/logging/app-logger";
 import { OpenGearModalEvent } from "../../lib/events/open-gear-modal-event";
 import { SelectedGearItem } from "../../features/gear/selected-gear-item";
-import { GearEquipmentForm } from "../gear-equipment-form/gear-equipment-form";
+import { GearEquipmentFormComponent } from "../gear-equipment-form/gear-equipment-form";
 import { ModalDialogComponent } from "../modal-dialog/modal-dialog";
 import { EquipmentItem } from "../../features/gear/equipment-item";
 import { GetGearByIdFeature } from "../../features/gear/get-gear-by-id/get-gear-by-id-feature";
 import { GetGearByIdRequest } from "../../features/gear/get-gear-by-id/get-gear-by-id-request";
+import { GearItem } from "../../features/gear/gear-item";
+import { GearArmorFormComponent } from "../gear-armor-form/gear-armor-form";
+import { ArmorItem } from "../../features/gear/armor-item";
 
 export class GearListComponent extends BaseComponent {
     private getAllGearFeature: GetAllGearFeature;
@@ -169,19 +172,39 @@ export class GearListComponent extends BaseComponent {
     }
 
     public onTableDataRowClick(gearItem: GearListItem) {
-        const equipmentForm = this.shadow.querySelector("#gearEquipmentForm") as GearEquipmentForm;
-        const equipmentModal = this.shadow.querySelector("#equipmentModal") as ModalDialogComponent;
+        const modal = this.shadow.querySelector(`#gear${gearItem.category}Modal`);
 
-        equipmentForm.setEquipmentItem(this.getEquipmentItem(gearItem.id));
+        if (!modal) {
+            this.dispatchErrorEvent(`Modal \"gear${gearItem.category}Modal\" not found.`);
+            return;
+        }
 
-        equipmentModal.openModal();
+        EventBus.instance.dispatch(new AppEvent(EventType.ErrorPanelHide));
+
+        if (gearItem.category === ArmorItem.gearCategory) {
+            this.setArmorForm(gearItem.id);
+        } else if (gearItem.category === EquipmentItem.gearCategory) {
+            this.setEquipmentForm(gearItem.id);
+        }
+
+        (modal as ModalDialogComponent).openModal();
     }
 
-    private getEquipmentItem(id: number): EquipmentItem {
-        const feature = new GetGearByIdFeature(this.unitOfWork);
-        const request = new GetGearByIdRequest(id, EquipmentItem.gearCategory);
+    private setArmorForm(id: number) {
+        const equipmentForm = this.shadow.querySelector(`#gearArmorForm`) as GearArmorFormComponent;
+        equipmentForm.setEquipmentItem(this.getSelectedEquipmentItem(id, ArmorItem.gearCategory) as ArmorItem);
+    }
 
-        return feature.handle(request) as EquipmentItem;
+    private setEquipmentForm(id: number) {
+        const equipmentForm = this.shadow.querySelector(`#gearEquipmentForm`) as GearEquipmentFormComponent;
+        equipmentForm.setEquipmentItem(this.getSelectedEquipmentItem(id, EquipmentItem.gearCategory) as EquipmentItem);
+    }
+
+    private getSelectedEquipmentItem(id: number, category: string): GearItem {
+        const feature = new GetGearByIdFeature(this.unitOfWork);
+        const request = new GetGearByIdRequest(id, category);
+
+        return feature.handle(request);
     }
 
     public onTableHeaderClick(header: string) {
