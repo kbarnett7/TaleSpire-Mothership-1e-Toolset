@@ -23,7 +23,7 @@ export class PageRouterComponent extends BaseComponent {
 
     constructor() {
         super();
-        this.currentPage = PageRouterService.instance.getPageByTitle(PageRouterService.homePage);
+        this.currentPage = PageRouterService.instance.getPageByTitle(PageRouterService.charactersPage);
     }
 
     public connectedCallback() {
@@ -45,7 +45,7 @@ export class PageRouterComponent extends BaseComponent {
         if (popStateEvent.state) {
             this.currentPage = popStateEvent.state;
         } else {
-            this.currentPage = PageRouterService.instance.getPageByTitle(PageRouterService.homePage);
+            this.currentPage = PageRouterService.instance.getPageByTitle(PageRouterService.charactersPage);
         }
 
         this.renderCorrectPage();

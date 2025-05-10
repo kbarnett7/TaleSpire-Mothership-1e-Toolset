@@ -1,7 +1,8 @@
 import { PageRouteData } from "./page-route-data";
 
 export class PageRouterService {
-    public static homePage: string = "Home";
+    public static charactersPage: string = "Characters";
+    public static npcsPage: string = "NPCs";
     public static aboutPage: string = "About";
     public static gearPage: string = "Gear";
 
@@ -13,7 +14,7 @@ export class PageRouterService {
     private constructor() {
         this._pages = new Map<string, PageRouteData>();
         this.populatePageMetaDataMap();
-        this._defaultPage = this.getPageByTitle(PageRouterService.homePage);
+        this._defaultPage = this.getPageByTitle(PageRouterService.charactersPage);
     }
 
     public static get instance(): PageRouterService {
@@ -25,14 +26,24 @@ export class PageRouterService {
     }
 
     private populatePageMetaDataMap() {
-        this._pages.set(PageRouterService.homePage, new PageRouteData("/", "home-page", PageRouterService.homePage));
         this._pages.set(
-            PageRouterService.aboutPage,
-            new PageRouteData("/about", "about-page", PageRouterService.aboutPage)
+            PageRouterService.charactersPage,
+            new PageRouteData("/", "characters-page", PageRouterService.charactersPage)
         );
+
+        this._pages.set(
+            PageRouterService.npcsPage,
+            new PageRouteData("/npcs", "npcs-page", PageRouterService.npcsPage)
+        );
+
         this._pages.set(
             PageRouterService.gearPage,
             new PageRouteData("/gear", "gear-page", PageRouterService.gearPage)
+        );
+
+        this._pages.set(
+            PageRouterService.aboutPage,
+            new PageRouteData("/about", "about-page", PageRouterService.aboutPage)
         );
     }
 
