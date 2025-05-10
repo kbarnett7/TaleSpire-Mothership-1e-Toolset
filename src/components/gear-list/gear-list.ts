@@ -19,6 +19,8 @@ import { SortGearListFeature } from "../../features/gear/sort-gear-list/sort-gea
 import { SortGearListRequest } from "../../features/gear/sort-gear-list/sort-gear-list-request";
 import { AppLogger } from "../../lib/logging/app-logger";
 import { OpenGearModalEvent } from "../../lib/events/open-gear-modal-event";
+import { SelectedGearItem } from "../../features/gear/selected-gear-item";
+import { GearEquipmentForm } from "../gear-equipment-form/gear-equipment-form";
 
 export class GearListComponent extends BaseComponent {
     private getAllGearFeature: GetAllGearFeature;
@@ -30,12 +32,14 @@ export class GearListComponent extends BaseComponent {
         SortGearListFeature.fieldDescription,
     ];
     private sortState: SortState = new SortState(SortGearListFeature.fieldId);
+    private selectedGearItem: SelectedGearItem;
     private unitOfWork: IUnitOfWork;
 
     constructor() {
         super();
         this.unitOfWork = appInjector.injectClass(UnitOfWork);
         this.getAllGearFeature = new GetAllGearFeature(this.unitOfWork);
+        this.selectedGearItem = new SelectedGearItem();
     }
 
     public connectedCallback() {
@@ -162,6 +166,16 @@ export class GearListComponent extends BaseComponent {
 
     public onTableDataRowClick(gearItem: GearListItem) {
         EventBus.instance.dispatch(new OpenGearModalEvent(gearItem.id, gearItem.category));
+
+        this.selectedGearItem = new SelectedGearItem(gearItem.id, gearItem.category);
+
+        const equipmentForm = this.shadow.querySelector("#gearEquipmentForm") as GearEquipmentForm;
+
+        // Approach 1: set attribute and have the component listen for change
+        //equipmentForm.setAttribute("selected-gear-item", JSON.stringify(this.selectedGearItem));
+
+        // Approach 2: directly call a public method of the component
+        equipmentForm.onGearEquipmentItemChange(this.selectedGearItem);
     }
 
     public onTableHeaderClick(header: string) {
