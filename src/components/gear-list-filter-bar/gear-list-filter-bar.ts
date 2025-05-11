@@ -48,6 +48,8 @@ export class GearListFilterBarComponent extends BaseComponent {
     }
 
     private onSearchBoxKeyUp(event: KeyboardEvent) {
+        if (event.shiftKey === true) return;
+
         this.currentSearch = (event.target as HTMLInputElement).value;
 
         const appEvent = new GearFilterChangedEvent(this.activeCategory, this.currentSearch);

@@ -308,4 +308,25 @@ describe("FilterGearListFeature", () => {
             expect(item.name.toLowerCase()).toMatch(searchRegEx);
         });
     });
+
+    it("By item name with a regular expression character in it returns gear list items with the regular expression character", () => {
+        // Arrange
+        request.category = GearItem.gearCategory;
+        request.search = "(";
+        const searchRegEx = new RegExp(`^.*(${request.search.replace("(", "\\$&")})+.*$`);
+
+        // Act
+        const result: Result<GearListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(2);
+
+        const gear = result.value ?? [];
+
+        gear.forEach((item) => {
+            expect(item.name.toLowerCase()).toMatch(searchRegEx);
+        });
+    });
 });
