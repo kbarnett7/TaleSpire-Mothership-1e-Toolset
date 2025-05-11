@@ -21,7 +21,7 @@ export class GearListFilterBarComponent extends BaseComponent {
         this.render(html);
     }
 
-    public onCategoryButtonClick(event: MouseEvent) {
+    private onCategoryButtonClick(event: MouseEvent) {
         const target = event.target as HTMLButtonElement;
 
         this.activeCategory = target.id.replace("category", "");
@@ -30,10 +30,14 @@ export class GearListFilterBarComponent extends BaseComponent {
 
         EventBus.instance.dispatch(appEvent);
 
+        this.setActiveFilterButton(target.id);
+    }
+
+    private setActiveFilterButton(buttonId: string) {
         const allButtons = this.shadow.querySelectorAll("button");
 
         allButtons.forEach((button) => {
-            if (button.id === target.id) {
+            if (button.id === buttonId) {
                 button.classList.remove(this.inactiveButtonCssClass);
                 button.classList.add(this.activeButtonCssClass);
             } else {
@@ -43,7 +47,7 @@ export class GearListFilterBarComponent extends BaseComponent {
         });
     }
 
-    public onSearchBoxKeyUp(event: KeyboardEvent) {
+    private onSearchBoxKeyUp(event: KeyboardEvent) {
         this.currentSearch = (event.target as HTMLInputElement).value;
 
         const appEvent = new GearFilterChangedEvent(this.activeCategory, this.currentSearch);
