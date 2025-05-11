@@ -16,11 +16,11 @@ export class FooterBarComponent extends BaseComponent {
     public connectedCallback() {
         this.render(html);
 
-        document.addEventListener("click", this.onDocumentMouseClickEvent);
+        EventBus.instance.registerDocumentEvent("click", this.onDocumentMouseClickEvent);
     }
 
     public disconnectedCallback() {
-        document.removeEventListener("click", this.onDocumentMouseClickEvent);
+        EventBus.instance.unregisterDocumentEvent("click", this.onDocumentMouseClickEvent);
     }
 
     private onDocumentMouseClickEvent = (event: Event) => {
