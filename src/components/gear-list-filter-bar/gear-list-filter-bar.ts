@@ -48,6 +48,8 @@ export class GearListFilterBarComponent extends BaseComponent {
     }
 
     private onSearchBoxKeyUp(event: KeyboardEvent) {
+        // Ignore shift key up events, otherwise two GearFilterChangedEvents are triggered when
+        // typing an UPPERCASE character into the search box.
         if (event.shiftKey === true) return;
 
         this.currentSearch = (event.target as HTMLInputElement).value;
