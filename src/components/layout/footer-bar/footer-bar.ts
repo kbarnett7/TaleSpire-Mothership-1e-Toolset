@@ -58,19 +58,19 @@ export class FooterBarComponent extends BaseComponent {
 
         navButtons.forEach((button) => {
             if (button.id === `nav${page}`) {
-                this.setActive(button);
+                this.setNavButtonActive(button);
             } else {
-                this.setInactive(button);
+                this.setNavButtonInactive(button);
             }
         });
     }
 
-    private setActive(button: HTMLButtonElement) {
+    private setNavButtonActive(button: HTMLButtonElement) {
         button.classList.add(this.activeButtonCssClass);
         button.classList.remove(this.inactiveButtonCssClass);
     }
 
-    private setInactive(button: HTMLButtonElement) {
+    private setNavButtonInactive(button: HTMLButtonElement) {
         button.classList.add(this.inactiveButtonCssClass);
         button.classList.remove(this.activeButtonCssClass);
     }
