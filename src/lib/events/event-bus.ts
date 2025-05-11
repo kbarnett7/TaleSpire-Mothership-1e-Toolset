@@ -58,6 +58,26 @@ export class EventBus {
      * @param {string} type - The type of the event to listen for.
      * @param {AppEventListener} callback - The callback function to invoke when the event is dispatched.
      * The callback receives the `AppEvent` object as its argument.
+     *
+     * @remarks
+     * - The `callback` must be a valid `AppEventListener` function.
+     * - Ensure that the listener is unregistered using `unregister` to avoid memory leaks.
+     * - If the same `callback` is registered multiple times for the same `type`, it will be invoked multiple times
+     *   when the event is dispatched.
+     *
+     * @example
+     * // Registering an event listener
+     * const onCustomEvent: AppEventListener = (event: AppEvent) => {
+     *     console.log("Custom event received:", event);
+     * };
+     * EventBus.instance.register("customEvent", onCustomEvent);
+     *
+     * // Dispatching the event
+     * const customEvent = { type: "customEvent", data: { message: "Hello, world!" } };
+     * EventBus.instance.dispatch(customEvent);
+     *
+     * // Unregistering the event listener
+     * EventBus.instance.unregister("customEvent", onCustomEvent);
      */
     public register(type: string, callback: AppEventListener) {
         const wrappedCallback: EventListenerOrEventListenerObject = (event: Event) => {
@@ -115,6 +135,60 @@ export class EventBus {
         if (typeMap.size === 0) {
             this._callbackMap.delete(type);
         }
+    }
+
+    /**
+     * Registers a listener for a specific document-level event type.
+     *
+     * This method allows components to listen for standard DOM events (e.g., "click", "keydown")
+     * or custom events dispatched on the `document` object.
+     *
+     * @param {string} type - The type of the document event to listen for.
+     * @param {EventListenerOrEventListenerObject} callback - The callback function or event listener object
+     * to invoke when the event is triggered. The callback receives the `Event` object as its argument.
+     *
+     * @example
+     * // Registering a document-level click event listener
+     * const onDocumentClick = (event: MouseEvent) => {
+     *     console.log("Document clicked:", event.target);
+     * };
+     * EventBus.instance.registerDocumentEvent("click", onDocumentClick);
+     *
+     * @remarks
+     * - The `callback` must be a valid `EventListener` or `EventListenerObject`.
+     * - Ensure that the listener is unregistered using `unregisterDocumentEvent` to avoid memory leaks.
+     */
+    public registerDocumentEvent(type: string, callback: EventListenerOrEventListenerObject) {
+        document.addEventListener(type, callback);
+    }
+
+    /**
+     * Unregisters a listener for a specific document-level event type.
+     *
+     * This method removes a previously registered event listener for standard DOM events (e.g., "click", "keydown")
+     * or custom events dispatched on the `document` object.
+     *
+     * @param {string} type - The type of the document event to stop listening for.
+     * @param {EventListenerOrEventListenerObject} callback - The callback function or event listener object
+     * that was previously registered with `registerDocumentEvent`. This must be the same reference as the one
+     * used during registration.
+     *
+     * @example
+     * // Registering a document-level click event listener
+     * const onDocumentClick = (event: MouseEvent) => {
+     *     console.log("Document clicked:", event.target);
+     * };
+     * EventBus.instance.registerDocumentEvent("click", onDocumentClick);
+     *
+     * // Unregistering the document-level click event listener
+     * EventBus.instance.unregisterDocumentEvent("click", onDocumentClick);
+     *
+     * @remarks
+     * - If the `callback` provided does not match a previously registered listener, the method will have no effect.
+     * - Ensure that all document-level event listeners are properly unregistered to avoid memory leaks.
+     */
+    public unregisterDocumentEvent(type: string, callback: EventListenerOrEventListenerObject) {
+        document.removeEventListener(type, callback);
     }
 
     /**

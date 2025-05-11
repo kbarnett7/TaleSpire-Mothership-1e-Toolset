@@ -1,7 +1,7 @@
-import html from "./home.component.html";
+import html from "./characters.html";
 import { BaseComponent } from "../../base.component";
 
-export class HomeComponent extends BaseComponent {
+export class CharactersComponent extends BaseComponent {
     constructor() {
         super();
     }
@@ -11,4 +11,4 @@ export class HomeComponent extends BaseComponent {
     }
 }
 
-customElements.define("home-page", HomeComponent);
+customElements.define("characters-page", CharactersComponent);
