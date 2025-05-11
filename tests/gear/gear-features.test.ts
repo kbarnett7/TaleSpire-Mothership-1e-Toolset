@@ -290,6 +290,32 @@ describe("Gear Features", () => {
         expectItemToBe(item, 1, "Boarding Axe", 150, WeaponItem.gearCategory);
     });
 
+    it('FilterGearListFeature by " " (empty space) item name returns a list of all gear list items', () => {
+        // Arrange
+        const feature = getFilterGearListFeature();
+        const request = new FilterGearListRequest();
+        request.category = GearItem.gearCategory;
+        request.search = " ";
+
+        // Act
+        const result: Result<GearListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(15);
+
+        const gear = result.value ?? [];
+        let item: GearListItem = getGearItemByName(gear, "Assorted Tools");
+        expectItemToBe(item, 1, "Assorted Tools", 20, EquipmentItem.gearCategory);
+
+        item = getGearItemByName(gear, "Standard Crew Attire");
+        expectItemToBe(item, 1, "Standard Crew Attire", 100, ArmorItem.gearCategory);
+
+        item = getGearItemByName(gear, "Boarding Axe");
+        expectItemToBe(item, 1, "Boarding Axe", 150, WeaponItem.gearCategory);
+    });
+
     it('FilterGearListFeature by "ba" item name returns gear list items with names that have "ba" in them', () => {
         // Arrange
         const feature = getFilterGearListFeature();
@@ -297,6 +323,75 @@ describe("Gear Features", () => {
         request.category = GearItem.gearCategory;
         request.search = "ba";
         const searchRegEx = new RegExp(`^.*(${request.search})+.*$`);
+
+        // Act
+        const result: Result<GearListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(5);
+
+        const gear = result.value ?? [];
+
+        gear.forEach((item) => {
+            expect(item.name.toLowerCase()).toMatch(searchRegEx);
+        });
+    });
+
+    it('FilterGearListFeature by "BA" item name returns gear list items with names that have "ba" in them (case invariant)', () => {
+        // Arrange
+        const feature = getFilterGearListFeature();
+        const request = new FilterGearListRequest();
+        request.category = GearItem.gearCategory;
+        request.search = "BA";
+        const searchRegEx = new RegExp(`^.*(${request.search.toLowerCase()})+.*$`);
+
+        // Act
+        const result: Result<GearListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(5);
+
+        const gear = result.value ?? [];
+
+        gear.forEach((item) => {
+            expect(item.name.toLowerCase()).toMatch(searchRegEx);
+        });
+    });
+
+    it('FilterGearListFeature by " ba" (empty space prefix) item name returns gear list items with names that have "ba" in them', () => {
+        // Arrange
+        const feature = getFilterGearListFeature();
+        const request = new FilterGearListRequest();
+        request.category = GearItem.gearCategory;
+        request.search = " ba";
+        const searchRegEx = new RegExp(`^.*(${request.search.trim()})+.*$`);
+
+        // Act
+        const result: Result<GearListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(5);
+
+        const gear = result.value ?? [];
+
+        gear.forEach((item) => {
+            expect(item.name.toLowerCase()).toMatch(searchRegEx);
+        });
+    });
+
+    it('FilterGearListFeature by "ba " (empty space suffix) item name returns gear list items with names that have "ba" in them', () => {
+        // Arrange
+        const feature = getFilterGearListFeature();
+        const request = new FilterGearListRequest();
+        request.category = GearItem.gearCategory;
+        request.search = "ba ";
+        const searchRegEx = new RegExp(`^.*(${request.search.trim()})+.*$`);
 
         // Act
         const result: Result<GearListItem[]> = feature.handle(request);
