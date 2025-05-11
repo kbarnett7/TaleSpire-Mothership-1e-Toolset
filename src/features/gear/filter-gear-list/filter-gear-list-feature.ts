@@ -58,12 +58,17 @@ export class FilterGearListFeature implements IFeature<FilterGearListRequest, Re
     }
 
     private applySearchFilter(gearLisItems: GearListItem[], search: string): GearListItem[] {
-        const trimmedSearch: string = search.trim();
+        const filter: string = search.trim().toLowerCase();
 
-        if (trimmedSearch === "") return gearLisItems;
+        if (filter === "") return gearLisItems;
 
-        const searchRegEx = new RegExp(`^.*(${trimmedSearch})+.*$`);
+        const escapedFilter = this.escapeRegExpCharacters(filter);
+        const searchRegEx = new RegExp(`^.*(${escapedFilter})+.*$`);
 
         return gearLisItems.filter((item) => item.name.trim().toLowerCase().match(searchRegEx));
+    }
+
+    private escapeRegExpCharacters(input: string): string {
+        return input.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // Escapes special regex characters
     }
 }
