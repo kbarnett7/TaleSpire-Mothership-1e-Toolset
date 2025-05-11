@@ -8,105 +8,108 @@
         fill: black;
     }
 </style>
-<footer class="fixed bottom-0 left-0 z-20 flex justify-around items-center px-2 w-full h-16 text-white bg-black">
-    <footer-bar-nav-button onclick="this.navigateToPage('Characters')">
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="30px"
-            viewBox="0 -960 960 960"
-            width="30px"
-            fill="#e3e3e3"
-            class="transition duration-150 ease-in-out"
-        >
-            <path
-                d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"
-            />
-        </svg>
-        Characters
-    </footer-bar-nav-button>
+<footer id="footerBar" class="fixed bottom-0 left-0 z-20 px-2 w-full h-16 text-white bg-black">
+    <!-- Primary Navigation Buttons -->
+    <div class="flex justify-around items-center">
+        <footer-bar-nav-button onclick="this.navigateToPage('Characters')">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="30px"
+                viewBox="0 -960 960 960"
+                width="30px"
+                fill="#e3e3e3"
+                class="transition duration-150 ease-in-out"
+            >
+                <path
+                    d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"
+                />
+            </svg>
+            Characters
+        </footer-bar-nav-button>
 
-    <footer-bar-nav-button onclick="this.navigateToPage('NPCs')">
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="30px"
-            viewBox="0 -960 960 960"
-            width="30px"
-            fill="#e3e3e3"
-            class="transition duration-150 ease-in-out"
-        >
-            <path
-                d="m160-419 101-101-101-101L59-520l101 101Zm540-21 100-160 100 160H700Zm-220-40q-50 0-85-35t-35-85q0-51 35-85.5t85-34.5q51 0 85.5 34.5T600-600q0 50-34.5 85T480-480Zm0-160q-17 0-28.5 11.5T440-600q0 17 11.5 28.5T480-560q17 0 28.5-11.5T520-600q0-17-11.5-28.5T480-640Zm0 40ZM0-240v-63q0-44 44.5-70.5T160-400q13 0 25 .5t23 2.5q-14 20-21 43t-7 49v65H0Zm240 0v-65q0-65 66.5-105T480-450q108 0 174 40t66 105v65H240Zm560-160q72 0 116 26.5t44 70.5v63H780v-65q0-26-6.5-49T754-397q11-2 22.5-2.5t23.5-.5Zm-320 30q-57 0-102 15t-53 35h311q-9-20-53.5-35T480-370Zm0 50Z"
-            />
-        </svg>
-        NPCs
-    </footer-bar-nav-button>
+        <footer-bar-nav-button onclick="this.navigateToPage('NPCs')">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="30px"
+                viewBox="0 -960 960 960"
+                width="30px"
+                fill="#e3e3e3"
+                class="transition duration-150 ease-in-out"
+            >
+                <path
+                    d="m160-419 101-101-101-101L59-520l101 101Zm540-21 100-160 100 160H700Zm-220-40q-50 0-85-35t-35-85q0-51 35-85.5t85-34.5q51 0 85.5 34.5T600-600q0 50-34.5 85T480-480Zm0-160q-17 0-28.5 11.5T440-600q0 17 11.5 28.5T480-560q17 0 28.5-11.5T520-600q0-17-11.5-28.5T480-640Zm0 40ZM0-240v-63q0-44 44.5-70.5T160-400q13 0 25 .5t23 2.5q-14 20-21 43t-7 49v65H0Zm240 0v-65q0-65 66.5-105T480-450q108 0 174 40t66 105v65H240Zm560-160q72 0 116 26.5t44 70.5v63H780v-65q0-26-6.5-49T754-397q11-2 22.5-2.5t23.5-.5Zm-320 30q-57 0-102 15t-53 35h311q-9-20-53.5-35T480-370Zm0 50Z"
+                />
+            </svg>
+            NPCs
+        </footer-bar-nav-button>
 
-    <footer-bar-nav-button onclick="this.navigateToPage('Gear')">
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="30px"
-            viewBox="0 -960 960 960"
-            width="30px"
-            fill="#e3e3e3"
-            class="transition duration-150 ease-in-out"
-        >
-            <path
-                d="M160-200h80v-320h480v320h80v-426L480-754 160-626v426Zm-80 80v-560l400-160 400 160v560H640v-320H320v320H80Zm280 0v-80h80v80h-80Zm80-120v-80h80v80h-80Zm80 120v-80h80v80h-80ZM240-520h480-480Z"
-            />
-        </svg>
-        Gear
-    </footer-bar-nav-button>
+        <footer-bar-nav-button onclick="this.navigateToPage('Gear')">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="30px"
+                viewBox="0 -960 960 960"
+                width="30px"
+                fill="#e3e3e3"
+                class="transition duration-150 ease-in-out"
+            >
+                <path
+                    d="M160-200h80v-320h480v320h80v-426L480-754 160-626v426Zm-80 80v-560l400-160 400 160v560H640v-320H320v320H80Zm280 0v-80h80v80h-80Zm80-120v-80h80v80h-80Zm80 120v-80h80v80h-80ZM240-520h480-480Z"
+                />
+            </svg>
+            Gear
+        </footer-bar-nav-button>
 
-    <footer-bar-nav-button onclick="this.onMoreOptionsButtonClick(event)">
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="30px"
-            viewBox="0 -960 960 960"
-            width="30px"
-            fill="#e3e3e3"
-            class="transition duration-150 ease-in-out"
-        >
-            <path
-                d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"
-            />
-        </svg>
-    </footer-bar-nav-button>
+        <footer-bar-nav-button onclick="this.onMoreOptionsButtonClick(event)">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="30px"
+                viewBox="0 -960 960 960"
+                width="30px"
+                fill="#e3e3e3"
+                class="transition duration-150 ease-in-out"
+            >
+                <path
+                    d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"
+                />
+            </svg>
+        </footer-bar-nav-button>
+    </div>
+
+    <!-- More Options Menu -->
+    <div
+        id="moreOptionsMenu"
+        class="hidden fixed flex flex-col-reverse gap-y-2 items-center w-1/4 bottom-16 right-0 z-20 py-2 text-white bg-black rounded-tl-md"
+    >
+        <footer-bar-nav-button onclick="this.navigateToPage('Codex')">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="30px"
+                viewBox="0 -960 960 960"
+                width="30px"
+                fill="#e3e3e3"
+                class="transition duration-150 ease-in-out"
+            >
+                <path
+                    d="m618-358 44-42-84-84q11-17 16.5-36t5.5-40q0-59-41.5-99.5T460-700q-57 0-98.5 40.5T320-560q0 59 41.5 99.5T460-420q21 0 39.5-5.5T536-442l82 84ZM460-480q-33 0-56.5-23.5T380-560q0-33 23.5-56.5T460-640q32 0 56 23.5t24 56.5q0 33-23.5 56.5T460-480ZM160-240q-33 0-56.5-23.5T80-320v-440q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v440q0 33-23.5 56.5T800-240H160Zm0-80h640v-440H160v440Zm0 0v-440 440ZM40-120v-80h880v80H40Z"
+                />
+            </svg>
+            Codex
+        </footer-bar-nav-button>
+
+        <footer-bar-nav-button onclick="this.navigateToPage('Codex')">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="30px"
+                viewBox="0 -960 960 960"
+                width="30px"
+                fill="#e3e3e3"
+                class="transition duration-150 ease-in-out"
+            >
+                <path
+                    d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm70-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm-2-140Z"
+                />
+            </svg>
+            Settings
+        </footer-bar-nav-button>
+    </div>
 </footer>
-
-<!-- Dropdown menu -->
-<div
-    id="moreOptionsMenu"
-    class="hidden fixed flex flex-col-reverse gap-y-2 items-center w-1/4 bottom-16 right-0 z-20 py-2 text-white bg-black rounded-tl-md"
->
-    <footer-bar-nav-button onclick="this.navigateToPage('Codex')">
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="30px"
-            viewBox="0 -960 960 960"
-            width="30px"
-            fill="#e3e3e3"
-            class="transition duration-150 ease-in-out"
-        >
-            <path
-                d="m618-358 44-42-84-84q11-17 16.5-36t5.5-40q0-59-41.5-99.5T460-700q-57 0-98.5 40.5T320-560q0 59 41.5 99.5T460-420q21 0 39.5-5.5T536-442l82 84ZM460-480q-33 0-56.5-23.5T380-560q0-33 23.5-56.5T460-640q32 0 56 23.5t24 56.5q0 33-23.5 56.5T460-480ZM160-240q-33 0-56.5-23.5T80-320v-440q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v440q0 33-23.5 56.5T800-240H160Zm0-80h640v-440H160v440Zm0 0v-440 440ZM40-120v-80h880v80H40Z"
-            />
-        </svg>
-        Codex
-    </footer-bar-nav-button>
-
-    <footer-bar-nav-button onclick="this.navigateToPage('Codex')">
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="30px"
-            viewBox="0 -960 960 960"
-            width="30px"
-            fill="#e3e3e3"
-            class="transition duration-150 ease-in-out"
-        >
-            <path
-                d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm70-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm-2-140Z"
-            />
-        </svg>
-        Settings
-    </footer-bar-nav-button>
-</div>

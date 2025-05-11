@@ -3,15 +3,34 @@ import { BaseComponent } from "../../base.component";
 import { ChangePageEvent } from "../../../lib/events/change-page-event";
 import { PageRouterService } from "../../../lib/pages/page-router-service";
 import { EventBus } from "../../../lib/events/event-bus";
+import { AppLogger } from "../../../lib/logging/app-logger";
 
 export class FooterBarComponent extends BaseComponent {
+    private readonly footerBarId: string = "footerBar";
+    private readonly moreOptionMenuId: string = "moreOptionsMenu";
+
     constructor() {
         super();
     }
 
     public connectedCallback() {
         this.render(html);
+
+        document.addEventListener("click", this.onDocumentMouseClickEvent);
     }
+
+    public disconnectedCallback() {
+        document.removeEventListener("click", this.onDocumentMouseClickEvent);
+    }
+
+    private onDocumentMouseClickEvent = (event: Event) => {
+        const footerElement = this.shadow.querySelector(`#${this.footerBarId}`) as HTMLElement;
+        const eventPath = event.composedPath();
+
+        if (!eventPath.includes(footerElement)) {
+            this.closeMoreOptionsMenu();
+        }
+    };
 
     private navigateToPage(page: string) {
         const changePageEvent = new ChangePageEvent(PageRouterService.instance.getPageByTitle(page));
@@ -30,19 +49,23 @@ export class FooterBarComponent extends BaseComponent {
     }
 
     private isMoreOptionsMenuOpen(): boolean {
-        const moreOptionsMenu = this.shadow.querySelector("#moreOptionsMenu") as HTMLDivElement;
+        const moreOptionsMenu = this.getMoreOptionsMenuElement();
 
         return !moreOptionsMenu.classList.contains("hidden");
     }
 
     private openMoreOptionsMenu() {
-        const moreOptionsMenu = this.shadow.querySelector("#moreOptionsMenu") as HTMLDivElement;
+        const moreOptionsMenu = this.getMoreOptionsMenuElement();
         moreOptionsMenu.classList.remove("hidden");
     }
 
     private closeMoreOptionsMenu() {
-        const moreOptionsMenu = this.shadow.querySelector("#moreOptionsMenu") as HTMLDivElement;
+        const moreOptionsMenu = this.getMoreOptionsMenuElement();
         moreOptionsMenu.classList.add("hidden");
+    }
+
+    private getMoreOptionsMenuElement(): HTMLDivElement {
+        return this.shadow.querySelector(`#${this.moreOptionMenuId}`) as HTMLDivElement;
     }
 }
 
