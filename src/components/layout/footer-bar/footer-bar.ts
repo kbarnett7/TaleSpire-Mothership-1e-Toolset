@@ -3,11 +3,13 @@ import { BaseComponent } from "../../base.component";
 import { ChangePageEvent } from "../../../lib/events/change-page-event";
 import { PageRouterService } from "../../../lib/pages/page-router-service";
 import { EventBus } from "../../../lib/events/event-bus";
-import { AppLogger } from "../../../lib/logging/app-logger";
 
 export class FooterBarComponent extends BaseComponent {
     private readonly footerBarId: string = "footerBar";
     private readonly moreOptionMenuId: string = "moreOptionsMenu";
+
+    private readonly activeButtonCssClass = "active-nav-button";
+    private readonly inactiveButtonCssClass = "inactive-nav-button";
 
     constructor() {
         super();
@@ -37,7 +39,31 @@ export class FooterBarComponent extends BaseComponent {
 
         EventBus.instance.dispatch(changePageEvent);
 
+        this.setActiveNavButton(page);
+
         this.closeMoreOptionsMenu();
+    }
+
+    private setActiveNavButton(page: string) {
+        const navButtons = this.shadow.querySelectorAll("button");
+
+        navButtons.forEach((button) => {
+            if (button.id === `nav${page}`) {
+                this.setActive(button);
+            } else {
+                this.setInactive(button);
+            }
+        });
+    }
+
+    private setActive(button: HTMLButtonElement) {
+        button.classList.add(this.activeButtonCssClass);
+        button.classList.remove(this.inactiveButtonCssClass);
+    }
+
+    private setInactive(button: HTMLButtonElement) {
+        button.classList.add(this.inactiveButtonCssClass);
+        button.classList.remove(this.activeButtonCssClass);
     }
 
     private onMoreOptionsButtonClick(event: MouseEvent) {

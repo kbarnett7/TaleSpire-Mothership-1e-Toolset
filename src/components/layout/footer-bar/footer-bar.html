@@ -1,17 +1,36 @@
 <style>
-    /* Target the SVG inside the parent div when the div is hovered */
-    footer-bar-nav-button:hover svg {
-        fill: black;
+    .active-nav-button {
+        color: var(--color-black);
+        background-color: var(--color-white);
     }
 
-    footer-bar-nav-button:focus svg {
-        fill: black;
+    .active-nav-button svg {
+        fill: var(--color-black);
+    }
+
+    .inactive-nav-button {
+        color: var(--color-white);
+        background-color: var(--color-black);
+    }
+
+    .inactive-nav-button:hover {
+        color: var(--color-black);
+        background-color: var(--color-gray-400);
+    }
+
+    .inactive-nav-button:hover svg {
+        fill: var(--color-black);
     }
 </style>
 <footer id="footerBar" class="fixed bottom-0 left-0 z-20 px-2 pt-1 w-full h-16 text-white bg-black">
     <!-- Primary Navigation Buttons -->
     <div class="flex justify-around items-center">
-        <footer-bar-nav-button onclick="this.navigateToPage('Characters')">
+        <button
+            id="navCharacters"
+            type="button"
+            class="inactive-nav-button flex flex-col justify-center-safe items-center text-sm cursor-pointer min-w-24 h-14 p-1 font-semibold rounded-md transition duration-150 ease-in-out"
+            onclick="this.navigateToPage('Characters')"
+        >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="30px"
@@ -25,9 +44,14 @@
                 />
             </svg>
             Characters
-        </footer-bar-nav-button>
+        </button>
 
-        <footer-bar-nav-button onclick="this.navigateToPage('NPCs')">
+        <button
+            id="navNPCs"
+            type="button"
+            class="inactive-nav-button flex flex-col justify-center-safe items-center text-sm cursor-pointer min-w-24 h-14 p-1 font-semibold rounded-md transition duration-150 ease-in-out"
+            onclick="this.navigateToPage('NPCs')"
+        >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="30px"
@@ -41,9 +65,14 @@
                 />
             </svg>
             NPCs
-        </footer-bar-nav-button>
+        </button>
 
-        <footer-bar-nav-button onclick="this.navigateToPage('Gear')">
+        <button
+            id="navGear"
+            type="button"
+            class="inactive-nav-button flex flex-col justify-center-safe items-center text-sm cursor-pointer min-w-24 h-14 p-1 font-semibold rounded-md transition duration-150 ease-in-out"
+            onclick="this.navigateToPage('Gear')"
+        >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="30px"
@@ -57,9 +86,14 @@
                 />
             </svg>
             Gear
-        </footer-bar-nav-button>
+        </button>
 
-        <footer-bar-nav-button onclick="this.onMoreOptionsButtonClick(event)">
+        <button
+            id="navMoreOptions"
+            type="button"
+            class="inactive-nav-button flex flex-col justify-center-safe items-center text-sm cursor-pointer min-w-24 h-14 p-1 font-semibold rounded-md transition duration-150 ease-in-out"
+            onclick="this.onMoreOptionsButtonClick(event)"
+        >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="30px"
@@ -72,7 +106,7 @@
                     d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"
                 />
             </svg>
-        </footer-bar-nav-button>
+        </button>
     </div>
 
     <!-- More Options Menu -->
@@ -80,7 +114,12 @@
         id="moreOptionsMenu"
         class="hidden fixed flex flex-col-reverse gap-y-2 items-center w-1/4 bottom-16 right-0 z-20 py-2 text-white bg-black rounded-tl-md"
     >
-        <footer-bar-nav-button onclick="this.navigateToPage('Codex')">
+        <button
+            id="navCodex"
+            type="button"
+            class="inactive-nav-button flex flex-col justify-center-safe items-center text-sm cursor-pointer min-w-24 h-14 p-1 font-semibold rounded-md transition duration-150 ease-in-out"
+            onclick="this.navigateToPage('Codex')"
+        >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="30px"
@@ -94,9 +133,13 @@
                 />
             </svg>
             Codex
-        </footer-bar-nav-button>
+        </button>
 
-        <footer-bar-nav-button onclick="this.navigateToPage('Codex')">
+        <button
+            id="navSettings"
+            type="button"
+            class="inactive-nav-button flex flex-col justify-center-safe items-center text-sm cursor-pointer min-w-24 h-14 p-1 font-semibold rounded-md transition duration-150 ease-in-out"
+        >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="30px"
@@ -110,6 +153,6 @@
                 />
             </svg>
             Settings
-        </footer-bar-nav-button>
+        </button>
     </div>
 </footer>
