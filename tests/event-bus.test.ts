@@ -4,11 +4,9 @@ import { EventBus } from "../src/lib/events/event-bus";
 import { ChildEvent } from "./models/child-event";
 
 describe("Event Service", () => {
-    let counter: number;
     let callbackMap: Map<string, AppEventListener>;
 
     beforeEach(() => {
-        counter = 0;
         callbackMap = new Map();
     });
 
@@ -80,6 +78,66 @@ describe("Event Service", () => {
 
         // Assert
         expect(result).toBe(expectedValue);
+    });
+
+    it("registering an event handler will cause handler to trigger on future events", () => {
+        // Arrange
+        const type = "test-event";
+        const event = new AppEvent(type);
+        let counter = 0;
+
+        const callback = (event: AppEvent) => {
+            counter++;
+        };
+
+        callbackMap.set(type, callback);
+
+        // Act
+        EventBus.instance.dispatch(event);
+        EventBus.instance.register(type, callback);
+        EventBus.instance.dispatch(event);
+
+        // Assert
+        expect(counter).toBe(1);
+    });
+
+    it("unregistering event handler that was not previously registered has no effect", () => {
+        // Arrange
+        const type = "test-event";
+        const event = new AppEvent(type);
+        let wasCaught = false;
+
+        const callback = (event: AppEvent) => {
+            wasCaught = true;
+        };
+
+        // Act
+        EventBus.instance.unregister(type, callback);
+        EventBus.instance.dispatch(event);
+
+        // Assert
+        expect(wasCaught).toBe(false);
+    });
+
+    it("unregistering event handler that was previously registered will not handle future events", () => {
+        // Arrange
+        const type = "test-event";
+        const event = new AppEvent(type);
+        let counter = 0;
+
+        const callback = (event: AppEvent) => {
+            counter++;
+        };
+
+        registerEvent(type, callback);
+
+        // Act
+        EventBus.instance.dispatch(event);
+        EventBus.instance.unregister(type, callback);
+        EventBus.instance.dispatch(event);
+
+        // Assert
+        expect(counter).toBe(1);
     });
 
     function registerEvent(type: string, callback: AppEventListener) {
