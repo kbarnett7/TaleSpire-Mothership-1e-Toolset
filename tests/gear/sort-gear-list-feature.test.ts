@@ -279,7 +279,7 @@ describe("SortGearListFeature", () => {
         }
     });
 
-    it('by item category in "Ascending" direction returns gear list items sorted by item category in alphabetical order', () => {
+    it('By item category in "Ascending" direction returns gear list items sorted by item category in alphabetical order', () => {
         // Arrange
         const filteredGearItems: GearListItem[] = getAllGearListItems();
         const sortState = new SortState();

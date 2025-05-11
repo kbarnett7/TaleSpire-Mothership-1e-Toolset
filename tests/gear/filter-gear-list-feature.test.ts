@@ -1,19 +1,14 @@
-import { GetAllGearFeature } from "../../src/features/gear/get-all-gear/get-all-gear-feature";
 import { FilterGearListFeature } from "../../src/features/gear/filter-gear-list/filter-gear-list-feature";
 import { FilterGearListRequest } from "../../src/features/gear/filter-gear-list/filter-gear-list-request";
-import { SortGearListFeature } from "../../src/features/gear/sort-gear-list/sort-gear-list-feature";
-import { SortGearListRequest } from "../../src/features/gear/sort-gear-list/sort-gear-list-request";
 import { EquipmentItem } from "../../src/features/gear/equipment-item";
 import { ArmorItem } from "../../src/features/gear/armor-item";
 import { GearListItem } from "../../src/features/gear/gear-list-item";
 import { UnitOfWork } from "../../src/lib/data-access/unit-of-work";
-import { EmptyRequest } from "../../src/lib/common/features/empty-request";
 import { Result } from "../../src/lib/result/result";
 import { UnitTestDatabase } from "../data/unit-test-database";
 import { WeaponItem } from "../../src/features/gear/weapon-item";
 import { GearItem } from "../../src/features/gear/gear-item";
 import { ErrorCode } from "../../src/lib/errors/error-code";
-import { SortState } from "../../src/lib/sorting/sort-state";
 import { GearTestUtils } from "./gear-test-utils";
 
 describe("FilterGearListFeature", () => {
