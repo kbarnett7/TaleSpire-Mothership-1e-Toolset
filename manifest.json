@@ -29,7 +29,7 @@
     },
     "environment": {
         "capabilities": ["playAudio"],
-        "extras": ["diceFinder", "icons", "fonts", "colorStyles"],
+        "extras": [],
         "webViewBackgroundColor": "#000"
     }
 }

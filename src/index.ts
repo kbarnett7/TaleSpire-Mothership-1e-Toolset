@@ -17,7 +17,6 @@
  */
 import "./index.css"; // Import the main CSS file for the application
 import { Startup } from "./lib/infrastructure/startup";
-import { AppLogger } from "./lib/logging/app-logger";
 
 function importAll(requireContext: __WebpackModuleApi.RequireContext) {
     requireContext.keys().forEach(requireContext);

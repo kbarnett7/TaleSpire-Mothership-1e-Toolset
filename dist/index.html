@@ -5,15 +5,12 @@
     <script defer src="./bundle.js"></script></head>
 
     <body>
-        <nav>
-            <nav-menu></nav-menu>
-        </nav>
-
-        <main class="mx-2">
-            <nav-menu-hamburger-button></nav-menu-hamburger-button>
-            <div id="pageContainer" class="page-container">
-                <page-router></page-router>
-            </div>
+        <header-bar></header-bar>
+        <main id="pageContainer" class="mx-2">
+            <page-router></page-router>
         </main>
+        <nav>
+            <footer-bar></footer-bar>
+        </nav>
     </body>
 </html>
