@@ -1,5 +1,6 @@
 [
     {
+        "id": 1,
         "name": "The 4YourEyez Algorithm",
         "combat": 0,
         "attacks": [],
@@ -17,6 +18,7 @@
     },
 
     {
+        "id": 2,
         "name": "Angels",
         "combat": 100,
         "attacks": [
@@ -39,6 +41,7 @@
     },
 
     {
+        "id": 3,
         "name": "Belladonnas",
         "combat": 75,
         "attacks": [
