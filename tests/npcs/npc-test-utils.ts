@@ -4,6 +4,6 @@ export class NpcTestUtils {
     static getNpcItemByName(npcs: NpcListItem[], name: string): NpcListItem {
         const foundItem = npcs.find((npc) => npc.name.toLocaleLowerCase() === name.toLocaleLowerCase());
 
-        return foundItem || new NpcListItem(0, "");
+        return foundItem || new NpcListItem(0, "", 0, 0, 0, 0, 0);
     }
 }

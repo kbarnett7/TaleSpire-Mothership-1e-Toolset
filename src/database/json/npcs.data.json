@@ -66,5 +66,52 @@
                 "authors": "\"Memories of Master,\" Anonymous"
             }
         ]
+    },
+
+    {
+        "id": 4,
+        "name": "The Body Politic",
+        "combat": 40,
+        "attacks": [
+            {
+                "name": "Organic Diplomatic Mission",
+                "effect": "3d10"
+            }
+        ],
+        "instinct": 20,
+        "armorPoints": 0,
+        "health": 10,
+        "maximumWounds": 1,
+        "specialAbilities": [],
+        "description": "Each sapient zooid of this colonial organism replaces an organ of its host, but they do not form a collective consciousness. Instead, the members of this “Parliament” vote on the body’s conduct through their legislative neurons. This network evolved from an organ-trafficking ring’s diagnostic system, after its AI decided that human space needed to be brought democracy and universal suffrage... down to the cellular level. A body politic can replace an organ of an unconscious captive with one of its constituents, a “slaver organ.” A heart is the most desirable choice, though the slaving takes roughly an hour to occur. A simpler method is replacing the tonsils in only five minutes, co-opting it into a type of biochemical time bomb that will release fatal botulinum and tetanus toxins in case of non-compliance.",
+        "quotes": []
+    },
+
+    {
+        "id": 5,
+        "name": "The Brown Stream",
+        "combat": 0,
+        "attacks": [],
+        "instinct": 0,
+        "armorPoints": 0,
+        "health": 0,
+        "maximumWounds": 0,
+        "specialAbilities": [],
+        "description": "There are rumors of a film deconstructed across networks, logged and filed by the devoted, its sequence, meaning, and purpose hotly debated, incomplete archives everywhere. New footage allegedly flickers on abandoned stations media servers, restricted access Lagrange points, pirate signals, abandoned HD screens. Garish color with strange scoring, nonsensical voice overs intercut with animated propaganda rehearsals, distracted idols, cheap novelty manufacture, routine violence, tourist attractions, dated advertising, war tourism, plastic surgery. It opens a looking glass world of violence and conspiracies to the illuminated.",
+        "quotes": []
+    },
+
+    {
+        "id": 6,
+        "name": "C-Levels",
+        "combat": 15,
+        "attacks": [],
+        "instinct": 45,
+        "armorPoints": 0,
+        "health": 0,
+        "maximumWounds": 1,
+        "specialAbilities": [],
+        "description": "There’s no need for conspiracy when people with shared goals act within their own self interest. Only profit. They’re flesh and blood, just like you and me. Which means they can be killed, made to suffer. If you could get at them. Find them. Past the private army, private planet, private fortress, private fleet. Find them and ask them why should they get to live free from consequence?",
+        "quotes": []
     }
 ]
