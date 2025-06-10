@@ -118,5 +118,36 @@
         "name": "Jetpack",
         "cost": 75000,
         "description": "Allows wearer to fly up to 100m high and up to a speed of 100km/hr for 2 hours on a tank of fuel. Deals 1d100[+] DMG if destroyed. Fuel can be refilled for 200cr."
+    },
+
+    {
+        "id": 21,
+        "name": "Lockpick Set",
+        "cost": 40,
+        "description": "A highly advanced set of tools meant for hacking basic airlock and electronic door systems."
+    },
+    {
+        "id": 22,
+        "name": "Long-range Comms",
+        "cost": 1000,
+        "description": "Rucksack-sized communication device for use in surface-to-ship communication."
+    },
+    {
+        "id": 23,
+        "name": "Mag-boots",
+        "cost": 350,
+        "description": "Grants a magnetic grip to the wearer, allowing them to easily walk on the exterior of a ship (in space, while docked, or free-floating), metal-based asteroids, or any other magnetic surface."
+    },
+    {
+        "id": 24,
+        "name": "Medscanner",
+        "cost": 8000,
+        "description": "Allows the user to scan a living or dead body to analyze it for disease or abnormalities, without having to do a biopsy or autopsy. Results may not be instantaneous and may require a lab for complete analysis."
+    },
+    {
+        "id": 25,
+        "name": "MoHab Unit",
+        "cost": 1000,
+        "description": "Tent, canteen, stove, rucksack, compass, and sleeping bag."
     }
 ]
