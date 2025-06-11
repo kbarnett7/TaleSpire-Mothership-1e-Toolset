@@ -117,7 +117,26 @@
         "health": 0,
         "maximumWounds": 1,
         "specialAbilities": [],
-        "description": "There’s no need for conspiracy when people with shared goals act within their own self interest. Only profit. They’re flesh and blood, just like you and me. Which means they can be killed, made to suffer. If you could get at them. Find them. Past the private army, private planet, private fortress, private fleet. Find them and ask them why should they get to live free from consequence?",
+        "description": "There's no need for conspiracy when people with shared goals act within their own self interest. Only profit. They're flesh and blood, just like you and me. Which means they can be killed, made to suffer. If you could get at them. Find them. Past the private army, private planet, private fortress, private fleet. Find them and ask them why should they get to live free from consequence?",
+        "quotes": []
+    },
+
+    {
+        "id": 7,
+        "sourceId": 3,
+        "name": "Cabin 102-B",
+        "combat": 0,
+        "attacks": [],
+        "instinct": 0,
+        "armorPoints": 0,
+        "health": 0,
+        "maximumWounds": 0,
+        "specialAbilities": [
+            {
+                "description": "Sanity Save each hour spent inside Cabin 102-B."
+            }
+        ],
+        "description": "Before the passenger liner Arcturus broke open from a catastrophic hull breach, the concierge recorded something impossible. A new cabin had appeared aboard—Cabin 102-B, locked. The last recorded work order was the concierge taking out a small laser cutter to investigate.",
         "quotes": []
     }
 ]

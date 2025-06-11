@@ -173,5 +173,40 @@
         "name": "MoHab Unit",
         "cost": 1000,
         "description": "Tent, canteen, stove, rucksack, compass, and sleeping bag."
+    },
+    {
+        "id": 26,
+        "sourceId": 2,
+        "name": "MRE (x7)",
+        "cost": 70,
+        "description": "\"Meal, Ready-to-Eat.\" Self-contained, individual field rations in lightweight packaging. Each has sufficient sustenance for a single person for one day (does not include water)."
+    },
+    {
+        "id": 27,
+        "sourceId": 2,
+        "name": "Mylar Blanket",
+        "cost": 10,
+        "description": "Lightweight blanket made of heat-reflective material. Often used for thermal regulation of patients suffering from extreme cold or other trauma."
+    },
+    {
+        "id": 28,
+        "sourceId": 2,
+        "name": "Oxygen Tank",
+        "cost": 50,
+        "description": "When attached to a vaccsuit provides up to 12 hours of oxygen under normal circumstances, 4 hours under stressful circumstances. Explosive."
+    },
+    {
+        "id": 29,
+        "sourceId": 2,
+        "name": "Paracord (50m)",
+        "cost": 10,
+        "description": "General purpose lightweight nylon rope."
+    },
+    {
+        "id": 30,
+        "sourceId": 2,
+        "name": "Patch Kit (x3)",
+        "cost": 200,
+        "description": "Repairs punctured and torn vaccsuits, restoring their space readiness. Patched vaccsuits have an AP of 1."
     }
 ]
