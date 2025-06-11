@@ -1,6 +1,7 @@
 [
     {
         "id": 1,
+        "sourceId": 3,
         "name": "The 4YourEyez Algorithm",
         "combat": 0,
         "attacks": [],
@@ -19,6 +20,7 @@
 
     {
         "id": 2,
+        "sourceId": 3,
         "name": "Angels",
         "combat": 100,
         "attacks": [
@@ -42,6 +44,7 @@
 
     {
         "id": 3,
+        "sourceId": 3,
         "name": "Belladonnas",
         "combat": 75,
         "attacks": [
@@ -70,6 +73,7 @@
 
     {
         "id": 4,
+        "sourceId": 3,
         "name": "The Body Politic",
         "combat": 40,
         "attacks": [
@@ -89,6 +93,7 @@
 
     {
         "id": 5,
+        "sourceId": 3,
         "name": "The Brown Stream",
         "combat": 0,
         "attacks": [],
@@ -103,6 +108,7 @@
 
     {
         "id": 6,
+        "sourceId": 3,
         "name": "C-Levels",
         "combat": 15,
         "attacks": [],

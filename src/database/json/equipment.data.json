@@ -1,151 +1,175 @@
 [
     {
         "id": 1,
+        "sourceId": 2,
         "name": "Assorted Tools",
         "cost": 20,
         "description": "Wrenches, spanners, screwdrivers, etc. Can be used as weapons in a pinch (1d5 DMG)."
     },
     {
         "id": 2,
+        "sourceId": 2,
         "name": "Automed (x5)",
         "cost": 1500,
         "description": "Nanotech pills that assist your body in repairing Damage by granting Advantage to Body Saves meant to repel disease and poison, as well as attempts to heal from rest."
     },
     {
         "id": 3,
+        "sourceId": 2,
         "name": "Battery (High Power)",
         "cost": 500,
         "description": "Heavy duty battery used for powering laser cutters, salvage drones, and other items. Can be recharged in 1 hour if connected to power or in 6 hours with solar power. Add waterproofing (+500cr)."
     },
     {
         "id": 4,
+        "sourceId": 2,
         "name": "Binoculars",
         "cost": 150,
         "description": "20x magnification. Add night vision (+300cr) or thermal vision (+1kcr)."
     },
     {
         "id": 5,
+        "sourceId": 2,
         "name": "Bioscanner",
         "cost": 3000,
         "description": "Long Range. Allows the user to scan for signs of life. Can tell the location of signs of life, but not what that life is. Blocked by some materials at the Warden's discretion."
     },
     {
         "id": 6,
+        "sourceId": 2,
         "name": "Body Cam",
         "cost": 50,
         "description": "A camera worn on your clothing that can stream video back to a control center so your other crewmembers can see what you're seeing. Add night vision (+300cr) or thermal vision (+1kcr)."
     },
     {
         "id": 7,
+        "sourceId": 2,
         "name": "Chemlight (x5)",
         "cost": 5,
         "description": "Small disposable glowsticks capable of dim illumination in a 1m radius."
     },
     {
         "id": 8,
+        "sourceId": 2,
         "name": "Crowbar",
         "cost": 25,
         "description": "Grants Advantage on Strength Checks to open jammed airlocks, lift heavy objects, etc."
     },
     {
         "id": 9,
+        "sourceId": 2,
         "name": "Cybernetic Diagnostic Scanner",
         "cost": 2000,
         "description": "Allows the user to scan androids and other cybernetic organisms in order to diagnose any physical or mental issues they may be having. Often distrusted by androids."
     },
     {
         "id": 10,
+        "sourceId": 2,
         "name": "Electronic Tool Set",
         "cost": 100,
         "description": "A full set of tools for doing detailed repair or construction work on electronics."
     },
     {
         "id": 11,
+        "sourceId": 2,
         "name": "Emergency Beacon",
         "cost": 2000,
         "description": "A small device that sends up a flare and then emits a loud beep every few seconds. Additionally, sends out a call on all radio channels to ships or vehicles in the area, but can be blocked by a radio jammer."
     },
     {
         "id": 12,
+        "sourceId": 2,
         "name": "Exoloader",
         "cost": 100000,
         "description": "Open-air mechanical exoskeleton used for heavy lifting (up to 5000kg). Loader claws deal 1 Wound. User can only wear Standard Crew Attire or Standard Battle Dress while operating. Battery operated (48 hours of use)."
     },
     {
         "id": 13,
+        "sourceId": 2,
         "name": "Explosives & Detonator",
         "cost": 500,
         "description": "Explosive charge powerful enough to blow open an airlock. All organisms in Close Range must make a Body Save or take a Wound (Explosive). Detonator works at Long Range, but can be blocked by a radio jammer."
     },
     {
         "id": 14,
+        "sourceId": 2,
         "name": "First Aid Kit",
         "cost": 75,
         "description": "An assortment of dressings and treatments to help stop bleeding, bandage cuts, and treat other minor injuries."
     },
     {
         "id": 15,
+        "sourceId": 2,
         "name": "Flashlight",
         "cost": 30,
         "description": "Handheld or shoulder mounted. Illuminates 10m ahead of the user."
     },
     {
         "id": 16,
+        "sourceId": 2,
         "name": "Foldable Stretcher",
         "cost": 150,
         "description": "Portable stretcher that can fit within a rucksack. Allows the user to safely strap down the patient and carry them to a location where their wounds can be better treated. Unfolds to roughly 2m."
     },
     {
         "id": 17,
+        "sourceId": 2,
         "name": "Geiger Counter",
         "cost": 20,
         "description": "Detects radiation and displays radiation levels."
     },
     {
         "id": 18,
+        "sourceId": 2,
         "name": "Heads-Up Display (HUD)",
         "cost": 100,
         "description": "Often worn by marines, the HUD allows the wearer to see through the body cams of others in their unit, and connect to any smart-link upgraded weapon."
     },
     {
         "id": 19,
+        "sourceId": 2,
         "name": "Infrared Goggles",
         "cost": 1500,
         "description": "Allows the wearer to see heat signatures, sometimes up to several hours old. Add night vision (+300cr)."
     },
     {
         "id": 20,
+        "sourceId": 2,
         "name": "Jetpack",
         "cost": 75000,
         "description": "Allows wearer to fly up to 100m high and up to a speed of 100km/hr for 2 hours on a tank of fuel. Deals 1d100[+] DMG if destroyed. Fuel can be refilled for 200cr."
     },
-
     {
         "id": 21,
+        "sourceId": 2,
         "name": "Lockpick Set",
         "cost": 40,
         "description": "A highly advanced set of tools meant for hacking basic airlock and electronic door systems."
     },
     {
         "id": 22,
+        "sourceId": 2,
         "name": "Long-range Comms",
         "cost": 1000,
         "description": "Rucksack-sized communication device for use in surface-to-ship communication."
     },
     {
         "id": 23,
+        "sourceId": 2,
         "name": "Mag-boots",
         "cost": 350,
         "description": "Grants a magnetic grip to the wearer, allowing them to easily walk on the exterior of a ship (in space, while docked, or free-floating), metal-based asteroids, or any other magnetic surface."
     },
     {
         "id": 24,
+        "sourceId": 2,
         "name": "Medscanner",
         "cost": 8000,
         "description": "Allows the user to scan a living or dead body to analyze it for disease or abnormalities, without having to do a biopsy or autopsy. Results may not be instantaneous and may require a lab for complete analysis."
     },
     {
         "id": 25,
+        "sourceId": 2,
         "name": "MoHab Unit",
         "cost": 1000,
         "description": "Tent, canteen, stove, rucksack, compass, and sleeping bag."
