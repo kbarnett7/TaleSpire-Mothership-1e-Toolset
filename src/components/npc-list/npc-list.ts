@@ -6,6 +6,15 @@ import { UnitOfWork } from "../../lib/data-access/unit-of-work";
 import { GetAllNpcsFeature } from "../../features/npcs/get-all-npcs/get-all-npcs-feature";
 import { NpcListItem } from "../../features/npcs/npc-list-item";
 import { EmptyRequest } from "../../lib/common/features/empty-request";
+import { EventBus } from "../../lib/events/event-bus";
+import { AppErrorEvent } from "../../lib/events/app-error-event";
+import { EventType } from "../../lib/events/event-type";
+import { AppEvent } from "../../lib/events/app-event";
+import { ModalDialogComponent } from "../modal-dialog/modal-dialog";
+import { NpcFormComponent } from "../npc-form/npc-form";
+import { Npc } from "../../features/npcs/npc";
+import { GetNpcByIdFeature } from "../../features/npcs/get-npc-by-id/get-npc-by-id-feature";
+import { GetNpcByIdRequest } from "../../features/npcs/get-npc-by-id/get-npc-by-id-request";
 
 export class NpcListComponent extends BaseComponent {
     // TODO: Move fields to Sort Feature class once that is created
@@ -131,14 +140,34 @@ export class NpcListComponent extends BaseComponent {
     }
 
     public onTableDataRowClick(npcListItem: NpcListItem) {
-        // const modal = this.shadow.querySelector(`#gear${gearItem.category}Modal`);
-        // if (!modal) {
-        //     this.dispatchErrorEvent(`Modal \"gear${gearItem.category}Modal\" not found.`);
-        //     return;
-        // }
-        // EventBus.instance.dispatch(new AppEvent(EventType.ErrorPanelHide));
-        // this.populateAppropriateGearItemForm(gearItem);
-        // (modal as ModalDialogComponent).openModal();
+        const modal = this.shadow.querySelector("#npcModal");
+
+        if (!modal) {
+            this.dispatchErrorEvent('Modal "npcModal" not found.');
+            return;
+        }
+
+        EventBus.instance.dispatch(new AppEvent(EventType.ErrorPanelHide));
+
+        this.populateNpcForm(npcListItem);
+
+        (modal as ModalDialogComponent).openModal();
+    }
+
+    private populateNpcForm(npcListItem: NpcListItem) {
+        const npcForm = this.shadow.querySelector(`#npcForm`) as NpcFormComponent;
+        npcForm.setNpc(this.getSelectedNpc(npcListItem.id));
+    }
+
+    private getSelectedNpc(id: number): Npc {
+        const feature = new GetNpcByIdFeature(this.unitOfWork);
+        const request = new GetNpcByIdRequest(id);
+
+        return feature.handle(request);
+    }
+
+    private dispatchErrorEvent(error: string) {
+        EventBus.instance.dispatch(new AppErrorEvent(EventType.ErrorPanelShow, error));
     }
 }
 
