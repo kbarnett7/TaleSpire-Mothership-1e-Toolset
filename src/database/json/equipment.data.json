@@ -208,5 +208,104 @@
         "name": "Patch Kit (x3)",
         "cost": 200,
         "description": "Repairs punctured and torn vaccsuits, restoring their space readiness. Patched vaccsuits have an AP of 1."
+    },
+    {
+        "id": 31,
+        "sourceId": 2,
+        "name": "Personal Locator",
+        "cost": 200,
+        "description": "Allows crewmembers at a control center (or on the bridge of a ship) to track the location of the wearer."
+    },
+    {
+        "id": 32,
+        "sourceId": 2,
+        "name": "Pet (Organic)",
+        "cost": 200000,
+        "description": "Small to medium-sized organic pet animal. Larger or rare pets cost 2d10x base pet cost."
+    },
+    {
+        "id": 33,
+        "sourceId": 2,
+        "name": "Pet (Synthetic)",
+        "cost": 15000,
+        "description": "Small to medium-sized synthetic pet animal. Larger or rare pets cost 2d10x base pet cost."
+    },
+    {
+        "id": 34,
+        "sourceId": 2,
+        "name": "Portable Computer Terminal",
+        "cost": 1500,
+        "description": "Flat computer monitor, keyboard and interface which allows the user to hack into pre-existing computers and networks, as well as perform standard computer tasks."
+    },
+    {
+        "id": 35,
+        "sourceId": 2,
+        "name": "Radiation Pills (x5)",
+        "cost": 200,
+        "description": "Take 1d5 DMG and reduce your Radiation Level (see pg. 33.2) by 1 for 2d10 minutes."
+    },
+
+    {
+        "id": 36,
+        "sourceId": 2,
+        "name": "Radio Jammer",
+        "cost": 4000,
+        "description": "Rucksack-sized device which, when activated, renders all radio signals within 100km incomprehensible."
+    },
+    {
+        "id": 37,
+        "sourceId": 2,
+        "name": "Rebreather",
+        "cost": 500,
+        "description": "When worn, filters toxic air and/or allows for underwater breathing for up to 20 minutes at a time without resurfacing. Can be connected to an oxygen tank."
+    },
+    {
+        "id": 38,
+        "sourceId": 2,
+        "name": "Rucksack",
+        "cost": 50,
+        "description": "Large, durable, waterproof backpack."
+    },
+    {
+        "id": 39,
+        "sourceId": 2,
+        "name": "Salvage Drone",
+        "cost": 10000,
+        "description": "Battery operated remote controlled drone. Requires two hands to operate receiver. Can fly up to 450m high, to a distance of 3km from operator. Can run for 2 hours. Can record and transmit footage to receiver. If purchased separately, can be equipped with up to two of the following: binoculars, radio jammer, Geiger counter, laser cutter, medscanner, personal locator, infrared goggles, emergency beacon, cybernetic diagnostic scanner, bioscanner. Can carry up to 20-30kg."
+    },
+    {
+        "id": 40,
+        "sourceId": 2,
+        "name": "Sample Collection Kit",
+        "cost": 50,
+        "description": "Used to research xenoflora and xenofauna in the field. Can take vital signs, DNA samples ,and collect other data on foreign material. Results may not be instantaneous and may require a lab for complete analysis."
+    },
+    {
+        "id": 41,
+        "sourceId": 2,
+        "name": "Short-range Comms",
+        "cost": 100,
+        "description": "Allows communication from ship-to-ship within a reasonable distance, as well as surface-to-surface within a dozen kilometers. Blocked by radio jammer."
+    },
+    {
+        "id": 42,
+        "sourceId": 2,
+        "name": "Smart-link Add-On",
+        "cost": 10000,
+        "description": "Grants remote viewing, recording, and operation of a ranged weapon as well as +5 DMG to the weapon."
+    },
+    {
+        "id": 43,
+        "sourceId": 2,
+        "name": "Stimpak",
+        "cost": 1000,
+        "description": "Cures cryosickness, reduces Stress by 1, restores 1d10 Health, and grants [+] to all rolls for 1d10 min. Roll 1d10. If you roll under the amount of doses you’ve taken in the past 24 hours, make a Death Save."
+    },
+    {
+        "id": 44,
+        "sourceId": 2,
+        "name": "Water Filtration Device",
+        "cost": 50,
+        "description": "Can pump 4 liters of filtered water per hour from even the most brackish swamps."
     }
 ]
