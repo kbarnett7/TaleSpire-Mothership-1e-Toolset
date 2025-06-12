@@ -25,6 +25,7 @@ describe("GetGearByIdFeature", () => {
 
         // Assert
         expect(gearItem.id).toBe(1);
+        expect(gearItem.sourceId).toBe(2);
         expect(gearItem.name).toBe("Assorted Tools");
         expect(gearItem.cost).toBe(20);
     });
@@ -38,6 +39,7 @@ describe("GetGearByIdFeature", () => {
 
         // Assert
         expect(gearItem.id).toBe(1);
+        expect(gearItem.sourceId).toBe(2);
         expect(gearItem.name).toBe("Standard Crew Attire");
         expect(gearItem.armorPoints).toBe(1);
     });
@@ -51,6 +53,7 @@ describe("GetGearByIdFeature", () => {
 
         // Assert
         expect(gearItem.id).toBe(1);
+        expect(gearItem.sourceId).toBe(2);
         expect(gearItem.name).toBe("Boarding Axe");
         expect(gearItem.damage).toBe("2d10");
     });
@@ -64,6 +67,7 @@ describe("GetGearByIdFeature", () => {
 
         // Assert
         expect(gearItem.id).toBe(0);
+        expect(gearItem.sourceId).toBe(0);
         expect(gearItem.name).toBe("");
     });
 
@@ -76,6 +80,7 @@ describe("GetGearByIdFeature", () => {
 
         // Assert
         expect(gearItem.id).toBe(2);
+        expect(gearItem.sourceId).toBe(2);
         expect(gearItem.name).toBe("Automed (x5)");
         expect(gearItem.cost).toBe(1500);
     });

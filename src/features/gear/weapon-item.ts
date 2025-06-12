@@ -14,6 +14,7 @@ export class WeaponItem extends EquipmentItem {
 
     constructor(
         id?: number,
+        sourceId?: number,
         name?: string,
         description?: string,
         cost?: number,
@@ -24,7 +25,7 @@ export class WeaponItem extends EquipmentItem {
         wound?: string,
         special?: string
     ) {
-        super(id, name, description, cost);
+        super(id, sourceId, name, description, cost);
         this.category = category ?? WeaponCategory.Melee;
         this.range = range ?? WeaponRange.Adjacent;
         this.damage = damage ?? "";
