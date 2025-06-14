@@ -299,7 +299,7 @@
         "sourceId": 2,
         "name": "Stimpak",
         "cost": 1000,
-        "description": "Cures cryosickness, reduces Stress by 1, restores 1d10 Health, and grants [+] to all rolls for 1d10 min. Roll 1d10. If you roll under the amount of doses you’ve taken in the past 24 hours, make a Death Save."
+        "description": "Cures cryosickness, reduces Stress by 1, restores 1d10 Health, and grants [+] to all rolls for 1d10 min. Roll 1d10. If you roll under the amount of doses you've taken in the past 24 hours, make a Death Save."
     },
     {
         "id": 44,
