@@ -15,6 +15,7 @@ export class ModalDialogComponent extends BaseComponent {
         EventBus.instance.registerBrowserEvent("keyup", this.onKeyupEvent);
 
         this.showModal();
+        this.resetScrollbarToTop();
     }
 
     private showModal() {
@@ -22,6 +23,12 @@ export class ModalDialogComponent extends BaseComponent {
 
         dialog.classList.remove("hidden");
         dialog.classList.add("flex");
+    }
+
+    private resetScrollbarToTop() {
+        const dialog = this.shadow.querySelector("#modalBody") as HTMLDivElement;
+
+        dialog.scrollTop = 0;
     }
 
     private closeModal() {
