@@ -8,7 +8,7 @@ import { GearListItemMap } from "../gear-list-item-map";
 import { WeaponItem } from "../weapon-item";
 
 export class GetAllGearFeature implements IFeature<EmptyRequest, GearListItem[]> {
-    private unitOfWork: IUnitOfWork;
+    private readonly unitOfWork: IUnitOfWork;
 
     constructor(unitOfWork: IUnitOfWork) {
         this.unitOfWork = unitOfWork;

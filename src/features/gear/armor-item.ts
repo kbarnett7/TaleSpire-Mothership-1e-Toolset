@@ -10,6 +10,7 @@ export class ArmorItem extends EquipmentItem {
 
     constructor(
         id?: number,
+        sourceId?: number,
         name?: string,
         description?: string,
         cost?: number,
@@ -18,7 +19,7 @@ export class ArmorItem extends EquipmentItem {
         speed?: string,
         special?: string
     ) {
-        super(id, name, description, cost);
+        super(id, sourceId, name, description, cost);
         this.armorPoints = armorPoints ?? 0;
         this.oxygen = oxygen ?? 0;
         this.speed = speed ?? "";

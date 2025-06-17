@@ -1,6 +1,7 @@
 [
     {
         "id": 1,
+        "sourceId": 2,
         "name": "Boarding Axe",
         "cost": 150,
         "description": "",
@@ -13,6 +14,7 @@
     },
     {
         "id": 2,
+        "sourceId": 2,
         "name": "Combat Shotgun",
         "cost": 1400,
         "description": "KANO X9",
@@ -25,6 +27,7 @@
     },
     {
         "id": 3,
+        "sourceId": 2,
         "name": "Crowbar",
         "cost": 25,
         "description": "",
@@ -37,6 +40,7 @@
     },
     {
         "id": 4,
+        "sourceId": 2,
         "name": "Flamethrower",
         "cost": 4000,
         "description": "RAMHORN 1",
@@ -49,6 +53,7 @@
     },
     {
         "id": 5,
+        "sourceId": 2,
         "name": "Flare Gun",
         "cost": 25,
         "description": "PEABODY",
