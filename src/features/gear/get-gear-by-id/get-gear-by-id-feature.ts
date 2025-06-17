@@ -7,7 +7,7 @@ import { WeaponItem } from "../weapon-item";
 import { GetGearByIdRequest } from "./get-gear-by-id-request";
 
 export class GetGearByIdFeature implements IFeature<GetGearByIdRequest, GearItem> {
-    private unitOfWork: IUnitOfWork;
+    private readonly unitOfWork: IUnitOfWork;
 
     constructor(unitOfWork: IUnitOfWork) {
         this.unitOfWork = unitOfWork;

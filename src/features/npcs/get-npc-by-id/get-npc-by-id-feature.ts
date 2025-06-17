@@ -4,7 +4,7 @@ import { Npc } from "../npc";
 import { GetNpcByIdRequest } from "./get-npc-by-id-request";
 
 export class GetNpcByIdFeature implements IFeature<GetNpcByIdRequest, Npc> {
-    private unitOfWork: IUnitOfWork;
+    private readonly unitOfWork: IUnitOfWork;
 
     constructor(unitOfWork: IUnitOfWork) {
         this.unitOfWork = unitOfWork;

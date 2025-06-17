@@ -13,7 +13,7 @@ import { WeaponItem } from "../weapon-item";
 import { FilterGearListRequest } from "./filter-gear-list-request";
 
 export class FilterGearListFeature implements IFeature<FilterGearListRequest, Result<GearListItem[]>> {
-    private unitOfWork: IUnitOfWork;
+    private readonly unitOfWork: IUnitOfWork;
 
     constructor(unitOfWork: IUnitOfWork) {
         this.unitOfWork = unitOfWork;

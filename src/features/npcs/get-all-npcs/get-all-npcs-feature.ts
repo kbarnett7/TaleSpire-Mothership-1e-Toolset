@@ -6,7 +6,7 @@ import { NpcListItem } from "../npc-list-item";
 import { NpcListItemMap } from "../npc-list-item-map";
 
 export class GetAllNpcsFeature implements IFeature<EmptyRequest, NpcListItem[]> {
-    private unitOfWork: IUnitOfWork;
+    private readonly unitOfWork: IUnitOfWork;
 
     constructor(unitOfWork: IUnitOfWork) {
         this.unitOfWork = unitOfWork;
