@@ -138,5 +138,24 @@
         ],
         "description": "Before the passenger liner Arcturus broke open from a catastrophic hull breach, the concierge recorded something impossible. A new cabin had appeared aboard—Cabin 102-B, locked. The last recorded work order was the concierge taking out a small laser cutter to investigate.",
         "quotes": []
+    },
+
+    {
+        "id": 8,
+        "sourceId": 3,
+        "name": "Chronopods",
+        "combat": 0,
+        "attacks": [],
+        "instinct": 95,
+        "armorPoints": 30,
+        "health": 100,
+        "maximumWounds": 5,
+        "specialAbilities": [
+            {
+                "description": "Use Sanity Save instead of Combat during violent encounters."
+            }
+        ],
+        "description": "Tall, dark, fleshy columns supported by seven thick legs branching off into smaller and smaller appendages. Thick, wrinkled skin pocketed with orifices of unknown abilities. Time passes differently for these very intelligent beings, so combat with them is nearly impossible for those experiencing linear time. Large, weird eyes covered with layers of skin. Can cause focused time distortions to destroy equipment and weird aging upon humans (in both directions).",
+        "quotes": []
     }
 ]

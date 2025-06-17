@@ -122,15 +122,25 @@ export class NpcListComponent extends BaseComponent {
 
         row.innerHTML = `
                 <td class="p-2">${npcListItem.name}</td>
-                <td class="p-2">${npcListItem.combat}</td>
-                <td class="p-2">${npcListItem.instinct}</td>
-                <td class="p-2">${npcListItem.armorPoints}</td>
-                <td class="p-2">${npcListItem.maximumWounds} (${npcListItem.health})</td>
+                <td class="p-2">${this.convertNumberFieldToString(npcListItem.combat)}</td>
+                <td class="p-2">${this.convertNumberFieldToString(npcListItem.instinct)}</td>
+                <td class="p-2">${this.convertNumberFieldToString(npcListItem.armorPoints)}</td>
+                <td class="p-2">${this.convertNumberFieldToString(
+                    npcListItem.maximumWounds
+                )} (${this.convertNumberFieldToString(npcListItem.health)})</td>
             `;
 
         row.addEventListener("click", (event: MouseEvent) => this.onTableDataRowClick(npcListItem));
 
         return row;
+    }
+
+    private convertNumberFieldToString(value: number): string {
+        if (value == 0) {
+            return "-";
+        }
+
+        return value.toString();
     }
 
     public onTableHeaderClick(header: string) {
