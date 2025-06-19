@@ -1,27 +1,32 @@
 import { IFeature } from "../../../lib/common/features/feature-interface";
+import { SortListFeature } from "../../../lib/common/features/sort-list-feature";
 import { ErrorCode } from "../../../lib/errors/error-code";
 import { AppLogger } from "../../../lib/logging/app-logger";
 import { Result } from "../../../lib/result/result";
 import { ResultError } from "../../../lib/result/result-error";
 import { SortDirection } from "../../../lib/sorting/sort-direction";
-import { SortState } from "../../../lib/sorting/sort-state";
 import { GearListItem } from "../gear-list-item";
 import { SortGearListRequest } from "./sort-gear-list-request";
 
-export class SortGearListFeature implements IFeature<SortGearListRequest, Result<GearListItem[]>> {
+export class SortGearListFeature
+    extends SortListFeature
+    implements IFeature<SortGearListRequest, Result<GearListItem[]>>
+{
     static fieldId: string = "Id";
     static fieldItem: string = "Item";
     static fieldCost: string = "Cost";
     static fieldCategory: string = "Category";
     static fieldDescription: string = "Description";
 
-    private readonly validFields: string[] = [
-        SortGearListFeature.fieldId,
-        SortGearListFeature.fieldItem,
-        SortGearListFeature.fieldCost,
-        SortGearListFeature.fieldCategory,
-        SortGearListFeature.fieldDescription,
-    ];
+    constructor() {
+        super([
+            SortGearListFeature.fieldId,
+            SortGearListFeature.fieldItem,
+            SortGearListFeature.fieldCost,
+            SortGearListFeature.fieldCategory,
+            SortGearListFeature.fieldDescription,
+        ]);
+    }
 
     public handle(request: SortGearListRequest): Result<GearListItem[]> {
         try {
@@ -60,23 +65,5 @@ export class SortGearListFeature implements IFeature<SortGearListRequest, Result
                 return this.sortByNumberField(a.id, b.id, request.sortState);
             }
         });
-    }
-
-    private isValidField(field: string): boolean {
-        if (field === "") return false;
-
-        return this.validFields.find((validField) => validField === field) !== undefined;
-    }
-
-    private sortByStringField(a: string, b: string, sortState: SortState): number {
-        if (sortState.direction === SortDirection.Ascending) return a.toLowerCase().localeCompare(b.toLowerCase());
-
-        return b.toLowerCase().localeCompare(a.toLowerCase());
-    }
-
-    private sortByNumberField(a: number, b: number, sortState: SortState): number {
-        if (sortState.direction === SortDirection.Ascending) return a - b;
-
-        return b - a;
     }
 }
