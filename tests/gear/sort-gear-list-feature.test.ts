@@ -35,7 +35,7 @@ describe("SortGearListFeature", () => {
         request.gearListItems = [...filteredGearItems];
         request.sortState = new SortState(SortGearListFeature.fieldId);
 
-        jest.spyOn(feature as any, "sortGearListItems").mockImplementation(() => {
+        jest.spyOn(request.sortState, "direction", "get").mockImplementation(() => {
             throw new Error("Mocked exception");
         });
 

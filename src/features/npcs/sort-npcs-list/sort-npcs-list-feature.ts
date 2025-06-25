@@ -40,13 +40,10 @@ export class SortNpcsListFeature
         } catch (error) {
             const ex = error as Error;
 
-            AppLogger.instance.error("Error while sorting gear list", ex);
+            AppLogger.instance.error("Error while sorting NPCs list", ex);
 
             return Result.failure(
-                new ResultError(
-                    ErrorCode.QueryError,
-                    `Failed to sort gear item list due to the follow error: ${ex.message}`
-                )
+                new ResultError(ErrorCode.QueryError, `Failed to sort NPC list due to the follow error: ${ex.message}`)
             );
         }
     }

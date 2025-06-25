@@ -35,7 +35,7 @@ describe("SortNpcsListFeature", () => {
         request.npcListItems = [...filteredNpcs];
         request.sortState = new SortState(SortNpcsListFeature.fieldId);
 
-        jest.spyOn(feature as any, "sortNpcListItems").mockImplementation(() => {
+        jest.spyOn(request.sortState, "direction", "get").mockImplementation(() => {
             throw new Error("Mocked exception");
         });
 
