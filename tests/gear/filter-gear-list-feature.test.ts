@@ -27,8 +27,11 @@ describe("FilterGearListFeature", () => {
         // Arrange
         request.category = GearItem.gearCategory;
 
-        jest.spyOn(feature as any, "isValidGearCategory").mockImplementation(() => {
-            throw new Error("Mocked exception");
+        // Turn the category field into a get() property so that we can mock throwing an exception
+        Object.defineProperty(request, "category", {
+            get: jest.fn().mockImplementation(() => {
+                throw new Error("Mocked exception");
+            }),
         });
 
         // Act
