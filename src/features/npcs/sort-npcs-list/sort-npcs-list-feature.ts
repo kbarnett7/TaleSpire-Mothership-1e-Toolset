@@ -54,6 +54,14 @@ export class SortNpcsListFeature
                 return a.id - b.id;
             } else if (request.sortState.field === SortNpcsListFeature.fieldName) {
                 return this.sortByStringField(a.name, b.name, request.sortState);
+            } else if (request.sortState.field === SortNpcsListFeature.fieldCombat) {
+                return this.sortByNumberField(a.combat, b.combat, request.sortState);
+            } else if (request.sortState.field === SortNpcsListFeature.fieldInstinct) {
+                return this.sortByNumberField(a.instinct, b.instinct, request.sortState);
+            } else if (request.sortState.field === SortNpcsListFeature.fieldArmorPoints) {
+                return this.sortByNumberField(a.armorPoints, b.armorPoints, request.sortState);
+            } else if (request.sortState.field === SortNpcsListFeature.fieldWoundsHealth) {
+                return this.sortByNumberField(a.health, b.health, request.sortState);
             } else {
                 return this.sortByNumberField(a.id, b.id, request.sortState);
             }

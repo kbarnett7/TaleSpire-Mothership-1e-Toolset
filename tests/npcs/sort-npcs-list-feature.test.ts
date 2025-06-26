@@ -166,11 +166,11 @@ describe("SortNpcsListFeature", () => {
         expect(result.value).toBeDefined();
         expect(result.value?.length).toBe(9);
 
-        const gear = result.value ?? [];
+        const npcs = result.value ?? [];
 
-        for (let i = 0; i < gear.length; i++) {
+        for (let i = 0; i < npcs.length; i++) {
             if (i > 0) {
-                expect(gear[i].id).toBeLessThanOrEqual(gear[i - 1].id);
+                expect(npcs[i].id).toBeLessThanOrEqual(npcs[i - 1].id);
             }
         }
     });
@@ -222,6 +222,210 @@ describe("SortNpcsListFeature", () => {
 
         for (let i = 0; i < npcs.length; i++) {
             expect(npcs[i].name).toBe(expectedNameOrder[i]);
+        }
+    });
+
+    it('By combat in "Ascending" direction returns NPC list items sorted by combat from lowest to highest', () => {
+        // Arrange
+        const filteredNpcs: NpcListItem[] = getAllNpcListItems();
+        const sortState = new SortState();
+        sortState.set(SortNpcsListFeature.fieldCombat);
+        request.npcListItems = filteredNpcs;
+        request.sortState = sortState;
+
+        // Act
+        const result: Result<NpcListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(9);
+
+        const npcs = result.value ?? [];
+
+        for (let i = 0; i < npcs.length; i++) {
+            if (i > 0) {
+                expect(npcs[i].combat).toBeGreaterThanOrEqual(npcs[i - 1].combat);
+            }
+        }
+    });
+
+    it('By combat in "Descending" direction returns NPC list items sorted by combat from highest to lowest', () => {
+        // Arrange
+        const filteredNpcs: NpcListItem[] = getAllNpcListItems();
+        const sortState = new SortState();
+        sortState.set(SortNpcsListFeature.fieldCombat);
+        sortState.set(SortNpcsListFeature.fieldCombat);
+        request.npcListItems = filteredNpcs;
+        request.sortState = sortState;
+
+        // Act
+        const result: Result<NpcListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(9);
+
+        const npcs = result.value ?? [];
+
+        for (let i = 0; i < npcs.length; i++) {
+            if (i > 0) {
+                expect(npcs[i].combat).toBeLessThanOrEqual(npcs[i - 1].combat);
+            }
+        }
+    });
+
+    it('By instinct in "Ascending" direction returns NPC list items sorted by instinct from lowest to highest', () => {
+        // Arrange
+        const filteredNpcs: NpcListItem[] = getAllNpcListItems();
+        const sortState = new SortState();
+        sortState.set(SortNpcsListFeature.fieldInstinct);
+        request.npcListItems = filteredNpcs;
+        request.sortState = sortState;
+
+        // Act
+        const result: Result<NpcListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(9);
+
+        const npcs = result.value ?? [];
+
+        for (let i = 0; i < npcs.length; i++) {
+            if (i > 0) {
+                expect(npcs[i].instinct).toBeGreaterThanOrEqual(npcs[i - 1].instinct);
+            }
+        }
+    });
+
+    it('By instinct in "Descending" direction returns NPC list items sorted by instinct from highest to lowest', () => {
+        // Arrange
+        const filteredNpcs: NpcListItem[] = getAllNpcListItems();
+        const sortState = new SortState();
+        sortState.set(SortNpcsListFeature.fieldInstinct);
+        sortState.set(SortNpcsListFeature.fieldInstinct);
+        request.npcListItems = filteredNpcs;
+        request.sortState = sortState;
+
+        // Act
+        const result: Result<NpcListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(9);
+
+        const npcs = result.value ?? [];
+
+        for (let i = 0; i < npcs.length; i++) {
+            if (i > 0) {
+                expect(npcs[i].instinct).toBeLessThanOrEqual(npcs[i - 1].instinct);
+            }
+        }
+    });
+
+    it('By armor points in "Ascending" direction returns NPC list items sorted by armor points from lowest to highest', () => {
+        // Arrange
+        const filteredNpcs: NpcListItem[] = getAllNpcListItems();
+        const sortState = new SortState();
+        sortState.set(SortNpcsListFeature.fieldArmorPoints);
+        request.npcListItems = filteredNpcs;
+        request.sortState = sortState;
+
+        // Act
+        const result: Result<NpcListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(9);
+
+        const npcs = result.value ?? [];
+
+        for (let i = 0; i < npcs.length; i++) {
+            if (i > 0) {
+                expect(npcs[i].armorPoints).toBeGreaterThanOrEqual(npcs[i - 1].armorPoints);
+            }
+        }
+    });
+
+    it('By armor points in "Descending" direction returns NPC list items sorted by armor points from highest to lowest', () => {
+        // Arrange
+        const filteredNpcs: NpcListItem[] = getAllNpcListItems();
+        const sortState = new SortState();
+        sortState.set(SortNpcsListFeature.fieldArmorPoints);
+        sortState.set(SortNpcsListFeature.fieldArmorPoints);
+        request.npcListItems = filteredNpcs;
+        request.sortState = sortState;
+
+        // Act
+        const result: Result<NpcListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(9);
+
+        const npcs = result.value ?? [];
+
+        for (let i = 0; i < npcs.length; i++) {
+            if (i > 0) {
+                expect(npcs[i].armorPoints).toBeLessThanOrEqual(npcs[i - 1].armorPoints);
+            }
+        }
+    });
+
+    it('By health in "Ascending" direction returns NPC list items sorted by health from lowest to highest', () => {
+        // Arrange
+        const filteredNpcs: NpcListItem[] = getAllNpcListItems();
+        const sortState = new SortState();
+        sortState.set(SortNpcsListFeature.fieldWoundsHealth);
+        request.npcListItems = filteredNpcs;
+        request.sortState = sortState;
+
+        // Act
+        const result: Result<NpcListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(9);
+
+        const npcs = result.value ?? [];
+
+        for (let i = 0; i < npcs.length; i++) {
+            if (i > 0) {
+                expect(npcs[i].health).toBeGreaterThanOrEqual(npcs[i - 1].health);
+            }
+        }
+    });
+
+    it('By health in "Descending" direction returns NPC list items sorted by health from highest to lowest', () => {
+        // Arrange
+        const filteredNpcs: NpcListItem[] = getAllNpcListItems();
+        const sortState = new SortState();
+        sortState.set(SortNpcsListFeature.fieldWoundsHealth);
+        sortState.set(SortNpcsListFeature.fieldWoundsHealth);
+        request.npcListItems = filteredNpcs;
+        request.sortState = sortState;
+
+        // Act
+        const result: Result<NpcListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(9);
+
+        const npcs = result.value ?? [];
+
+        for (let i = 0; i < npcs.length; i++) {
+            if (i > 0) {
+                expect(npcs[i].health).toBeLessThanOrEqual(npcs[i - 1].health);
+            }
         }
     });
 
