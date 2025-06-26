@@ -13,6 +13,14 @@ import { ErrorCode } from "../../src/lib/errors/error-code";
 import { SortState } from "../../src/lib/sorting/sort-state";
 
 describe("SortGearListFeature", () => {
+    const armorItemNameInAlphabeticalOrder: string[] = [
+        "Advanced Battle Dress",
+        "Hazard Suit",
+        "Standard Battle Dress",
+        "Standard Crew Attire",
+        "Vaccsuit",
+    ];
+
     let feature: SortGearListFeature;
     let request: SortGearListRequest;
 
@@ -27,7 +35,7 @@ describe("SortGearListFeature", () => {
         request.gearListItems = [...filteredGearItems];
         request.sortState = new SortState(SortGearListFeature.fieldId);
 
-        jest.spyOn(feature as any, "sortGearListItems").mockImplementation(() => {
+        jest.spyOn(request.sortState, "direction", "get").mockImplementation(() => {
             throw new Error("Mocked exception");
         });
 
@@ -64,6 +72,8 @@ describe("SortGearListFeature", () => {
     it("By invalid field returns gear list items in same order as before", () => {
         // Arrange
         const filteredGearItems: GearListItem[] = getAllGearListItems();
+        const firstElement = filteredGearItems.shift();
+        if (firstElement) filteredGearItems.push(firstElement);
 
         request.gearListItems = [...filteredGearItems];
         request.sortState = new SortState("invalid_field");
@@ -167,13 +177,6 @@ describe("SortGearListFeature", () => {
 
     it('By item name in "Ascending" direction returns gear list items sorted by item name in alphabetical order', () => {
         // Arrange
-        const expectedItemNameOrder: string[] = [
-            "Advanced Battle Dress",
-            "Hazard Suit",
-            "Standard Battle Dress",
-            "Standard Crew Attire",
-            "Vaccsuit",
-        ];
         const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
         const sortState = new SortState();
         sortState.set(SortGearListFeature.fieldItem);
@@ -192,19 +195,13 @@ describe("SortGearListFeature", () => {
         const gear = result.value ?? [];
 
         for (let i = 0; i < gear.length; i++) {
-            expect(gear[i].name).toBe(expectedItemNameOrder[i]);
+            expect(gear[i].name).toBe(armorItemNameInAlphabeticalOrder[i]);
         }
     });
 
     it('By item name in "Descending" direction returns gear list items sorted by item name in reverse alphabetical order', () => {
         // Arrange
-        const expectedItemNameOrder: string[] = [
-            "Vaccsuit",
-            "Standard Crew Attire",
-            "Standard Battle Dress",
-            "Hazard Suit",
-            "Advanced Battle Dress",
-        ];
+        const expectedItemNameOrder: string[] = [...armorItemNameInAlphabeticalOrder].reverse();
         const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
         const sortState = new SortState();
         sortState.set(SortGearListFeature.fieldItem);

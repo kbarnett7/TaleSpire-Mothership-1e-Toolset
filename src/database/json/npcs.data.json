@@ -157,5 +157,29 @@
         ],
         "description": "Tall, dark, fleshy columns supported by seven thick legs branching off into smaller and smaller appendages. Thick, wrinkled skin pocketed with orifices of unknown abilities. Time passes differently for these very intelligent beings, so combat with them is nearly impossible for those experiencing linear time. Large, weird eyes covered with layers of skin. Can cause focused time distortions to destroy equipment and weird aging upon humans (in both directions).",
         "quotes": []
+    },
+
+    {
+        "id": 9,
+        "sourceId": 3,
+        "name": "Demons",
+        "combat": 65,
+        "attacks": [
+            {
+                "name": "Attack",
+                "effect": "3d10"
+            }
+        ],
+        "instinct": 75,
+        "armorPoints": 5,
+        "health": 100,
+        "maximumWounds": 5,
+        "specialAbilities": [
+            {
+                "description": "Whisper: Fear Save or take current Stress as DMG."
+            }
+        ],
+        "description": "The frequency is found, after years of trying. The ham radio hisses and spits. Slick drips from the speakers. The lights pulse and flicker. Sibilant voices promise unspeakable things, freedom from the drudgery and misery of wage slavery. The crew unflesh themselves, mumbling prayers. Something is born from the bloody ruin-wet fur, many-jointed limbs, an iron mask cast of their former face. They wear their old skin as cloaks and finery.",
+        "quotes": []
     }
 ]
