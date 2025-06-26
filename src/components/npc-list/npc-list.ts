@@ -15,25 +15,23 @@ import { NpcFormComponent } from "../npc-form/npc-form";
 import { Npc } from "../../features/npcs/npc";
 import { GetNpcByIdFeature } from "../../features/npcs/get-npc-by-id/get-npc-by-id-feature";
 import { GetNpcByIdRequest } from "../../features/npcs/get-npc-by-id/get-npc-by-id-request";
+import { SortNpcsListFeature } from "../../features/npcs/sort-npcs-list/sort-npcs-list-feature";
+import { SortState } from "../../lib/sorting/sort-state";
+import { SortNpcsListRequest } from "../../features/npcs/sort-npcs-list/sort-npcs-list-request";
+import { SortDirection } from "../../lib/sorting/sort-direction";
+import { TableHeader } from "../../lib/tables/table-header";
 
 export class NpcListComponent extends BaseComponent {
-    // TODO: Move fields to Sort Feature class once that is created
-    static fieldId: string = "Id";
-    static fieldName: string = "Name";
-    static fieldCombat: string = "Combat";
-    static fieldInstinct: string = "Instinct";
-    static fieldArmorPoints: string = "Armor Points";
-    static fieldWoundsHealth: string = "Max Wounds (Health)";
-
     private getAllNpcsFeature: GetAllNpcsFeature;
     private npcsList: Array<NpcListItem>;
-    private tableHeaders: string[] = [
-        NpcListComponent.fieldName,
-        NpcListComponent.fieldCombat,
-        NpcListComponent.fieldInstinct,
-        NpcListComponent.fieldArmorPoints,
-        NpcListComponent.fieldWoundsHealth,
+    private tableHeaders: TableHeader[] = [
+        new TableHeader(SortNpcsListFeature.fieldName, "Name"),
+        new TableHeader(SortNpcsListFeature.fieldCombat, "Combat"),
+        new TableHeader(SortNpcsListFeature.fieldInstinct, "Instinct"),
+        new TableHeader(SortNpcsListFeature.fieldArmorPoints, "Armor Points"),
+        new TableHeader(SortNpcsListFeature.fieldWoundsHealth, "Max Wounds (Health)"),
     ];
+    private sortState: SortState = new SortState(SortNpcsListFeature.fieldId);
     private unitOfWork: IUnitOfWork;
 
     constructor() {
@@ -47,6 +45,8 @@ export class NpcListComponent extends BaseComponent {
         this.render(html);
 
         this.npcsList = this.getAllNpcsFeature.handle(new EmptyRequest());
+
+        this.sortNpcs();
 
         this.populateTableHeaderRow();
         this.populateTableRows();
@@ -74,24 +74,24 @@ export class NpcListComponent extends BaseComponent {
         return row;
     }
 
-    private createTableHeaderElement(header: string): HTMLTableCellElement {
+    private createTableHeaderElement(header: TableHeader): HTMLTableCellElement {
         const tableHeaderElement = document.createElement("th");
 
-        tableHeaderElement.id = `header${header}`;
+        tableHeaderElement.id = `header${header.field}`;
         tableHeaderElement.className = "uppercase p-2 cursor-pointer";
-        tableHeaderElement.onclick = () => this.onTableHeaderClick(header);
+        tableHeaderElement.onclick = () => this.onTableHeaderClick(header.field);
         tableHeaderElement.appendChild(this.createHeaderDivElement(header));
 
         return tableHeaderElement;
     }
 
-    private createHeaderDivElement(header: string): HTMLDivElement {
+    private createHeaderDivElement(header: TableHeader): HTMLDivElement {
         const headerDiv = document.createElement("div");
 
         headerDiv.className = "flex justify-between";
         headerDiv.innerHTML = `
-            <div>${header}</div>
-            <div id="${header}SortIcon"></div>
+            <div>${header.displayName}</div>
+            <div id="${header.field}SortIcon"></div>
         `;
 
         return headerDiv;
@@ -144,9 +144,49 @@ export class NpcListComponent extends BaseComponent {
     }
 
     public onTableHeaderClick(header: string) {
-        // this.sortState.set(header);
-        // this.sortGear();
-        // this.populateGearTable(true);
+        this.sortState.set(header);
+        this.sortNpcs();
+        this.populateTableRows(true);
+    }
+
+    private sortNpcs() {
+        this.tableHeaders.forEach((currentHeader) => {
+            this.updateSortIcons(currentHeader.field);
+        });
+
+        const feature = new SortNpcsListFeature();
+        const request = new SortNpcsListRequest();
+
+        request.npcListItems = this.npcsList;
+        request.sortState = this.sortState;
+
+        const result = feature.handle(request);
+
+        if (result.isFailure) {
+            this.dispatchErrorEvent(result.error.description);
+            return;
+        }
+
+        this.npcsList = result.value ?? [];
+    }
+
+    private updateSortIcons(currentHeader: string) {
+        const sortIcon = this.shadow.querySelector(`#${currentHeader}SortIcon`);
+
+        if (!sortIcon) return;
+
+        if (currentHeader !== this.sortState.field) {
+            sortIcon.className = "";
+            return;
+        }
+
+        if (this.sortState.direction === SortDirection.Ascending) {
+            sortIcon.className = "icon-chevron icon-chevron-up";
+        } else if (this.sortState.direction === SortDirection.Descending) {
+            sortIcon.className = "icon-chevron icon-chevron-down";
+        } else {
+            sortIcon.className = "";
+        }
     }
 
     public onTableDataRowClick(npcListItem: NpcListItem) {

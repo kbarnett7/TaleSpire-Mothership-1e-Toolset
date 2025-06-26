@@ -12,12 +12,12 @@ export class SortNpcsListFeature
     extends SortListFeature
     implements IFeature<SortNpcsListRequest, Result<NpcListItem[]>>
 {
-    static fieldId: string = "Id";
-    static fieldName: string = "Name";
-    static fieldCombat: string = "Combat";
-    static fieldInstinct: string = "Instinct";
-    static fieldArmorPoints: string = "Armor Points";
-    static fieldWoundsHealth: string = "Max Wounds (Health)";
+    static fieldId: string = "id";
+    static fieldName: string = "name";
+    static fieldCombat: string = "combat";
+    static fieldInstinct: string = "instinct";
+    static fieldArmorPoints: string = "armorPoints";
+    static fieldWoundsHealth: string = "maxWoundsAndHealth";
 
     constructor() {
         super([
