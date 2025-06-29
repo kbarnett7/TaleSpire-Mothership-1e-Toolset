@@ -20,6 +20,10 @@ import { SortState } from "../../lib/sorting/sort-state";
 import { SortNpcsListRequest } from "../../features/npcs/sort-npcs-list/sort-npcs-list-request";
 import { SortDirection } from "../../lib/sorting/sort-direction";
 import { TableHeader } from "../../lib/tables/table-header";
+import { NpcFilterChangedEvent } from "../../lib/events/npc-filter-changed-event";
+import { AppEventListener } from "../../lib/events/app-event-listener-interface";
+import { FilterNpcsListFeature } from "../../features/npcs/filter-npcs-list/filter-npcs-list-feature";
+import { FilterNpcsListRequest } from "../../features/npcs/filter-npcs-list/filter-npcs-list-request";
 
 export class NpcListComponent extends BaseComponent {
     private getAllNpcsFeature: GetAllNpcsFeature;
@@ -50,6 +54,12 @@ export class NpcListComponent extends BaseComponent {
 
         this.populateTableHeaderRow();
         this.populateTableRows();
+
+        EventBus.instance.register(NpcFilterChangedEvent.name, this.onNpcCategoryChangedEvent);
+    }
+
+    public disconnectedCallback() {
+        EventBus.instance.unregister(NpcFilterChangedEvent.name, this.onNpcCategoryChangedEvent);
     }
 
     private populateTableHeaderRow() {
@@ -214,6 +224,32 @@ export class NpcListComponent extends BaseComponent {
         const request = new GetNpcByIdRequest(id);
 
         return feature.handle(request);
+    }
+
+    private onNpcCategoryChangedEvent: AppEventListener = (event: AppEvent) => {
+        this.filterNpcs(event as NpcFilterChangedEvent);
+    };
+
+    private filterNpcs(event: NpcFilterChangedEvent) {
+        const feature = new FilterNpcsListFeature(this.unitOfWork);
+        const request = new FilterNpcsListRequest();
+
+        request.search = event.search;
+
+        const result = feature.handle(request);
+
+        if (result.isFailure) {
+            this.dispatchErrorEvent(result.error.description);
+            return;
+        }
+
+        EventBus.instance.dispatch(new AppEvent(EventType.ErrorPanelHide));
+
+        this.npcsList = result.value ?? [];
+
+        this.sortNpcs();
+
+        this.populateTableRows(true);
     }
 
     private dispatchErrorEvent(error: string) {
