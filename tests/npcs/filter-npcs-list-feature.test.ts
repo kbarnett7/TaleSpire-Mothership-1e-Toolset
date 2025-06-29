@@ -2,6 +2,7 @@ import { FilterNpcsListFeature } from "../../src/features/npcs/filter-npcs-list/
 import { FilterNpcsListRequest } from "../../src/features/npcs/filter-npcs-list/filter-npcs-list-request";
 import { NpcListItem } from "../../src/features/npcs/npc-list-item";
 import { UnitOfWork } from "../../src/lib/data-access/unit-of-work";
+import { ErrorCode } from "../../src/lib/errors/error-code";
 import { Result } from "../../src/lib/result/result";
 import { UnitTestDatabase } from "../data/unit-test-database";
 
@@ -15,6 +16,25 @@ describe("FilterNpcsListFeature", () => {
 
         feature = new FilterNpcsListFeature(unitOfWork);
         request = new FilterNpcsListRequest();
+    });
+
+    it("When exception occurs returns a failure result with error information", () => {
+        // Arrange
+        // Turn the search field into a get() property so that we can mock throwing an exception
+        Object.defineProperty(request, "search", {
+            get: jest.fn().mockImplementation(() => {
+                throw new Error("Mocked exception");
+            }),
+        });
+
+        // Act
+        const result: Result<NpcListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isFailure).toBe(true);
+        expect(result.value).not.toBeDefined();
+        expect(result.error).toBeDefined();
+        expect(result.error.code).toBe(ErrorCode.QueryError);
     });
 
     it("By empty name returns a list of all NPC list items", () => {
