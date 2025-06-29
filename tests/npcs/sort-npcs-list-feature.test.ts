@@ -19,7 +19,7 @@ describe("SortNpcsListFeature", () => {
         "Demons",
         "The 4YourEyez Algorithm",
         "The Body Politic",
-        "The Brown Stream",
+        "The Brown Stream (video)",
     ];
     let feature: SortNpcsListFeature;
     let request: SortNpcsListRequest;
