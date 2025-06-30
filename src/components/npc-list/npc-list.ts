@@ -51,35 +51,21 @@ export class NpcListComponent extends BaseListComponent {
         this.populateTableHeaderRow();
         this.populateTableRows();
 
-        EventBus.instance.register(NpcFilterChangedEvent.name, this.onNpcCategoryChangedEvent);
+        EventBus.instance.register(NpcFilterChangedEvent.name, this.onNpcFilterChangedEvent);
     }
 
     public disconnectedCallback() {
-        EventBus.instance.unregister(NpcFilterChangedEvent.name, this.onNpcCategoryChangedEvent);
+        EventBus.instance.unregister(NpcFilterChangedEvent.name, this.onNpcFilterChangedEvent);
     }
 
-    protected populateTableRows(clearOldRows: boolean = false) {
-        const npcListContainer = this.shadow.querySelector("#list-container");
-
-        if (!npcListContainer) return;
-
-        const tableBody = npcListContainer.querySelector("tbody");
-
-        if (!tableBody) return;
-
-        if (clearOldRows && tableBody.hasChildNodes()) {
-            tableBody.replaceChildren();
-        }
-
+    protected createTableRowsElements(tableBody: HTMLTableSectionElement) {
         this.npcsList.forEach((item) => {
             tableBody.appendChild(this.createTableRowElement(item));
         });
     }
 
     private createTableRowElement(npcListItem: NpcListItem): HTMLTableRowElement {
-        const row = document.createElement("tr");
-
-        row.className = "border-2 border-y-gray-300 cursor-pointer hover:bg-gray-300";
+        const row = this.createBaseTableRowElement();
 
         row.innerHTML = `
                 <td class="p-2">${npcListItem.name}</td>
@@ -152,7 +138,7 @@ export class NpcListComponent extends BaseListComponent {
         return feature.handle(request);
     }
 
-    private onNpcCategoryChangedEvent: AppEventListener = (event: AppEvent) => {
+    private onNpcFilterChangedEvent: AppEventListener = (event: AppEvent) => {
         this.filterNpcs(event as NpcFilterChangedEvent);
     };
 

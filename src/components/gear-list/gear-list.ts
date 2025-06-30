@@ -54,35 +54,21 @@ export class GearListComponent extends BaseListComponent {
         this.populateTableHeaderRow();
         this.populateTableRows();
 
-        EventBus.instance.register(GearFilterChangedEvent.name, this.onGearCategoryChangedEvent);
+        EventBus.instance.register(GearFilterChangedEvent.name, this.onGearFilterChangedEvent);
     }
 
     public disconnectedCallback() {
-        EventBus.instance.unregister(GearFilterChangedEvent.name, this.onGearCategoryChangedEvent);
+        EventBus.instance.unregister(GearFilterChangedEvent.name, this.onGearFilterChangedEvent);
     }
 
-    protected populateTableRows(clearOldRows: boolean = false) {
-        const gearListContainer = this.shadow.querySelector("#list-container");
-
-        if (!gearListContainer) return;
-
-        const tableBody = gearListContainer.querySelector("tbody");
-
-        if (!tableBody) return;
-
-        if (clearOldRows && tableBody.hasChildNodes()) {
-            tableBody.replaceChildren();
-        }
-
+    protected createTableRowsElements(tableBody: HTMLTableSectionElement) {
         this.gearList.forEach((item) => {
             tableBody.appendChild(this.createTableRowElement(item));
         });
     }
 
     private createTableRowElement(gearItem: GearListItem): HTMLTableRowElement {
-        const row = document.createElement("tr");
-
-        row.className = "border-2 border-y-gray-300 cursor-pointer hover:bg-gray-300";
+        const row = this.createBaseTableRowElement();
 
         row.innerHTML = `
             <td class="p-2">${gearItem.name}</td>
@@ -96,7 +82,7 @@ export class GearListComponent extends BaseListComponent {
         return row;
     }
 
-    private onGearCategoryChangedEvent: AppEventListener = (event: AppEvent) => {
+    private onGearFilterChangedEvent: AppEventListener = (event: AppEvent) => {
         this.filterGear(event as GearFilterChangedEvent);
     };
 

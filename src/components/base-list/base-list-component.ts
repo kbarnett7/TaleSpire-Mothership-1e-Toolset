@@ -72,6 +72,30 @@ export abstract class BaseListComponent extends BaseComponent {
         this.populateTableRows(true);
     }
 
+    protected populateTableRows(clearOldRows: boolean = false) {
+        const gearListContainer = this.shadow.querySelector("#list-container");
+
+        if (!gearListContainer) return;
+
+        const tableBody = gearListContainer.querySelector("tbody");
+
+        if (!tableBody) return;
+
+        if (clearOldRows && tableBody.hasChildNodes()) {
+            tableBody.replaceChildren();
+        }
+
+        this.createTableRowsElements(tableBody);
+    }
+
+    protected createBaseTableRowElement(): HTMLTableRowElement {
+        const row = document.createElement("tr");
+
+        row.className = "border-2 border-y-gray-300 cursor-pointer hover:bg-gray-300";
+
+        return row;
+    }
+
     protected updateSortIcons(currentHeader: string) {
         const sortIcon = this.shadow.querySelector(`#${currentHeader}SortIcon`);
 
@@ -96,5 +120,5 @@ export abstract class BaseListComponent extends BaseComponent {
     }
 
     protected abstract sortItems(): void;
-    protected abstract populateTableRows(clearOldRows: boolean): void;
+    protected abstract createTableRowsElements(tableBody: HTMLTableSectionElement): void;
 }
