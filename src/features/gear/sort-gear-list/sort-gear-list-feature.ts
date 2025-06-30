@@ -12,11 +12,11 @@ export class SortGearListFeature
     extends SortListFeature
     implements IFeature<SortGearListRequest, Result<GearListItem[]>>
 {
-    static fieldId: string = "Id";
-    static fieldItem: string = "Item";
-    static fieldCost: string = "Cost";
-    static fieldCategory: string = "Category";
-    static fieldDescription: string = "Description";
+    static fieldId: string = "id";
+    static fieldItem: string = "item";
+    static fieldCost: string = "cost";
+    static fieldCategory: string = "category";
+    static fieldDescription: string = "description";
 
     constructor() {
         super([

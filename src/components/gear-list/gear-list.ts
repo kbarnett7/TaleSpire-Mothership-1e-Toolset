@@ -1,5 +1,4 @@
 import html from "./gear-list.html";
-import { BaseComponent } from "../base.component";
 import { GetAllGearFeature } from "../../features/gear/get-all-gear/get-all-gear-feature";
 import { GearListItem } from "../../features/gear/gear-list-item";
 import { UnitOfWork } from "../../lib/data-access/unit-of-work";
@@ -28,22 +27,20 @@ import { ArmorItem } from "../../features/gear/armor-item";
 import { WeaponItem } from "../../features/gear/weapon-item";
 import { GearWeaponFormComponent } from "../gear-weapon-form/gear-weapon-form";
 import { AppEventListener } from "../../lib/events/app-event-listener-interface";
+import { BaseListComponent } from "../base-list/base-list-component";
+import { TableHeader } from "../../lib/tables/table-header";
 
-export class GearListComponent extends BaseComponent {
+export class GearListComponent extends BaseListComponent {
     private getAllGearFeature: GetAllGearFeature;
     private gearList: Array<GearListItem> = [];
-    private tableHeaders: string[] = [
-        SortGearListFeature.fieldItem,
-        SortGearListFeature.fieldCost,
-        SortGearListFeature.fieldCategory,
-        SortGearListFeature.fieldDescription,
-    ];
-    private sortState: SortState = new SortState(SortGearListFeature.fieldId);
-    private unitOfWork: IUnitOfWork;
 
     constructor() {
-        super();
-        this.unitOfWork = appInjector.injectClass(UnitOfWork);
+        super(SortGearListFeature.fieldId, [
+            new TableHeader(SortGearListFeature.fieldItem, "Item"),
+            new TableHeader(SortGearListFeature.fieldCost, "Cost"),
+            new TableHeader(SortGearListFeature.fieldCategory, "Category"),
+            new TableHeader(SortGearListFeature.fieldDescription, "Description"),
+        ]);
         this.getAllGearFeature = new GetAllGearFeature(this.unitOfWork);
     }
 
@@ -52,10 +49,10 @@ export class GearListComponent extends BaseComponent {
 
         this.gearList = this.getAllGearFeature.handle(new EmptyRequest());
 
-        this.sortGear();
+        this.sortItems();
 
         this.populateTableHeaderRow();
-        this.populateGearTable();
+        this.populateTableRows();
 
         EventBus.instance.register(GearFilterChangedEvent.name, this.onGearCategoryChangedEvent);
     }
@@ -64,53 +61,8 @@ export class GearListComponent extends BaseComponent {
         EventBus.instance.unregister(GearFilterChangedEvent.name, this.onGearCategoryChangedEvent);
     }
 
-    private populateTableHeaderRow() {
-        const gearListContainer = this.shadow.querySelector("#gear-list-container");
-
-        if (!gearListContainer) return;
-
-        const tableHeader = gearListContainer.querySelector("thead");
-
-        if (!tableHeader) return;
-
-        tableHeader.appendChild(this.createTableHeaderRowElement());
-    }
-
-    private createTableHeaderRowElement(): HTMLTableRowElement {
-        const row = document.createElement("tr");
-
-        this.tableHeaders.forEach((header) => {
-            row.appendChild(this.createTableHeaderElement(header));
-        });
-
-        return row;
-    }
-
-    private createTableHeaderElement(header: string): HTMLTableCellElement {
-        const tableHeaderElement = document.createElement("th");
-
-        tableHeaderElement.id = `header${header}`;
-        tableHeaderElement.className = "uppercase p-2 cursor-pointer";
-        tableHeaderElement.onclick = () => this.onTableHeaderClick(header);
-        tableHeaderElement.appendChild(this.createHeaderDivElement(header));
-
-        return tableHeaderElement;
-    }
-
-    private createHeaderDivElement(header: string): HTMLDivElement {
-        const headerDiv = document.createElement("div");
-
-        headerDiv.className = "flex justify-between";
-        headerDiv.innerHTML = `
-            <div>${header}</div>
-            <div id="${header}SortIcon"></div>
-        `;
-
-        return headerDiv;
-    }
-
-    private populateGearTable(clearOldRows: boolean = false) {
-        const gearListContainer = this.shadow.querySelector("#gear-list-container");
+    protected populateTableRows(clearOldRows: boolean = false) {
+        const gearListContainer = this.shadow.querySelector("#list-container");
 
         if (!gearListContainer) return;
 
@@ -166,9 +118,9 @@ export class GearListComponent extends BaseComponent {
 
         this.gearList = result.value ?? [];
 
-        this.sortGear();
+        this.sortItems();
 
-        this.populateGearTable(true);
+        this.populateTableRows(true);
     }
 
     public onTableDataRowClick(gearItem: GearListItem) {
@@ -218,15 +170,9 @@ export class GearListComponent extends BaseComponent {
         return feature.handle(request);
     }
 
-    public onTableHeaderClick(header: string) {
-        this.sortState.set(header);
-        this.sortGear();
-        this.populateGearTable(true);
-    }
-
-    private sortGear() {
+    protected sortItems() {
         this.tableHeaders.forEach((currentHeader) => {
-            this.updateSortIcons(currentHeader);
+            this.updateSortIcons(currentHeader.field);
         });
 
         const feature = new SortGearListFeature();
@@ -243,29 +189,6 @@ export class GearListComponent extends BaseComponent {
         }
 
         this.gearList = result.value ?? [];
-    }
-
-    private updateSortIcons(currentHeader: string) {
-        const sortIcon = this.shadow.querySelector(`#${currentHeader}SortIcon`);
-
-        if (!sortIcon) return;
-
-        if (currentHeader !== this.sortState.field) {
-            sortIcon.className = "";
-            return;
-        }
-
-        if (this.sortState.direction === SortDirection.Ascending) {
-            sortIcon.className = "icon-chevron icon-chevron-up";
-        } else if (this.sortState.direction === SortDirection.Descending) {
-            sortIcon.className = "icon-chevron icon-chevron-down";
-        } else {
-            sortIcon.className = "";
-        }
-    }
-
-    private dispatchErrorEvent(error: string) {
-        EventBus.instance.dispatch(new AppErrorEvent(EventType.ErrorPanelShow, error));
     }
 }
 
