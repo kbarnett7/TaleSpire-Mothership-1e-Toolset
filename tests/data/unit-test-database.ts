@@ -18,10 +18,10 @@ export class UnitTestDatabase implements IDatabase {
         this._dbSets.set(ArmorItem.name, new DbSet<ArmorItem>(armorData));
         this._dbSets.set(EquipmentItem.name, new DbSet<EquipmentItem>(equipmentData));
         this._dbSets.set(WeaponItem.name, new DbSet<WeaponItem>(weaponData));
-        this._dbSets.set(Npc.name, new DbSet<Npc>(npcData));
+        this._dbSets.set(Npc.name, new DbSet<Npc>(npcData.map((obj) => Object.assign(new Npc(), obj))));
     }
 
-    getSet<T>(type: Constructor<T>): DbSet<T> {
+    public getSet<T>(type: Constructor<T>): DbSet<T> {
         const typeName = type.name;
         const dbSet = this._dbSets.get(typeName);
 
