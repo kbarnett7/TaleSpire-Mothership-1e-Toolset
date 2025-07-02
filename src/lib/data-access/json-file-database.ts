@@ -15,10 +15,19 @@ export class JsonFileDatabase implements IDatabase {
 
     constructor() {
         this._dbSets = new Map<string, DbSet<any>>();
-        this._dbSets.set(ArmorItem.name, new DbSet<ArmorItem>(armorData));
-        this._dbSets.set(EquipmentItem.name, new DbSet<EquipmentItem>(equipmentData));
-        this._dbSets.set(WeaponItem.name, new DbSet<WeaponItem>(weaponData));
-        this._dbSets.set(Npc.name, new DbSet<Npc>(npcData));
+        this._dbSets.set(
+            ArmorItem.name,
+            new DbSet<ArmorItem>(armorData.map((obj) => Object.assign(new ArmorItem(), obj)))
+        );
+        this._dbSets.set(
+            EquipmentItem.name,
+            new DbSet<EquipmentItem>(equipmentData.map((obj) => Object.assign(new EquipmentItem(), obj)))
+        );
+        this._dbSets.set(
+            WeaponItem.name,
+            new DbSet<WeaponItem>(weaponData.map((obj) => Object.assign(new WeaponItem(), obj)))
+        );
+        this._dbSets.set(Npc.name, new DbSet<Npc>(npcData.map((obj) => Object.assign(new Npc(), obj))));
     }
 
     getSet<T>(type: Constructor<T>): DbSet<T> {
