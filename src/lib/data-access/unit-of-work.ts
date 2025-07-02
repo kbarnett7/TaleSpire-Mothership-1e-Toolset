@@ -5,7 +5,7 @@ import { IRepository } from "../common/data-access/repository-interface";
 import { IUnitOfWork } from "../common/data-access/unit-of-work-interface";
 
 export class UnitOfWork implements IUnitOfWork {
-    public static inject = ["database"] as const;
+    public static inject = ["appDatabaseContext"] as const;
 
     private dbContext: IDatabaseContext;
 

@@ -3,5 +3,5 @@ import { AppDatabaseContext } from "../data-access/app-database-context";
 import { UnitOfWork } from "../data-access/unit-of-work";
 
 export const appInjector = createInjector()
-    .provideClass("database", AppDatabaseContext, Scope.Transient)
+    .provideClass("appDatabaseContext", AppDatabaseContext, Scope.Transient)
     .provideClass("unitOfWork", UnitOfWork, Scope.Transient);

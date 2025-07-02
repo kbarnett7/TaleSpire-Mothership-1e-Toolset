@@ -14,6 +14,7 @@ export class AppDatabaseContext implements IDatabaseContext {
     private _dbSets: Map<string, DbSet<any>>;
 
     constructor() {
+        //this._db.get
         this._dbSets = new Map<string, DbSet<any>>();
         this._dbSets.set(
             ArmorItem.name,
@@ -39,5 +40,9 @@ export class AppDatabaseContext implements IDatabaseContext {
         }
 
         throw new Error(`DbSet of type ${typeName} not found.`);
+    }
+
+    public saveChanges() {
+        //this.db.save(this._dbSets);
     }
 }
