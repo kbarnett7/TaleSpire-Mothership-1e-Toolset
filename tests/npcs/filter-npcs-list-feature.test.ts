@@ -11,8 +11,8 @@ describe("FilterNpcsListFeature", () => {
     let request: FilterNpcsListRequest;
 
     beforeEach(() => {
-        const db = new UnitTestDatabase();
-        const unitOfWork = new UnitOfWork(db);
+        const dbContext = new UnitTestDatabase();
+        const unitOfWork = new UnitOfWork(dbContext);
 
         feature = new FilterNpcsListFeature(unitOfWork);
         request = new FilterNpcsListRequest();

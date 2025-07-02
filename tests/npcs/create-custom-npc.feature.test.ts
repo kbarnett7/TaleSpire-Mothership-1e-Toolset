@@ -15,8 +15,8 @@ describe("CreateCustomNpcFeature", () => {
     let feature: CreateCustomNpcFeature;
 
     beforeEach(() => {
-        const db = new UnitTestDatabase();
-        const unitOfWork = new UnitOfWork(db);
+        const dbContext = new UnitTestDatabase();
+        const unitOfWork = new UnitOfWork(dbContext);
 
         request = new CreateCustomNpcRequest();
         feature = new CreateCustomNpcFeature(unitOfWork);

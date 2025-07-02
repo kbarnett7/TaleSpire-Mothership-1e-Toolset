@@ -11,8 +11,8 @@ import { GearTestUtils } from "./gear-test-utils";
 describe("GetAllGearFeature", () => {
     it("Returns all gear list items", () => {
         // Arrange
-        const db = new UnitTestDatabase();
-        const unitOfWork = new UnitOfWork(db);
+        const dbContext = new UnitTestDatabase();
+        const unitOfWork = new UnitOfWork(dbContext);
         const feature = new GetAllGearFeature(unitOfWork);
 
         // Act

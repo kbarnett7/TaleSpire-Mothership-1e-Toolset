@@ -5,12 +5,12 @@ import npcData from "../../database/json/npcs.data.json";
 import { Constructor } from "../common/types/constructor-type";
 import { ArmorItem } from "../../features/gear/armor-item";
 import { EquipmentItem } from "../../features/gear/equipment-item";
-import { IDatabase } from "../common/data-access/database-interface";
+import { IDatabaseContext } from "../common/data-access/database-context-interface";
 import { DbSet } from "../common/data-access/db-set";
 import { WeaponItem } from "../../features/gear/weapon-item";
 import { Npc } from "../../features/npcs/npc";
 
-export class JsonFileDatabase implements IDatabase {
+export class AppDatabaseContext implements IDatabaseContext {
     private _dbSets: Map<string, DbSet<any>>;
 
     constructor() {
@@ -30,7 +30,7 @@ export class JsonFileDatabase implements IDatabase {
         this._dbSets.set(Npc.name, new DbSet<Npc>(npcData.map((obj) => Object.assign(new Npc(), obj))));
     }
 
-    getSet<T>(type: Constructor<T>): DbSet<T> {
+    public getSet<T>(type: Constructor<T>): DbSet<T> {
         const typeName = type.name;
         const dbSet = this._dbSets.get(typeName);
 

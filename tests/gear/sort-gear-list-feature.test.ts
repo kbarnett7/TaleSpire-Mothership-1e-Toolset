@@ -404,15 +404,15 @@ describe("SortGearListFeature", () => {
     }
 
     function getAllGearListFeature(): GetAllGearFeature {
-        const db = new UnitTestDatabase();
-        const unitOfWork = new UnitOfWork(db);
+        const dbContext = new UnitTestDatabase();
+        const unitOfWork = new UnitOfWork(dbContext);
 
         return new GetAllGearFeature(unitOfWork);
     }
 
     function getFilterGearListFeature(): FilterGearListFeature {
-        const db = new UnitTestDatabase();
-        const unitOfWork = new UnitOfWork(db);
+        const dbContext = new UnitTestDatabase();
+        const unitOfWork = new UnitOfWork(dbContext);
 
         return new FilterGearListFeature(unitOfWork);
     }

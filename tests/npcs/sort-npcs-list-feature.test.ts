@@ -436,8 +436,8 @@ describe("SortNpcsListFeature", () => {
     }
 
     function getAllNpcsFeature(): GetAllNpcsFeature {
-        const db = new UnitTestDatabase();
-        const unitOfWork = new UnitOfWork(db);
+        const dbContext = new UnitTestDatabase();
+        const unitOfWork = new UnitOfWork(dbContext);
 
         return new GetAllNpcsFeature(unitOfWork);
     }

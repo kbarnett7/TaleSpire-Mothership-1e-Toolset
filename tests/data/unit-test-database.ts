@@ -5,12 +5,12 @@ import npcData from "./json/npc.data.json";
 import { ArmorItem } from "../../src/features/gear/armor-item";
 import { EquipmentItem } from "../../src/features/gear/equipment-item";
 import { WeaponItem } from "../../src/features/gear/weapon-item";
-import { IDatabase } from "../../src/lib/common/data-access/database-interface";
+import { IDatabaseContext } from "../../src/lib/common/data-access/database-context-interface";
 import { DbSet } from "../../src/lib/common/data-access/db-set";
 import { Constructor } from "../../src/lib/common/types/constructor-type";
 import { Npc } from "../../src/features/npcs/npc";
 
-export class UnitTestDatabase implements IDatabase {
+export class UnitTestDatabase implements IDatabaseContext {
     private _dbSets: Map<string, DbSet<any>>;
 
     constructor() {

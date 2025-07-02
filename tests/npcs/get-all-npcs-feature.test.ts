@@ -8,8 +8,8 @@ import { NpcTestUtils } from "./npc-test-utils";
 describe("GetAllNpcs Feature", () => {
     it("Returns all NPCs", () => {
         // Arrange
-        const db = new UnitTestDatabase();
-        const unitOfWork = new UnitOfWork(db);
+        const dbContext = new UnitTestDatabase();
+        const unitOfWork = new UnitOfWork(dbContext);
         const feature = new GetAllNpcsFeature(unitOfWork);
 
         // Act

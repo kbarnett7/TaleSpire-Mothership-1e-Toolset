@@ -16,8 +16,8 @@ describe("FilterGearListFeature", () => {
     let request: FilterGearListRequest;
 
     beforeEach(() => {
-        const db = new UnitTestDatabase();
-        const unitOfWork = new UnitOfWork(db);
+        const dbContext = new UnitTestDatabase();
+        const unitOfWork = new UnitOfWork(dbContext);
 
         feature = new FilterGearListFeature(unitOfWork);
         request = new FilterGearListRequest();
