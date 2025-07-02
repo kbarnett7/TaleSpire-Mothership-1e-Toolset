@@ -25,7 +25,7 @@ export class ResultError {
     }
 
     public get details(): string[] {
-        return this.details;
+        return this._details;
     }
 
     constructor(code: string, description: string, details?: string[]) {

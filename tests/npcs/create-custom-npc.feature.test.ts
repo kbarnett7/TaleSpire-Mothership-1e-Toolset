@@ -5,6 +5,8 @@ import { NpcAttack } from "../../src/features/npcs/npc-attack";
 import { NpcSpecialAbility } from "../../src/features/npcs/npc-special-ability";
 import { UnitOfWork } from "../../src/lib/data-access/unit-of-work";
 import { ErrorCode } from "../../src/lib/errors/error-code";
+import { MessageConstants } from "../../src/lib/localization/message-constants";
+import { Result } from "../../src/lib/result/result";
 import { UnitTestDatabase } from "../data/unit-test-database";
 
 describe("CreateCustomNpcFeature", () => {
@@ -30,12 +32,10 @@ describe("CreateCustomNpcFeature", () => {
         const result = feature.handle(request);
 
         // Assert
-        expect(result.isFailure).toBe(true);
-        expect(result.value).not.toBeDefined();
-        expect(result.error).toBeDefined();
-        expect(result.error.code).toBe(ErrorCode.CreateError);
-        expect(result.error.description).toContain("name");
-        expect(result.error.description).toContain("empty");
+        expectResultToBeFailure(result, ErrorCode.CreateError, MessageConstants.createCustomNpcFailed);
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("name");
+        expect(result.error.details[0]).toContain("empty");
     });
 
     it("should fail if the name is greater than 50 characters long", () => {
@@ -48,13 +48,19 @@ describe("CreateCustomNpcFeature", () => {
         const result = feature.handle(request);
 
         // Assert
-        expect(result.isFailure).toBe(true);
-        expect(result.value).not.toBeDefined();
-        expect(result.error).toBeDefined();
-        expect(result.error.code).toBe(ErrorCode.CreateError);
-        expect(result.error.description).toContain("name");
-        expect(result.error.description).toContain("50");
+        expectResultToBeFailure(result, ErrorCode.CreateError, MessageConstants.createCustomNpcFailed);
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("name");
+        expect(result.error.details[0]).toContain("50");
     });
+
+    function expectResultToBeFailure(actual: Result<any>, expectedCode: string, expectedDescription: string) {
+        expect(actual.isFailure).toBe(true);
+        expect(actual.value).not.toBeDefined();
+        expect(actual.error).toBeDefined();
+        expect(actual.error.code).toBe(expectedCode);
+        expect(actual.error.description).toBe(expectedDescription);
+    }
 
     function getValidCustomNpc(): Npc {
         return new Npc(
