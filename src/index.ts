@@ -29,7 +29,7 @@ importAll(require.context("./", true, /^(?!.*\.d\.ts$).*\.ts$/));
     try {
         const startup: Startup = new Startup();
 
-        await startup.configure();
+        await startup.configureAsync();
     } catch (error) {
         console.error("Error during app startup...", error);
     }

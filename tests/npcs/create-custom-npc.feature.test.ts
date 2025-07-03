@@ -7,15 +7,17 @@ import { UnitOfWork } from "../../src/lib/data-access/unit-of-work";
 import { ErrorCode } from "../../src/lib/errors/error-code";
 import { MessageConstants } from "../../src/lib/localization/message-constants";
 import { Result } from "../../src/lib/result/result";
-import { UnitTestDatabase } from "../data/unit-test-database";
+import { DataAccessUtils } from "../data-access/data-access-utils";
 
 describe("CreateCustomNpcFeature", () => {
+    const jsonDatabaseFilePath = "./tests/data/json/database.json";
     const fiftyCharacterLongName: string = "Lorem ipsum dolor sit amet consectetur adipiscingel";
+
     let request: CreateCustomNpcRequest;
     let feature: CreateCustomNpcFeature;
 
-    beforeEach(() => {
-        const dbContext = new UnitTestDatabase();
+    beforeEach(async () => {
+        const dbContext = await DataAccessUtils.getInitializedDbContext(jsonDatabaseFilePath);
         const unitOfWork = new UnitOfWork(dbContext);
 
         request = new CreateCustomNpcRequest();

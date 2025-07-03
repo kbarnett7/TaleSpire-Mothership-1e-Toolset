@@ -5,14 +5,17 @@ import { GetGearByIdFeature } from "../../src/features/gear/get-gear-by-id/get-g
 import { GetGearByIdRequest } from "../../src/features/gear/get-gear-by-id/get-gear-by-id-request";
 import { WeaponItem } from "../../src/features/gear/weapon-item";
 import { UnitOfWork } from "../../src/lib/data-access/unit-of-work";
-import { UnitTestDatabase } from "../data/unit-test-database";
+import { DataAccessUtils } from "../data-access/data-access-utils";
 
 describe("GetGearByIdFeature", () => {
+    const jsonDatabaseFilePath = "./tests/data/json/database.json";
+
     let feature: GetGearByIdFeature;
 
-    beforeEach(() => {
-        const dbContext = new UnitTestDatabase();
+    beforeEach(async () => {
+        const dbContext = await DataAccessUtils.getInitializedDbContext(jsonDatabaseFilePath);
         const unitOfWork = new UnitOfWork(dbContext);
+
         feature = new GetGearByIdFeature(unitOfWork);
     });
 

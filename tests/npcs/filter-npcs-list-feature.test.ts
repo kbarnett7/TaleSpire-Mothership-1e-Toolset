@@ -4,14 +4,16 @@ import { NpcListItem } from "../../src/features/npcs/npc-list-item";
 import { UnitOfWork } from "../../src/lib/data-access/unit-of-work";
 import { ErrorCode } from "../../src/lib/errors/error-code";
 import { Result } from "../../src/lib/result/result";
-import { UnitTestDatabase } from "../data/unit-test-database";
+import { DataAccessUtils } from "../data-access/data-access-utils";
 
 describe("FilterNpcsListFeature", () => {
+    const jsonDatabaseFilePath = "./tests/data/json/database.json";
+
     let feature: FilterNpcsListFeature;
     let request: FilterNpcsListRequest;
 
-    beforeEach(() => {
-        const dbContext = new UnitTestDatabase();
+    beforeEach(async () => {
+        const dbContext = await DataAccessUtils.getInitializedDbContext(jsonDatabaseFilePath);
         const unitOfWork = new UnitOfWork(dbContext);
 
         feature = new FilterNpcsListFeature(unitOfWork);

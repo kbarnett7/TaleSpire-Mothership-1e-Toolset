@@ -8,9 +8,9 @@ import { GearListItem } from "../../src/features/gear/gear-list-item";
 import { UnitOfWork } from "../../src/lib/data-access/unit-of-work";
 import { EmptyRequest } from "../../src/lib/common/features/empty-request";
 import { Result } from "../../src/lib/result/result";
-import { UnitTestDatabase } from "../data/unit-test-database";
 import { ErrorCode } from "../../src/lib/errors/error-code";
 import { SortState } from "../../src/lib/sorting/sort-state";
+import { DataAccessUtils } from "../data-access/data-access-utils";
 
 describe("SortGearListFeature", () => {
     const armorItemNameInAlphabeticalOrder: string[] = [
@@ -29,9 +29,9 @@ describe("SortGearListFeature", () => {
         request = new SortGearListRequest();
     });
 
-    it("When exception occurs returns a failure result with error information", () => {
+    it("When exception occurs returns a failure result with error information", async () => {
         // Arrange
-        const filteredGearItems: GearListItem[] = getAllGearListItems();
+        const filteredGearItems: GearListItem[] = await getAllGearListItems();
         request.gearListItems = [...filteredGearItems];
         request.sortState = new SortState(SortGearListFeature.fieldId);
 
@@ -49,9 +49,9 @@ describe("SortGearListFeature", () => {
         expect(result.error.code).toBe(ErrorCode.QueryError);
     });
 
-    it("By no field returns gear list items in same order as before", () => {
+    it("By no field returns gear list items in same order as before", async () => {
         // Arrange
-        const filteredGearItems: GearListItem[] = getAllGearListItems();
+        const filteredGearItems: GearListItem[] = await getAllGearListItems();
         request.gearListItems = [...filteredGearItems];
 
         // Act
@@ -69,9 +69,9 @@ describe("SortGearListFeature", () => {
         }
     });
 
-    it("By invalid field returns gear list items in same order as before", () => {
+    it("By invalid field returns gear list items in same order as before", async () => {
         // Arrange
-        const filteredGearItems: GearListItem[] = getAllGearListItems();
+        const filteredGearItems: GearListItem[] = await getAllGearListItems();
         const firstElement = filteredGearItems.shift();
         if (firstElement) filteredGearItems.push(firstElement);
 
@@ -93,9 +93,9 @@ describe("SortGearListFeature", () => {
         }
     });
 
-    it('By any field in "None" direction returns gear list items sorted by id from lowest to highest', () => {
+    it('By any field in "None" direction returns gear list items sorted by id from lowest to highest', async () => {
         // Arrange
-        const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
+        const filteredGearItems: GearListItem[] = await getAllArmorGearListItems();
         const sortState = new SortState(SortGearListFeature.fieldItem);
         const firstElement = filteredGearItems.shift();
         if (firstElement) filteredGearItems.push(firstElement);
@@ -118,9 +118,9 @@ describe("SortGearListFeature", () => {
         }
     });
 
-    it('By item id in "Ascending" direction returns gear list items sorted by id from lowest to highest', () => {
+    it('By item id in "Ascending" direction returns gear list items sorted by id from lowest to highest', async () => {
         // Arrange
-        const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
+        const filteredGearItems: GearListItem[] = await getAllArmorGearListItems();
         const sortState = new SortState();
         sortState.set(SortGearListFeature.fieldId);
         const firstElement = filteredGearItems.shift();
@@ -146,9 +146,9 @@ describe("SortGearListFeature", () => {
         }
     });
 
-    it('By item id in "Descending" direction returns gear list items sorted by id from highest to lowest', () => {
+    it('By item id in "Descending" direction returns gear list items sorted by id from highest to lowest', async () => {
         // Arrange
-        const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
+        const filteredGearItems: GearListItem[] = await getAllArmorGearListItems();
         const sortState = new SortState();
         sortState.set(SortGearListFeature.fieldId);
         sortState.set(SortGearListFeature.fieldId);
@@ -175,9 +175,9 @@ describe("SortGearListFeature", () => {
         }
     });
 
-    it('By item name in "Ascending" direction returns gear list items sorted by item name in alphabetical order', () => {
+    it('By item name in "Ascending" direction returns gear list items sorted by item name in alphabetical order', async () => {
         // Arrange
-        const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
+        const filteredGearItems: GearListItem[] = await getAllArmorGearListItems();
         const sortState = new SortState();
         sortState.set(SortGearListFeature.fieldItem);
 
@@ -199,10 +199,10 @@ describe("SortGearListFeature", () => {
         }
     });
 
-    it('By item name in "Descending" direction returns gear list items sorted by item name in reverse alphabetical order', () => {
+    it('By item name in "Descending" direction returns gear list items sorted by item name in reverse alphabetical order', async () => {
         // Arrange
         const expectedItemNameOrder: string[] = [...armorItemNameInAlphabeticalOrder].reverse();
-        const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
+        const filteredGearItems: GearListItem[] = await getAllArmorGearListItems();
         const sortState = new SortState();
         sortState.set(SortGearListFeature.fieldItem);
         sortState.set(SortGearListFeature.fieldItem);
@@ -225,10 +225,10 @@ describe("SortGearListFeature", () => {
         }
     });
 
-    it('By item cost in "Ascending" direction returns gear list items sorted by lowest to highest cost', () => {
+    it('By item cost in "Ascending" direction returns gear list items sorted by lowest to highest cost', async () => {
         // Arrange
         const expectedItemNameOrder: number[] = [100, 2000, 4000, 10000, 12000];
-        const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
+        const filteredGearItems: GearListItem[] = await getAllArmorGearListItems();
         const sortState = new SortState();
         sortState.set(SortGearListFeature.fieldCost);
 
@@ -250,10 +250,10 @@ describe("SortGearListFeature", () => {
         }
     });
 
-    it('By item cost in "Descending" direction returns gear list items sorted by highest to lowest cost', () => {
+    it('By item cost in "Descending" direction returns gear list items sorted by highest to lowest cost', async () => {
         // Arrange
         const expectedItemNameOrder: number[] = [12000, 10000, 4000, 2000, 100];
-        const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
+        const filteredGearItems: GearListItem[] = await getAllArmorGearListItems();
         const sortState = new SortState();
         sortState.set(SortGearListFeature.fieldCost);
         sortState.set(SortGearListFeature.fieldCost);
@@ -276,9 +276,9 @@ describe("SortGearListFeature", () => {
         }
     });
 
-    it('By item category in "Ascending" direction returns gear list items sorted by item category in alphabetical order', () => {
+    it('By item category in "Ascending" direction returns gear list items sorted by item category in alphabetical order', async () => {
         // Arrange
-        const filteredGearItems: GearListItem[] = getAllGearListItems();
+        const filteredGearItems: GearListItem[] = await getAllGearListItems();
         const sortState = new SortState();
         sortState.set(SortGearListFeature.fieldCategory);
 
@@ -300,9 +300,9 @@ describe("SortGearListFeature", () => {
         expect(gear[10].category).toBe("Weapon");
     });
 
-    it('By item category in "Descending" direction returns gear list items sorted by item category in reverse alphabetical order', () => {
+    it('By item category in "Descending" direction returns gear list items sorted by item category in reverse alphabetical order', async () => {
         // Arrange
-        const filteredGearItems: GearListItem[] = getAllGearListItems();
+        const filteredGearItems: GearListItem[] = await getAllGearListItems();
         const sortState = new SortState();
         sortState.set(SortGearListFeature.fieldCategory);
         sortState.set(SortGearListFeature.fieldCategory);
@@ -325,7 +325,7 @@ describe("SortGearListFeature", () => {
         expect(gear[10].category).toBe("Armor");
     });
 
-    it('By item description in "Ascending" direction returns gear list items sorted by item description in alphabetical order', () => {
+    it('By item description in "Ascending" direction returns gear list items sorted by item description in alphabetical order', async () => {
         // Arrange
         const expectedItemNameOrder: string[] = [
             "Standard Crew Attire",
@@ -334,7 +334,7 @@ describe("SortGearListFeature", () => {
             "Advanced Battle Dress",
             "Standard Battle Dress",
         ];
-        const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
+        const filteredGearItems: GearListItem[] = await getAllArmorGearListItems();
         const sortState = new SortState();
         sortState.set(SortGearListFeature.fieldDescription);
 
@@ -356,7 +356,7 @@ describe("SortGearListFeature", () => {
         }
     });
 
-    it('By item description in "Descending" direction returns gear list items sorted by item description in reverse alphabetical order', () => {
+    it('By item description in "Descending" direction returns gear list items sorted by item description in reverse alphabetical order', async () => {
         // Arrange
         const expectedItemNameOrder: string[] = [
             "Standard Battle Dress",
@@ -365,7 +365,7 @@ describe("SortGearListFeature", () => {
             "Vaccsuit",
             "Standard Crew Attire",
         ];
-        const filteredGearItems: GearListItem[] = getAllArmorGearListItems();
+        const filteredGearItems: GearListItem[] = await getAllArmorGearListItems();
         const sortState = new SortState();
         sortState.set(SortGearListFeature.fieldDescription);
         sortState.set(SortGearListFeature.fieldDescription);
@@ -388,14 +388,14 @@ describe("SortGearListFeature", () => {
         }
     });
 
-    function getAllGearListItems(): GearListItem[] {
-        const filterFeature = getAllGearListFeature();
+    async function getAllGearListItems(): Promise<GearListItem[]> {
+        const filterFeature = await getAllGearListFeature();
 
         return filterFeature.handle(new EmptyRequest()) ?? [];
     }
 
-    function getAllArmorGearListItems(): GearListItem[] {
-        const filterFeature = getFilterGearListFeature();
+    async function getAllArmorGearListItems(): Promise<GearListItem[]> {
+        const filterFeature = await getFilterGearListFeature();
         const filterRequest = new FilterGearListRequest();
 
         filterRequest.category = ArmorItem.gearCategory;
@@ -403,15 +403,17 @@ describe("SortGearListFeature", () => {
         return filterFeature.handle(filterRequest).value ?? [];
     }
 
-    function getAllGearListFeature(): GetAllGearFeature {
-        const dbContext = new UnitTestDatabase();
+    async function getAllGearListFeature(): Promise<GetAllGearFeature> {
+        const jsonDatabaseFilePath = "./tests/data/json/database.json";
+        const dbContext = await DataAccessUtils.getInitializedDbContext(jsonDatabaseFilePath);
         const unitOfWork = new UnitOfWork(dbContext);
 
         return new GetAllGearFeature(unitOfWork);
     }
 
-    function getFilterGearListFeature(): FilterGearListFeature {
-        const dbContext = new UnitTestDatabase();
+    async function getFilterGearListFeature(): Promise<FilterGearListFeature> {
+        const jsonDatabaseFilePath = "./tests/data/json/database.json";
+        const dbContext = await DataAccessUtils.getInitializedDbContext(jsonDatabaseFilePath);
         const unitOfWork = new UnitOfWork(dbContext);
 
         return new FilterGearListFeature(unitOfWork);

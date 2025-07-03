@@ -5,13 +5,14 @@ import { GetAllGearFeature } from "../../src/features/gear/get-all-gear/get-all-
 import { WeaponItem } from "../../src/features/gear/weapon-item";
 import { EmptyRequest } from "../../src/lib/common/features/empty-request";
 import { UnitOfWork } from "../../src/lib/data-access/unit-of-work";
-import { UnitTestDatabase } from "../data/unit-test-database";
 import { GearTestUtils } from "./gear-test-utils";
+import { DataAccessUtils } from "../data-access/data-access-utils";
 
 describe("GetAllGearFeature", () => {
-    it("Returns all gear list items", () => {
+    it("Returns all gear list items", async () => {
         // Arrange
-        const dbContext = new UnitTestDatabase();
+        const jsonDatabaseFilePath = "./tests/data/json/database.json";
+        const dbContext = await DataAccessUtils.getInitializedDbContext(jsonDatabaseFilePath);
         const unitOfWork = new UnitOfWork(dbContext);
         const feature = new GetAllGearFeature(unitOfWork);
 

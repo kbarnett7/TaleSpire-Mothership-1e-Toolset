@@ -4,7 +4,7 @@ import { ConsoleLogger } from "../logging/console-logger";
 import { appInjector } from "./app-injector";
 
 export class Startup {
-    public async configure(): Promise<void> {
+    public async configureAsync(): Promise<void> {
         AppLogger.instance.addLogger(new ConsoleLogger());
         const dbContext = appInjector.injectClass(AppDatabaseContext);
 
