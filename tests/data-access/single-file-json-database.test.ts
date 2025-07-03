@@ -1,4 +1,4 @@
-import { LocalFileStorage } from "../../src/lib/data-access/local-file-storage";
+import { LocalFileStorage } from "./local-file-storage";
 import { SingleFileJsonDatabase } from "../../src/lib/data-access/single-file-json-database";
 
 describe("SingleFileJsonDatabase", () => {

@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import { IFileStorage } from "../common/data-access/file-storage-interface";
+import { IFileStorage } from "../../src/lib/common/data-access/file-storage-interface";
 
 export class LocalFileStorage implements IFileStorage {
     public async loadAsync(filePath: string): Promise<string> {

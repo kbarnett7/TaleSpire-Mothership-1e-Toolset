@@ -1,6 +1,6 @@
 import { ArmorItem } from "../../src/features/gear/armor-item";
 import { AppDatabaseContext } from "../../src/lib/data-access/app-database-context";
-import { LocalFileStorage } from "../../src/lib/data-access/local-file-storage";
+import { LocalFileStorage } from "./local-file-storage";
 import { SingleFileJsonDatabase } from "../../src/lib/data-access/single-file-json-database";
 
 describe("AppDatabaseContext", () => {

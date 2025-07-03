@@ -9,6 +9,6 @@ export class Startup {
         const dbContext = appInjector.injectClass(AppDatabaseContext);
 
         // TODO: use an enviorment variable to determine if this is dev or prod
-        await dbContext.initializeAsync("../../database/json/database.json");
+        await dbContext.initializeAsync("");
     }
 }

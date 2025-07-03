@@ -1,4 +1,4 @@
-import { LocalFileStorage } from "../../src/lib/data-access/local-file-storage";
+import { LocalFileStorage } from "../data-access/local-file-storage";
 
 describe("LocalFileStorage", () => {
     const jsonDatabaseFilePath = "./tests/data/json/single-file-json-database.json";

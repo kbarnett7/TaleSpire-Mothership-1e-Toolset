@@ -26,6 +26,7 @@ export class AppDatabaseContext implements IDatabaseContext {
         await this._db.loadAsync(connectionString);
 
         this._dbSets.clear();
+
         this._dbSets.set(
             ArmorItem.name,
             new DbSet<ArmorItem>(this._db.getCollection("armor").map((obj) => Object.assign(new ArmorItem(), obj)))
@@ -44,9 +45,13 @@ export class AppDatabaseContext implements IDatabaseContext {
             Npc.name,
             new DbSet<Npc>(this._db.getCollection("npcs").map((obj) => Object.assign(new Npc(), obj)))
         );
+
+        console.log(this._dbSets.size);
+        console.log(this.getSet(Npc));
     }
 
     public getSet<T>(type: Constructor<T>): DbSet<T> {
+        console.log("Calling getSet");
         const typeName = type.name;
         const dbSet = this._dbSets.get(typeName);
 
