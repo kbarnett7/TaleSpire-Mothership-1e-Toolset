@@ -30,6 +30,8 @@ export class UnitTestDatabase implements IDatabaseContext {
         this._dbSets.set(Npc.name, new DbSet<Npc>(npcData.map((obj) => Object.assign(new Npc(), obj))));
     }
 
+    public async initializeAsync(connectionString: string): Promise<void> {}
+
     public getSet<T>(type: Constructor<T>): DbSet<T> {
         const typeName = type.name;
         const dbSet = this._dbSets.get(typeName);

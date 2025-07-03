@@ -1,7 +1,8 @@
 import * as fs from "fs";
+import { IFileStorage } from "../common/data-access/file-storage-interface";
 
-export class LocalFileStorage {
-    public async load(filePath: string): Promise<string> {
+export class LocalFileStorage implements IFileStorage {
+    public async loadAsync(filePath: string): Promise<string> {
         try {
             return await fs.promises.readFile(filePath, "utf-8");
         } catch (e) {
@@ -10,7 +11,12 @@ export class LocalFileStorage {
         }
     }
 
-    public save(filePath: string, fileContents: string) {
-        //TS: ts.localStorage.global.setBlob(fileContents);
+    public async saveAsync(filePath: string, fileContents: string): Promise<void> {
+        try {
+            await fs.promises.writeFile(filePath, fileContents, "utf-8");
+        } catch (e) {
+            console.error("Error writing file:", e);
+            throw e;
+        }
     }
 }

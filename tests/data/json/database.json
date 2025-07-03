@@ -1,6 +1,62 @@
 {
     "version": 1.0,
-    "armor": [],
+    "armor": [
+        {
+            "id": 1,
+            "sourceId": 2,
+            "name": "Standard Crew Attire",
+            "cost": 100,
+            "description": "Basic clothing.",
+            "armorPoints": 1,
+            "oxygen": 0,
+            "speed": "Normal",
+            "special": ""
+        },
+        {
+            "id": 2,
+            "sourceId": 2,
+            "name": "Vaccsuit",
+            "cost": 10000,
+            "description": "Designed for outer space operations.",
+            "armorPoints": 3,
+            "oxygen": 12,
+            "speed": "[-]",
+            "special": "Includes short-range comms, headlamp, and radiation shielding. Decompression within 1d5 rounds if punctured."
+        },
+        {
+            "id": 3,
+            "sourceId": 2,
+            "name": "Hazard Suit",
+            "cost": 4000,
+            "description": "Environmental protection while exploring unknown planets.",
+            "armorPoints": 5,
+            "oxygen": 1,
+            "speed": "Normal",
+            "special": "Includes air filter, extreme heat/cold protection, hydration reclamation (1L of water lasts 4 days), short-range comms, headlamp, and radiation shielding."
+        },
+        {
+            "id": 4,
+            "sourceId": 2,
+            "name": "Standard Battle Dress",
+            "cost": 2000,
+            "description": "Lightly-plated armor worn by most marines.",
+            "armorPoints": 7,
+            "oxygen": 0,
+            "speed": "Normal",
+            "special": "Includes short-range comms."
+        },
+        {
+            "id": 5,
+            "sourceId": 2,
+            "name": "Advanced Battle Dress",
+            "cost": 12000,
+            "description": "Heavy armor for marines deployed in high combat offworld engagements.",
+            "armorPoints": 10,
+            "oxygen": 1,
+            "speed": "[-]",
+            "special": "Includes short-range comms, body cam, headlamp, HUD, exoskeletal weave (Strength Checks [+]), and radiation shielding. Damage Reduction: 3."
+        }
+    ],
     "equipment": [],
     "npcs": [],
     "patches": [],
