@@ -36,4 +36,13 @@ describe("SingleFileJsonDatabase", () => {
 
         expect(result.length).toBeGreaterThanOrEqual(1);
     });
+
+    it("should return an empty array for a collection that does not exists", () => {
+        const db = new SingleJsonFileDatabase(fileStorage);
+        db.load(jsonDatabaseFilePath);
+
+        const result = db.getCollection("nonExistantCollection");
+
+        expect(result.length).toBe(0);
+    });
 });
