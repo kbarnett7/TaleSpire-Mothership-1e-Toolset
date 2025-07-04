@@ -10,27 +10,27 @@ describe("SingleFileJsonDatabase", () => {
         fileStorage = new LocalFileStorage();
     });
 
-    it("should return a successful result when loading a valid JSON file", async () => {
+    it("should return a successful result when loading a valid JSON file", () => {
         const db = new SingleFileJsonDatabase(fileStorage);
 
-        const result = await db.loadAsync(jsonDatabaseFilePath);
+        const result = db.load(jsonDatabaseFilePath);
 
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBe(jsonDatabaseFilePath);
     });
 
-    it("should return an empty array for a collection that exists and is empty", async () => {
+    it("should return an empty array for a collection that exists and is empty", () => {
         const db = new SingleFileJsonDatabase(fileStorage);
-        await db.loadAsync(jsonDatabaseFilePath);
+        db.load(jsonDatabaseFilePath);
 
         const result = db.getCollection("emptyCollection");
 
         expect(result.length).toBe(0);
     });
 
-    it("should return an non-empty array for a collection that exists and has one or more elements in it", async () => {
+    it("should return an non-empty array for a collection that exists and has one or more elements in it", () => {
         const db = new SingleFileJsonDatabase(fileStorage);
-        await db.loadAsync(jsonDatabaseFilePath);
+        db.load(jsonDatabaseFilePath);
 
         const result = db.getCollection("populatedCollection");
 

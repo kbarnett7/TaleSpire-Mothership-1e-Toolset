@@ -12,8 +12,8 @@ describe("GetGearByIdFeature", () => {
 
     let feature: GetGearByIdFeature;
 
-    beforeEach(async () => {
-        const dbContext = await DataAccessUtils.getInitializedDbContext(jsonDatabaseFilePath);
+    beforeEach(() => {
+        const dbContext = DataAccessUtils.getInitializedDbContext(jsonDatabaseFilePath);
         const unitOfWork = new UnitOfWork(dbContext);
 
         feature = new GetGearByIdFeature(unitOfWork);

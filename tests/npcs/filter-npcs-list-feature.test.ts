@@ -12,8 +12,8 @@ describe("FilterNpcsListFeature", () => {
     let feature: FilterNpcsListFeature;
     let request: FilterNpcsListRequest;
 
-    beforeEach(async () => {
-        const dbContext = await DataAccessUtils.getInitializedDbContext(jsonDatabaseFilePath);
+    beforeEach(() => {
+        const dbContext = DataAccessUtils.getInitializedDbContext(jsonDatabaseFilePath);
         const unitOfWork = new UnitOfWork(dbContext);
 
         feature = new FilterNpcsListFeature(unitOfWork);

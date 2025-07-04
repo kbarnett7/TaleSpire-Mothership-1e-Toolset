@@ -1,4 +1,4 @@
 export interface IFileStorage {
-    loadAsync(filePath: string): Promise<string>;
-    saveAsync(filePath: string, fileContents: string): Promise<void>;
+    load(filePath: string): string;
+    save(filePath: string, fileContents: string): void;
 }

@@ -1,7 +1,3 @@
-import armorData from "../../database/json/armor.data.json";
-import equipmentData from "../../database/json/equipment.data.json";
-import weaponData from "../../database/json/weapon.data.json";
-import npcData from "../../database/json/npcs.data.json";
 import { Constructor } from "../common/types/constructor-type";
 import { ArmorItem } from "../../features/gear/armor-item";
 import { EquipmentItem } from "../../features/gear/equipment-item";
@@ -10,20 +6,25 @@ import { DbSet } from "../common/data-access/db-set";
 import { WeaponItem } from "../../features/gear/weapon-item";
 import { Npc } from "../../features/npcs/npc";
 import { IDatabase } from "../common/data-access/database-interface";
+import { AppSettings } from "../settings/app-settings";
 
 export class AppDatabaseContext implements IDatabaseContext {
-    public static inject = ["database"] as const;
+    public static inject = ["database", "appSettings"] as const;
 
+    private _appSettings: AppSettings;
     private _db: IDatabase;
     private _dbSets: Map<string, DbSet<any>>;
 
-    constructor(db: IDatabase) {
+    constructor(db: IDatabase, appSettings: AppSettings) {
+        this._appSettings = appSettings;
         this._db = db;
         this._dbSets = new Map<string, DbSet<any>>();
+
+        this.initialize(this._appSettings.connectionString);
     }
 
-    public async initializeAsync(connectionString: string): Promise<void> {
-        await this._db.loadAsync(connectionString);
+    private initialize(connectionString: string): void {
+        this._db.load(connectionString);
 
         this._dbSets.clear();
 
@@ -45,13 +46,9 @@ export class AppDatabaseContext implements IDatabaseContext {
             Npc.name,
             new DbSet<Npc>(this._db.getCollection("npcs").map((obj) => Object.assign(new Npc(), obj)))
         );
-
-        console.log(this._dbSets.size);
-        console.log(this.getSet(Npc));
     }
 
     public getSet<T>(type: Constructor<T>): DbSet<T> {
-        console.log("Calling getSet");
         const typeName = type.name;
         const dbSet = this._dbSets.get(typeName);
 

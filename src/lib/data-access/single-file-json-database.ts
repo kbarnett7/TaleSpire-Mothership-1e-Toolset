@@ -14,15 +14,11 @@ export class SingleFileJsonDatabase implements IDatabase {
         this.jsonFilePath = "";
     }
 
-    public async loadAsync(jsonFilePath: string): Promise<Result<string>> {
-        const fileContents: string = await this.fileStorage.loadAsync(jsonFilePath);
-
-        console.log(fileContents);
+    public load(jsonFilePath: string): Result<string> {
+        const fileContents: string = this.fileStorage.load(jsonFilePath);
 
         this.jsonFilePath = jsonFilePath;
         this.jsonDb = JSON.parse(fileContents);
-
-        console.log(this.jsonDb);
 
         return Result.success(this.jsonFilePath);
     }

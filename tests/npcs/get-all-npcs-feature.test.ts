@@ -6,10 +6,10 @@ import { DataAccessUtils } from "../data-access/data-access-utils";
 import { NpcTestUtils } from "./npc-test-utils";
 
 describe("GetAllNpcs Feature", () => {
-    it("Returns all NPCs", async () => {
+    it("Returns all NPCs", () => {
         // Arrange
         const jsonDatabaseFilePath = "./tests/data/json/database.json";
-        const dbContext = await DataAccessUtils.getInitializedDbContext(jsonDatabaseFilePath);
+        const dbContext = DataAccessUtils.getInitializedDbContext(jsonDatabaseFilePath);
         const unitOfWork = new UnitOfWork(dbContext);
         const feature = new GetAllNpcsFeature(unitOfWork);
 

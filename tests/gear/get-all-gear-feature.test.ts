@@ -9,10 +9,10 @@ import { GearTestUtils } from "./gear-test-utils";
 import { DataAccessUtils } from "../data-access/data-access-utils";
 
 describe("GetAllGearFeature", () => {
-    it("Returns all gear list items", async () => {
+    it("Returns all gear list items", () => {
         // Arrange
         const jsonDatabaseFilePath = "./tests/data/json/database.json";
-        const dbContext = await DataAccessUtils.getInitializedDbContext(jsonDatabaseFilePath);
+        const dbContext = DataAccessUtils.getInitializedDbContext(jsonDatabaseFilePath);
         const unitOfWork = new UnitOfWork(dbContext);
         const feature = new GetAllGearFeature(unitOfWork);
 

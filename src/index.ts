@@ -25,15 +25,14 @@ function importAll(requireContext: __WebpackModuleApi.RequireContext) {
 // Dynamically require all .ts files in the src directory and subdirectories
 importAll(require.context("./", true, /^(?!.*\.d\.ts$).*\.ts$/));
 
-(async () => {
-    try {
-        console.log("Starting app...");
-        const startup: Startup = new Startup();
+try {
+    console.log("Starting app...");
 
-        await startup.configureAsync();
+    const startup: Startup = new Startup();
 
-        console.log("App started successfully!");
-    } catch (error) {
-        console.error("Error during app startup...", error);
-    }
-})();
+    startup.configureAsync();
+
+    console.log("App started successfully!");
+} catch (error) {
+    console.error("Error during app startup...", error);
+}

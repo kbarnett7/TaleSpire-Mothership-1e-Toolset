@@ -9,8 +9,8 @@ describe("GetNpcByIdFeature", () => {
 
     let feature: GetNpcByIdFeature;
 
-    beforeEach(async () => {
-        const dbContext = await DataAccessUtils.getInitializedDbContext(jsonDatabaseFilePath);
+    beforeEach(() => {
+        const dbContext = DataAccessUtils.getInitializedDbContext(jsonDatabaseFilePath);
         const unitOfWork = new UnitOfWork(dbContext);
         feature = new GetNpcByIdFeature(unitOfWork);
     });

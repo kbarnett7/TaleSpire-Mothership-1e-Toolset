@@ -5,18 +5,18 @@ describe("LocalFileStorage", () => {
 
     beforeEach(() => {});
 
-    it("temp", async () => {
+    it("temp", () => {
         const fileStorage = new LocalFileStorage();
 
-        const fileContents = await fileStorage.loadAsync(jsonDatabaseFilePath);
+        const fileContents = fileStorage.load(jsonDatabaseFilePath);
 
         expect(fileContents.length).toBeGreaterThan(0);
     });
 
-    it("load JSON file", async () => {
+    it("load JSON file", () => {
         const fileStorage = new LocalFileStorage();
 
-        const fileContents = await fileStorage.loadAsync(jsonDatabaseFilePath);
+        const fileContents = fileStorage.load(jsonDatabaseFilePath);
         const json = JSON.parse(fileContents);
 
         expect(json.version).toBe(1.0);
