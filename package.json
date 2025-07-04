@@ -6,7 +6,7 @@
     "main": "./src/index.ts",
     "scripts": {
         "build:devserver": "webpack --mode development",
-        "build:talespire": "webpack --mode development && node ./build/talespire-bundle-updater.js",
+        "build:talespire": "webpack --mode development && node ./build/talespire-bundle-updater.js production",
         "test": "jest",
         "test:coverage": "jest --coverage",
         "serve": "webpack-dev-server --mode development"

@@ -4,7 +4,7 @@ export class TaleSpireFileStorage implements IFileStorage {
     public load(filePath: string): string {
         // don't care about the filePath, so just ignore
         //TS: return ts.localStorage.global.getBlob();
-        return "";
+        return "{}";
     }
 
     public save(filePath: string, fileContents: string): void {
