@@ -1,7 +1,7 @@
 import { ArmorItem } from "../../src/features/gear/armor-item";
 import { AppDatabaseContext } from "../../src/lib/data-access/app-database-context";
 import { LocalFileStorage } from "./local-file-storage";
-import { SingleFileJsonDatabase } from "../../src/lib/data-access/single-file-json-database";
+import { SingleJsonFileDatabase } from "../../src/lib/data-access/single-json-file-database";
 import { AppSettings } from "../../src/lib/settings/app-settings";
 
 describe("AppDatabaseContext", () => {
@@ -9,12 +9,12 @@ describe("AppDatabaseContext", () => {
 
     let appSettings: AppSettings;
     let fileStorage: LocalFileStorage;
-    let database: SingleFileJsonDatabase;
+    let database: SingleJsonFileDatabase;
 
     beforeEach(async () => {
         appSettings = new AppSettings();
         fileStorage = new LocalFileStorage();
-        database = new SingleFileJsonDatabase(fileStorage);
+        database = new SingleJsonFileDatabase(fileStorage);
 
         appSettings.connectionString = jsonDatabaseFilePath;
     });

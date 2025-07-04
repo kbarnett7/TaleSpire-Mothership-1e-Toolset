@@ -1,7 +1,7 @@
 import { IDatabaseContext } from "../../src/lib/common/data-access/database-context-interface";
 import { AppDatabaseContext } from "../../src/lib/data-access/app-database-context";
 import { LocalFileStorage } from "./local-file-storage";
-import { SingleFileJsonDatabase } from "../../src/lib/data-access/single-file-json-database";
+import { SingleJsonFileDatabase } from "../../src/lib/data-access/single-json-file-database";
 import { AppSettings } from "../../src/lib/settings/app-settings";
 
 export class DataAccessUtils {
@@ -10,7 +10,7 @@ export class DataAccessUtils {
         appSettings.connectionString = jsonDatabaseFilePath;
 
         const fileStorage = new LocalFileStorage();
-        const db = new SingleFileJsonDatabase(fileStorage);
+        const db = new SingleJsonFileDatabase(fileStorage);
         const dbContext = new AppDatabaseContext(db, appSettings);
 
         return dbContext;

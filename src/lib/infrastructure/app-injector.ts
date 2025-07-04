@@ -1,7 +1,7 @@
 import { Scope, createInjector } from "typed-inject";
 import { AppDatabaseContext } from "../data-access/app-database-context";
 import { UnitOfWork } from "../data-access/unit-of-work";
-import { SingleFileJsonDatabase } from "../data-access/single-file-json-database";
+import { SingleJsonFileDatabase } from "../data-access/single-json-file-database";
 import { BrowserFileStorage } from "../data-access/browser-file-storage";
 import { AppSettings } from "../settings/app-settings";
 
@@ -9,6 +9,6 @@ import { AppSettings } from "../settings/app-settings";
 export const appInjector = createInjector()
     .provideClass("appSettings", AppSettings, Scope.Singleton)
     .provideClass("fileStorage", BrowserFileStorage, Scope.Transient)
-    .provideClass("database", SingleFileJsonDatabase, Scope.Transient)
+    .provideClass("database", SingleJsonFileDatabase, Scope.Transient)
     .provideClass("appDatabaseContext", AppDatabaseContext, Scope.Transient)
     .provideClass("unitOfWork", UnitOfWork, Scope.Transient);

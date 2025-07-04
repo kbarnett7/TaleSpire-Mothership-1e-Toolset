@@ -2,7 +2,7 @@ import { IDatabase } from "../common/data-access/database-interface";
 import { IFileStorage } from "../common/data-access/file-storage-interface";
 import { Result } from "../result/result";
 
-export class SingleFileJsonDatabase implements IDatabase {
+export class SingleJsonFileDatabase implements IDatabase {
     public static inject = ["fileStorage"] as const;
 
     private fileStorage: IFileStorage;
