@@ -3,17 +3,18 @@ import { Scope, createInjector } from "typed-inject";
 import { AppDatabaseContext } from "../data-access/app-database-context";
 import { UnitOfWork } from "../data-access/unit-of-work";
 import { SingleJsonFileDatabase } from "../data-access/single-json-file-database";
-import { BrowserDatabaseStorage } from "../data-access/browser-database-storage";
+import { SeedableDatabaseStorage } from "../data-access/seedable-database-storage";
 import { AppSettings } from "../settings/app-settings";
-import { TaleSpireDatabaseStorage } from "../data-access/talespire-database-storage";
+import { TaleSpireBlobStorage } from "../data-access/talespire-blob-storage";
+import { BrowserBlobStorage } from "../data-access/browser-blob-storage";
 
-const databaseStorageClass =
-    appSettingsJson.environment === "production" ? TaleSpireDatabaseStorage : BrowserDatabaseStorage;
+const blobStorageClass = appSettingsJson.environment === "production" ? TaleSpireBlobStorage : BrowserBlobStorage;
 
 export const appInjector = createInjector()
     .provideValue("webStorage", window.localStorage)
     .provideClass("appSettings", AppSettings, Scope.Singleton)
-    .provideClass("databaseStorage", databaseStorageClass, Scope.Transient)
+    .provideClass("blobStorage", blobStorageClass, Scope.Transient)
+    .provideClass("databaseStorage", SeedableDatabaseStorage, Scope.Transient)
     .provideClass("database", SingleJsonFileDatabase, Scope.Transient)
     .provideClass("appDatabaseContext", AppDatabaseContext, Scope.Transient)
     .provideClass("unitOfWork", UnitOfWork, Scope.Transient);

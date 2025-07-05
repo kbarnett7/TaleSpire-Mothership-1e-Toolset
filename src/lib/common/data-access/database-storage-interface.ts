@@ -1,4 +1,4 @@
 export interface IDatabaseStorage {
-    load(filePath: string): string;
-    save(filePath: string, fileContents: string): void;
+    load(location: string): string;
+    save(location: string, fileContents: string): void;
 }

@@ -1,9 +1,14 @@
-import { BrowserDatabaseStorage } from "../../src/lib/data-access/browser-database-storage";
+import { SeedableDatabaseStorage } from "../../src/lib/data-access/seedable-database-storage";
+import { BrowserBlobStorage } from "../../src/lib/data-access/browser-blob-storage";
 
 describe("BrowserDatabaseStorage", () => {
+    beforeEach(() => {
+        window.localStorage.clear();
+    });
+
     it("when local storage is empty, seed local storage with default database", () => {
         const location = "app_db_key";
-        const storage = new BrowserDatabaseStorage(window.localStorage);
+        const storage = new SeedableDatabaseStorage(new BrowserBlobStorage(window.localStorage));
 
         const loadedJson = storage.load(location);
         const localStorageJson = localStorage.getItem(location);
@@ -13,7 +18,7 @@ describe("BrowserDatabaseStorage", () => {
 
     it("when local storage is not empty, do not seed local storage with default database but use existing local storage", () => {
         const location = "app_db_key";
-        const storage = new BrowserDatabaseStorage(window.localStorage);
+        const storage = new SeedableDatabaseStorage(new BrowserBlobStorage(window.localStorage));
         const initialJsonStr = storage.load(location);
         const newSource = {
             id: 4,

@@ -7,21 +7,21 @@ export class SingleJsonFileDatabase implements IDatabase {
     public static inject = ["databaseStorage"] as const;
 
     private databaseStorage: IDatabaseStorage;
-    private jsonFilePath: string;
+    private jsonDataLocation: string;
     private jsonDb: any;
 
     constructor(databaseStorage: IDatabaseStorage) {
         this.databaseStorage = databaseStorage;
-        this.jsonFilePath = "";
+        this.jsonDataLocation = "";
     }
 
-    public load(jsonFilePath: string): Result<string> {
-        const fileContents: string = this.databaseStorage.load(jsonFilePath);
+    public load(jsonDataLocation: string): Result<string> {
+        const fileContents: string = this.databaseStorage.load(jsonDataLocation);
 
-        this.jsonFilePath = jsonFilePath;
+        this.jsonDataLocation = jsonDataLocation;
         this.jsonDb = JSON.parse(fileContents);
 
-        return Result.success(this.jsonFilePath);
+        return Result.success(this.jsonDataLocation);
     }
 
     public getCollection(collectionName: string): any[] {
