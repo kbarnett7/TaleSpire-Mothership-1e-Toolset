@@ -1,6 +1,7 @@
 import { Result } from "../../result/result";
 
 export interface IDatabase {
-    load(connectionString: string): Result<string>;
+    load(dataLocation: string): Result<string>;
+    save(): void;
     getCollection(collectionName: string): any[];
 }
