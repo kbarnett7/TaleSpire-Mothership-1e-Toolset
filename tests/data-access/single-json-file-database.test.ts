@@ -1,7 +1,7 @@
 import { LocalDatabaseStorage } from "./local-database-storage";
 import { SingleJsonFileDatabase } from "../../src/lib/data-access/single-json-file-database";
 
-describe("SingleFileJsonDatabase", () => {
+describe("SingleJsonFileDatabase", () => {
     const jsonDatabaseFilePath = "./tests/data/json/single-file-json-database.json";
 
     let databaseStorage: LocalDatabaseStorage;
