@@ -404,16 +404,14 @@ describe("SortGearListFeature", () => {
     }
 
     function getAllGearListFeature(): GetAllGearFeature {
-        const jsonDatabaseFilePath = "./tests/data/json/database.json";
-        const dbContext = DataAccessUtils.getInitializedDbContext(jsonDatabaseFilePath);
+        const dbContext = DataAccessUtils.getInitializedDbContext();
         const unitOfWork = new UnitOfWork(dbContext);
 
         return new GetAllGearFeature(unitOfWork);
     }
 
     function getFilterGearListFeature(): FilterGearListFeature {
-        const jsonDatabaseFilePath = "./tests/data/json/database.json";
-        const dbContext = DataAccessUtils.getInitializedDbContext(jsonDatabaseFilePath);
+        const dbContext = DataAccessUtils.getInitializedDbContext();
         const unitOfWork = new UnitOfWork(dbContext);
 
         return new FilterGearListFeature(unitOfWork);

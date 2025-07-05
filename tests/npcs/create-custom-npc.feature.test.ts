@@ -10,14 +10,13 @@ import { Result } from "../../src/lib/result/result";
 import { DataAccessUtils } from "../data-access/data-access-utils";
 
 describe("CreateCustomNpcFeature", () => {
-    const jsonDatabaseFilePath = "./tests/data/json/database.json";
     const fiftyCharacterLongName: string = "Lorem ipsum dolor sit amet consectetur adipiscingel";
 
     let request: CreateCustomNpcRequest;
     let feature: CreateCustomNpcFeature;
 
     beforeEach(() => {
-        const dbContext = DataAccessUtils.getInitializedDbContext(jsonDatabaseFilePath);
+        const dbContext = DataAccessUtils.getInitializedDbContext();
         const unitOfWork = new UnitOfWork(dbContext);
 
         request = new CreateCustomNpcRequest();

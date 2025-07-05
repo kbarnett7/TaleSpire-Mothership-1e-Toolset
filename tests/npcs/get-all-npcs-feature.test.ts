@@ -8,8 +8,7 @@ import { NpcTestUtils } from "./npc-test-utils";
 describe("GetAllNpcs Feature", () => {
     it("Returns all NPCs", () => {
         // Arrange
-        const jsonDatabaseFilePath = "./tests/data/json/database.json";
-        const dbContext = DataAccessUtils.getInitializedDbContext(jsonDatabaseFilePath);
+        const dbContext = DataAccessUtils.getInitializedDbContext();
         const unitOfWork = new UnitOfWork(dbContext);
         const feature = new GetAllNpcsFeature(unitOfWork);
 

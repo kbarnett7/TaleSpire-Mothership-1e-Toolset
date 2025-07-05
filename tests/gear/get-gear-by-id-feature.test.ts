@@ -8,12 +8,10 @@ import { UnitOfWork } from "../../src/lib/data-access/unit-of-work";
 import { DataAccessUtils } from "../data-access/data-access-utils";
 
 describe("GetGearByIdFeature", () => {
-    const jsonDatabaseFilePath = "./tests/data/json/database.json";
-
     let feature: GetGearByIdFeature;
 
     beforeEach(() => {
-        const dbContext = DataAccessUtils.getInitializedDbContext(jsonDatabaseFilePath);
+        const dbContext = DataAccessUtils.getInitializedDbContext();
         const unitOfWork = new UnitOfWork(dbContext);
 
         feature = new GetGearByIdFeature(unitOfWork);

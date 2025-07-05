@@ -436,8 +436,7 @@ describe("SortNpcsListFeature", () => {
     }
 
     function getAllNpcsFeature(): GetAllNpcsFeature {
-        const jsonDatabaseFilePath = "./tests/data/json/database.json";
-        const dbContext = DataAccessUtils.getInitializedDbContext(jsonDatabaseFilePath);
+        const dbContext = DataAccessUtils.getInitializedDbContext();
         const unitOfWork = new UnitOfWork(dbContext);
 
         return new GetAllNpcsFeature(unitOfWork);

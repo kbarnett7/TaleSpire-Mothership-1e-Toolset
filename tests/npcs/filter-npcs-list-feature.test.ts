@@ -7,13 +7,11 @@ import { Result } from "../../src/lib/result/result";
 import { DataAccessUtils } from "../data-access/data-access-utils";
 
 describe("FilterNpcsListFeature", () => {
-    const jsonDatabaseFilePath = "./tests/data/json/database.json";
-
     let feature: FilterNpcsListFeature;
     let request: FilterNpcsListRequest;
 
     beforeEach(() => {
-        const dbContext = DataAccessUtils.getInitializedDbContext(jsonDatabaseFilePath);
+        const dbContext = DataAccessUtils.getInitializedDbContext();
         const unitOfWork = new UnitOfWork(dbContext);
 
         feature = new FilterNpcsListFeature(unitOfWork);

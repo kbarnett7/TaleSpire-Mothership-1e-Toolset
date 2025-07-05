@@ -11,8 +11,7 @@ import { DataAccessUtils } from "../data-access/data-access-utils";
 describe("GetAllGearFeature", () => {
     it("Returns all gear list items", () => {
         // Arrange
-        const jsonDatabaseFilePath = "./tests/data/json/database.json";
-        const dbContext = DataAccessUtils.getInitializedDbContext(jsonDatabaseFilePath);
+        const dbContext = DataAccessUtils.getInitializedDbContext();
         const unitOfWork = new UnitOfWork(dbContext);
         const feature = new GetAllGearFeature(unitOfWork);
 

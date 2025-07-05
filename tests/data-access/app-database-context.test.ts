@@ -1,22 +1,22 @@
 import { ArmorItem } from "../../src/features/gear/armor-item";
 import { AppDatabaseContext } from "../../src/lib/data-access/app-database-context";
-import { LocalDatabaseStorage } from "./local-database-storage";
 import { SingleJsonFileDatabase } from "../../src/lib/data-access/single-json-file-database";
 import { AppSettings } from "../../src/lib/settings/app-settings";
+import { SeedableDatabaseStorage } from "../../src/lib/data-access/seedable-database-storage";
+import { BrowserBlobStorage } from "../../src/lib/data-access/browser-blob-storage";
+import seedJson from "../data/json/database.json";
 
 describe("AppDatabaseContext", () => {
-    const jsonDatabaseFilePath = "./tests/data/json/database.json";
-
     let appSettings: AppSettings;
-    let databaseStorage: LocalDatabaseStorage;
+    let databaseStorage: SeedableDatabaseStorage;
     let database: SingleJsonFileDatabase;
 
     beforeEach(async () => {
         appSettings = new AppSettings();
-        databaseStorage = new LocalDatabaseStorage();
+        databaseStorage = new SeedableDatabaseStorage(new BrowserBlobStorage(window.localStorage), seedJson);
         database = new SingleJsonFileDatabase(databaseStorage);
 
-        appSettings.connectionString = jsonDatabaseFilePath;
+        appSettings.connectionString = "app_db_key";
     });
 
     it("temp", () => {
