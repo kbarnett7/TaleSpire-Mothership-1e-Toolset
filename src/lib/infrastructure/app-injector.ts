@@ -1,4 +1,5 @@
 import appSettingsJson from "../../appsettings.json";
+import seedDatabaseJson from "../../database/json/database.json";
 import { Scope, createInjector } from "typed-inject";
 import { AppDatabaseContext } from "../data-access/app-database-context";
 import { UnitOfWork } from "../data-access/unit-of-work";
@@ -11,6 +12,7 @@ import { BrowserBlobStorage } from "../data-access/browser-blob-storage";
 const blobStorageClass = appSettingsJson.environment === "production" ? TaleSpireBlobStorage : BrowserBlobStorage;
 
 export const appInjector = createInjector()
+    .provideValue("seedJson", seedDatabaseJson)
     .provideValue("webStorage", window.localStorage)
     .provideClass("appSettings", AppSettings, Scope.Singleton)
     .provideClass("blobStorage", blobStorageClass, Scope.Transient)

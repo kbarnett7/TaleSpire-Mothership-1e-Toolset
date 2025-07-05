@@ -1,27 +1,24 @@
-import { LocalDatabaseStorage } from "./local-database-storage";
 import { SingleJsonFileDatabase } from "../../src/lib/data-access/single-json-file-database";
+import { SeedableDatabaseStorage } from "../../src/lib/data-access/seedable-database-storage";
+import { BrowserBlobStorage } from "../../src/lib/data-access/browser-blob-storage";
+import seedJson from "../data/json/single-file-json-database.json";
 
 describe("SingleJsonFileDatabase", () => {
-    const jsonDatabaseFilePath = "./tests/data/json/single-file-json-database.json";
-
-    let databaseStorage: LocalDatabaseStorage;
-
-    beforeEach(() => {
-        databaseStorage = new LocalDatabaseStorage();
-    });
+    const appDbLocation = "app_db_key";
+    const databaseStorage = new SeedableDatabaseStorage(new BrowserBlobStorage(window.localStorage), seedJson);
 
     it("should return a successful result when loading a valid JSON file", () => {
         const db = new SingleJsonFileDatabase(databaseStorage);
 
-        const result = db.load(jsonDatabaseFilePath);
+        const result = db.load(appDbLocation);
 
         expect(result.isSuccess).toBe(true);
-        expect(result.value).toBe(jsonDatabaseFilePath);
+        expect(result.value).toBe(appDbLocation);
     });
 
     it("should return an empty array for a collection that exists and is empty", () => {
         const db = new SingleJsonFileDatabase(databaseStorage);
-        db.load(jsonDatabaseFilePath);
+        db.load(appDbLocation);
 
         const result = db.getCollection("emptyCollection");
 
@@ -30,7 +27,7 @@ describe("SingleJsonFileDatabase", () => {
 
     it("should return an non-empty array for a collection that exists and has one or more elements in it", () => {
         const db = new SingleJsonFileDatabase(databaseStorage);
-        db.load(jsonDatabaseFilePath);
+        db.load(appDbLocation);
 
         const result = db.getCollection("populatedCollection");
 
@@ -39,7 +36,7 @@ describe("SingleJsonFileDatabase", () => {
 
     it("should return an empty array for a collection that does not exists", () => {
         const db = new SingleJsonFileDatabase(databaseStorage);
-        db.load(jsonDatabaseFilePath);
+        db.load(appDbLocation);
 
         const result = db.getCollection("nonExistantCollection");
 
