@@ -1,22 +1,22 @@
-import { LocalFileStorage } from "../data-access/local-file-storage";
+import { LocalDatabaseStorage } from "./local-database-storage";
 
-describe("LocalFileStorage", () => {
+describe("LocalDatabaseStorage", () => {
     const jsonDatabaseFilePath = "./tests/data/json/single-file-json-database.json";
 
     beforeEach(() => {});
 
     it("temp", () => {
-        const fileStorage = new LocalFileStorage();
+        const databaseStorage = new LocalDatabaseStorage();
 
-        const fileContents = fileStorage.load(jsonDatabaseFilePath);
+        const fileContents = databaseStorage.load(jsonDatabaseFilePath);
 
         expect(fileContents.length).toBeGreaterThan(0);
     });
 
     it("load JSON file", () => {
-        const fileStorage = new LocalFileStorage();
+        const databaseStorage = new LocalDatabaseStorage();
 
-        const fileContents = fileStorage.load(jsonDatabaseFilePath);
+        const fileContents = databaseStorage.load(jsonDatabaseFilePath);
         const json = JSON.parse(fileContents);
 
         expect(json.version).toBe(1.0);

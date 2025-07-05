@@ -1,22 +1,22 @@
 import { IDatabase } from "../common/data-access/database-interface";
-import { IFileStorage } from "../common/data-access/file-storage-interface";
+import { IDatabaseStorage } from "../common/data-access/database-storage-interface";
 import { AppLogger } from "../logging/app-logger";
 import { Result } from "../result/result";
 
 export class SingleJsonFileDatabase implements IDatabase {
-    public static inject = ["fileStorage"] as const;
+    public static inject = ["databaseStorage"] as const;
 
-    private fileStorage: IFileStorage;
+    private databaseStorage: IDatabaseStorage;
     private jsonFilePath: string;
     private jsonDb: any;
 
-    constructor(fileStorage: IFileStorage) {
-        this.fileStorage = fileStorage;
+    constructor(databaseStorage: IDatabaseStorage) {
+        this.databaseStorage = databaseStorage;
         this.jsonFilePath = "";
     }
 
     public load(jsonFilePath: string): Result<string> {
-        const fileContents: string = this.fileStorage.load(jsonFilePath);
+        const fileContents: string = this.databaseStorage.load(jsonFilePath);
 
         this.jsonFilePath = jsonFilePath;
         this.jsonDb = JSON.parse(fileContents);

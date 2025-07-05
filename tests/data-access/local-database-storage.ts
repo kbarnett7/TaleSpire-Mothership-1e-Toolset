@@ -1,7 +1,7 @@
 import * as fs from "fs";
-import { IFileStorage } from "../../src/lib/common/data-access/file-storage-interface";
+import { IDatabaseStorage } from "../../src/lib/common/data-access/database-storage-interface";
 
-export class LocalFileStorage implements IFileStorage {
+export class LocalDatabaseStorage implements IDatabaseStorage {
     public load(filePath: string): string {
         try {
             return fs.readFileSync(filePath, "utf-8");

@@ -1,7 +1,7 @@
 import databaseJson from "../../database/json/database.json";
-import { IFileStorage } from "../common/data-access/file-storage-interface";
+import { IDatabaseStorage } from "../common/data-access/database-storage-interface";
 
-export class BrowserFileStorage implements IFileStorage {
+export class BrowserDatabaseStorage implements IDatabaseStorage {
     public static inject = ["webStorage"] as const;
 
     private webStorage: Storage;

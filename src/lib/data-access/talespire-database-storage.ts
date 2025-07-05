@@ -1,6 +1,6 @@
-import { IFileStorage } from "../common/data-access/file-storage-interface";
+import { IDatabaseStorage } from "../common/data-access/database-storage-interface";
 
-export class TaleSpireFileStorage implements IFileStorage {
+export class TaleSpireDatabaseStorage implements IDatabaseStorage {
     public load(filePath: string): string {
         // don't care about the filePath, so just ignore
         //TS: return ts.localStorage.global.getBlob();

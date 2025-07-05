@@ -11,6 +11,6 @@
         "resolveJsonModule": true,
         "sourceMap": true
     },
-    "include": ["./src/**/*", "tests/data-access/local-file-storage.ts"],
+    "include": ["./src/**/*", "tests/data-access/local-database-storage.ts"],
     "exclude": ["./dist", "./node_modules", "./tests/**/*"]
 }
