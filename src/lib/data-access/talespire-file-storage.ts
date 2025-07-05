@@ -4,6 +4,7 @@ export class TaleSpireFileStorage implements IFileStorage {
     public load(filePath: string): string {
         // don't care about the filePath, so just ignore
         //TS: return ts.localStorage.global.getBlob();
+        // I could initiate hte seeding of the database here, by checking if the global blob is empty.
         return "{}";
     }
 

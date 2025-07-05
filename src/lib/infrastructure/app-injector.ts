@@ -10,6 +10,7 @@ import { TaleSpireFileStorage } from "../data-access/talespire-file-storage";
 const fileStorageClass = appSettingsJson.environment === "production" ? TaleSpireFileStorage : BrowserFileStorage;
 
 export const appInjector = createInjector()
+    .provideValue("webStorage", window.localStorage)
     .provideClass("appSettings", AppSettings, Scope.Singleton)
     .provideClass("fileStorage", fileStorageClass, Scope.Transient)
     .provideClass("database", SingleJsonFileDatabase, Scope.Transient)
