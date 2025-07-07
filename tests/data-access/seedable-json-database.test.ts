@@ -36,7 +36,9 @@ describe("SeedableJsonDatabase", () => {
         db.load(appDbLocation);
         let sources = db.getCollection("sources");
         sources.push(newSource);
-        db.save();
+        const changes = new Map<string, any[]>();
+        changes.set("sources", sources);
+        db.save(changes);
         sources = db.getCollection("sources");
 
         expect(sources.length).toBe(4);

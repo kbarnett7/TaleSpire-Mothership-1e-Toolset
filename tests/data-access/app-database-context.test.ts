@@ -22,4 +22,19 @@ describe("AppDatabaseContext", () => {
         expect(dbContext.getSet(ArmorItem).toArray().length).toBe(5);
         expect(dbContext.getSet(ArmorItem).toArray()[0].name).toBe("Standard Crew Attire");
     });
+
+    it("saving", () => {
+        let dbContext = new AppDatabaseContext(database, appSettings);
+        const newArmor = new ArmorItem(9999, 1, "Unit Test Armor", "Armor used by unit tests.");
+        dbContext.getSet(ArmorItem).add(newArmor);
+
+        dbContext.saveChanges();
+
+        dbContext = new AppDatabaseContext(database, appSettings);
+        const length = dbContext.getSet(ArmorItem).toArray().length;
+        const lastItem = dbContext.getSet(ArmorItem).toArray()[length - 1];
+        expect(length).toBe(6);
+        expect(lastItem.id).toBe(9999);
+        expect(lastItem.name).toBe("Unit Test Armor");
+    });
 });

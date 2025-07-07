@@ -7,9 +7,12 @@ import { WeaponItem } from "../../features/gear/weapon-item";
 import { Npc } from "../../features/npcs/npc";
 import { IDatabase } from "../common/data-access/database-interface";
 import { AppSettings } from "../settings/app-settings";
+import { DatabaseVersion } from "../../features/database-versions/database-version";
 
 export class AppDatabaseContext implements IDatabaseContext {
     public static inject = ["database", "appSettings"] as const;
+
+    private readonly _entityKeyToDbKeyMap: Map<string, string>;
 
     private _appSettings: AppSettings;
     private _db: IDatabase;
@@ -19,6 +22,12 @@ export class AppDatabaseContext implements IDatabaseContext {
         this._appSettings = appSettings;
         this._db = db;
         this._dbSets = new Map<string, DbSet<any>>();
+        this._entityKeyToDbKeyMap = new Map<string, string>();
+        this._entityKeyToDbKeyMap.set(DatabaseVersion.name, "databaseVersions");
+        this._entityKeyToDbKeyMap.set(ArmorItem.name, "armor");
+        this._entityKeyToDbKeyMap.set(EquipmentItem.name, "equipment");
+        this._entityKeyToDbKeyMap.set(WeaponItem.name, "weapons");
+        this._entityKeyToDbKeyMap.set(Npc.name, "npcs");
 
         this.initialize(this._appSettings.connectionString);
     }
@@ -28,6 +37,12 @@ export class AppDatabaseContext implements IDatabaseContext {
 
         this._dbSets.clear();
 
+        this._dbSets.set(
+            DatabaseVersion.name,
+            new DbSet<DatabaseVersion>(
+                this._db.getCollection("databaseVersions").map((obj) => Object.assign(new DatabaseVersion(), obj))
+            )
+        );
         this._dbSets.set(
             ArmorItem.name,
             new DbSet<ArmorItem>(this._db.getCollection("armor").map((obj) => Object.assign(new ArmorItem(), obj)))
@@ -60,6 +75,13 @@ export class AppDatabaseContext implements IDatabaseContext {
     }
 
     public saveChanges() {
-        //this.db.save(this._dbSets);
+        const collections = new Map<string, any[]>();
+
+        for (const [key, dbSet] of this._dbSets) {
+            const dbKey = this._entityKeyToDbKeyMap.get(key) ?? "ERROR";
+            collections.set(dbKey, dbSet.toArray());
+        }
+
+        this._db.save(collections);
     }
 }

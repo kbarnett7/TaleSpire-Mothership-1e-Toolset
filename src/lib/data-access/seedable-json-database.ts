@@ -9,7 +9,7 @@ export class SeedableJsonDatabase implements IDatabase {
     private blobStorage: IBlobStorage;
     private seedJson: any;
     private storageKey: string;
-    private jsonDb: any;
+    //private jsonDb: any;
 
     constructor(blobStorage: IBlobStorage, seedJson: any) {
         this.blobStorage = blobStorage;
@@ -20,10 +20,10 @@ export class SeedableJsonDatabase implements IDatabase {
     public load(storageKey: string): Result<string> {
         this.seedDatabase(storageKey);
 
-        const fileContents: string = this.blobStorage.getBlob(storageKey);
+        //const fileContents: string = this.blobStorage.getBlob(storageKey);
 
         this.storageKey = storageKey;
-        this.jsonDb = JSON.parse(fileContents);
+        //this.jsonDb = JSON.parse(fileContents);
 
         return Result.success(this.storageKey);
     }
@@ -34,16 +34,28 @@ export class SeedableJsonDatabase implements IDatabase {
         }
     }
 
-    public save(): void {
-        this.blobStorage.setBlob(this.storageKey, JSON.stringify(this.jsonDb));
+    public save(collections: Map<string, any[]>): void {
+        const dbBlob: string = this.blobStorage.getBlob(this.storageKey);
+        const dbJson = JSON.parse(dbBlob);
+
+        for (const [key, value] of collections) {
+            if (key in dbJson) {
+                dbJson[key] = value;
+            }
+        }
+
+        this.blobStorage.setBlob(this.storageKey, JSON.stringify(dbJson));
     }
 
     public getCollection(collectionName: string): any[] {
-        if (!(collectionName in this.jsonDb)) {
+        const dbBlob: string = this.blobStorage.getBlob(this.storageKey);
+        const dbJson = JSON.parse(dbBlob);
+
+        if (!(collectionName in dbJson)) {
             AppLogger.instance.warn(`Could not find the collection "${collectionName}" in the database.`);
             return [];
         }
 
-        return this.jsonDb[collectionName];
+        return dbJson[collectionName];
     }
 }
