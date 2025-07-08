@@ -6,6 +6,10 @@ import { BrowserBlobStorage } from "../../src/lib/data-access/browser-blob-stora
 import { SeedableJsonDatabase } from "../../src/lib/data-access/seedable-json-database";
 
 export class DataAccessUtils {
+    static clearLocalStorage(): void {
+        window.localStorage.clear();
+    }
+
     static getInitializedDbContext(): IDatabaseContext {
         const appSettings = new AppSettings();
         appSettings.connectionString = "app_db_key";

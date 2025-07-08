@@ -33,7 +33,7 @@ export class AppDatabaseContext implements IDatabaseContext {
     }
 
     private initialize(connectionString: string): void {
-        this._db.load(connectionString);
+        this._db.connect(connectionString);
 
         this._dbSets.clear();
 
