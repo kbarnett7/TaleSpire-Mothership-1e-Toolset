@@ -11,15 +11,15 @@ export abstract class BaseRepository<T> implements IRepository<T> {
         this.dbContext = dbContext;
     }
 
-    public first(predicate?: ((item: T) => boolean) | undefined): T | undefined {
-        const items = this.list();
+    public first(predicate?: ((entity: T) => boolean) | undefined): T | undefined {
+        const entities = this.list();
 
         if (predicate) {
-            return items.find(predicate);
+            return entities.find(predicate);
         }
 
-        if (items.length > 0) {
-            return items[0];
+        if (entities.length > 0) {
+            return entities[0];
         }
 
         return undefined;
@@ -27,5 +27,9 @@ export abstract class BaseRepository<T> implements IRepository<T> {
 
     public list(): T[] {
         return this.dbContext.getSet<T>(this.type).toArray();
+    }
+
+    public add(entity: T): void {
+        this.dbContext.getSet<T>(this.type).add(entity);
     }
 }

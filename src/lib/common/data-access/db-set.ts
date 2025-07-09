@@ -11,7 +11,7 @@ export class DbSet<T> {
         return this.collection;
     }
 
-    public add(newItem: T): void {
-        this.collection.push(newItem);
+    public add(entity: T): void {
+        this.collection.push(entity);
     }
 }

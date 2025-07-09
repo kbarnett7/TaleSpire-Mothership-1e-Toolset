@@ -13,7 +13,11 @@ export class UnitOfWork implements IUnitOfWork {
         this.dbContext = dbContext;
     }
 
-    repo<T>(type: Constructor<T>): IRepository<T> {
+    public repo<T>(type: Constructor<T>): IRepository<T> {
         return new Repository<T>(type, this.dbContext);
+    }
+
+    public saveChanges(): void {
+        this.dbContext.saveChanges();
     }
 }

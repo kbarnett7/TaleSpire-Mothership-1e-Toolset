@@ -74,7 +74,7 @@ export class AppDatabaseContext implements IDatabaseContext {
         throw new Error(`DbSet of type ${typeName} not found.`);
     }
 
-    public saveChanges() {
+    public saveChanges(): void {
         const collections = new Map<string, any[]>();
 
         for (const [key, dbSet] of this._dbSets) {
