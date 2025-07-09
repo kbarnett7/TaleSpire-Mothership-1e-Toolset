@@ -8,6 +8,7 @@ import { Npc } from "../../features/npcs/npc";
 import { IDatabase } from "../common/data-access/database-interface";
 import { AppSettings } from "../settings/app-settings";
 import { DatabaseVersion } from "../../features/database-versions/database-version";
+import { DatabaseCollectionNames } from "./database-collection-names";
 
 export class AppDatabaseContext implements IDatabaseContext {
     public static inject = ["database", "appSettings"] as const;
@@ -23,11 +24,11 @@ export class AppDatabaseContext implements IDatabaseContext {
         this._db = db;
         this._dbSets = new Map<string, DbSet<any>>();
         this._entityKeyToDbKeyMap = new Map<string, string>();
-        this._entityKeyToDbKeyMap.set(DatabaseVersion.name, "databaseVersions");
-        this._entityKeyToDbKeyMap.set(ArmorItem.name, "armor");
-        this._entityKeyToDbKeyMap.set(EquipmentItem.name, "equipment");
-        this._entityKeyToDbKeyMap.set(WeaponItem.name, "weapons");
-        this._entityKeyToDbKeyMap.set(Npc.name, "npcs");
+        this._entityKeyToDbKeyMap.set(DatabaseVersion.name, DatabaseCollectionNames.databaseVersions);
+        this._entityKeyToDbKeyMap.set(ArmorItem.name, DatabaseCollectionNames.armor);
+        this._entityKeyToDbKeyMap.set(EquipmentItem.name, DatabaseCollectionNames.equipment);
+        this._entityKeyToDbKeyMap.set(WeaponItem.name, DatabaseCollectionNames.weapons);
+        this._entityKeyToDbKeyMap.set(Npc.name, DatabaseCollectionNames.npcs);
 
         this.initialize(this._appSettings.connectionString);
     }
@@ -40,26 +41,38 @@ export class AppDatabaseContext implements IDatabaseContext {
         this._dbSets.set(
             DatabaseVersion.name,
             new DbSet<DatabaseVersion>(
-                this._db.getCollection("databaseVersions").map((obj) => Object.assign(new DatabaseVersion(), obj))
+                this._db
+                    .getCollection(DatabaseCollectionNames.databaseVersions)
+                    .map((obj) => Object.assign(new DatabaseVersion(), obj))
             )
         );
         this._dbSets.set(
             ArmorItem.name,
-            new DbSet<ArmorItem>(this._db.getCollection("armor").map((obj) => Object.assign(new ArmorItem(), obj)))
+            new DbSet<ArmorItem>(
+                this._db.getCollection(DatabaseCollectionNames.armor).map((obj) => Object.assign(new ArmorItem(), obj))
+            )
         );
         this._dbSets.set(
             EquipmentItem.name,
             new DbSet<EquipmentItem>(
-                this._db.getCollection("equipment").map((obj) => Object.assign(new EquipmentItem(), obj))
+                this._db
+                    .getCollection(DatabaseCollectionNames.equipment)
+                    .map((obj) => Object.assign(new EquipmentItem(), obj))
             )
         );
         this._dbSets.set(
             WeaponItem.name,
-            new DbSet<WeaponItem>(this._db.getCollection("weapons").map((obj) => Object.assign(new WeaponItem(), obj)))
+            new DbSet<WeaponItem>(
+                this._db
+                    .getCollection(DatabaseCollectionNames.weapons)
+                    .map((obj) => Object.assign(new WeaponItem(), obj))
+            )
         );
         this._dbSets.set(
             Npc.name,
-            new DbSet<Npc>(this._db.getCollection("npcs").map((obj) => Object.assign(new Npc(), obj)))
+            new DbSet<Npc>(
+                this._db.getCollection(DatabaseCollectionNames.npcs).map((obj) => Object.assign(new Npc(), obj))
+            )
         );
     }
 

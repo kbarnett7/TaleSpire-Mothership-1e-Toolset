@@ -4,12 +4,13 @@ import { BrowserBlobStorage } from "../../src/lib/data-access/browser-blob-stora
 import { SeedableJsonDatabase } from "../../src/lib/data-access/seedable-json-database";
 import { ErrorCode } from "../../src/lib/errors/error-code";
 import { LocalizationService } from "../../src/lib/localization/localization-service";
+import { DataAccessUtils } from "./data-access-utils";
 
 describe("SeedableJsonDatabase", () => {
     const appDbLocation = "app_db_key";
 
     beforeEach(() => {
-        window.localStorage.clear();
+        DataAccessUtils.clearLocalStorage();
     });
 
     it("should return a failure result when storage key string is empty", () => {
