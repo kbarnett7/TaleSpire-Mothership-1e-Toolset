@@ -14,4 +14,12 @@ export class DbSet<T> {
     public add(entity: T): void {
         this.collection.push(entity);
     }
+
+    public remove(entity: T): void {
+        const index = this.collection.indexOf(entity);
+
+        if (index !== -1) {
+            this.collection.splice(index, 1);
+        }
+    }
 }
