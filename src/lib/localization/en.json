@@ -1,4 +1,7 @@
 {
+    "couldNotConnectToDatabase": "Could not connect the JSON database.",
     "notConnectedToDatabase": "Not connected to database",
+    "storageKeyEmpty": "storageKey is empty",
+
     "createCustomNpcFailed": "Failed to create custom NPC."
 }

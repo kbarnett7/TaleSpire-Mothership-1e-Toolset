@@ -2,6 +2,7 @@ import { IBlobStorage } from "../common/data-access/blob-storage-interface";
 import { IDatabase } from "../common/data-access/database-interface";
 import { ErrorCode } from "../errors/error-code";
 import { LocalizationService } from "../localization/localization-service";
+import { MessageKeys } from "../localization/message-keys";
 import { AppLogger } from "../logging/app-logger";
 import { Result } from "../result/result";
 import { ResultError } from "../result/result-error";
@@ -23,13 +24,13 @@ export class SeedableJsonDatabase implements IDatabase {
         return this.storageKey.trim() !== "";
     }
 
+    private getJsonDb(): any {
+        return JSON.parse(this.blobStorage.getBlob(this.storageKey));
+    }
+
     public connect(storageKey: string): Result<string> {
         if (storageKey.trim() === "") {
-            return Result.failure(
-                new ResultError(ErrorCode.DatabaseConnectionError, "Could not connect the JSON database.", [
-                    "storageKey is empty",
-                ])
-            );
+            return this.getCouldNotConnectFailureResult();
         }
 
         this.storageKey = storageKey;
@@ -39,6 +40,16 @@ export class SeedableJsonDatabase implements IDatabase {
         return Result.success(storageKey);
     }
 
+    private getCouldNotConnectFailureResult(): Result<string> {
+        return Result.failure(
+            new ResultError(
+                ErrorCode.DatabaseConnectionError,
+                LocalizationService.instance.translate(MessageKeys.couldNotConnectToDatabase),
+                [LocalizationService.instance.translate(MessageKeys.storageKeyEmpty)]
+            )
+        );
+    }
+
     private seedDatabase(storageKey: string) {
         if (this.blobStorage.getBlob(storageKey).trim() === "") {
             this.blobStorage.setBlob(storageKey, JSON.stringify(this.seedJson));
@@ -46,8 +57,7 @@ export class SeedableJsonDatabase implements IDatabase {
     }
 
     public save(collections: Map<string, any[]>): void {
-        const dbBlob: string = this.blobStorage.getBlob(this.storageKey);
-        const dbJson = JSON.parse(dbBlob);
+        const dbJson = this.getJsonDb();
 
         for (const [key, value] of collections) {
             if (key in dbJson) {
@@ -60,11 +70,14 @@ export class SeedableJsonDatabase implements IDatabase {
 
     public getCollection(collectionName: string): any[] {
         if (!this.isConnectedToDatabase()) {
-            throw new Error(LocalizationService.instance.translate("notConnectedToDatabase"));
+            throw new Error(LocalizationService.instance.translate(MessageKeys.notConnectedToDatabase));
         }
 
-        const dbBlob: string = this.blobStorage.getBlob(this.storageKey);
-        const dbJson = JSON.parse(dbBlob);
+        if (collectionName.trim() === "") {
+            return [];
+        }
+
+        const dbJson = this.getJsonDb();
 
         if (!(collectionName in dbJson)) {
             AppLogger.instance.warn(`Could not find the collection "${collectionName}" in the database.`);

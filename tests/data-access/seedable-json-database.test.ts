@@ -21,7 +21,7 @@ describe("SeedableJsonDatabase", () => {
         expect(result.error.code).toBe(ErrorCode.DatabaseConnectionError);
     });
 
-    it("should return a successful result when connecting to a valid JSON file", () => {
+    it("should return a successful result when using a valid storage key", () => {
         const db = new SeedableJsonDatabase(new BrowserBlobStorage(window.localStorage), testJson);
 
         const result = db.connect(appDbLocation);
@@ -65,6 +65,15 @@ describe("SeedableJsonDatabase", () => {
         }).toThrow(expectedMessage);
     });
 
+    it("should return an empty array for an empty collection name", () => {
+        const db = new SeedableJsonDatabase(new BrowserBlobStorage(window.localStorage), testJson);
+        db.connect(appDbLocation);
+
+        const result = db.getCollection("");
+
+        expect(result.length).toBe(0);
+    });
+
     it("should return an empty array for a collection that exists and is empty", () => {
         const db = new SeedableJsonDatabase(new BrowserBlobStorage(window.localStorage), testJson);
         db.connect(appDbLocation);
@@ -90,5 +99,48 @@ describe("SeedableJsonDatabase", () => {
         const result = db.getCollection("nonExistantCollection");
 
         expect(result.length).toBe(0);
+    });
+
+    it("should not add a new collection to the JSON database when saving a collection not already in the JSON database", () => {
+        const db = new SeedableJsonDatabase(new BrowserBlobStorage(window.localStorage), testJson);
+        const collectionName = "nonExistantCollection";
+        const collections = new Map<string, any[]>();
+        db.connect(appDbLocation);
+        collections.set(collectionName, [{ id: 1, value: 10 }]);
+
+        db.save(collections);
+
+        const collection = db.getCollection(collectionName);
+        expect(collection.length).toBe(0);
+    });
+
+    it("should save a modified collection to the JSON database", () => {
+        // Arrange
+        const db = new SeedableJsonDatabase(new BrowserBlobStorage(window.localStorage), testJson);
+        const collectionName = "populatedCollection";
+        const collections = new Map<string, any[]>();
+        db.connect(appDbLocation);
+        let collection = db.getCollection(collectionName);
+
+        // Edit an existing item
+        collection[0].name = "Edited Name";
+
+        // Add a new item
+        collection.push({
+            id: 99,
+            name: "Test Value Z",
+        });
+
+        collections.set(collectionName, collection);
+
+        // Act
+        db.save(collections);
+
+        // Assert
+        collection = db.getCollection(collectionName);
+        expect(collection.length).toBe(4);
+        expect(collection[0].name).toBe("Edited Name");
+        expect(collection[3].id).toBe(99);
+        expect(collection[3].name).toBe("Test Value Z");
     });
 });
