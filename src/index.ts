@@ -30,7 +30,7 @@ try {
 
     const startup: Startup = new Startup();
 
-    startup.configureAsync();
+    startup.configure();
 
     console.log("App started successfully!");
 } catch (error) {

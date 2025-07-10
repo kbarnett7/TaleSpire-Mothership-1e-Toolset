@@ -23,6 +23,8 @@ export class AppDatabaseContext implements IDatabaseContext {
         this._appSettings = appSettings;
         this._db = db;
         this._dbSets = new Map<string, DbSet<any>>();
+
+        // TODO: move into method
         this._entityKeyToDbKeyMap = new Map<string, string>();
         this._entityKeyToDbKeyMap.set(DatabaseVersion.name, DatabaseCollectionNames.databaseVersions);
         this._entityKeyToDbKeyMap.set(ArmorItem.name, DatabaseCollectionNames.armor);
@@ -36,6 +38,7 @@ export class AppDatabaseContext implements IDatabaseContext {
     private initialize(connectionString: string): void {
         this._db.connect(connectionString);
 
+        // TODO: move into method
         this._dbSets.clear();
 
         this._dbSets.set(

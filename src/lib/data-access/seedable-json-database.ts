@@ -30,7 +30,7 @@ export class SeedableJsonDatabase implements IDatabase {
 
     public connect(storageKey: string): Result<string> {
         if (storageKey.trim() === "") {
-            return this.getCouldNotConnectFailureResult();
+            return this.createCouldNotConnectFailureResult();
         }
 
         this.storageKey = storageKey;
@@ -40,7 +40,7 @@ export class SeedableJsonDatabase implements IDatabase {
         return Result.success(storageKey);
     }
 
-    private getCouldNotConnectFailureResult(): Result<string> {
+    private createCouldNotConnectFailureResult(): Result<string> {
         return Result.failure(
             new ResultError(
                 ErrorCode.DatabaseConnectionError,
@@ -50,7 +50,7 @@ export class SeedableJsonDatabase implements IDatabase {
         );
     }
 
-    private seedDatabase(storageKey: string) {
+    private seedDatabase(storageKey: string): void {
         if (this.blobStorage.getBlob(storageKey).trim() === "") {
             this.blobStorage.setBlob(storageKey, JSON.stringify(this.seedJson));
         }

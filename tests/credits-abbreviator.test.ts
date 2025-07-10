@@ -22,7 +22,7 @@ describe("Credits Abbreviator", () => {
         [999999999, "999.999999mcr"],
         [1000000000, "1bcr"],
         [4500000000, "4.5bcr"],
-    ])("abbreviate %i returns %i", (value: number, expected: string) => {
+    ])("abbreviate %i returns %s", (value: number, expected: string) => {
         // Arrange
 
         // Act

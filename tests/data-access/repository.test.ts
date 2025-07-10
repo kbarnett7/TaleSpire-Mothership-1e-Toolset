@@ -6,12 +6,14 @@ import { Repository } from "../../src/lib/data-access/repository";
 import { DataAccessUtils } from "./data-access-utils";
 
 describe("Repository", () => {
+    let dbContext: IDatabaseContext;
+
     beforeEach(() => {
         DataAccessUtils.clearLocalStorage();
+        dbContext = DataAccessUtils.getInitializedDbContext();
     });
 
     it("should return return an empty array when listing the entities in an empty DB set", () => {
-        const dbContext = DataAccessUtils.getInitializedDbContext();
         const repository = new Repository(DatabaseVersion, dbContext);
         clearDbSet(dbContext, dbContext.getSet(DatabaseVersion));
 
@@ -21,7 +23,6 @@ describe("Repository", () => {
     });
 
     it("should return a populated array when listing the entities in a populated DB set", () => {
-        const dbContext = DataAccessUtils.getInitializedDbContext();
         const repository = new Repository(DatabaseVersion, dbContext);
 
         const result = repository.list();
@@ -30,7 +31,6 @@ describe("Repository", () => {
     });
 
     it("should return undefined when finding the first entity without a predicate from an empty DB set", () => {
-        const dbContext = DataAccessUtils.getInitializedDbContext();
         const repository = new Repository(DatabaseVersion, dbContext);
         clearDbSet(dbContext, dbContext.getSet(DatabaseVersion));
 
@@ -40,7 +40,6 @@ describe("Repository", () => {
     });
 
     it("should return the first entity when finding the first entity without a predicate", () => {
-        const dbContext = DataAccessUtils.getInitializedDbContext();
         const repository = new Repository(ArmorItem, dbContext);
 
         const result = repository.first();
@@ -51,7 +50,6 @@ describe("Repository", () => {
     });
 
     it("should add an entity to a DB set when given a new entity", () => {
-        const dbContext = DataAccessUtils.getInitializedDbContext();
         const repository = new Repository(ArmorItem, dbContext);
         const originalLength = repository.list().length;
         const newEntity = new ArmorItem(99, 1, "Test Armor");

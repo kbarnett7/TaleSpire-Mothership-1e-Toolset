@@ -40,7 +40,10 @@ describe("SeedableJsonDatabase", () => {
     });
 
     it("should not seed the database with default database when the database is not empty", () => {
+        // Arrange
         const db = new SeedableJsonDatabase(new BrowserBlobStorage(window.localStorage), testAppDbSeedJson);
+
+        // Add a fourth source to the database
         const newSource = {
             id: 4,
             name: "Fake",
@@ -52,8 +55,10 @@ describe("SeedableJsonDatabase", () => {
         changes.set("sources", sources);
         db.save(changes);
 
+        // Act
         db.connect(appDbLocation);
 
+        // Assert
         expect(db.getCollection("sources").length).toBe(4);
     });
 

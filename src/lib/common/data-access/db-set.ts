@@ -1,5 +1,3 @@
-import { ArmorItem } from "../../../features/gear/armor-item";
-
 export class DbSet<T> {
     private collection: T[];
 
@@ -8,7 +6,7 @@ export class DbSet<T> {
     }
 
     public toArray(): T[] {
-        return this.collection;
+        return this.collection; // TODO: this should probably return an iterator instead of a reference to the actual collection
     }
 
     public add(entity: T): void {
