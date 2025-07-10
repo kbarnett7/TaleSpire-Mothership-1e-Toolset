@@ -1,4 +1,5 @@
 {
+    "appTitle": "TaleSpire Mothership 1e Toolset",
     "couldNotConnectToDatabase": "Could not connect the JSON database.",
     "notConnectedToDatabase": "Not connected to database",
     "storageKeyEmpty": "storageKey is empty",
