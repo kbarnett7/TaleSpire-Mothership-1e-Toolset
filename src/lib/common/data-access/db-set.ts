@@ -6,7 +6,7 @@ export class DbSet<T> {
     }
 
     public toArray(): T[] {
-        return this.collection; // TODO: this should probably return an iterator instead of a reference to the actual collection
+        return [...this.collection];
     }
 
     public add(entity: T): void {
