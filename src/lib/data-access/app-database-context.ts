@@ -13,32 +13,36 @@ import { DatabaseCollectionNames } from "./database-collection-names";
 export class AppDatabaseContext implements IDatabaseContext {
     public static inject = ["database", "appSettings"] as const;
 
+    private readonly _appSettings: AppSettings;
+    private readonly _db: IDatabase;
     private readonly _entityKeyToDbKeyMap: Map<string, string>;
-
-    private _appSettings: AppSettings;
-    private _db: IDatabase;
-    private _dbSets: Map<string, DbSet<any>>;
+    private readonly _dbSets: Map<string, DbSet<any>>;
 
     constructor(db: IDatabase, appSettings: AppSettings) {
         this._appSettings = appSettings;
         this._db = db;
-        this._dbSets = new Map<string, DbSet<any>>();
-
-        // TODO: move into method
         this._entityKeyToDbKeyMap = new Map<string, string>();
-        this._entityKeyToDbKeyMap.set(DatabaseVersion.name, DatabaseCollectionNames.databaseVersions);
-        this._entityKeyToDbKeyMap.set(ArmorItem.name, DatabaseCollectionNames.armor);
-        this._entityKeyToDbKeyMap.set(EquipmentItem.name, DatabaseCollectionNames.equipment);
-        this._entityKeyToDbKeyMap.set(WeaponItem.name, DatabaseCollectionNames.weapons);
-        this._entityKeyToDbKeyMap.set(Npc.name, DatabaseCollectionNames.npcs);
+        this._dbSets = new Map<string, DbSet<any>>();
 
         this.initialize(this._appSettings.connectionString);
     }
 
     private initialize(connectionString: string): void {
         this._db.connect(connectionString);
+        this.initializeEntityKeyToDbKeyMap();
+        this.initializeDbSets();
+    }
 
-        // TODO: move into method
+    private initializeEntityKeyToDbKeyMap(): void {
+        this._entityKeyToDbKeyMap.clear();
+        this._entityKeyToDbKeyMap.set(DatabaseVersion.name, DatabaseCollectionNames.databaseVersions);
+        this._entityKeyToDbKeyMap.set(ArmorItem.name, DatabaseCollectionNames.armor);
+        this._entityKeyToDbKeyMap.set(EquipmentItem.name, DatabaseCollectionNames.equipment);
+        this._entityKeyToDbKeyMap.set(WeaponItem.name, DatabaseCollectionNames.weapons);
+        this._entityKeyToDbKeyMap.set(Npc.name, DatabaseCollectionNames.npcs);
+    }
+
+    private initializeDbSets(): void {
         this._dbSets.clear();
 
         this._dbSets.set(
@@ -49,12 +53,14 @@ export class AppDatabaseContext implements IDatabaseContext {
                     .map((obj) => Object.assign(new DatabaseVersion(), obj))
             )
         );
+
         this._dbSets.set(
             ArmorItem.name,
             new DbSet<ArmorItem>(
                 this._db.getCollection(DatabaseCollectionNames.armor).map((obj) => Object.assign(new ArmorItem(), obj))
             )
         );
+
         this._dbSets.set(
             EquipmentItem.name,
             new DbSet<EquipmentItem>(
@@ -63,6 +69,7 @@ export class AppDatabaseContext implements IDatabaseContext {
                     .map((obj) => Object.assign(new EquipmentItem(), obj))
             )
         );
+
         this._dbSets.set(
             WeaponItem.name,
             new DbSet<WeaponItem>(
@@ -71,6 +78,7 @@ export class AppDatabaseContext implements IDatabaseContext {
                     .map((obj) => Object.assign(new WeaponItem(), obj))
             )
         );
+
         this._dbSets.set(
             Npc.name,
             new DbSet<Npc>(
