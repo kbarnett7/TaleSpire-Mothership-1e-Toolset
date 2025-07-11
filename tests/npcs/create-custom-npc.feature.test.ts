@@ -5,7 +5,8 @@ import { NpcAttack } from "../../src/features/npcs/npc-attack";
 import { NpcSpecialAbility } from "../../src/features/npcs/npc-special-ability";
 import { UnitOfWork } from "../../src/lib/data-access/unit-of-work";
 import { ErrorCode } from "../../src/lib/errors/error-code";
-import { MessageConstants } from "../../src/lib/localization/message-constants";
+import { LocalizationService } from "../../src/lib/localization/localization-service";
+import { MessageKeys } from "../../src/lib/localization/message-keys";
 import { Result } from "../../src/lib/result/result";
 import { DataAccessUtils } from "../data-access/data-access-utils";
 
@@ -25,7 +26,7 @@ describe("CreateCustomNpcFeature", () => {
 
     it.each([[""], [" "]])("should fail if the name is empty or whitespace", (name: string) => {
         // Arrange
-        let npc: Npc = getValidCustomNpc();
+        const npc: Npc = getValidCustomNpc();
         npc.name = name;
         request.npc = npc;
 
@@ -33,7 +34,11 @@ describe("CreateCustomNpcFeature", () => {
         const result = feature.handle(request);
 
         // Assert
-        expectResultToBeFailure(result, ErrorCode.CreateError, MessageConstants.createCustomNpcFailed);
+        expectResultToBeFailure(
+            result,
+            ErrorCode.CreateError,
+            LocalizationService.instance.translate(MessageKeys.createCustomNpcFailed)
+        );
         expect(result.error.details.length).toBe(1);
         expect(result.error.details[0]).toContain("name");
         expect(result.error.details[0]).toContain("empty");
@@ -41,7 +46,7 @@ describe("CreateCustomNpcFeature", () => {
 
     it("should fail if the name is greater than 50 characters long", () => {
         // Arrange
-        let npc: Npc = getValidCustomNpc();
+        const npc: Npc = getValidCustomNpc();
         npc.name = fiftyCharacterLongName;
         request.npc = npc;
 
@@ -49,7 +54,11 @@ describe("CreateCustomNpcFeature", () => {
         const result = feature.handle(request);
 
         // Assert
-        expectResultToBeFailure(result, ErrorCode.CreateError, MessageConstants.createCustomNpcFailed);
+        expectResultToBeFailure(
+            result,
+            ErrorCode.CreateError,
+            LocalizationService.instance.translate(MessageKeys.createCustomNpcFailed)
+        );
         expect(result.error.details.length).toBe(1);
         expect(result.error.details[0]).toContain("name");
         expect(result.error.details[0]).toContain("50");
