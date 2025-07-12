@@ -22,15 +22,15 @@ export abstract class BaseListComponent extends BaseComponent {
         this.tableHeaders = tableHeaders;
     }
 
-    public async connectedCallback() {
-        await this.initUnitOfWork();
-    }
+    // public async connectedCallback() {
+    //     await this.initUnitOfWork();
+    // }
 
-    private async initUnitOfWork(): Promise<void> {
-        const dbContext = appInjector.injectClass(AppDatabaseContext);
-        await dbContext.initialize();
-        this.unitOfWork = new UnitOfWork(dbContext);
-    }
+    // private async initUnitOfWork(): Promise<void> {
+    //     const dbContext = appInjector.resolve("appDatabaseContext") as AppDatabaseContext;
+    //     await dbContext.initialize();
+    //     this.unitOfWork = new UnitOfWork(dbContext);
+    // }
 
     protected populateTableHeaderRow() {
         const npcListContainer = this.shadow.querySelector("#list-container");

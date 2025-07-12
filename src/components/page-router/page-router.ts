@@ -23,7 +23,7 @@ export class PageRouterComponent extends BaseComponent {
 
     constructor() {
         super();
-        this.currentPage = PageRouterService.instance.getPageByTitle(PageRouterService.charactersPage);
+        this.currentPage = PageRouterService.instance.getPageByTitle(PageRouterService.splashPage);
     }
 
     public connectedCallback() {

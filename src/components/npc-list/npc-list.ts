@@ -40,7 +40,7 @@ export class NpcListComponent extends BaseListComponent {
     }
 
     public async connectedCallback() {
-        await super.connectedCallback();
+        //await super.connectedCallback();
 
         this.render(html);
 

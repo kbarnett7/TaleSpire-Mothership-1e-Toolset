@@ -26,6 +26,8 @@
 
 /*! ../../../lib/events/update-page-title-event */
 
+/*! ../../../lib/infrastructure/app-injector */
+
 /*! ../../../lib/localization/localization-service */
 
 /*! ../../../lib/localization/message-keys */
@@ -91,8 +93,6 @@
 /*! ../../features/npcs/sort-npcs-list/sort-npcs-list-request */
 
 /*! ../../lib/common/features/empty-request */
-
-/*! ../../lib/data-access/app-database-context */
 
 /*! ../../lib/data-access/unit-of-work */
 
@@ -283,6 +283,8 @@
 /*! ./secondary-button.html */
 
 /*! ./sort-direction */
+
+/*! ./splash.html */
 
 /*! ./tokens.js */
 
@@ -500,6 +502,10 @@
   !*** ./src/components/pages/codex/codex.html ***!
   \***********************************************/
 
+/*!***********************************************!*\
+  !*** ./src/components/pages/splash/splash.ts ***!
+  \***********************************************/
+
 /*!************************************************!*\
   !*** ./src/features/npcs/npc-list-item-map.ts ***!
   \************************************************/
@@ -518,6 +524,10 @@
 
 /*!*************************************************!*\
   !*** ./src/components/gear-list/gear-list.html ***!
+  \*************************************************/
+
+/*!*************************************************!*\
+  !*** ./src/components/pages/splash/splash.html ***!
   \*************************************************/
 
 /*!*************************************************!*\
