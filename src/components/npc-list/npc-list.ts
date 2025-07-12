@@ -39,9 +39,7 @@ export class NpcListComponent extends BaseListComponent {
         this.npcsList = [];
     }
 
-    public async connectedCallback() {
-        //await super.connectedCallback();
-
+    public connectedCallback() {
         this.render(html);
 
         const feature = new GetAllNpcsFeature(this.unitOfWork);
