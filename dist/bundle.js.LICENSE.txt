@@ -12,11 +12,15 @@
 
 /*! !../node_modules/style-loader/dist/runtime/styleTagTransform.js */
 
+/*! ../../../features/database-versions/database-version */
+
 /*! ../../../lib/common/features/empty-request */
 
 /*! ../../../lib/common/features/filter-list-feature */
 
 /*! ../../../lib/common/features/sort-list-feature */
+
+/*! ../../../lib/data-access/unit-of-work */
 
 /*! ../../../lib/errors/error-code */
 
@@ -25,6 +29,8 @@
 /*! ../../../lib/events/event-bus */
 
 /*! ../../../lib/events/update-page-title-event */
+
+/*! ../../../lib/infrastructure/app-injector */
 
 /*! ../../../lib/localization/localization-service */
 
@@ -211,6 +217,8 @@
 /*! ./api/TChildContext.js */
 
 /*! ./app-event */
+
+/*! ./app-injector */
 
 /*! ./armor-item */
 

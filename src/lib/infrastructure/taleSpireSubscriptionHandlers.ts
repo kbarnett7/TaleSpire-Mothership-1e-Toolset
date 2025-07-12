@@ -1,4 +1,5 @@
 import { AppLogger } from "../logging/app-logger";
+import { appInjector } from "./app-injector";
 
 declare const TS: any;
 
@@ -10,6 +11,8 @@ async function onStateChangeEvent(event: any) {
     if (event.kind === "hasInitialized") {
         //AppLogger.instance.info("hasInitialized", event);
         console.info("onStateChangeEvent.hasInitialized()...");
+        const dbContext = appInjector.resolve("appDatabaseContext");
+        await dbContext.initialize();
     }
 }
 

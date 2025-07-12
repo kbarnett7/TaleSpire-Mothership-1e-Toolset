@@ -20,6 +20,10 @@ export class AppDatabaseContext implements IDatabaseContext {
 
     private _isInitialized: boolean;
 
+    public get isInitialized(): boolean {
+        return this.isInitialized;
+    }
+
     constructor(db: IDatabase, appSettings: AppSettings) {
         this._appSettings = appSettings;
         this._db = db;
