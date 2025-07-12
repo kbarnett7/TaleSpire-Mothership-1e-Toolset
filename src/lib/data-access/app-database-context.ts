@@ -23,16 +23,12 @@ export class AppDatabaseContext implements IDatabaseContext {
         this._db = db;
         this._entityKeyToDbKeyMap = new Map<string, string>();
         this._dbSets = new Map<string, DbSet<any>>();
-
-        //this.initialize(this._appSettings.connectionString);
     }
 
     public async initialize(): Promise<void> {
-        console.log("AppDbContext initialize() started...");
         await this._db.connect(this._appSettings.connectionString);
         this.initializeEntityKeyToDbKeyMap();
         await this.initializeDbSets();
-        console.log("AppDbContext initialize() finished!");
     }
 
     private initializeEntityKeyToDbKeyMap(): void {
@@ -45,13 +41,7 @@ export class AppDatabaseContext implements IDatabaseContext {
     }
 
     private async initializeDbSets(): Promise<void> {
-        console.log("initializeDbSets() started...");
         this._dbSets.clear();
-
-        const dbVersions = (await this._db.getCollection(DatabaseCollectionNames.databaseVersions)).map((obj) =>
-            Object.assign(new DatabaseVersion(), obj)
-        );
-        console.log(dbVersions[0]);
 
         this._dbSets.set(
             DatabaseVersion.name,
@@ -95,12 +85,6 @@ export class AppDatabaseContext implements IDatabaseContext {
                 (await this._db.getCollection(DatabaseCollectionNames.npcs)).map((obj) => Object.assign(new Npc(), obj))
             )
         );
-
-        for (const key of this._dbSets.keys()) {
-            console.log(key);
-        }
-
-        console.log("initializeDbSets() finished...");
     }
 
     public getSet<T>(type: Constructor<T>): DbSet<T> {

@@ -31,7 +31,6 @@ import { BaseListComponent } from "../base-list/base-list-component";
 import { TableHeader } from "../../lib/tables/table-header";
 
 export class GearListComponent extends BaseListComponent {
-    private getAllGearFeature: GetAllGearFeature;
     private gearList: Array<GearListItem> = [];
 
     constructor() {
@@ -41,13 +40,15 @@ export class GearListComponent extends BaseListComponent {
             new TableHeader(SortGearListFeature.fieldCategory, "Category"),
             new TableHeader(SortGearListFeature.fieldDescription, "Description"),
         ]);
-        this.getAllGearFeature = new GetAllGearFeature(this.unitOfWork);
     }
 
-    public connectedCallback() {
+    public async connectedCallback() {
+        await super.connectedCallback();
+
         this.render(html);
 
-        this.gearList = this.getAllGearFeature.handle(new EmptyRequest());
+        const feature = new GetAllGearFeature(this.unitOfWork);
+        this.gearList = feature.handle(new EmptyRequest());
 
         this.sortItems();
 

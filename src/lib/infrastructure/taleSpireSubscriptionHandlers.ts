@@ -10,8 +10,6 @@ async function onStateChangeEvent(event: any) {
     if (event.kind === "hasInitialized") {
         //AppLogger.instance.info("hasInitialized", event);
         console.info("onStateChangeEvent.hasInitialized()...");
-        const dbContext = appInjector.injectClass(AppDatabaseContext);
-        await dbContext.initialize();
     }
 }
 

@@ -1,4 +1,5 @@
 import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface";
+import { AppDatabaseContext } from "../../lib/data-access/app-database-context";
 import { UnitOfWork } from "../../lib/data-access/unit-of-work";
 import { AppErrorEvent } from "../../lib/events/app-error-event";
 import { EventBus } from "../../lib/events/event-bus";
@@ -10,7 +11,7 @@ import { TableHeader } from "../../lib/tables/table-header";
 import { BaseComponent } from "../base.component";
 
 export abstract class BaseListComponent extends BaseComponent {
-    protected readonly unitOfWork: IUnitOfWork;
+    protected unitOfWork: IUnitOfWork;
     protected readonly tableHeaders: TableHeader[];
     protected sortState: SortState;
 
@@ -19,6 +20,16 @@ export abstract class BaseListComponent extends BaseComponent {
         this.unitOfWork = appInjector.injectClass(UnitOfWork);
         this.sortState = new SortState(defaultSortField);
         this.tableHeaders = tableHeaders;
+    }
+
+    public async connectedCallback() {
+        await this.initUnitOfWork();
+    }
+
+    private async initUnitOfWork(): Promise<void> {
+        const dbContext = appInjector.injectClass(AppDatabaseContext);
+        await dbContext.initialize();
+        this.unitOfWork = new UnitOfWork(dbContext);
     }
 
     protected populateTableHeaderRow() {

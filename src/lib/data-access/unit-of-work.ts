@@ -13,10 +13,6 @@ export class UnitOfWork implements IUnitOfWork {
         this.dbContext = dbContext;
     }
 
-    public async initialize(): Promise<void> {
-        await this.dbContext.initialize();
-    }
-
     public repo<T>(type: Constructor<T>): IRepository<T> {
         return new Repository<T>(type, this.dbContext);
     }

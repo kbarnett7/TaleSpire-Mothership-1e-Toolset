@@ -92,6 +92,8 @@
 
 /*! ../../lib/common/features/empty-request */
 
+/*! ../../lib/data-access/app-database-context */
+
 /*! ../../lib/data-access/unit-of-work */
 
 /*! ../../lib/events/app-error-event */
@@ -209,8 +211,6 @@
 /*! ./api/TChildContext.js */
 
 /*! ./app-event */
-
-/*! ./app-injector */
 
 /*! ./armor-item */
 
