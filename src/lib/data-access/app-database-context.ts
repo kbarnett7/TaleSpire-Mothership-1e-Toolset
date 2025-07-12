@@ -39,6 +39,8 @@ export class AppDatabaseContext implements IDatabaseContext {
             return;
         }
 
+        console.log("AppDbContext.initialize()...");
+
         await this._db.connect(this._appSettings.connectionString);
 
         await this.initializeDbSets();

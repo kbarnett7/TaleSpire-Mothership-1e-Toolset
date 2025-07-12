@@ -7,7 +7,18 @@ export abstract class BasePageComponent extends BaseComponent {
     }
 
     public async connectedCallback() {
-        await this.initializeApp();
+        //await this.initializeApp();
+
+        await this.waitForAppToBeInitialized();
+    }
+
+    private async waitForAppToBeInitialized() {
+        const startup = appInjector.resolve("startup");
+
+        while (!startup.isConfigured) {
+            // Add a small delay to avoid locking up the browser
+            await new Promise((resolve) => setTimeout(resolve, 10));
+        }
     }
 
     /**

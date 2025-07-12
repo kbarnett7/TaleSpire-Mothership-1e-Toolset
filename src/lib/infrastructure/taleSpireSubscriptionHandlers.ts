@@ -11,8 +11,10 @@ async function onStateChangeEvent(event: any) {
     if (event.kind === "hasInitialized") {
         //AppLogger.instance.info("hasInitialized", event);
         console.info("onStateChangeEvent.hasInitialized()...");
-        const dbContext = appInjector.resolve("appDatabaseContext");
-        await dbContext.initialize();
+        // const dbContext = appInjector.resolve("appDatabaseContext");
+        // await dbContext.initialize();
+        const startup = appInjector.resolve("startup");
+        startup.setTaleSpireApiInitialized();
     }
 }
 
