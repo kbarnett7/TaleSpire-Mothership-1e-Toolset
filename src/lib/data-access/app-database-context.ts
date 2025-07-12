@@ -9,6 +9,7 @@ import { IDatabase } from "../common/data-access/database-interface";
 import { AppSettings } from "../settings/app-settings";
 import { DatabaseVersion } from "../../features/database-versions/database-version";
 import { DatabaseCollectionNames } from "./database-collection-names";
+import { AppLogger } from "../logging/app-logger";
 
 export class AppDatabaseContext implements IDatabaseContext {
     public static inject = ["database", "appSettings"] as const;
@@ -27,7 +28,7 @@ export class AppDatabaseContext implements IDatabaseContext {
         this.initialize(this._appSettings.connectionString);
     }
 
-    private initialize(connectionString: string): void {
+    public initialize(connectionString: string): void {
         this._db.connect(connectionString);
         this.initializeEntityKeyToDbKeyMap();
         this.initializeDbSets();

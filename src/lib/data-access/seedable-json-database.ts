@@ -25,6 +25,7 @@ export class SeedableJsonDatabase implements IDatabase {
     }
 
     private getJsonDb(): any {
+        console.info("getJsonDb");
         return JSON.parse(this.blobStorage.getBlob(this.storageKey));
     }
 
@@ -51,8 +52,11 @@ export class SeedableJsonDatabase implements IDatabase {
     }
 
     private seedDatabase(storageKey: string): void {
+        console.info(`Existing DB: ${this.blobStorage.getBlob(storageKey)}`);
         if (this.blobStorage.getBlob(storageKey).trim() === "") {
+            console.info("Seeding db...");
             this.blobStorage.setBlob(storageKey, JSON.stringify(this.seedJson));
+            console.info("Finished seeding db!");
         }
     }
 

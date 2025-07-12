@@ -4,9 +4,11 @@ import { BaseComponent } from "../../base.component";
 export class GearComponent extends BaseComponent {
     constructor() {
         super();
+        console.info("GearComponent constructor...");
     }
 
     public connectedCallback() {
+        console.info("GearComponent connectedCallback()...");
         this.render(html);
     }
 }

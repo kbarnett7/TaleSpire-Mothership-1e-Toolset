@@ -1,3 +1,5 @@
-function roll_ts() {
-    TS.dice.putDiceInTray([{ name: "example roll", roll: "D20" }]);
-}
+// import { safeTS } from "../lib/infrastructure/taleSpireApi";
+
+// function roll_ts() {
+//     safeTS.dice.putDiceInTray([{ name: "example roll", roll: "D20" }]);
+// }

@@ -1,7 +1,26 @@
+import { AppDatabaseContext } from "../data-access/app-database-context";
 import { AppLogger } from "../logging/app-logger";
+import { AppSettings } from "../settings/app-settings";
+import { appInjector } from "./app-injector";
+
+declare const TS: any;
 
 function logSymbioteEvent(event: any) {
     AppLogger.instance.info("Symbiote Event", event);
+}
+
+async function onStateChangeEvent(event: any) {
+    if (event.kind === "hasInitialized") {
+        //AppLogger.instance.info("hasInitialized", event);
+        console.info("onStateChangeEvent.hasInitialized()...");
+        console.log(TS);
+        // appInjector.provideValue("taleSpireService", TS);
+
+        // const appSettings = appInjector.injectClass(AppSettings);
+        // const dbContext = appInjector.injectClass(AppDatabaseContext);
+        // dbContext.initialize(appSettings.connectionString);
+        //safeTS = TS;
+    }
 }
 
 function handleRollResult(event: { kind: string; payload: any }): void {
@@ -9,12 +28,14 @@ function handleRollResult(event: { kind: string; payload: any }): void {
 
     if (event.kind === "rollResults") {
         TS.dice.evaluateDiceResultsGroup(event.payload.resultsGroups[0]).then((summedRoll: number) => {
+            AppLogger.instance.debug(`The last roll result was: ${summedRoll}`);
             const diceResultElement = document.getElementById("dice-result");
             if (diceResultElement) {
                 diceResultElement.textContent = "The last roll result was: " + summedRoll;
             }
         });
     } else if (event.kind === "rollRemoved") {
+        AppLogger.instance.debug("A dice roll got removed!");
         const diceResultElement = document.getElementById("dice-result");
         if (diceResultElement) {
             diceResultElement.textContent = "A dice roll got removed!";
@@ -26,4 +47,5 @@ function handleRollResult(event: { kind: string; payload: any }): void {
 // This is a workaround to make the functions available in the global scope
 // so that TaleSpire can call them as configured by manifest.json.
 (window as any).logSymbioteEvent = logSymbioteEvent;
+(window as any).onStateChangeEvent = onStateChangeEvent;
 (window as any).handleRollResult = handleRollResult;

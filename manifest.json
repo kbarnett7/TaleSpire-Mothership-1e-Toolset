@@ -20,7 +20,7 @@
             },
             "symbiote": {
                 "onVisibilityEvent": "logSymbioteEvent",
-                "onStateChangeEvent": "logSymbioteEvent"
+                "onStateChangeEvent": "onStateChangeEvent"
             }
         },
         "interop": {
