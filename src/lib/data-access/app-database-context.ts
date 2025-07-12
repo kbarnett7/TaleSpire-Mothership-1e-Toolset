@@ -30,6 +30,8 @@ export class AppDatabaseContext implements IDatabaseContext {
         this._entityKeyToDbKeyMap = new Map<string, string>();
         this._dbSets = new Map<string, DbSet<any>>();
         this._isInitialized = false;
+        this.initializeEntityKeyToDbKeyMap();
+        this.initializeDbSetsWithEmptyCollections();
     }
 
     public async initialize(): Promise<void> {
@@ -39,20 +41,25 @@ export class AppDatabaseContext implements IDatabaseContext {
 
         await this._db.connect(this._appSettings.connectionString);
 
-        this.initializeEntityKeyToDbKeyMap();
-
         await this.initializeDbSets();
 
         this._isInitialized = true;
     }
 
     private initializeEntityKeyToDbKeyMap(): void {
-        this._entityKeyToDbKeyMap.clear();
         this._entityKeyToDbKeyMap.set(DatabaseVersion.name, DatabaseCollectionNames.databaseVersions);
         this._entityKeyToDbKeyMap.set(ArmorItem.name, DatabaseCollectionNames.armor);
         this._entityKeyToDbKeyMap.set(EquipmentItem.name, DatabaseCollectionNames.equipment);
         this._entityKeyToDbKeyMap.set(WeaponItem.name, DatabaseCollectionNames.weapons);
         this._entityKeyToDbKeyMap.set(Npc.name, DatabaseCollectionNames.npcs);
+    }
+
+    private initializeDbSetsWithEmptyCollections() {
+        this._dbSets.set(DatabaseVersion.name, new DbSet<DatabaseVersion>([]));
+        this._dbSets.set(ArmorItem.name, new DbSet<ArmorItem>([]));
+        this._dbSets.set(EquipmentItem.name, new DbSet<EquipmentItem>([]));
+        this._dbSets.set(WeaponItem.name, new DbSet<WeaponItem>([]));
+        this._dbSets.set(Npc.name, new DbSet<Npc>([]));
     }
 
     private async initializeDbSets(): Promise<void> {
