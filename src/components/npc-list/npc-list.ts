@@ -41,7 +41,9 @@ export class NpcListComponent extends BaseListComponent {
         this.npcsList = [];
     }
 
-    public connectedCallback() {
+    public async connectedCallback() {
+        await this.unitOfWork.initialize();
+
         this.render(html);
 
         this.npcsList = this.getAllNpcsFeature.handle(new EmptyRequest());

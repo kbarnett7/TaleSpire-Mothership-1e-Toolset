@@ -210,6 +210,8 @@
 
 /*! ./app-event */
 
+/*! ./app-injector */
+
 /*! ./armor-item */
 
 /*! ./base-repository */

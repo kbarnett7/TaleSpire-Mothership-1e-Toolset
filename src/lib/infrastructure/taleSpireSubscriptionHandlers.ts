@@ -1,7 +1,18 @@
+import { AppDatabaseContext } from "../data-access/app-database-context";
 import { AppLogger } from "../logging/app-logger";
+import { appInjector } from "./app-injector";
 
 function logSymbioteEvent(event: any) {
     AppLogger.instance.info("Symbiote Event", event);
+}
+
+async function onStateChangeEvent(event: any) {
+    if (event.kind === "hasInitialized") {
+        //AppLogger.instance.info("hasInitialized", event);
+        console.info("onStateChangeEvent.hasInitialized()...");
+        const dbContext = appInjector.injectClass(AppDatabaseContext);
+        await dbContext.initialize();
+    }
 }
 
 function handleRollResult(event: { kind: string; payload: any }): void {
@@ -26,4 +37,5 @@ function handleRollResult(event: { kind: string; payload: any }): void {
 // This is a workaround to make the functions available in the global scope
 // so that TaleSpire can call them as configured by manifest.json.
 (window as any).logSymbioteEvent = logSymbioteEvent;
+(window as any).onStateChangeEvent = onStateChangeEvent;
 (window as any).handleRollResult = handleRollResult;
