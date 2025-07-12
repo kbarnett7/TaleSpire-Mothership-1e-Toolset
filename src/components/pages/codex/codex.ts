@@ -1,5 +1,4 @@
 import html from "./codex.html";
-import { BaseComponent } from "../../base.component";
 import { BasePageComponent } from "../base-page.component";
 
 export class CodexComponent extends BasePageComponent {

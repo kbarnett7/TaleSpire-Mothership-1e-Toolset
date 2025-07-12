@@ -18,17 +18,28 @@ export class AppDatabaseContext implements IDatabaseContext {
     private readonly _entityKeyToDbKeyMap: Map<string, string>;
     private readonly _dbSets: Map<string, DbSet<any>>;
 
+    private _isInitialized: boolean;
+
     constructor(db: IDatabase, appSettings: AppSettings) {
         this._appSettings = appSettings;
         this._db = db;
         this._entityKeyToDbKeyMap = new Map<string, string>();
         this._dbSets = new Map<string, DbSet<any>>();
+        this._isInitialized = false;
     }
 
     public async initialize(): Promise<void> {
+        if (this._isInitialized) {
+            return;
+        }
+
         await this._db.connect(this._appSettings.connectionString);
+
         this.initializeEntityKeyToDbKeyMap();
+
         await this.initializeDbSets();
+
+        this._isInitialized = true;
     }
 
     private initializeEntityKeyToDbKeyMap(): void {

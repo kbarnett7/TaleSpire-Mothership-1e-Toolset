@@ -1,5 +1,4 @@
 import html from "./about.component.html";
-import { BaseComponent } from "../../base.component";
 import { BasePageComponent } from "../base-page.component";
 
 export class AboutComponent extends BasePageComponent {

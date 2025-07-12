@@ -1,6 +1,4 @@
-import { AppDatabaseContext } from "../data-access/app-database-context";
 import { AppLogger } from "../logging/app-logger";
-import { appInjector } from "./app-injector";
 
 declare const TS: any;
 

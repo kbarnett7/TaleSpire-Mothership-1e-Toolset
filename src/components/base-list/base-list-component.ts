@@ -1,5 +1,4 @@
 import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface";
-import { AppDatabaseContext } from "../../lib/data-access/app-database-context";
 import { UnitOfWork } from "../../lib/data-access/unit-of-work";
 import { AppErrorEvent } from "../../lib/events/app-error-event";
 import { EventBus } from "../../lib/events/event-bus";
@@ -21,16 +20,6 @@ export abstract class BaseListComponent extends BaseComponent {
         this.sortState = new SortState(defaultSortField);
         this.tableHeaders = tableHeaders;
     }
-
-    // public async connectedCallback() {
-    //     await this.initUnitOfWork();
-    // }
-
-    // private async initUnitOfWork(): Promise<void> {
-    //     const dbContext = appInjector.resolve("appDatabaseContext") as AppDatabaseContext;
-    //     await dbContext.initialize();
-    //     this.unitOfWork = new UnitOfWork(dbContext);
-    // }
 
     protected populateTableHeaderRow() {
         const npcListContainer = this.shadow.querySelector("#list-container");

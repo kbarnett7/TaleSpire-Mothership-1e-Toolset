@@ -1,5 +1,4 @@
 import html from "./npcs.html";
-import { BaseComponent } from "../../base.component";
 import { BasePageComponent } from "../base-page.component";
 
 export class NpcsComponent extends BasePageComponent {
