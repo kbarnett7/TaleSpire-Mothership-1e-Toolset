@@ -34,6 +34,7 @@ export class SplashComponent extends BaseComponent {
             }
         }
 
+        console.log("intializing db context from splash...");
         const dbContext = appInjector.resolve("appDatabaseContext");
         await dbContext.initialize();
     }

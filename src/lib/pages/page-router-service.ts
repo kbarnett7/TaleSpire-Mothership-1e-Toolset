@@ -1,7 +1,7 @@
 import { PageRouteData } from "./page-route-data";
 
 export class PageRouterService {
-    public static splashPage: string = "Splash";
+    //public static splashPage: string = "Splash";
     public static charactersPage: string = "Characters";
     public static npcsPage: string = "NPCs";
     public static gearPage: string = "Gear";
@@ -16,7 +16,7 @@ export class PageRouterService {
     private constructor() {
         this._pages = new Map<string, PageRouteData>();
         this.populatePageMetaDataMap();
-        this._defaultPage = this.getPageByTitle(PageRouterService.splashPage);
+        this._defaultPage = this.getPageByTitle(PageRouterService.charactersPage);
     }
 
     public static get instance(): PageRouterService {
@@ -28,14 +28,14 @@ export class PageRouterService {
     }
 
     private populatePageMetaDataMap() {
-        this._pages.set(
-            PageRouterService.splashPage,
-            new PageRouteData("/", "splash-page", PageRouterService.splashPage)
-        );
+        // this._pages.set(
+        //     PageRouterService.splashPage,
+        //     new PageRouteData("/", "splash-page", PageRouterService.splashPage)
+        // );
 
         this._pages.set(
             PageRouterService.charactersPage,
-            new PageRouteData("/characters", "characters-page", PageRouterService.charactersPage)
+            new PageRouteData("/", "characters-page", PageRouterService.charactersPage)
         );
 
         this._pages.set(
