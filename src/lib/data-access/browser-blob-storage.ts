@@ -9,11 +9,11 @@ export class BrowserBlobStorage implements IBlobStorage {
         this.webStorage = webStorage;
     }
 
-    public getBlob(key: string): string {
+    public async getBlobAsync(key: string): Promise<string> {
         return this.webStorage.getItem(key) ?? "";
     }
 
-    public setBlob(key: string, value: string): void {
+    public async setBlobAsync(key: string, value: string): Promise<void> {
         this.webStorage.setItem(key, value);
     }
 }

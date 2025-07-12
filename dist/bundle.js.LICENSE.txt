@@ -26,7 +26,9 @@
 
 /*! ../../../lib/events/update-page-title-event */
 
-/*! ../../../lib/localization/message-constants */
+/*! ../../../lib/localization/localization-service */
+
+/*! ../../../lib/localization/message-keys */
 
 /*! ../../../lib/logging/app-logger */
 
@@ -47,6 +49,8 @@
 /*! ../../database/json/database.json */
 
 /*! ../../errors/error-code */
+
+/*! ../../features/database-versions/database-version */
 
 /*! ../../features/gear/armor-item */
 
@@ -138,15 +142,17 @@
 
 /*! ../data-access/app-database-context */
 
-/*! ../data-access/browser-file-storage */
+/*! ../data-access/browser-blob-storage */
 
-/*! ../data-access/single-json-file-database */
+/*! ../data-access/seedable-json-database */
 
-/*! ../data-access/talespire-file-storage */
+/*! ../data-access/talespire-blob-storage */
 
 /*! ../data-access/unit-of-work */
 
 /*! ../equipment-item */
+
+/*! ../errors/error-code */
 
 /*! ../gear-item */
 
@@ -157,6 +163,10 @@
 /*! ../get-all-npcs/get-all-npcs-feature */
 
 /*! ../lib/services/styles-service */
+
+/*! ../localization/localization-service */
+
+/*! ../localization/message-keys */
 
 /*! ../logging/app-logger */
 
@@ -171,6 +181,8 @@
 /*! ../npc-list-item-map */
 
 /*! ../result/result */
+
+/*! ../result/result-error */
 
 /*! ../settings/app-settings */
 
@@ -205,6 +217,10 @@
 /*! ./characters.html */
 
 /*! ./codex.html */
+
+/*! ./database-collection-names */
+
+/*! ./en.json */
 
 /*! ./equipment-item */
 
@@ -316,6 +332,10 @@
 
 /*!**************************************!*\
   !*** ./src/lib/events/event-type.ts ***!
+  \**************************************/
+
+/*!**************************************!*\
+  !*** ./src/lib/localization/en.json ***!
   \**************************************/
 
 /*!***************************************!*\
@@ -455,6 +475,10 @@
   \**********************************************/
 
 /*!**********************************************!*\
+  !*** ./src/lib/localization/message-keys.ts ***!
+  \**********************************************/
+
+/*!**********************************************!*\
   !*** ./src/lib/pages/page-router-service.ts ***!
   \**********************************************/
 
@@ -530,10 +554,6 @@
   !*** ./src/lib/events/update-page-title-event.ts ***!
   \***************************************************/
 
-/*!***************************************************!*\
-  !*** ./src/lib/localization/message-constants.ts ***!
-  \***************************************************/
-
 /*!****************************************************!*\
   !*** ./src/lib/events/npc-filter-changed-event.ts ***!
   \****************************************************/
@@ -567,7 +587,7 @@
   \*****************************************************/
 
 /*!*****************************************************!*\
-  !*** ./src/lib/data-access/browser-file-storage.ts ***!
+  !*** ./src/lib/data-access/browser-blob-storage.ts ***!
   \*****************************************************/
 
 /*!*****************************************************!*\
@@ -590,6 +610,10 @@
   !*** ./src/lib/common/features/sort-list-feature.ts ***!
   \******************************************************/
 
+/*!******************************************************!*\
+  !*** ./src/lib/localization/localization-service.ts ***!
+  \******************************************************/
+
 /*!*******************************************************!*\
   !*** ./src/components/modal-dialog/modal-dialog.html ***!
   \*******************************************************/
@@ -607,7 +631,11 @@
   \*******************************************************/
 
 /*!*******************************************************!*\
-  !*** ./src/lib/data-access/talespire-file-storage.ts ***!
+  !*** ./src/lib/data-access/seedable-json-database.ts ***!
+  \*******************************************************/
+
+/*!*******************************************************!*\
+  !*** ./src/lib/data-access/talespire-blob-storage.ts ***!
   \*******************************************************/
 
 /*!********************************************************!*\
@@ -655,7 +683,7 @@
   \**********************************************************/
 
 /*!**********************************************************!*\
-  !*** ./src/lib/data-access/single-json-file-database.ts ***!
+  !*** ./src/lib/data-access/database-collection-names.ts ***!
   \**********************************************************/
 
 /*!***********************************************************!*\
@@ -672,6 +700,10 @@
 
 /*!************************************************************!*\
   !*** ./node_modules/typed-inject/dist/src/api/Injector.js ***!
+  \************************************************************/
+
+/*!************************************************************!*\
+  !*** ./src/features/database-versions/database-version.ts ***!
   \************************************************************/
 
 /*!************************************************************!*\
@@ -699,7 +731,7 @@
   \**************************************************************/
 
 /*!**************************************************************!*\
-  !*** ./src/lib/common/data-access/file-storage-interface.ts ***!
+  !*** ./src/lib/common/data-access/blob-storage-interface.ts ***!
   \**************************************************************/
 
 /*!**************************************************************!*\

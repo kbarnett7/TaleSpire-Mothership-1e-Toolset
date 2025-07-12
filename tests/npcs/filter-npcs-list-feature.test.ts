@@ -10,8 +10,8 @@ describe("FilterNpcsListFeature", () => {
     let feature: FilterNpcsListFeature;
     let request: FilterNpcsListRequest;
 
-    beforeEach(() => {
-        const dbContext = DataAccessUtils.getInitializedDbContext();
+    beforeEach(async () => {
+        const dbContext = await DataAccessUtils.getInitializedDbContext();
         const unitOfWork = new UnitOfWork(dbContext);
 
         feature = new FilterNpcsListFeature(unitOfWork);

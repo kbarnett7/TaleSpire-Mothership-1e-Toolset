@@ -17,7 +17,7 @@ export class UnitOfWork implements IUnitOfWork {
         return new Repository<T>(type, this.dbContext);
     }
 
-    public saveChanges(): void {
-        this.dbContext.saveChanges();
+    public async saveChanges(): Promise<void> {
+        await this.dbContext.saveChanges();
     }
 }

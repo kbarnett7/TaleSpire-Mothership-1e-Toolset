@@ -1,7 +1,7 @@
 import { Result } from "../../result/result";
 
 export interface IDatabase {
-    connect(dataLocation: string): Result<string>;
-    save(collections: Map<string, any[]>): void;
-    getCollection(collectionName: string): any[];
+    connect(storageKey: string): Promise<Result<string>>;
+    save(collections: Map<string, any[]>): Promise<void>;
+    getCollection(collectionName: string): Promise<any[]>;
 }

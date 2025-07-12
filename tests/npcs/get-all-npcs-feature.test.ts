@@ -6,9 +6,9 @@ import { DataAccessUtils } from "../data-access/data-access-utils";
 import { NpcTestUtils } from "./npc-test-utils";
 
 describe("GetAllNpcs Feature", () => {
-    it("Returns all NPCs", () => {
+    it("Returns all NPCs", async () => {
         // Arrange
-        const dbContext = DataAccessUtils.getInitializedDbContext();
+        const dbContext = await DataAccessUtils.getInitializedDbContext();
         const unitOfWork = new UnitOfWork(dbContext);
         const feature = new GetAllNpcsFeature(unitOfWork);
 

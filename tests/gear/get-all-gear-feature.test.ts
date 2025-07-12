@@ -9,9 +9,9 @@ import { GearTestUtils } from "./gear-test-utils";
 import { DataAccessUtils } from "../data-access/data-access-utils";
 
 describe("GetAllGearFeature", () => {
-    it("Returns all gear list items", () => {
+    it("Returns all gear list items", async () => {
         // Arrange
-        const dbContext = DataAccessUtils.getInitializedDbContext();
+        const dbContext = await DataAccessUtils.getInitializedDbContext();
         const unitOfWork = new UnitOfWork(dbContext);
         const feature = new GetAllGearFeature(unitOfWork);
 

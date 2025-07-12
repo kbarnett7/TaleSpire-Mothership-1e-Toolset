@@ -9,10 +9,10 @@ describe("UnitOfWork", () => {
     let dbContext: IDatabaseContext;
     let unitOfWork: IUnitOfWork;
 
-    beforeEach(() => {
+    beforeEach(async () => {
         DataAccessUtils.clearLocalStorage();
 
-        dbContext = DataAccessUtils.getInitializedDbContext();
+        dbContext = await DataAccessUtils.getInitializedDbContext();
         unitOfWork = new UnitOfWork(dbContext);
     });
 
@@ -28,13 +28,13 @@ describe("UnitOfWork", () => {
         expect(armorItems.length).toBeGreaterThan(0);
     });
 
-    it("should persist changes to the JSON database when saving changes", () => {
+    it("should persist changes to the JSON database when saving changes", async () => {
         const newArmor = new ArmorItem(9999, 1, "Unit Test Armor", "Armor used by unit tests.");
         unitOfWork.repo(ArmorItem).add(newArmor);
 
-        unitOfWork.saveChanges();
+        await unitOfWork.saveChanges();
 
-        dbContext = DataAccessUtils.getInitializedDbContext();
+        dbContext = await DataAccessUtils.getInitializedDbContext();
         unitOfWork = new UnitOfWork(dbContext);
         const length = unitOfWork.repo(ArmorItem).list().length;
         const lastItem = unitOfWork.repo(ArmorItem).list()[length - 1];

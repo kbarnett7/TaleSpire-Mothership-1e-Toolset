@@ -15,8 +15,8 @@ describe("FilterGearListFeature", () => {
     let feature: FilterGearListFeature;
     let request: FilterGearListRequest;
 
-    beforeEach(() => {
-        const dbContext = DataAccessUtils.getInitializedDbContext();
+    beforeEach(async () => {
+        const dbContext = await DataAccessUtils.getInitializedDbContext();
         const unitOfWork = new UnitOfWork(dbContext);
 
         feature = new FilterGearListFeature(unitOfWork);

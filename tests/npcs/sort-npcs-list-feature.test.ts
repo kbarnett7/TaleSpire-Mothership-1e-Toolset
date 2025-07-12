@@ -29,9 +29,9 @@ describe("SortNpcsListFeature", () => {
         request = new SortNpcsListRequest();
     });
 
-    it("When exception occurs returns a failure result with error information", () => {
+    it("When exception occurs returns a failure result with error information", async () => {
         // Arrange
-        const filteredNpcs: NpcListItem[] = getAllNpcListItems();
+        const filteredNpcs: NpcListItem[] = await getAllNpcListItems();
         request.npcListItems = [...filteredNpcs];
         request.sortState = new SortState(SortNpcsListFeature.fieldId);
 
@@ -49,9 +49,9 @@ describe("SortNpcsListFeature", () => {
         expect(result.error.code).toBe(ErrorCode.QueryError);
     });
 
-    it("By no field returns NPC list items in same order as before", () => {
+    it("By no field returns NPC list items in same order as before", async () => {
         // Arrange
-        const filteredNpcs: NpcListItem[] = getAllNpcListItems();
+        const filteredNpcs: NpcListItem[] = await getAllNpcListItems();
         request.npcListItems = [...filteredNpcs];
 
         // Act
@@ -69,9 +69,9 @@ describe("SortNpcsListFeature", () => {
         }
     });
 
-    it("By invalid field returns NPC list items in same order as before", () => {
+    it("By invalid field returns NPC list items in same order as before", async () => {
         // Arrange
-        const filteredNpcs: NpcListItem[] = getAllNpcListItems();
+        const filteredNpcs: NpcListItem[] = await getAllNpcListItems();
         const firstElement = filteredNpcs.shift();
         if (firstElement) filteredNpcs.push(firstElement);
 
@@ -93,9 +93,9 @@ describe("SortNpcsListFeature", () => {
         }
     });
 
-    it('By any field in "None" direction returns NPC list items sorted by id from lowest to highest', () => {
+    it('By any field in "None" direction returns NPC list items sorted by id from lowest to highest', async () => {
         // Arrange
-        const filteredNpcs: NpcListItem[] = getAllNpcListItems();
+        const filteredNpcs: NpcListItem[] = await getAllNpcListItems();
         const sortState = new SortState(SortNpcsListFeature.fieldName);
         const firstElement = filteredNpcs.shift();
         if (firstElement) filteredNpcs.push(firstElement);
@@ -118,9 +118,9 @@ describe("SortNpcsListFeature", () => {
         }
     });
 
-    it('By id in "Ascending" direction returns NPC list items sorted by id from lowest to highest', () => {
+    it('By id in "Ascending" direction returns NPC list items sorted by id from lowest to highest', async () => {
         // Arrange
-        const filteredNpcs: NpcListItem[] = getAllNpcListItems();
+        const filteredNpcs: NpcListItem[] = await getAllNpcListItems();
         const sortState = new SortState();
         sortState.set(SortNpcsListFeature.fieldId);
         const firstElement = filteredNpcs.shift();
@@ -146,9 +146,9 @@ describe("SortNpcsListFeature", () => {
         }
     });
 
-    it('By id in "Descending" direction returns NPC list items sorted by id from highest to lowest', () => {
+    it('By id in "Descending" direction returns NPC list items sorted by id from highest to lowest', async () => {
         // Arrange
-        const filteredNpcs: NpcListItem[] = getAllNpcListItems();
+        const filteredNpcs: NpcListItem[] = await getAllNpcListItems();
         const sortState = new SortState();
         sortState.set(SortNpcsListFeature.fieldId);
         sortState.set(SortNpcsListFeature.fieldId);
@@ -175,9 +175,9 @@ describe("SortNpcsListFeature", () => {
         }
     });
 
-    it('By name in "Ascending" direction returns NPC list items sorted by name in alphabetical order', () => {
+    it('By name in "Ascending" direction returns NPC list items sorted by name in alphabetical order', async () => {
         // Arrange
-        const filteredNpcs: NpcListItem[] = getAllNpcListItems();
+        const filteredNpcs: NpcListItem[] = await getAllNpcListItems();
         const sortState = new SortState();
         sortState.set(SortNpcsListFeature.fieldName);
 
@@ -199,10 +199,10 @@ describe("SortNpcsListFeature", () => {
         }
     });
 
-    it('By name in "Descending" direction returns NPCs list items sorted by name in reverse alphabetical order', () => {
+    it('By name in "Descending" direction returns NPCs list items sorted by name in reverse alphabetical order', async () => {
         // Arrange
         const expectedNameOrder: string[] = [...npcNamesInAlphabeticalOrder].reverse();
-        const filteredNpcs: NpcListItem[] = getAllNpcListItems();
+        const filteredNpcs: NpcListItem[] = await getAllNpcListItems();
         const sortState = new SortState();
         sortState.set(SortNpcsListFeature.fieldName);
         sortState.set(SortNpcsListFeature.fieldName);
@@ -225,9 +225,9 @@ describe("SortNpcsListFeature", () => {
         }
     });
 
-    it('By combat in "Ascending" direction returns NPC list items sorted by combat from lowest to highest', () => {
+    it('By combat in "Ascending" direction returns NPC list items sorted by combat from lowest to highest', async () => {
         // Arrange
-        const filteredNpcs: NpcListItem[] = getAllNpcListItems();
+        const filteredNpcs: NpcListItem[] = await getAllNpcListItems();
         const sortState = new SortState();
         sortState.set(SortNpcsListFeature.fieldCombat);
         request.npcListItems = filteredNpcs;
@@ -250,9 +250,9 @@ describe("SortNpcsListFeature", () => {
         }
     });
 
-    it('By combat in "Descending" direction returns NPC list items sorted by combat from highest to lowest', () => {
+    it('By combat in "Descending" direction returns NPC list items sorted by combat from highest to lowest', async () => {
         // Arrange
-        const filteredNpcs: NpcListItem[] = getAllNpcListItems();
+        const filteredNpcs: NpcListItem[] = await getAllNpcListItems();
         const sortState = new SortState();
         sortState.set(SortNpcsListFeature.fieldCombat);
         sortState.set(SortNpcsListFeature.fieldCombat);
@@ -276,9 +276,9 @@ describe("SortNpcsListFeature", () => {
         }
     });
 
-    it('By instinct in "Ascending" direction returns NPC list items sorted by instinct from lowest to highest', () => {
+    it('By instinct in "Ascending" direction returns NPC list items sorted by instinct from lowest to highest', async () => {
         // Arrange
-        const filteredNpcs: NpcListItem[] = getAllNpcListItems();
+        const filteredNpcs: NpcListItem[] = await getAllNpcListItems();
         const sortState = new SortState();
         sortState.set(SortNpcsListFeature.fieldInstinct);
         request.npcListItems = filteredNpcs;
@@ -301,9 +301,9 @@ describe("SortNpcsListFeature", () => {
         }
     });
 
-    it('By instinct in "Descending" direction returns NPC list items sorted by instinct from highest to lowest', () => {
+    it('By instinct in "Descending" direction returns NPC list items sorted by instinct from highest to lowest', async () => {
         // Arrange
-        const filteredNpcs: NpcListItem[] = getAllNpcListItems();
+        const filteredNpcs: NpcListItem[] = await getAllNpcListItems();
         const sortState = new SortState();
         sortState.set(SortNpcsListFeature.fieldInstinct);
         sortState.set(SortNpcsListFeature.fieldInstinct);
@@ -327,9 +327,9 @@ describe("SortNpcsListFeature", () => {
         }
     });
 
-    it('By armor points in "Ascending" direction returns NPC list items sorted by armor points from lowest to highest', () => {
+    it('By armor points in "Ascending" direction returns NPC list items sorted by armor points from lowest to highest', async () => {
         // Arrange
-        const filteredNpcs: NpcListItem[] = getAllNpcListItems();
+        const filteredNpcs: NpcListItem[] = await getAllNpcListItems();
         const sortState = new SortState();
         sortState.set(SortNpcsListFeature.fieldArmorPoints);
         request.npcListItems = filteredNpcs;
@@ -352,9 +352,9 @@ describe("SortNpcsListFeature", () => {
         }
     });
 
-    it('By armor points in "Descending" direction returns NPC list items sorted by armor points from highest to lowest', () => {
+    it('By armor points in "Descending" direction returns NPC list items sorted by armor points from highest to lowest', async () => {
         // Arrange
-        const filteredNpcs: NpcListItem[] = getAllNpcListItems();
+        const filteredNpcs: NpcListItem[] = await getAllNpcListItems();
         const sortState = new SortState();
         sortState.set(SortNpcsListFeature.fieldArmorPoints);
         sortState.set(SortNpcsListFeature.fieldArmorPoints);
@@ -378,9 +378,9 @@ describe("SortNpcsListFeature", () => {
         }
     });
 
-    it('By health in "Ascending" direction returns NPC list items sorted by health from lowest to highest', () => {
+    it('By health in "Ascending" direction returns NPC list items sorted by health from lowest to highest', async () => {
         // Arrange
-        const filteredNpcs: NpcListItem[] = getAllNpcListItems();
+        const filteredNpcs: NpcListItem[] = await getAllNpcListItems();
         const sortState = new SortState();
         sortState.set(SortNpcsListFeature.fieldWoundsHealth);
         request.npcListItems = filteredNpcs;
@@ -403,9 +403,9 @@ describe("SortNpcsListFeature", () => {
         }
     });
 
-    it('By health in "Descending" direction returns NPC list items sorted by health from highest to lowest', () => {
+    it('By health in "Descending" direction returns NPC list items sorted by health from highest to lowest', async () => {
         // Arrange
-        const filteredNpcs: NpcListItem[] = getAllNpcListItems();
+        const filteredNpcs: NpcListItem[] = await getAllNpcListItems();
         const sortState = new SortState();
         sortState.set(SortNpcsListFeature.fieldWoundsHealth);
         sortState.set(SortNpcsListFeature.fieldWoundsHealth);
@@ -429,14 +429,14 @@ describe("SortNpcsListFeature", () => {
         }
     });
 
-    function getAllNpcListItems(): NpcListItem[] {
-        const filterFeature = getAllNpcsFeature();
+    async function getAllNpcListItems(): Promise<NpcListItem[]> {
+        const filterFeature = await getAllNpcsFeature();
 
         return filterFeature.handle(new EmptyRequest()) ?? [];
     }
 
-    function getAllNpcsFeature(): GetAllNpcsFeature {
-        const dbContext = DataAccessUtils.getInitializedDbContext();
+    async function getAllNpcsFeature(): Promise<GetAllNpcsFeature> {
+        const dbContext = await DataAccessUtils.getInitializedDbContext();
         const unitOfWork = new UnitOfWork(dbContext);
 
         return new GetAllNpcsFeature(unitOfWork);

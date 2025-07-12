@@ -13,33 +13,34 @@ describe("SeedableJsonDatabase", () => {
         DataAccessUtils.clearLocalStorage();
     });
 
-    it("should return a failure result when storage key string is empty", () => {
+    it("should return a failure result when storage key string is empty", async () => {
         const db = new SeedableJsonDatabase(new BrowserBlobStorage(window.localStorage), testJson);
 
-        const result = db.connect("");
+        const result = await db.connect("");
 
         expect(result.isFailure).toBe(true);
         expect(result.error.code).toBe(ErrorCode.DatabaseConnectionError);
     });
 
-    it("should return a successful result when using a valid storage key", () => {
+    it("should return a successful result when using a valid storage key", async () => {
         const db = new SeedableJsonDatabase(new BrowserBlobStorage(window.localStorage), testJson);
 
-        const result = db.connect(appDbLocation);
+        const result = await db.connect(appDbLocation);
 
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBe(appDbLocation);
     });
 
-    it("should seed the database with default database when the database is empty", () => {
+    it("should seed the database with default database when the database is empty", async () => {
         const db = new SeedableJsonDatabase(new BrowserBlobStorage(window.localStorage), testAppDbSeedJson);
 
-        db.connect(appDbLocation);
+        await db.connect(appDbLocation);
 
-        expect(db.getCollection("sources").length).toBe(3);
+        const sources = await db.getCollection("sources");
+        expect(sources.length).toBe(3);
     });
 
-    it("should not seed the database with default database when the database is not empty", () => {
+    it("should not seed the database with default database when the database is not empty", async () => {
         // Arrange
         const db = new SeedableJsonDatabase(new BrowserBlobStorage(window.localStorage), testAppDbSeedJson);
 
@@ -48,85 +49,84 @@ describe("SeedableJsonDatabase", () => {
             id: 4,
             name: "Fake",
         };
-        db.connect(appDbLocation);
-        let sources = db.getCollection("sources");
+        await db.connect(appDbLocation);
+        let sources = await db.getCollection("sources");
         sources.push(newSource);
         const changes = new Map<string, any[]>();
         changes.set("sources", sources);
-        db.save(changes);
+        await db.save(changes);
 
         // Act
         db.connect(appDbLocation);
 
         // Assert
-        expect(db.getCollection("sources").length).toBe(4);
+        sources = await db.getCollection("sources");
+        expect(sources.length).toBe(4);
     });
 
-    it("should throw an exception when attempting to get a collection before connecting to the database", () => {
+    it("should throw an exception when attempting to get a collection before connecting to the database", async () => {
         const db = new SeedableJsonDatabase(new BrowserBlobStorage(window.localStorage), testJson);
         const expectedMessage = LocalizationService.instance.translate("notConnectedToDatabase");
 
-        expect(() => {
-            db.getCollection("populatedCollection");
-        }).toThrow(expectedMessage);
+        await expect(db.getCollection("populatedCollection")).rejects.toThrow(expectedMessage);
     });
 
-    it("should return an empty array for an empty collection name", () => {
+    it("should return an empty array for an empty collection name", async () => {
         const db = new SeedableJsonDatabase(new BrowserBlobStorage(window.localStorage), testJson);
-        db.connect(appDbLocation);
+        await db.connect(appDbLocation);
 
-        const result = db.getCollection("");
+        const result = await db.getCollection("");
 
         expect(result.length).toBe(0);
     });
 
-    it("should return an empty array for a collection that exists and is empty", () => {
+    it("should return an empty array for a collection that exists and is empty", async () => {
         const db = new SeedableJsonDatabase(new BrowserBlobStorage(window.localStorage), testJson);
-        db.connect(appDbLocation);
+        await db.connect(appDbLocation);
 
-        const result = db.getCollection("emptyCollection");
+        const result = await db.getCollection("emptyCollection");
 
         expect(result.length).toBe(0);
     });
 
-    it("should return an non-empty array for a collection that exists and has one or more elements in it", () => {
+    it("should return an non-empty array for a collection that exists and has one or more elements in it", async () => {
         const db = new SeedableJsonDatabase(new BrowserBlobStorage(window.localStorage), testJson);
-        db.connect(appDbLocation);
+        await db.connect(appDbLocation);
 
-        const result = db.getCollection("populatedCollection");
+        const result = await db.getCollection("populatedCollection");
 
         expect(result.length).toBeGreaterThanOrEqual(1);
     });
 
-    it("should return an empty array for a collection that does not exists", () => {
+    it("should return an empty array for a collection that does not exists", async () => {
         const db = new SeedableJsonDatabase(new BrowserBlobStorage(window.localStorage), testJson);
-        db.connect(appDbLocation);
+        await db.connect(appDbLocation);
 
-        const result = db.getCollection("nonExistantCollection");
+        const result = await db.getCollection("nonExistantCollection");
 
         expect(result.length).toBe(0);
     });
 
-    it("should not add a new collection to the JSON database when saving a collection not already in the JSON database", () => {
+    it("should not add a new collection to the JSON database when saving a collection not already in the JSON database", async () => {
         const db = new SeedableJsonDatabase(new BrowserBlobStorage(window.localStorage), testJson);
         const collectionName = "nonExistantCollection";
         const collections = new Map<string, any[]>();
-        db.connect(appDbLocation);
+        await db.connect(appDbLocation);
         collections.set(collectionName, [{ id: 1, value: 10 }]);
 
-        db.save(collections);
+        await db.save(collections);
 
-        const collection = db.getCollection(collectionName);
+        const collection = await db.getCollection(collectionName);
         expect(collection.length).toBe(0);
     });
 
-    it("should save a modified collection to the JSON database", () => {
+    it("should save a modified collection to the JSON database", async () => {
         // Arrange
         const db = new SeedableJsonDatabase(new BrowserBlobStorage(window.localStorage), testJson);
         const collectionName = "populatedCollection";
         const collections = new Map<string, any[]>();
-        db.connect(appDbLocation);
-        let collection = db.getCollection(collectionName);
+        await db.connect(appDbLocation);
+        let collection = await db.getCollection(collectionName);
 
         // Edit an existing item
         collection[0].name = "Edited Name";
@@ -140,10 +140,10 @@ describe("SeedableJsonDatabase", () => {
         collections.set(collectionName, collection);
 
         // Act
-        db.save(collections);
+        await db.save(collections);
 
         // Assert
-        collection = db.getCollection(collectionName);
+        collection = await db.getCollection(collectionName);
         expect(collection.length).toBe(4);
         expect(collection[0].name).toBe("Edited Name");
         expect(collection[3].id).toBe(99);

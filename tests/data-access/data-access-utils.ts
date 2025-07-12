@@ -10,12 +10,14 @@ export class DataAccessUtils {
         window.localStorage.clear();
     }
 
-    static getInitializedDbContext(): IDatabaseContext {
+    static async getInitializedDbContext(): Promise<IDatabaseContext> {
         const appSettings = new AppSettings();
         appSettings.connectionString = "app_db_key";
 
         const db = new SeedableJsonDatabase(new BrowserBlobStorage(window.localStorage), seedJson);
         const dbContext = new AppDatabaseContext(db, appSettings);
+
+        await dbContext.initialize();
 
         return dbContext;
     }

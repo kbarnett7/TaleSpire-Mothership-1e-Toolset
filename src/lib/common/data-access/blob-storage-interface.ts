@@ -1,4 +1,4 @@
 export interface IBlobStorage {
-    getBlob(key: string): string;
-    setBlob(key: string, value: string): void;
+    getBlobAsync(key: string): Promise<string>;
+    setBlobAsync(key: string, value: string): Promise<void>;
 }

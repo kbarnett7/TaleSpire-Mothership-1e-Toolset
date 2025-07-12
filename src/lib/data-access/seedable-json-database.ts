@@ -24,18 +24,18 @@ export class SeedableJsonDatabase implements IDatabase {
         return this.storageKey.trim() !== "";
     }
 
-    private getJsonDb(): any {
-        return JSON.parse(this.blobStorage.getBlob(this.storageKey));
+    private async getJsonDb(): Promise<any> {
+        return JSON.parse(await this.blobStorage.getBlobAsync(this.storageKey));
     }
 
-    public connect(storageKey: string): Result<string> {
+    public async connect(storageKey: string): Promise<Result<string>> {
         if (storageKey.trim() === "") {
             return this.createCouldNotConnectFailureResult();
         }
 
         this.storageKey = storageKey;
 
-        this.seedDatabase(storageKey);
+        await this.seedDatabase(storageKey);
 
         return Result.success(storageKey);
     }
@@ -50,14 +50,16 @@ export class SeedableJsonDatabase implements IDatabase {
         );
     }
 
-    private seedDatabase(storageKey: string): void {
-        if (this.blobStorage.getBlob(storageKey).trim() === "") {
-            this.blobStorage.setBlob(storageKey, JSON.stringify(this.seedJson));
+    private async seedDatabase(storageKey: string): Promise<void> {
+        const blob = await this.blobStorage.getBlobAsync(storageKey);
+
+        if (blob.trim() === "") {
+            await this.blobStorage.setBlobAsync(storageKey, JSON.stringify(this.seedJson));
         }
     }
 
-    public save(collections: Map<string, any[]>): void {
-        const dbJson = this.getJsonDb();
+    public async save(collections: Map<string, any[]>): Promise<void> {
+        const dbJson = await this.getJsonDb();
 
         for (const [key, value] of collections) {
             if (key in dbJson) {
@@ -65,10 +67,10 @@ export class SeedableJsonDatabase implements IDatabase {
             }
         }
 
-        this.blobStorage.setBlob(this.storageKey, JSON.stringify(dbJson));
+        this.blobStorage.setBlobAsync(this.storageKey, JSON.stringify(dbJson));
     }
 
-    public getCollection(collectionName: string): any[] {
+    public async getCollection(collectionName: string): Promise<any[]> {
         if (!this.isConnectedToDatabase()) {
             throw new Error(LocalizationService.instance.translate(MessageKeys.notConnectedToDatabase));
         }
@@ -77,7 +79,7 @@ export class SeedableJsonDatabase implements IDatabase {
             return [];
         }
 
-        const dbJson = this.getJsonDb();
+        const dbJson = await this.getJsonDb();
 
         if (!(collectionName in dbJson)) {
             AppLogger.instance.warn(`Could not find the collection "${collectionName}" in the database.`);

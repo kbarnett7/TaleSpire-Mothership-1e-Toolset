@@ -8,14 +8,14 @@ import { DataAccessUtils } from "./data-access-utils";
 describe("Repository", () => {
     let dbContext: IDatabaseContext;
 
-    beforeEach(() => {
+    beforeEach(async () => {
         DataAccessUtils.clearLocalStorage();
-        dbContext = DataAccessUtils.getInitializedDbContext();
+        dbContext = await DataAccessUtils.getInitializedDbContext();
     });
 
-    it("should return return an empty array when listing the entities in an empty DB set", () => {
+    it("should return return an empty array when listing the entities in an empty DB set", async () => {
         const repository = new Repository(DatabaseVersion, dbContext);
-        clearDbSet(dbContext, dbContext.getSet(DatabaseVersion));
+        await clearDbSet(dbContext, dbContext.getSet(DatabaseVersion));
 
         const result = repository.list();
 
@@ -30,9 +30,9 @@ describe("Repository", () => {
         expect(result.length).toBeGreaterThan(0);
     });
 
-    it("should return undefined when finding the first entity without a predicate from an empty DB set", () => {
+    it("should return undefined when finding the first entity without a predicate from an empty DB set", async () => {
         const repository = new Repository(DatabaseVersion, dbContext);
-        clearDbSet(dbContext, dbContext.getSet(DatabaseVersion));
+        await clearDbSet(dbContext, dbContext.getSet(DatabaseVersion));
 
         const result = repository.first();
 
@@ -49,13 +49,13 @@ describe("Repository", () => {
         expect(result?.name).toBe("Standard Crew Attire");
     });
 
-    it("should add an entity to a DB set when given a new entity", () => {
+    it("should add an entity to a DB set when given a new entity", async () => {
         const repository = new Repository(ArmorItem, dbContext);
         const originalLength = repository.list().length;
         const newEntity = new ArmorItem(99, 1, "Test Armor");
 
         repository.add(newEntity);
-        dbContext.saveChanges();
+        await dbContext.saveChanges();
 
         const entities = repository.list();
         expect(entities.length).toBe(originalLength + 1);
@@ -63,11 +63,11 @@ describe("Repository", () => {
         expect(entities[originalLength].name).toBe("Test Armor");
     });
 
-    function clearDbSet<T>(dbContext: IDatabaseContext, dbSet: DbSet<T>) {
+    async function clearDbSet<T>(dbContext: IDatabaseContext, dbSet: DbSet<T>) {
         for (const element of dbSet.toArray()) {
             dbSet.remove(element);
         }
 
-        dbContext.saveChanges();
+        await dbContext.saveChanges();
     }
 });

@@ -7,8 +7,8 @@ import { DataAccessUtils } from "../data-access/data-access-utils";
 describe("GetNpcByIdFeature", () => {
     let feature: GetNpcByIdFeature;
 
-    beforeEach(() => {
-        const dbContext = DataAccessUtils.getInitializedDbContext();
+    beforeEach(async () => {
+        const dbContext = await DataAccessUtils.getInitializedDbContext();
         const unitOfWork = new UnitOfWork(dbContext);
         feature = new GetNpcByIdFeature(unitOfWork);
     });

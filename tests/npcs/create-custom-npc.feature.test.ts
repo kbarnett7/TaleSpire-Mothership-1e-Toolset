@@ -16,8 +16,8 @@ describe("CreateCustomNpcFeature", () => {
     let request: CreateCustomNpcRequest;
     let feature: CreateCustomNpcFeature;
 
-    beforeEach(() => {
-        const dbContext = DataAccessUtils.getInitializedDbContext();
+    beforeEach(async () => {
+        const dbContext = await DataAccessUtils.getInitializedDbContext();
         const unitOfWork = new UnitOfWork(dbContext);
 
         request = new CreateCustomNpcRequest();

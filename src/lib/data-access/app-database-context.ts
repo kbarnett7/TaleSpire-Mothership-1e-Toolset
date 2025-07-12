@@ -24,13 +24,13 @@ export class AppDatabaseContext implements IDatabaseContext {
         this._entityKeyToDbKeyMap = new Map<string, string>();
         this._dbSets = new Map<string, DbSet<any>>();
 
-        this.initialize(this._appSettings.connectionString);
+        //this.initialize(this._appSettings.connectionString);
     }
 
-    private initialize(connectionString: string): void {
-        this._db.connect(connectionString);
+    public async initialize(): Promise<void> {
+        await this._db.connect(this._appSettings.connectionString);
         this.initializeEntityKeyToDbKeyMap();
-        this.initializeDbSets();
+        await this.initializeDbSets();
     }
 
     private initializeEntityKeyToDbKeyMap(): void {
@@ -42,47 +42,49 @@ export class AppDatabaseContext implements IDatabaseContext {
         this._entityKeyToDbKeyMap.set(Npc.name, DatabaseCollectionNames.npcs);
     }
 
-    private initializeDbSets(): void {
+    private async initializeDbSets(): Promise<void> {
         this._dbSets.clear();
 
         this._dbSets.set(
             DatabaseVersion.name,
             new DbSet<DatabaseVersion>(
-                this._db
-                    .getCollection(DatabaseCollectionNames.databaseVersions)
-                    .map((obj) => Object.assign(new DatabaseVersion(), obj))
+                (await this._db.getCollection(DatabaseCollectionNames.databaseVersions)).map((obj) =>
+                    Object.assign(new DatabaseVersion(), obj)
+                )
             )
         );
 
         this._dbSets.set(
             ArmorItem.name,
             new DbSet<ArmorItem>(
-                this._db.getCollection(DatabaseCollectionNames.armor).map((obj) => Object.assign(new ArmorItem(), obj))
+                (await this._db.getCollection(DatabaseCollectionNames.armor)).map((obj) =>
+                    Object.assign(new ArmorItem(), obj)
+                )
             )
         );
 
         this._dbSets.set(
             EquipmentItem.name,
             new DbSet<EquipmentItem>(
-                this._db
-                    .getCollection(DatabaseCollectionNames.equipment)
-                    .map((obj) => Object.assign(new EquipmentItem(), obj))
+                (await this._db.getCollection(DatabaseCollectionNames.equipment)).map((obj) =>
+                    Object.assign(new EquipmentItem(), obj)
+                )
             )
         );
 
         this._dbSets.set(
             WeaponItem.name,
             new DbSet<WeaponItem>(
-                this._db
-                    .getCollection(DatabaseCollectionNames.weapons)
-                    .map((obj) => Object.assign(new WeaponItem(), obj))
+                (await this._db.getCollection(DatabaseCollectionNames.weapons)).map((obj) =>
+                    Object.assign(new WeaponItem(), obj)
+                )
             )
         );
 
         this._dbSets.set(
             Npc.name,
             new DbSet<Npc>(
-                this._db.getCollection(DatabaseCollectionNames.npcs).map((obj) => Object.assign(new Npc(), obj))
+                (await this._db.getCollection(DatabaseCollectionNames.npcs)).map((obj) => Object.assign(new Npc(), obj))
             )
         );
     }
@@ -98,7 +100,7 @@ export class AppDatabaseContext implements IDatabaseContext {
         throw new Error(`DbSet of type ${typeName} not found.`);
     }
 
-    public saveChanges(): void {
+    public async saveChanges(): Promise<void> {
         const collections = new Map<string, any[]>();
 
         for (const [key, dbSet] of this._dbSets) {
@@ -106,6 +108,6 @@ export class AppDatabaseContext implements IDatabaseContext {
             collections.set(dbKey, dbSet.toArray());
         }
 
-        this._db.save(collections);
+        await this._db.save(collections);
     }
 }

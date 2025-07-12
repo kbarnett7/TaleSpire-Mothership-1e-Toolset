@@ -3,5 +3,5 @@ import { IRepository } from "./repository-interface";
 
 export interface IUnitOfWork {
     repo<T>(type: Constructor<T>): IRepository<T>;
-    saveChanges(): void;
+    saveChanges(): Promise<void>;
 }
