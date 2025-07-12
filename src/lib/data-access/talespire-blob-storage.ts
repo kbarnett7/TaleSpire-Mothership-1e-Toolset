@@ -8,13 +8,9 @@ export class TaleSpireBlobStorage implements IBlobStorage {
             return "";
         }
 
-        let blob = "";
+        const blob = await TS.localStorage.global.getBlob();
 
-        TS.localStorage.global.getBlob().then((globalBlob: string) => {
-            blob = globalBlob;
-        });
-
-        if (!blob || blob === "") {
+        if (!blob) {
             return "";
         }
 
@@ -26,8 +22,6 @@ export class TaleSpireBlobStorage implements IBlobStorage {
             return;
         }
 
-        TS.localStorage.global.setBlob(value).then(() => {
-            console.log("Database set!");
-        });
+        await TS.localStorage.global.setBlob(value);
     }
 }
