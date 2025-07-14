@@ -26,7 +26,6 @@ import { FilterNpcsListRequest } from "../../features/npcs/filter-npcs-list/filt
 import { BaseListComponent } from "../base-list/base-list-component";
 
 export class NpcListComponent extends BaseListComponent {
-    private getAllNpcsFeature: GetAllNpcsFeature;
     private npcsList: Array<NpcListItem>;
 
     constructor() {
@@ -37,14 +36,14 @@ export class NpcListComponent extends BaseListComponent {
             new TableHeader(SortNpcsListFeature.fieldArmorPoints, "Armor Points"),
             new TableHeader(SortNpcsListFeature.fieldWoundsHealth, "Max Wounds (Health)"),
         ]);
-        this.getAllNpcsFeature = new GetAllNpcsFeature(this.unitOfWork);
         this.npcsList = [];
     }
 
     public connectedCallback() {
         this.render(html);
 
-        this.npcsList = this.getAllNpcsFeature.handle(new EmptyRequest());
+        const feature = new GetAllNpcsFeature(this.unitOfWork);
+        this.npcsList = feature.handle(new EmptyRequest());
 
         this.sortItems();
 

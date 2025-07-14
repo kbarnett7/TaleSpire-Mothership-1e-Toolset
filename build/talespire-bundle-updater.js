@@ -42,4 +42,52 @@ function updateBundlePathInIndexHtml() {
     console.log("Finished updating bundle.js path in index.html!");
 }
 
-updateBundlePathInIndexHtml();
+/**
+ * Updates the "environment" setting in the generated bundle.js file.
+ *
+ * Purpose:
+ * This function modifies the environment configuration embedded in the built bundle.js file,
+ * replacing any occurrence of `"environment":"integration"` with a new value (e.g., `"environment":"production"`).
+ * This is necessary to ensure that the application runs with the correct environment settings
+ * after the build process, especially when deploying to different environments.
+ *
+ * How It Works:
+ * 1. Reads the contents of the bundle.js file from the dist directory.
+ * 2. Searches for the string `"environment":"integration"` using a regular expression.
+ * 3. Replaces it with the desired environment value (e.g., `"environment":"production"`).
+ * 4. Writes the updated content back to the bundle.js file.
+ *
+ * Why It's Needed:
+ * - The environment setting in bundle.js determines how the application behaves at runtime.
+ * - This function allows the build process to dynamically set the environment without requiring
+ *   a rebuild or manual editing of the bundle.
+ *
+ * Usage:
+ * This function is typically called as part of the post-build process, after Webpack has generated
+ * the bundle.js file, to ensure the correct environment configuration is set for deployment.
+ */
+function updateAppSettingsEnvironmentValue() {
+    console.log("Updating app settings environment variable in bundle.js...");
+
+    const bundlePath = path.resolve(__dirname, "../dist/bundle.js");
+    const newValue = `"environment":"production"`;
+
+    let fileContents = fs.readFileSync(bundlePath, "utf-8");
+
+    fileContents = fileContents.replace(/"environment":"integration"/, `${newValue}`);
+
+    fs.writeFileSync(bundlePath, fileContents, "utf-8");
+
+    console.log("Finished updating bundle.js app settings environment variable!");
+}
+
+function run(environment) {
+    console.log(`Running talespire-bundle-updater.js for environemnt "${environment}" . . .`);
+
+    updateBundlePathInIndexHtml();
+    updateAppSettingsEnvironmentValue();
+
+    console.log(`Finished running talespire-bundle-updater.js!`);
+}
+
+run(process.argv[2]);

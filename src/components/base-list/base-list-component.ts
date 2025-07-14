@@ -10,7 +10,7 @@ import { TableHeader } from "../../lib/tables/table-header";
 import { BaseComponent } from "../base.component";
 
 export abstract class BaseListComponent extends BaseComponent {
-    protected readonly unitOfWork: IUnitOfWork;
+    protected unitOfWork: IUnitOfWork;
     protected readonly tableHeaders: TableHeader[];
     protected sortState: SortState;
 

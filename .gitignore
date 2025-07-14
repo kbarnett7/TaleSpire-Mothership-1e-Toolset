@@ -138,3 +138,6 @@ out
 
 # VSCode
 .vscode
+
+# TaleSpire
+.localStorage

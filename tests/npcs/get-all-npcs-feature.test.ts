@@ -2,14 +2,14 @@ import { GetAllNpcsFeature } from "../../src/features/npcs/get-all-npcs/get-all-
 import { NpcListItem } from "../../src/features/npcs/npc-list-item";
 import { EmptyRequest } from "../../src/lib/common/features/empty-request";
 import { UnitOfWork } from "../../src/lib/data-access/unit-of-work";
-import { UnitTestDatabase } from "../data/unit-test-database";
+import { DataAccessUtils } from "../data-access/data-access-utils";
 import { NpcTestUtils } from "./npc-test-utils";
 
 describe("GetAllNpcs Feature", () => {
-    it("Returns all NPCs", () => {
+    it("Returns all NPCs", async () => {
         // Arrange
-        const db = new UnitTestDatabase();
-        const unitOfWork = new UnitOfWork(db);
+        const dbContext = await DataAccessUtils.getInitializedDbContext();
+        const unitOfWork = new UnitOfWork(dbContext);
         const feature = new GetAllNpcsFeature(unitOfWork);
 
         // Act

@@ -16,11 +16,11 @@
         "initTimeout": 10,
         "subscriptions": {
             "dice": {
-                "onRollResults": "handleRollResult"
+                "onRollResults": "handleOnRollResults"
             },
             "symbiote": {
-                "onVisibilityEvent": "logSymbioteEvent",
-                "onStateChangeEvent": "logSymbioteEvent"
+                "onVisibilityEvent": "handleOnVisibilityEvent",
+                "onStateChangeEvent": "handleOnStateChangeEvent"
             }
         },
         "interop": {

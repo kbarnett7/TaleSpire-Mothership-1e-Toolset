@@ -1,12 +1,14 @@
 import html from "./npcs.html";
-import { BaseComponent } from "../../base.component";
+import { BasePageComponent } from "../base-page.component";
 
-export class NpcsComponent extends BaseComponent {
+export class NpcsComponent extends BasePageComponent {
     constructor() {
         super();
     }
 
-    public connectedCallback() {
+    public async connectedCallback() {
+        await super.connectedCallback();
+
         this.render(html);
     }
 }

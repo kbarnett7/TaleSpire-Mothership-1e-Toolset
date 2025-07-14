@@ -4,6 +4,7 @@
  *
  * `code` is a string that represents the error code.
  * `description` is a string that provides a human-readable description of the error.
+ * `details` is a string array that provides additional context and detailed messages for the error.
  *
  * The class provides a static method `none` that returns a `ResultError` instance with empty `code` and `description`.
  * This can be used when an operation is successful and there is no error to report.
@@ -13,6 +14,7 @@
 export class ResultError {
     private _code: string;
     private _description: string;
+    private _details: string[];
 
     public get code(): string {
         return this._code;
@@ -22,9 +24,14 @@ export class ResultError {
         return this._description;
     }
 
-    constructor(code: string, description: string) {
+    public get details(): string[] {
+        return this._details;
+    }
+
+    constructor(code: string, description: string, details?: string[]) {
         this._code = code;
         this._description = description;
+        this._details = details ?? [];
     }
 
     public static none(): ResultError {

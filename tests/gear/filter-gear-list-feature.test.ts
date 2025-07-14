@@ -5,19 +5,19 @@ import { ArmorItem } from "../../src/features/gear/armor-item";
 import { GearListItem } from "../../src/features/gear/gear-list-item";
 import { UnitOfWork } from "../../src/lib/data-access/unit-of-work";
 import { Result } from "../../src/lib/result/result";
-import { UnitTestDatabase } from "../data/unit-test-database";
 import { WeaponItem } from "../../src/features/gear/weapon-item";
 import { GearItem } from "../../src/features/gear/gear-item";
 import { ErrorCode } from "../../src/lib/errors/error-code";
 import { GearTestUtils } from "./gear-test-utils";
+import { DataAccessUtils } from "../data-access/data-access-utils";
 
 describe("FilterGearListFeature", () => {
     let feature: FilterGearListFeature;
     let request: FilterGearListRequest;
 
-    beforeEach(() => {
-        const db = new UnitTestDatabase();
-        const unitOfWork = new UnitOfWork(db);
+    beforeEach(async () => {
+        const dbContext = await DataAccessUtils.getInitializedDbContext();
+        const unitOfWork = new UnitOfWork(dbContext);
 
         feature = new FilterGearListFeature(unitOfWork);
         request = new FilterGearListRequest();

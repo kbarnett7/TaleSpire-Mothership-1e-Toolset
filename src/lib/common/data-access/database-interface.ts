@@ -1,6 +1,7 @@
-import { Constructor } from "../../common/types/constructor-type";
-import { DbSet } from "./db-set";
+import { Result } from "../../result/result";
 
 export interface IDatabase {
-    getSet<T>(type: Constructor<T>): DbSet<T>;
+    connect(storageKey: string): Promise<Result<string>>;
+    save(collections: Map<string, any[]>): Promise<void>;
+    getCollection(collectionName: string): Promise<any[]>;
 }

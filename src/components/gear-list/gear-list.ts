@@ -1,19 +1,13 @@
 import html from "./gear-list.html";
 import { GetAllGearFeature } from "../../features/gear/get-all-gear/get-all-gear-feature";
 import { GearListItem } from "../../features/gear/gear-list-item";
-import { UnitOfWork } from "../../lib/data-access/unit-of-work";
-import { appInjector } from "../../lib/infrastructure/app-injector";
 import { EmptyRequest } from "../../lib/common/features/empty-request";
 import { EventBus } from "../../lib/events/event-bus";
 import { GearFilterChangedEvent } from "../../lib/events/gear-filter-changed-event";
 import { AppEvent } from "../../lib/events/app-event";
 import { FilterGearListFeature } from "../../features/gear/filter-gear-list/filter-gear-list-feature";
-import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface";
 import { FilterGearListRequest } from "../../features/gear/filter-gear-list/filter-gear-list-request";
-import { AppErrorEvent } from "../../lib/events/app-error-event";
 import { EventType } from "../../lib/events/event-type";
-import { SortState } from "../../lib/sorting/sort-state";
-import { SortDirection } from "../../lib/sorting/sort-direction";
 import { SortGearListFeature } from "../../features/gear/sort-gear-list/sort-gear-list-feature";
 import { SortGearListRequest } from "../../features/gear/sort-gear-list/sort-gear-list-request";
 import { GearEquipmentFormComponent } from "../gear-equipment-form/gear-equipment-form";
@@ -31,7 +25,6 @@ import { BaseListComponent } from "../base-list/base-list-component";
 import { TableHeader } from "../../lib/tables/table-header";
 
 export class GearListComponent extends BaseListComponent {
-    private getAllGearFeature: GetAllGearFeature;
     private gearList: Array<GearListItem> = [];
 
     constructor() {
@@ -41,13 +34,13 @@ export class GearListComponent extends BaseListComponent {
             new TableHeader(SortGearListFeature.fieldCategory, "Category"),
             new TableHeader(SortGearListFeature.fieldDescription, "Description"),
         ]);
-        this.getAllGearFeature = new GetAllGearFeature(this.unitOfWork);
     }
 
     public connectedCallback() {
         this.render(html);
 
-        this.gearList = this.getAllGearFeature.handle(new EmptyRequest());
+        const feature = new GetAllGearFeature(this.unitOfWork);
+        this.gearList = feature.handle(new EmptyRequest());
 
         this.sortItems();
 

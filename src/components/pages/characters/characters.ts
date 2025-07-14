@@ -1,13 +1,29 @@
 import html from "./characters.html";
-import { BaseComponent } from "../../base.component";
+import { BasePageComponent } from "../base-page.component";
+import { IUnitOfWork } from "../../../lib/common/data-access/unit-of-work-interface";
+import { appInjector } from "../../../lib/infrastructure/app-injector";
+import { UnitOfWork } from "../../../lib/data-access/unit-of-work";
+import { DatabaseVersion } from "../../../features/database-versions/database-version";
 
-export class CharactersComponent extends BaseComponent {
+export class CharactersComponent extends BasePageComponent {
+    protected unitOfWork: IUnitOfWork;
+
     constructor() {
         super();
+        this.unitOfWork = appInjector.injectClass(UnitOfWork);
     }
 
-    public connectedCallback() {
+    public async connectedCallback() {
+        await super.connectedCallback();
+
         this.render(html);
+
+        const element = this.shadow.querySelector("#tempElement");
+
+        if (element) {
+            let dbVersion = this.unitOfWork.repo(DatabaseVersion).first() ?? new DatabaseVersion(0, "0");
+            element.textContent = `Database Version: ${dbVersion?.version}`;
+        }
     }
 }
 

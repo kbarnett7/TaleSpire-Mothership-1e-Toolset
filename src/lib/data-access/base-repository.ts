@@ -1,31 +1,40 @@
 import { Constructor } from "../common/types/constructor-type";
-import { IDatabase } from "../common/data-access/database-interface";
+import { IDatabaseContext } from "../common/data-access/database-context-interface";
 import { IRepository } from "../common/data-access/repository-interface";
+import { DbSet } from "../common/data-access/db-set";
 
 export abstract class BaseRepository<T> implements IRepository<T> {
     private type: Constructor<T>;
-    private db: IDatabase;
+    private dbContext: IDatabaseContext;
 
-    constructor(type: Constructor<T>, db: IDatabase) {
+    constructor(type: Constructor<T>, dbContext: IDatabaseContext) {
         this.type = type;
-        this.db = db;
+        this.dbContext = dbContext;
     }
 
-    public first(predicate?: ((item: T) => boolean) | undefined): T | undefined {
-        const items = this.list();
+    private getSet(): DbSet<T> {
+        return this.dbContext.getSet<T>(this.type);
+    }
+
+    public first(predicate?: ((entity: T) => boolean) | undefined): T | undefined {
+        const entities = this.list();
 
         if (predicate) {
-            return items.find(predicate);
+            return entities.find(predicate);
         }
 
-        if (items.length > 0) {
-            return items[0];
+        if (entities.length > 0) {
+            return entities[0];
         }
 
         return undefined;
     }
 
     public list(): T[] {
-        return this.db.getSet<T>(this.type).toArray();
+        return this.getSet().toArray();
+    }
+
+    public add(entity: T): void {
+        this.getSet().add(entity);
     }
 }

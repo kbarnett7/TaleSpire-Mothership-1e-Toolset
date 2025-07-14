@@ -1,15 +1,15 @@
 import { UnitOfWork } from "../../src/lib/data-access/unit-of-work";
-import { UnitTestDatabase } from "../data/unit-test-database";
 import { GetNpcByIdFeature } from "../../src/features/npcs/get-npc-by-id/get-npc-by-id-feature";
 import { GetNpcByIdRequest } from "../../src/features/npcs/get-npc-by-id/get-npc-by-id-request";
 import { Npc } from "../../src/features/npcs/npc";
+import { DataAccessUtils } from "../data-access/data-access-utils";
 
 describe("GetNpcByIdFeature", () => {
     let feature: GetNpcByIdFeature;
 
-    beforeEach(() => {
-        const db = new UnitTestDatabase();
-        const unitOfWork = new UnitOfWork(db);
+    beforeEach(async () => {
+        const dbContext = await DataAccessUtils.getInitializedDbContext();
+        const unitOfWork = new UnitOfWork(dbContext);
         feature = new GetNpcByIdFeature(unitOfWork);
     });
 
