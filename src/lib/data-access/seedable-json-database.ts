@@ -67,7 +67,7 @@ export class SeedableJsonDatabase implements IDatabase {
             }
         }
 
-        this.blobStorage.setBlobAsync(this.storageKey, JSON.stringify(dbJson));
+        await this.blobStorage.setBlobAsync(this.storageKey, JSON.stringify(dbJson));
     }
 
     public async getCollection(collectionName: string): Promise<any[]> {

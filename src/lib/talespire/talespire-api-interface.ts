@@ -1,7 +1,7 @@
 export interface ITaleSpireApi {
     dice: {
         putDiceInTray: (rolls: { name: string; roll: string }[]) => void;
-        evaluateDiceResultsGroup: (resultsGroupd: any) => Promise<number>;
+        evaluateDiceResultsGroup: (resultsGroup: any) => Promise<number>;
     };
 
     localStorage: {
