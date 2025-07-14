@@ -1,6 +1,7 @@
 import { IBlobStorage } from "../common/data-access/blob-storage-interface";
+import { ITaleSpireApi } from "../talespire/talespire-api-interface";
 
-declare const TS: any;
+declare const TS: ITaleSpireApi;
 
 export class TaleSpireBlobStorage implements IBlobStorage {
     public async getBlobAsync(key: string): Promise<string> {

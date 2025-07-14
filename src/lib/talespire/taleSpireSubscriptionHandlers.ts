@@ -1,25 +1,28 @@
-import { AppLogger } from "../logging/app-logger";
-import { appInjector } from "./app-injector";
+import { appInjector } from "../infrastructure/app-injector";
+import { ITaleSpireApi } from "./talespire-api-interface";
+import { AppLogFormatter } from "../logging/app-log-formatter";
 
-declare const TS: any;
+declare const TS: ITaleSpireApi;
 
-function logSymbioteEvent(event: any) {
-    AppLogger.instance.info("Symbiote Event", event);
+function logTaleSpireApiEvent(handlerName: string, event: any) {
+    console.info(AppLogFormatter.format("info", `TaleSpire API event: ${handlerName} --> ${event.kind}`), event);
 }
 
-async function onStateChangeEvent(event: any) {
+function handleOnVisibilityEvent(event: any) {
+    logTaleSpireApiEvent("onVisibilityEvent", event);
+}
+
+async function handleOnStateChangeEvent(event: any) {
+    logTaleSpireApiEvent("onStateChangeEvent", event);
+
     if (event.kind === "hasInitialized") {
-        //AppLogger.instance.info("hasInitialized", event);
-        console.info("onStateChangeEvent.hasInitialized()...");
-        // const dbContext = appInjector.resolve("appDatabaseContext");
-        // await dbContext.initialize();
         const startup = appInjector.resolve("startup");
         startup.setTaleSpireApiInitialized();
     }
 }
 
-function handleRollResult(event: { kind: string; payload: any }): void {
-    AppLogger.instance.info("Roll Result Event", event);
+function handleOnRollResults(event: { kind: string; payload: any }): void {
+    logTaleSpireApiEvent("handleOnRollResults", event);
 
     if (event.kind === "rollResults") {
         TS.dice.evaluateDiceResultsGroup(event.payload.resultsGroups[0]).then((summedRoll: number) => {
@@ -39,6 +42,6 @@ function handleRollResult(event: { kind: string; payload: any }): void {
 // Expose functions globally
 // This is a workaround to make the functions available in the global scope
 // so that TaleSpire can call them as configured by manifest.json.
-(window as any).logSymbioteEvent = logSymbioteEvent;
-(window as any).onStateChangeEvent = onStateChangeEvent;
-(window as any).handleRollResult = handleRollResult;
+(window as any).handleOnVisibilityEvent = handleOnVisibilityEvent;
+(window as any).handleOnStateChangeEvent = handleOnStateChangeEvent;
+(window as any).handleOnRollResults = handleOnRollResults;

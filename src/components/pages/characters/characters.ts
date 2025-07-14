@@ -10,14 +10,12 @@ export class CharactersComponent extends BasePageComponent {
 
     constructor() {
         super();
-        console.log("CharactersComponent constructor()...");
         this.unitOfWork = appInjector.injectClass(UnitOfWork);
     }
 
     public async connectedCallback() {
         await super.connectedCallback();
 
-        console.log("CharactersComponent connectedCallback()...");
         this.render(html);
 
         const element = this.shadow.querySelector("#tempElement");
