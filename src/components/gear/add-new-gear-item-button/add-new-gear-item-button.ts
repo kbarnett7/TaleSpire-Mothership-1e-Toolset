@@ -1,5 +1,8 @@
 import html from "./add-new-gear-item-button.html";
 import { BaseComponent } from "../../base.component";
+import { ChangePageEvent } from "../../../lib/events/change-page-event";
+import { PageRouterService } from "../../../lib/pages/page-router-service";
+import { EventBus } from "../../../lib/events/event-bus";
 
 export class AddNewGearItemButtonComponent extends BaseComponent {
     constructor() {
@@ -10,13 +13,18 @@ export class AddNewGearItemButtonComponent extends BaseComponent {
         this.render(html);
     }
 
-    private onAddNewGearItemButtonClick(event: MouseEvent) {
+    public onAddNewGearItemButtonClick(event: MouseEvent) {
         const target = event.target as HTMLButtonElement;
 
-        alert("button clicked");
-        // const appEvent = new GearFilterChangedEvent(this.activeCategory, this.currentSearch);
+        this.navigateToAddEditPage();
+    }
 
-        // EventBus.instance.dispatch(appEvent);
+    private navigateToAddEditPage() {
+        const changePageEvent = new ChangePageEvent(
+            PageRouterService.instance.getPageByTitle(PageRouterService.addEditGearPage)
+        );
+
+        EventBus.instance.dispatch(changePageEvent);
     }
 }
 

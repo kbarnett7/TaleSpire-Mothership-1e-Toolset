@@ -6,6 +6,7 @@ export class PageRouterService {
     public static gearPage: string = "Gear";
     public static codexPage: string = "Codex";
     public static aboutPage: string = "About";
+    public static addEditGearPage: string = "Add Gear";
 
     private static _instance: PageRouterService;
 
@@ -50,6 +51,11 @@ export class PageRouterService {
         this._pages.set(
             PageRouterService.aboutPage,
             new PageRouteData("/about", "about-page", PageRouterService.aboutPage)
+        );
+
+        this._pages.set(
+            PageRouterService.addEditGearPage,
+            new PageRouteData("/gear/add-edit", "add-edit-gear-page", PageRouterService.addEditGearPage)
         );
     }
 
