@@ -1,8 +1,8 @@
 import html from "./gear-list-filter-bar.html";
-import { BaseComponent } from "../base.component";
-import { GearFilterChangedEvent } from "../../lib/events/gear-filter-changed-event";
-import { EventBus } from "../../lib/events/event-bus";
-import { GearItem } from "../../features/gear/gear-item";
+import { BaseComponent } from "../../base.component";
+import { GearFilterChangedEvent } from "../../../lib/events/gear-filter-changed-event";
+import { EventBus } from "../../../lib/events/event-bus";
+import { GearItem } from "../../../features/gear/gear-item";
 
 export class GearListFilterBarComponent extends BaseComponent {
     private readonly activeButtonCssClass = "active-filter-button";

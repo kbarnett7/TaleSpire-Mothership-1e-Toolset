@@ -1,7 +1,7 @@
 import html from "./gear-weapon-form.html";
-import { BaseComponent } from "../base.component";
-import { WeaponItem } from "../../features/gear/weapon-item";
-import { CreditsAbbreviator } from "../../lib/services/credits-abbreviator";
+import { BaseComponent } from "../../base.component";
+import { WeaponItem } from "../../../features/gear/weapon-item";
+import { CreditsAbbreviator } from "../../../lib/services/credits-abbreviator";
 
 export class GearWeaponFormComponent extends BaseComponent {
     private weaponItem: WeaponItem;
