@@ -1,7 +1,7 @@
 import html from "./npc-list-filter-bar.html";
-import { BaseComponent } from "../base.component";
-import { EventBus } from "../../lib/events/event-bus";
-import { NpcFilterChangedEvent } from "../../lib/events/npc-filter-changed-event";
+import { BaseComponent } from "../../base.component";
+import { EventBus } from "../../../lib/events/event-bus";
+import { NpcFilterChangedEvent } from "../../../lib/events/npc-filter-changed-event";
 
 export class NpcListFilterBarComponent extends BaseComponent {
     private currentSearch: string;
