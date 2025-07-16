@@ -24,7 +24,7 @@ export class AddEditGearComponent extends BasePageComponent {
 
     private dispatchShowNavigateBackButtonEvent() {
         const showNavigateBackButtonEvent = new ShowNavigateBackButtonEvent(
-            PageRouterService.instance.getPageByTitle(PageRouterService.gearPage).path
+            PageRouterService.instance.getPageByTitle(PageRouterService.gearPage)
         );
 
         EventBus.instance.dispatch(showNavigateBackButtonEvent);

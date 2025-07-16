@@ -10,8 +10,11 @@ import { ShowNavigateBackButtonEvent } from "../../../lib/events/show-navigate-b
 import { HideNavigateBackButtonEvent } from "../../../lib/events/hide-navigate-back-button-event";
 
 export class HeaderBarComponent extends BaseComponent {
+    private navigateBackPage: string;
+
     constructor() {
         super();
+        this.navigateBackPage = "";
     }
 
     public connectedCallback() {
@@ -33,11 +36,17 @@ export class HeaderBarComponent extends BaseComponent {
     };
 
     private onShowNavigateBackButton: AppEventListener = (event: AppEvent) => {
-        //alert("show back nav button");
+        const showEvent = event as ShowNavigateBackButtonEvent;
+
+        this.navigateBackPage = showEvent.backToRoute.title;
+
+        this.showNavigateBackButton();
     };
 
     private onHideNavigateBackButton: AppEventListener = (event: AppEvent) => {
-        //alert("show back nav button");
+        this.navigateBackPage = "";
+
+        this.hideNavigateBackButton();
     };
 
     private updatePageTitle(updatedTitle: string) {
@@ -45,10 +54,28 @@ export class HeaderBarComponent extends BaseComponent {
         pageTitleElement.textContent = updatedTitle;
     }
 
-    private navigateToPage(page: string) {
+    private showNavigateBackButton() {
+        const backButtonElement = this.getNavigateBackButtonElement();
+        backButtonElement?.classList.remove("hidden");
+    }
+
+    private hideNavigateBackButton() {
+        const backButtonElement = this.getNavigateBackButtonElement();
+        backButtonElement?.classList.add("hidden");
+    }
+
+    private getNavigateBackButtonElement(): Element | null {
+        return this.shadow.querySelector("#navigateBackButton");
+    }
+
+    public navigateToPage(page: string) {
         const changePageEvent = new ChangePageEvent(PageRouterService.instance.getPageByTitle(page));
 
         EventBus.instance.dispatch(changePageEvent);
+    }
+
+    public navigateBack() {
+        this.navigateToPage(this.navigateBackPage);
     }
 }
 

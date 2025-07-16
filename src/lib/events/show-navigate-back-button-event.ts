@@ -1,14 +1,15 @@
+import { PageRouteData } from "../pages/page-route-data";
 import { AppEvent } from "./app-event";
 
 export class ShowNavigateBackButtonEvent extends AppEvent {
-    private readonly _backToUrl: string;
+    private readonly _backToRoute: PageRouteData;
 
-    public get backToUrl(): string {
-        return this._backToUrl;
+    public get backToRoute(): PageRouteData {
+        return this._backToRoute;
     }
 
-    constructor(backToUrl: string) {
+    constructor(backToRoute: PageRouteData) {
         super(ShowNavigateBackButtonEvent.name);
-        this._backToUrl = backToUrl;
+        this._backToRoute = backToRoute;
     }
 }
