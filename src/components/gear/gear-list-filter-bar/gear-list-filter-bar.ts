@@ -17,6 +17,7 @@ export class GearListFilterBarComponent extends BaseComponent {
         super();
         this.activeCategory = GearItem.gearCategory;
         this.currentSearch = "";
+        this.handleGearCategoryChangedEvent = this.handleGearCategoryChangedEvent.bind(this);
     }
 
     public connectedCallback() {
@@ -31,31 +32,13 @@ export class GearListFilterBarComponent extends BaseComponent {
 
     private handleGearCategoryChangedEvent(event: AppEvent) {
         const gearCategoryChangedEvent = event as GearCategoryChangedEvent;
-        //const target = event.target as HTMLButtonElement;
 
-        //this.activeCategory = target.id.replace("category", "");
         this.activeCategory = gearCategoryChangedEvent.category;
 
         const appEvent = new GearFilterChangedEvent(this.activeCategory, this.currentSearch);
 
         EventBus.instance.dispatch(appEvent);
-
-        //this.setActiveFilterButton(`category${gearCategoryChangedEvent.category}`);
     }
-
-    // private setActiveFilterButton(buttonId: string) {
-    //     const allButtons = this.shadow.querySelectorAll("button");
-
-    //     allButtons.forEach((button) => {
-    //         if (button.id === buttonId) {
-    //             button.classList.remove(this.inactiveButtonCssClass);
-    //             button.classList.add(this.activeButtonCssClass);
-    //         } else {
-    //             button.classList.add(this.inactiveButtonCssClass);
-    //             button.classList.remove(this.activeButtonCssClass);
-    //         }
-    //     });
-    // }
 
     private onSearchBoxKeyUp(event: KeyboardEvent) {
         // Ignore shift key up events, otherwise two GearFilterChangedEvents are triggered when

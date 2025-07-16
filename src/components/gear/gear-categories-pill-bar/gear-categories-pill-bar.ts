@@ -1,7 +1,6 @@
 import html from "./gear-categories-pill-bar.html";
 import { BaseComponent } from "../../base.component";
 import { EventBus } from "../../../lib/events/event-bus";
-import { GearItem } from "../../../features/gear/gear-item";
 import { GearCategoryChangedEvent } from "../../../lib/events/gear-category-changed-event";
 
 export class GearCategoriesPillBarComponent extends BaseComponent {
@@ -16,7 +15,7 @@ export class GearCategoriesPillBarComponent extends BaseComponent {
         this.render(html);
     }
 
-    private onCategoryButtonClick(event: MouseEvent) {
+    public onCategoryButtonClick(event: MouseEvent) {
         const target = event.target as HTMLButtonElement;
 
         const category = target.id.replace("category", "");
