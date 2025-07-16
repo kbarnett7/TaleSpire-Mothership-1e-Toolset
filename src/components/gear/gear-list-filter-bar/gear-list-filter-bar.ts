@@ -3,6 +3,8 @@ import { BaseComponent } from "../../base.component";
 import { GearFilterChangedEvent } from "../../../lib/events/gear-filter-changed-event";
 import { EventBus } from "../../../lib/events/event-bus";
 import { GearItem } from "../../../features/gear/gear-item";
+import { GearCategoryChangedEvent } from "../../../lib/events/gear-category-changed-event";
+import { AppEvent } from "../../../lib/events/app-event";
 
 export class GearListFilterBarComponent extends BaseComponent {
     private readonly activeButtonCssClass = "active-filter-button";
@@ -19,33 +21,41 @@ export class GearListFilterBarComponent extends BaseComponent {
 
     public connectedCallback() {
         this.render(html);
+
+        EventBus.instance.register(GearCategoryChangedEvent.name, this.handleGearCategoryChangedEvent);
     }
 
-    private onCategoryButtonClick(event: MouseEvent) {
-        const target = event.target as HTMLButtonElement;
+    public disconnectedCallback() {
+        EventBus.instance.unregister(GearCategoryChangedEvent.name, this.handleGearCategoryChangedEvent);
+    }
 
-        this.activeCategory = target.id.replace("category", "");
+    private handleGearCategoryChangedEvent(event: AppEvent) {
+        const gearCategoryChangedEvent = event as GearCategoryChangedEvent;
+        //const target = event.target as HTMLButtonElement;
+
+        //this.activeCategory = target.id.replace("category", "");
+        this.activeCategory = gearCategoryChangedEvent.category;
 
         const appEvent = new GearFilterChangedEvent(this.activeCategory, this.currentSearch);
 
         EventBus.instance.dispatch(appEvent);
 
-        this.setActiveFilterButton(target.id);
+        //this.setActiveFilterButton(`category${gearCategoryChangedEvent.category}`);
     }
 
-    private setActiveFilterButton(buttonId: string) {
-        const allButtons = this.shadow.querySelectorAll("button");
+    // private setActiveFilterButton(buttonId: string) {
+    //     const allButtons = this.shadow.querySelectorAll("button");
 
-        allButtons.forEach((button) => {
-            if (button.id === buttonId) {
-                button.classList.remove(this.inactiveButtonCssClass);
-                button.classList.add(this.activeButtonCssClass);
-            } else {
-                button.classList.add(this.inactiveButtonCssClass);
-                button.classList.remove(this.activeButtonCssClass);
-            }
-        });
-    }
+    //     allButtons.forEach((button) => {
+    //         if (button.id === buttonId) {
+    //             button.classList.remove(this.inactiveButtonCssClass);
+    //             button.classList.add(this.activeButtonCssClass);
+    //         } else {
+    //             button.classList.add(this.inactiveButtonCssClass);
+    //             button.classList.remove(this.activeButtonCssClass);
+    //         }
+    //     });
+    // }
 
     private onSearchBoxKeyUp(event: KeyboardEvent) {
         // Ignore shift key up events, otherwise two GearFilterChangedEvents are triggered when
