@@ -21,7 +21,8 @@ export class AddNewGearItemButtonComponent extends BaseComponent {
 
     private navigateToAddEditPage() {
         const changePageEvent = new ChangePageEvent(
-            PageRouterService.instance.getPageByTitle(PageRouterService.addEditGearPage)
+            PageRouterService.instance.getPageByTitle(PageRouterService.addEditGearPage),
+            "0"
         );
 
         EventBus.instance.dispatch(changePageEvent);

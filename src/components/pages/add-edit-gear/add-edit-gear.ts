@@ -6,16 +6,24 @@ import { ShowNavigateBackButtonEvent } from "../../../lib/events/show-navigate-b
 import { HideNavigateBackButtonEvent } from "../../../lib/events/hide-navigate-back-button-event";
 
 export class AddEditGearComponent extends BasePageComponent {
+    private gearItemIdFromUrl: string;
+
     constructor() {
         super();
+        this.gearItemIdFromUrl = "";
     }
 
     public async connectedCallback() {
         await super.connectedCallback();
 
+        this.gearItemIdFromUrl = this.getIdFromUrl();
+
         this.render(html);
 
         this.dispatchShowNavigateBackButtonEvent();
+
+        const gearIdElement = this.shadow.querySelector("#gearId") as HTMLSpanElement;
+        gearIdElement.textContent = this.gearItemIdFromUrl;
     }
 
     public disconnectedCallback() {
@@ -34,6 +42,11 @@ export class AddEditGearComponent extends BasePageComponent {
         const hideNavigateBackButtonEvent = new HideNavigateBackButtonEvent();
 
         EventBus.instance.dispatch(hideNavigateBackButtonEvent);
+    }
+
+    private getIdFromUrl(): string {
+        const urlComponents = window.location.pathname.split("/");
+        return urlComponents[urlComponents.length - 1];
     }
 }
 
