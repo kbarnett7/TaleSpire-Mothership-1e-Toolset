@@ -5,6 +5,7 @@ import { EventBus } from "../../../lib/events/event-bus";
 import { GearItem } from "../../../features/gear/gear-item";
 import { GearCategoryChangedEvent } from "../../../lib/events/gear-category-changed-event";
 import { AppEvent } from "../../../lib/events/app-event";
+import { AppEventListener } from "../../../lib/events/app-event-listener-interface";
 
 export class GearListFilterBarComponent extends BaseComponent {
     private readonly activeButtonCssClass = "active-filter-button";
@@ -17,7 +18,6 @@ export class GearListFilterBarComponent extends BaseComponent {
         super();
         this.activeCategory = GearItem.gearCategory;
         this.currentSearch = "";
-        this.handleGearCategoryChangedEvent = this.handleGearCategoryChangedEvent.bind(this);
     }
 
     public connectedCallback() {
@@ -30,7 +30,7 @@ export class GearListFilterBarComponent extends BaseComponent {
         EventBus.instance.unregister(GearCategoryChangedEvent.name, this.handleGearCategoryChangedEvent);
     }
 
-    private handleGearCategoryChangedEvent(event: AppEvent) {
+    private handleGearCategoryChangedEvent: AppEventListener = (event: AppEvent) => {
         const gearCategoryChangedEvent = event as GearCategoryChangedEvent;
 
         this.activeCategory = gearCategoryChangedEvent.category;
@@ -38,7 +38,7 @@ export class GearListFilterBarComponent extends BaseComponent {
         const appEvent = new GearFilterChangedEvent(this.activeCategory, this.currentSearch);
 
         EventBus.instance.dispatch(appEvent);
-    }
+    };
 
     private onSearchBoxKeyUp(event: KeyboardEvent) {
         // Ignore shift key up events, otherwise two GearFilterChangedEvents are triggered when

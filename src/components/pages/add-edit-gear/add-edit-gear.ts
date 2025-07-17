@@ -8,6 +8,7 @@ import { GearCategoryChangedEvent } from "../../../lib/events/gear-category-chan
 import { AppEvent } from "../../../lib/events/app-event";
 import { ArmorItem } from "../../../features/gear/armor-item";
 import { WeaponItem } from "../../../features/gear/weapon-item";
+import { AppEventListener } from "../../../lib/events/app-event-listener-interface";
 
 export class AddEditGearComponent extends BasePageComponent {
     private gearItemIdFromUrl: string;
@@ -27,7 +28,6 @@ export class AddEditGearComponent extends BasePageComponent {
     constructor() {
         super();
         this.gearItemIdFromUrl = "";
-        this.handleGearCategoryChangedEvent = this.handleGearCategoryChangedEvent.bind(this);
     }
 
     public async connectedCallback() {
@@ -70,11 +70,11 @@ export class AddEditGearComponent extends BasePageComponent {
         return urlComponents[urlComponents.length - 1];
     }
 
-    private handleGearCategoryChangedEvent(event: AppEvent) {
+    private handleGearCategoryChangedEvent: AppEventListener = (event: AppEvent) => {
         const gearCategoryChangedEvent = event as GearCategoryChangedEvent;
 
         this.updateFieldDivVisiblities(gearCategoryChangedEvent.category);
-    }
+    };
 
     private updateFieldDivVisiblities(category: string): void {
         if (category == ArmorItem.gearCategory) {
