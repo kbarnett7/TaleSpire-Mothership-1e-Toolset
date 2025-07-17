@@ -7,12 +7,27 @@ export class GearCategoriesPillBarComponent extends BaseComponent {
     private readonly activeButtonCssClass = "active-filter-button";
     private readonly inactiveButtonCssClass = "inactive-filter-button";
 
+    private shouldHideAllCategory: boolean;
+
     constructor() {
         super();
+        this.shouldHideAllCategory = false;
     }
 
     public connectedCallback() {
         this.render(html);
+
+        this.shouldHideAllCategory = this.hasAttribute("hide-all-category");
+
+        if (this.shouldHideAllCategory) {
+            this.hideAllCategory();
+            this.setActiveFilterButton("categoryEquipment");
+        }
+    }
+
+    private hideAllCategory(): void {
+        const allCategoryElement = this.shadow.querySelector("#categoryAll") as HTMLButtonElement;
+        allCategoryElement.classList.add("hidden");
     }
 
     public onCategoryButtonClick(event: MouseEvent) {
