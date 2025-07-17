@@ -9,9 +9,11 @@ import { AppEvent } from "../../../lib/events/app-event";
 import { ArmorItem } from "../../../features/gear/armor-item";
 import { WeaponItem } from "../../../features/gear/weapon-item";
 import { AppEventListener } from "../../../lib/events/app-event-listener-interface";
+import { EquipmentItem } from "../../../features/gear/equipment-item";
 
 export class AddEditGearComponent extends BasePageComponent {
     private gearItemIdFromUrl: string;
+    private selectedCategory: string;
 
     private get armorFieldsDiv(): HTMLDivElement {
         return this.shadow.querySelector("#armorFields") as HTMLDivElement;
@@ -28,6 +30,7 @@ export class AddEditGearComponent extends BasePageComponent {
     constructor() {
         super();
         this.gearItemIdFromUrl = "";
+        this.selectedCategory = EquipmentItem.gearCategory;
     }
 
     public async connectedCallback() {
@@ -73,15 +76,17 @@ export class AddEditGearComponent extends BasePageComponent {
     private handleGearCategoryChangedEvent: AppEventListener = (event: AppEvent) => {
         const gearCategoryChangedEvent = event as GearCategoryChangedEvent;
 
-        this.updateFieldDivVisiblities(gearCategoryChangedEvent.category);
+        this.selectedCategory = gearCategoryChangedEvent.category;
+
+        this.updateFieldDivVisiblities();
     };
 
-    private updateFieldDivVisiblities(category: string): void {
-        if (category == ArmorItem.gearCategory) {
+    private updateFieldDivVisiblities(): void {
+        if (this.selectedCategory == ArmorItem.gearCategory) {
             this.armorFieldsDiv.classList.remove("hidden");
             this.weaponFieldsDiv.classList.add("hidden");
             this.specialFieldDiv.classList.remove("hidden");
-        } else if (category == WeaponItem.gearCategory) {
+        } else if (this.selectedCategory == WeaponItem.gearCategory) {
             this.armorFieldsDiv.classList.add("hidden");
             this.weaponFieldsDiv.classList.remove("hidden");
             this.specialFieldDiv.classList.remove("hidden");
