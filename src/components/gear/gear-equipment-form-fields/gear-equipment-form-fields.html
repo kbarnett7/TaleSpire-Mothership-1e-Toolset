@@ -10,7 +10,7 @@
             aria-placeholder="Enter name of the item..."
             required
             aria-required
-            onchange="this.handleOnInputChanged(event)"
+            onchange="this.handleOnNameInputChanged(event)"
         />
     </div>
     <div>
@@ -26,7 +26,8 @@
             max="9000000000000000"
             required
             aria-required
-            onchange="this.handleOnInputChanged(event)"
+            onchange="this.handleOnCostInputChanged(event)"
+            value="0"
         />
     </div>
 </div>
@@ -40,6 +41,6 @@
         placeholder="Enter a description of the item..."
         aria-placeholder="Enter a description of the item..."
         rows="3"
-        onchange="this.handleOnInputChanged(event)"
+        onchange="this.handleOnDescriptionInputChanged(event)"
     ></textarea>
 </div>
