@@ -3,15 +3,36 @@ import { BaseComponent } from "../../base.component";
 import { EquipmentItem } from "../../../features/gear/equipment-item";
 
 export class GearEquipmentFormFieldsComponent extends BaseComponent {
+    static formAssociated = true;
+    private _internals: ElementInternals;
+
     private equipmentItem: EquipmentItem;
+
+    public get nameInputElement(): HTMLInputElement {
+        return this.shadow.querySelector("#inputName") as HTMLInputElement;
+    }
+
+    public get value(): string {
+        return JSON.stringify(new EquipmentItem(0, 1, this.nameInputElement.value));
+    }
 
     constructor() {
         super();
+        this._internals = this.attachInternals();
         this.equipmentItem = new EquipmentItem();
     }
 
     public connectedCallback() {
         this.render(html);
+        // set a defautl value
+        this._internals.setFormValue(JSON.stringify(new EquipmentItem()));
+
+        // const inputs = this.shadow.querySelectorAll("input");
+        // const textAreas = this.shadow.querySelectorAll("textarea");
+    }
+
+    public handleOnInputNameChanged(event: Event) {
+        this._internals.setFormValue(this.value);
     }
 
     public setEquipmentItem(equipmentItem: EquipmentItem) {

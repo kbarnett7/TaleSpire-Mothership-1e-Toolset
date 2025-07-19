@@ -10,6 +10,7 @@ import { ArmorItem } from "../../../features/gear/armor-item";
 import { WeaponItem } from "../../../features/gear/weapon-item";
 import { AppEventListener } from "../../../lib/events/app-event-listener-interface";
 import { EquipmentItem } from "../../../features/gear/equipment-item";
+import { AppLogger } from "../../../lib/logging/app-logger";
 
 export class AddEditGearComponent extends BasePageComponent {
     private gearItemIdFromUrl: string;
@@ -87,6 +88,16 @@ export class AddEditGearComponent extends BasePageComponent {
         } else {
             this.armorFieldsDiv.classList.add("hidden");
             this.weaponFieldsDiv.classList.add("hidden");
+        }
+    }
+
+    public handleFormSubmit(event: SubmitEvent) {
+        event.preventDefault();
+        alert(`Form sumbitted! ${event.target}`);
+        const form = event.target as HTMLFormElement;
+        const formData = new FormData(form);
+        for (const [key, value] of formData.entries()) {
+            AppLogger.instance.debug(`${key}: ${value}`);
         }
     }
 }
