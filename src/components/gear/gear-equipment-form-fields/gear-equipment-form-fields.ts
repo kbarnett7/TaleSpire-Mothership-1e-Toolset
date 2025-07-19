@@ -1,6 +1,7 @@
 import html from "./gear-equipment-form-fields.html";
 import { BaseComponent } from "../../base.component";
 import { EquipmentItem } from "../../../features/gear/equipment-item";
+import { EquipmentItemDto } from "../../../features/gear/equipment-item-dto";
 
 export class GearEquipmentFormFieldsComponent extends BaseComponent {
     static formAssociated = true;
@@ -12,8 +13,20 @@ export class GearEquipmentFormFieldsComponent extends BaseComponent {
         return this.shadow.querySelector("#inputName") as HTMLInputElement;
     }
 
+    public get costInputElement(): HTMLInputElement {
+        return this.shadow.querySelector("#inputCost") as HTMLInputElement;
+    }
+
+    public get descriptionInputElement(): HTMLTextAreaElement {
+        return this.shadow.querySelector("#inputDescription") as HTMLTextAreaElement;
+    }
+
     public get value(): string {
-        return JSON.stringify(new EquipmentItem(0, 1, this.nameInputElement.value));
+        return new EquipmentItemDto(
+            this.nameInputElement.value,
+            this.descriptionInputElement.value,
+            this.costInputElement.value
+        ).toJson();
     }
 
     constructor() {
@@ -24,14 +37,10 @@ export class GearEquipmentFormFieldsComponent extends BaseComponent {
 
     public connectedCallback() {
         this.render(html);
-        // set a defautl value
-        this._internals.setFormValue(JSON.stringify(new EquipmentItem()));
-
-        // const inputs = this.shadow.querySelectorAll("input");
-        // const textAreas = this.shadow.querySelectorAll("textarea");
+        this._internals.setFormValue(new EquipmentItemDto().toJson());
     }
 
-    public handleOnInputNameChanged(event: Event) {
+    public handleOnInputChanged(event: Event) {
         this._internals.setFormValue(this.value);
     }
 
@@ -44,17 +53,17 @@ export class GearEquipmentFormFieldsComponent extends BaseComponent {
     }
 
     private updateGearName() {
-        const paragraph = this.shadow.querySelector("#inputName") as HTMLParagraphElement;
+        const paragraph = this.shadow.querySelector("#inputName") as HTMLInputElement;
         paragraph.textContent = this.equipmentItem.name;
     }
 
     private updateGearDescription() {
-        const paragraph = this.shadow.querySelector("#inputDescription") as HTMLParagraphElement;
+        const paragraph = this.shadow.querySelector("#inputDescription") as HTMLInputElement;
         paragraph.textContent = this.equipmentItem.description;
     }
 
     private updateGearCost() {
-        const paragraph = this.shadow.querySelector("#inputCost") as HTMLParagraphElement;
+        const paragraph = this.shadow.querySelector("#inputCost") as HTMLTextAreaElement;
         paragraph.textContent = this.equipmentItem.cost.toString();
     }
 }

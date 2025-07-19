@@ -11,6 +11,7 @@ import { WeaponItem } from "../../../features/gear/weapon-item";
 import { AppEventListener } from "../../../lib/events/app-event-listener-interface";
 import { EquipmentItem } from "../../../features/gear/equipment-item";
 import { AppLogger } from "../../../lib/logging/app-logger";
+import { EquipmentItemDto } from "../../../features/gear/equipment-item-dto";
 
 export class AddEditGearComponent extends BasePageComponent {
     private gearItemIdFromUrl: string;
@@ -92,13 +93,16 @@ export class AddEditGearComponent extends BasePageComponent {
     }
 
     public handleFormSubmit(event: SubmitEvent) {
+        AppLogger.instance.debug("Form submitted");
         event.preventDefault();
-        alert(`Form sumbitted! ${event.target}`);
         const form = event.target as HTMLFormElement;
         const formData = new FormData(form);
         for (const [key, value] of formData.entries()) {
             AppLogger.instance.debug(`${key}: ${value}`);
         }
+
+        const equipmentData = EquipmentItemDto.createFromJson(formData.get("equipmentFields")?.toString() ?? "{}");
+        AppLogger.instance.debug("Parsed Equipment DTO Data", equipmentData);
     }
 }
 
