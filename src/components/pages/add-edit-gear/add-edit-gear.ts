@@ -97,14 +97,22 @@ export class AddEditGearComponent extends BasePageComponent {
         event.preventDefault();
         const form = event.target as HTMLFormElement;
         const formData = new FormData(form);
-        for (const [key, value] of formData.entries()) {
-            AppLogger.instance.debug(`${key}: ${value}`);
-        }
+        // for (const [key, value] of formData.entries()) {
+        //     AppLogger.instance.debug(`${key}: ${value}`);
+        // }
 
         const equipmentData = EquipmentItemFormFields.createFromJson(
             formData.get("equipmentFields")?.toString() ?? "{}"
         );
         AppLogger.instance.debug("Parsed Equipment DTO Data", equipmentData);
+
+        if (this.selectedCategory == ArmorItem.gearCategory) {
+            AppLogger.instance.debug("Call CreateNewArmorItemFeature.handle()");
+        } else if (this.selectedCategory == WeaponItem.gearCategory) {
+            AppLogger.instance.debug("Call CreateNewWeaponItemFeature.handle()");
+        } else {
+            AppLogger.instance.debug("Call CreateNewEquipmentItemFeature.handle()");
+        }
     }
 }
 
