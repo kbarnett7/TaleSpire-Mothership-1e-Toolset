@@ -23,10 +23,6 @@ export class AddEditGearComponent extends BasePageComponent {
         return this.shadow.querySelector("#weaponFields") as HTMLDivElement;
     }
 
-    private get specialFieldDiv(): HTMLDivElement {
-        return this.shadow.querySelector("#specialField") as HTMLDivElement;
-    }
-
     constructor() {
         super();
         this.gearItemIdFromUrl = "";
@@ -85,15 +81,12 @@ export class AddEditGearComponent extends BasePageComponent {
         if (this.selectedCategory == ArmorItem.gearCategory) {
             this.armorFieldsDiv.classList.remove("hidden");
             this.weaponFieldsDiv.classList.add("hidden");
-            this.specialFieldDiv.classList.remove("hidden");
         } else if (this.selectedCategory == WeaponItem.gearCategory) {
             this.armorFieldsDiv.classList.add("hidden");
             this.weaponFieldsDiv.classList.remove("hidden");
-            this.specialFieldDiv.classList.remove("hidden");
         } else {
             this.armorFieldsDiv.classList.add("hidden");
             this.weaponFieldsDiv.classList.add("hidden");
-            this.specialFieldDiv.classList.add("hidden");
         }
     }
 }
