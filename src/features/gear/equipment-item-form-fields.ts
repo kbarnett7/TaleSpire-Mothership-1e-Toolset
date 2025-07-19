@@ -1,4 +1,4 @@
-export class EquipmentItemDto {
+export class EquipmentItemFormFields {
     public name: string;
     public description: string;
     public cost: string;
@@ -13,9 +13,9 @@ export class EquipmentItemDto {
         return JSON.stringify(this);
     }
 
-    static createFromJson(jsonStr: string): EquipmentItemDto {
+    static createFromJson(jsonStr: string): EquipmentItemFormFields {
         const json = JSON.parse(jsonStr);
 
-        return new EquipmentItemDto(json.name ?? "", json.description ?? "", json.cost ?? "0");
+        return new EquipmentItemFormFields(json.name ?? "", json.description ?? "", json.cost ?? "0");
     }
 }

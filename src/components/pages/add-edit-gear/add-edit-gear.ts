@@ -11,7 +11,7 @@ import { WeaponItem } from "../../../features/gear/weapon-item";
 import { AppEventListener } from "../../../lib/events/app-event-listener-interface";
 import { EquipmentItem } from "../../../features/gear/equipment-item";
 import { AppLogger } from "../../../lib/logging/app-logger";
-import { EquipmentItemDto } from "../../../features/gear/equipment-item-dto";
+import { EquipmentItemFormFields } from "../../../features/gear/equipment-item-form-fields";
 
 export class AddEditGearComponent extends BasePageComponent {
     private gearItemIdFromUrl: string;
@@ -101,7 +101,9 @@ export class AddEditGearComponent extends BasePageComponent {
             AppLogger.instance.debug(`${key}: ${value}`);
         }
 
-        const equipmentData = EquipmentItemDto.createFromJson(formData.get("equipmentFields")?.toString() ?? "{}");
+        const equipmentData = EquipmentItemFormFields.createFromJson(
+            formData.get("equipmentFields")?.toString() ?? "{}"
+        );
         AppLogger.instance.debug("Parsed Equipment DTO Data", equipmentData);
     }
 }
