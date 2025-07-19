@@ -6,14 +6,20 @@
             id="inputName"
             type="text"
             class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+            placeholder="Enter name of the item..."
+            aria-placeholder="Enter name of the item..."
         />
     </div>
     <div>
-        <label for="inputCost" class="text-lg font-semibold uppercase">Cost</label>
+        <label for="inputCost" class="text-lg font-semibold uppercase">Cost (cr)</label>
         <input
             id="inputCost"
-            type="text"
+            type="number"
             class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+            placeholder="Enter cost of the item in credits..."
+            aria-placeholder="Enter cost of the item in credits..."
+            min="0"
+            max="9000000000000000"
         />
     </div>
 </div>
@@ -24,6 +30,8 @@
         id="inputDescription"
         type="text"
         class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+        placeholder="Enter a description of the item..."
+        aria-placeholder="Enter a description of the item..."
         rows="3"
     ></textarea>
 </div>
