@@ -1,9 +1,9 @@
-import html from "./gear-armor-form.html";
+import html from "./gear-armor-display.html";
 import { BaseComponent } from "../../base.component";
 import { ArmorItem } from "../../../features/gear/armor-item";
 import { CreditsAbbreviator } from "../../../lib/services/credits-abbreviator";
 
-export class GearArmorFormComponent extends BaseComponent {
+export class GearArmorDisplayComponent extends BaseComponent {
     private armorItem: ArmorItem;
 
     constructor() {
@@ -68,4 +68,4 @@ export class GearArmorFormComponent extends BaseComponent {
     }
 }
 
-customElements.define("gear-armor-form", GearArmorFormComponent);
+customElements.define("gear-armor-display", GearArmorDisplayComponent);

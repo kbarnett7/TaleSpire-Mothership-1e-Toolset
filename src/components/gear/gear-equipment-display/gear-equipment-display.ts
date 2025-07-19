@@ -1,9 +1,9 @@
-import html from "./gear-equipment-form.html";
+import html from "./gear-equipment-display.html";
 import { BaseComponent } from "../../base.component";
 import { CreditsAbbreviator } from "../../../lib/services/credits-abbreviator";
 import { EquipmentItem } from "../../../features/gear/equipment-item";
 
-export class GearEquipmentFormComponent extends BaseComponent {
+export class GearEquipmentDisplayComponent extends BaseComponent {
     private equipmentItem: EquipmentItem;
 
     constructor() {
@@ -39,4 +39,4 @@ export class GearEquipmentFormComponent extends BaseComponent {
     }
 }
 
-customElements.define("gear-equipment-form", GearEquipmentFormComponent);
+customElements.define("gear-equipment-display", GearEquipmentDisplayComponent);
