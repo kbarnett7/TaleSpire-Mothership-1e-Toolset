@@ -38,6 +38,7 @@ TypeScript: `npm install typescript --save-dev`
 -   [Web Components Examples](https://github.com/mdn/web-components-examples/tree/main)
 -   [Web Components - Introduction](https://www.webcomponents.org/introduction)
 -   [Using Global Styles in Shadow DOM](<https://eisenbergeffect.medium.com/using-global-styles-in-shadow-dom-5b80e802e89d#:~:text=Adding%20Global%20Styles%20to%20Declarative%20Shadow%20DOM%20(DSD)&text=The%20adopt%2Dglobal%2Dstyles%20element,once%20the%20work%20is%20done.>)
+-   [Adding Form Participation Support to Web Components](https://www.raymondcamden.com/2023/05/24/adding-form-participation-support-to-web-components)
 
 ### JavaScript & TypeScript
 

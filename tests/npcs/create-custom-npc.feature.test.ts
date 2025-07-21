@@ -7,8 +7,8 @@ import { UnitOfWork } from "../../src/lib/data-access/unit-of-work";
 import { ErrorCode } from "../../src/lib/errors/error-code";
 import { LocalizationService } from "../../src/lib/localization/localization-service";
 import { MessageKeys } from "../../src/lib/localization/message-keys";
-import { Result } from "../../src/lib/result/result";
 import { DataAccessUtils } from "../data-access/data-access-utils";
+import { AssertUtils } from "../helpers/assert-utils";
 
 describe("CreateCustomNpcFeature", () => {
     const fiftyCharacterLongName: string = "Lorem ipsum dolor sit amet consectetur adipiscingel";
@@ -34,7 +34,7 @@ describe("CreateCustomNpcFeature", () => {
         const result = feature.handle(request);
 
         // Assert
-        expectResultToBeFailure(
+        AssertUtils.expectResultToBeFailure(
             result,
             ErrorCode.CreateError,
             LocalizationService.instance.translate(MessageKeys.createCustomNpcFailed)
@@ -54,7 +54,7 @@ describe("CreateCustomNpcFeature", () => {
         const result = feature.handle(request);
 
         // Assert
-        expectResultToBeFailure(
+        AssertUtils.expectResultToBeFailure(
             result,
             ErrorCode.CreateError,
             LocalizationService.instance.translate(MessageKeys.createCustomNpcFailed)
@@ -63,14 +63,6 @@ describe("CreateCustomNpcFeature", () => {
         expect(result.error.details[0]).toContain("name");
         expect(result.error.details[0]).toContain("50");
     });
-
-    function expectResultToBeFailure(actual: Result<any>, expectedCode: string, expectedDescription: string) {
-        expect(actual.isFailure).toBe(true);
-        expect(actual.value).not.toBeDefined();
-        expect(actual.error).toBeDefined();
-        expect(actual.error.code).toBe(expectedCode);
-        expect(actual.error.description).toBe(expectedDescription);
-    }
 
     function getValidCustomNpc(): Npc {
         return new Npc(
