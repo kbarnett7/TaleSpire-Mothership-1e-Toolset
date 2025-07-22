@@ -24,6 +24,6 @@ export class GetGearByIdFeature implements IFeature<GetGearByIdRequest, GearItem
             foundItem = this.unitOfWork.repo(WeaponItem).first((item) => item.id === request.id);
         }
 
-        return foundItem ?? new GearItem();
+        return foundItem ?? new EquipmentItem();
     }
 }

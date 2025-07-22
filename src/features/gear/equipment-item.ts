@@ -13,14 +13,30 @@ export class EquipmentItem extends GearItem {
     }
 
     public validate(): string[] {
-        let validationResults: string[] = [];
+        this.validationResults.length = 0;
 
-        if (this.name.trim() == "") {
-            validationResults.push(`The name \"${this.name}\" is invalid. The name cannot be empty.`);
-        } else if (this.name.trim().length > 50) {
-            validationResults.push(`The name \"${this.name}\" is invalid. The name must be 50 characters or less.`);
+        (this.validateName() as EquipmentItem).validateDescription().validateCost();
+
+        return this.validationResults;
+    }
+
+    private validateDescription(): EquipmentItem {
+        if (this.description.trim().length > 1000) {
+            this.validationResults.push(
+                `The description \"${this.description}\" is invalid. The description must be 1,000 characters or less.`
+            );
         }
 
-        return validationResults;
+        return this;
+    }
+
+    private validateCost(): EquipmentItem {
+        if (this.cost < 0) {
+            this.validationResults.push(
+                `The cost \"${this.cost}\" is invalid. The cost must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`
+            );
+        }
+
+        return this;
     }
 }
