@@ -7,17 +7,26 @@ import { ErrorCode } from "../../src/lib/errors/error-code";
 import { LocalizationService } from "../../src/lib/localization/localization-service";
 import { MessageKeys } from "../../src/lib/localization/message-keys";
 import { AssertUtils } from "../helpers/assert-utils";
+import { EquipmentItem } from "../../src/features/gear/equipment-item";
 
 describe("AddCustomEquipmentItemFeature", () => {
+    let unitOfWork: UnitOfWork;
     let request: AddCustomEquipmentItemRequest;
     let feature: AddCustomEquipmentItemFeature;
+    let largestEquipmentId: number;
 
     beforeEach(async () => {
         const dbContext = await DataAccessUtils.getInitializedDbContext();
-        const unitOfWork = new UnitOfWork(dbContext);
+        unitOfWork = new UnitOfWork(dbContext);
+
+        largestEquipmentId = getLargestEquipmentItemIdInDatabase();
 
         request = new AddCustomEquipmentItemRequest();
         feature = new AddCustomEquipmentItemFeature(unitOfWork);
+    });
+
+    afterEach(async () => {
+        resetEquipmentListInDatabase();
     });
 
     it("should fail if there is an unexpected exception", async () => {
@@ -127,6 +136,30 @@ describe("AddCustomEquipmentItemFeature", () => {
         }
     );
 
+    it("should add a valid equipment item to the database with an incremented ID and the source set to custom", async () => {
+        // Arrange
+        const numberOfEquipmentInDatabasePreAdd = unitOfWork.repo(EquipmentItem).list().length;
+        const equipmentItemFormFields: EquipmentItemFormFields = getValidCustomEquipmentItemFormFields();
+        request.formFields = equipmentItemFormFields;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        const numberOfEquipmentInDatabasePostAdd = unitOfWork.repo(EquipmentItem).list().length;
+        const itemFromDatabase =
+            unitOfWork.repo(EquipmentItem).first((item) => item.id == result.value?.id) ?? new EquipmentItem();
+
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(numberOfEquipmentInDatabasePostAdd).toBe(numberOfEquipmentInDatabasePreAdd + 1);
+        expect(itemFromDatabase.id).toBe(largestEquipmentId + 1);
+        expect(itemFromDatabase.id).toBe(result.value?.id);
+        expect(itemFromDatabase.name).toBe(result.value?.name);
+        expect(itemFromDatabase.description).toBe(result.value?.description);
+        expect(itemFromDatabase.cost).toBe(result.value?.cost);
+    });
+
     function getValidCustomEquipmentItemFormFields(): EquipmentItemFormFields {
         return new EquipmentItemFormFields("Test Custom Item", "A custom item created for unit testing.", "1000");
     }
@@ -145,5 +178,24 @@ describe("AddCustomEquipmentItemFeature", () => {
         }
 
         return result;
+    }
+
+    function getLargestEquipmentItemIdInDatabase(): number {
+        const sortedItems = unitOfWork
+            .repo(EquipmentItem)
+            .list()
+            .sort((a, b) => a.id - b.id);
+
+        return sortedItems[sortedItems.length - 1].id;
+    }
+
+    function resetEquipmentListInDatabase() {
+        const equipment = unitOfWork.repo(EquipmentItem).list();
+
+        for (let item of equipment) {
+            if (item.id > largestEquipmentId) {
+                unitOfWork.repo(EquipmentItem).remove(item);
+            }
+        }
     }
 });
