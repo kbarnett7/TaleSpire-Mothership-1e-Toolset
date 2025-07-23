@@ -1,3 +1,5 @@
+import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface";
+import { Source } from "../sources/source";
 import { GearItem } from "./gear-item";
 
 export class EquipmentItem extends GearItem {
@@ -38,5 +40,35 @@ export class EquipmentItem extends GearItem {
         }
 
         return this;
+    }
+
+    public add(unitOfWork: IUnitOfWork): void {
+        this.id = this.generateId(unitOfWork);
+        this.sourceId = this.getCustomItemSourceId(unitOfWork);
+
+        unitOfWork.repo(EquipmentItem).add(this);
+    }
+
+    private generateId(unitOfWork: IUnitOfWork): number {
+        return this.getLargestEquipmentItemIdInDatabase(unitOfWork) + 1;
+    }
+
+    private getLargestEquipmentItemIdInDatabase(unitOfWork: IUnitOfWork): number {
+        const sortedItems = unitOfWork
+            .repo(EquipmentItem)
+            .list()
+            .sort((a, b) => a.id - b.id);
+
+        return sortedItems[sortedItems.length - 1].id;
+    }
+
+    private getCustomItemSourceId(unitOfWork: IUnitOfWork): number {
+        const source = unitOfWork.repo(Source).first((item) => item.name == "Custom");
+
+        if (!source) {
+            throw new Error('"Custom" source not found in the database.');
+        }
+
+        return source.id;
     }
 }

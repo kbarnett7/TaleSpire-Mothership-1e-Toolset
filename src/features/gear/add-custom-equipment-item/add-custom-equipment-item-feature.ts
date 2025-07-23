@@ -33,7 +33,9 @@ export class AddCustomEquipmentItemFeature
                 );
             }
 
-            await this.addEquipmentItemToDatabaseAsync(equipmentItem);
+            equipmentItem.add(this.unitOfWork);
+
+            await this.unitOfWork.saveChanges();
 
             return Result.success(equipmentItem);
         } catch (error) {
@@ -43,38 +45,6 @@ export class AddCustomEquipmentItemFeature
 
             return this.createExceptionResult(ex);
         }
-    }
-
-    private async addEquipmentItemToDatabaseAsync(equipmentItem: EquipmentItem): Promise<void> {
-        equipmentItem.id = this.generateId();
-        equipmentItem.sourceId = this.getCustomItemSourceId();
-
-        this.unitOfWork.repo(EquipmentItem).add(equipmentItem);
-
-        await this.unitOfWork.saveChanges();
-    }
-
-    private generateId(): number {
-        return this.getLargestEquipmentItemIdInDatabase() + 1;
-    }
-
-    private getLargestEquipmentItemIdInDatabase(): number {
-        const sortedItems = this.unitOfWork
-            .repo(EquipmentItem)
-            .list()
-            .sort((a, b) => a.id - b.id);
-
-        return sortedItems[sortedItems.length - 1].id;
-    }
-
-    private getCustomItemSourceId(): number {
-        const source = this.unitOfWork.repo(Source).first((item) => item.name == "Custom");
-
-        if (!source) {
-            throw new Error('"Custom" source not found in the database.');
-        }
-
-        return source.id;
     }
 
     private createExceptionResult(ex: Error): Result<EquipmentItem> {
