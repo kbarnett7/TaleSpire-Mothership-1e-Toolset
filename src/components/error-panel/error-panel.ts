@@ -8,6 +8,7 @@ import { AppEventListener } from "../../lib/events/app-event-listener-interface"
 
 export class ErrorPanelComponent extends BaseComponent {
     private readonly errorPanelId = "errorPanel";
+    private readonly errorDescriptionId = "errorDescription";
     private readonly errorDetailsId = "errorDetails";
 
     constructor() {
@@ -35,20 +36,48 @@ export class ErrorPanelComponent extends BaseComponent {
     };
 
     private handleShowEvent(event: AppErrorEvent) {
-        const panel = this.shadow.querySelector(`#${this.errorPanelId}`);
-        const details = this.shadow.querySelector(`#${this.errorDetailsId}`);
-
-        panel?.classList.remove("hidden");
-
-        if (!details) return;
-
-        details.innerHTML = event.error;
+        this.showErrorPanel();
+        this.setErrorDescription(event.error);
+        this.setErrorDetails(event.details);
     }
 
     private handleHideEvent(event: AppEvent) {
-        const panel = this.shadow.querySelector(`#${this.errorPanelId}`);
+        this.hideErrorPanel();
+    }
 
-        panel?.classList.add("hidden");
+    private showErrorPanel(): void {
+        const panel = this.shadow.querySelector(`#${this.errorPanelId}`) as HTMLDivElement;
+
+        panel.classList.remove("hidden");
+    }
+
+    private hideErrorPanel(): void {
+        const panel = this.shadow.querySelector(`#${this.errorPanelId}`) as HTMLDivElement;
+
+        panel.classList.add("hidden");
+    }
+
+    private setErrorDescription(description: string): void {
+        const descriptionElement = this.shadow.querySelector(`#${this.errorDescriptionId}`) as HTMLParagraphElement;
+        descriptionElement.innerHTML = description;
+    }
+
+    private setErrorDetails(details: string[]): void {
+        const detailsElement = this.shadow.querySelector(`#${this.errorDetailsId}`) as HTMLUListElement;
+
+        detailsElement.classList.add("hidden");
+
+        if (details.length > 0) {
+            detailsElement.classList.remove("hidden");
+
+            for (const detail of details) {
+                const listItem = document.createElement("li");
+
+                listItem.innerText = detail;
+
+                detailsElement.appendChild(listItem);
+            }
+        }
     }
 }
 

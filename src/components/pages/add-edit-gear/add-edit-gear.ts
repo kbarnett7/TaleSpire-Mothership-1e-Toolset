@@ -12,8 +12,17 @@ import { AppEventListener } from "../../../lib/events/app-event-listener-interfa
 import { EquipmentItem } from "../../../features/gear/equipment-item";
 import { AppLogger } from "../../../lib/logging/app-logger";
 import { EquipmentItemFormFields } from "../../../features/gear/equipment-item-form-fields";
+import { AddCustomEquipmentItemRequest } from "../../../features/gear/add-custom-equipment-item/add-custom-equipment-item-request";
+import { AddCustomEquipmentItemFeature } from "../../../features/gear/add-custom-equipment-item/add-custom-equipment-item-feature";
+import { IUnitOfWork } from "../../../lib/common/data-access/unit-of-work-interface";
+import { appInjector } from "../../../lib/infrastructure/app-injector";
+import { UnitOfWork } from "../../../lib/data-access/unit-of-work";
+import { ChangePageEvent } from "../../../lib/events/change-page-event";
+import { AppErrorEvent } from "../../../lib/events/app-error-event";
+import { EventType } from "../../../lib/events/event-type";
 
 export class AddEditGearComponent extends BasePageComponent {
+    private unitOfWork: IUnitOfWork;
     private gearItemIdFromUrl: string;
     private selectedCategory: string;
 
@@ -27,6 +36,7 @@ export class AddEditGearComponent extends BasePageComponent {
 
     constructor() {
         super();
+        this.unitOfWork = appInjector.injectClass(UnitOfWork);
         this.gearItemIdFromUrl = "";
         this.selectedCategory = EquipmentItem.gearCategory;
     }
@@ -92,27 +102,56 @@ export class AddEditGearComponent extends BasePageComponent {
         }
     }
 
-    public handleFormSubmit(event: SubmitEvent) {
-        AppLogger.instance.debug("Form submitted");
+    public async handleFormSubmit(event: SubmitEvent): Promise<void> {
         event.preventDefault();
+
+        EventBus.instance.dispatch(new AppEvent(EventType.ErrorPanelHide));
+
         const form = event.target as HTMLFormElement;
         const formData = new FormData(form);
-        // for (const [key, value] of formData.entries()) {
-        //     AppLogger.instance.debug(`${key}: ${value}`);
-        // }
 
-        const equipmentData = EquipmentItemFormFields.createFromJson(
-            formData.get("equipmentFields")?.toString() ?? "{}"
-        );
-        AppLogger.instance.debug("Parsed Equipment DTO Data", equipmentData);
+        await this.addGear(formData);
+    }
 
+    private async addGear(formData: FormData): Promise<void> {
         if (this.selectedCategory == ArmorItem.gearCategory) {
             AppLogger.instance.debug("Call CreateNewArmorItemFeature.handle()");
         } else if (this.selectedCategory == WeaponItem.gearCategory) {
             AppLogger.instance.debug("Call CreateNewWeaponItemFeature.handle()");
         } else {
-            AppLogger.instance.debug("Call CreateNewEquipmentItemFeature.handle()");
+            this.addEquipmentItem(formData);
         }
+    }
+
+    private async addEquipmentItem(formData: FormData): Promise<void> {
+        const equipmentData = EquipmentItemFormFields.createFromJson(
+            formData.get("equipmentFields")?.toString() ?? "{}"
+        );
+        AppLogger.instance.debug("Form Data String", formData.get("equipmentFields")?.toString());
+        AppLogger.instance.debug("Parsed Equipment DTO Data", equipmentData);
+        const request = new AddCustomEquipmentItemRequest();
+        const feature = new AddCustomEquipmentItemFeature(this.unitOfWork);
+
+        request.formFields = equipmentData;
+
+        const result = await feature.handleAsync(request);
+
+        if (result.isSuccess) {
+            this.dispatchHideNavigateBackButtonEvent();
+            this.navigateToGearPage();
+        } else {
+            EventBus.instance.dispatch(
+                new AppErrorEvent(EventType.ErrorPanelShow, result.error.description, result.error.details)
+            );
+        }
+    }
+
+    private navigateToGearPage() {
+        const changePageEvent = new ChangePageEvent(
+            PageRouterService.instance.getPageByTitle(PageRouterService.gearPage)
+        );
+
+        EventBus.instance.dispatch(changePageEvent);
     }
 }
 

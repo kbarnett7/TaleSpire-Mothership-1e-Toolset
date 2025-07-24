@@ -33,6 +33,8 @@ export class AddCustomEquipmentItemFeature
                 );
             }
 
+            // TODO: Check if an equipment item with this name already exists
+
             equipmentItem.add(this.unitOfWork);
 
             await this.unitOfWork.saveChanges();
