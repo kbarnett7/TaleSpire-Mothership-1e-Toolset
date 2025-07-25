@@ -20,6 +20,7 @@ import { UnitOfWork } from "../../../lib/data-access/unit-of-work";
 import { ChangePageEvent } from "../../../lib/events/change-page-event";
 import { AppErrorEvent } from "../../../lib/events/app-error-event";
 import { EventType } from "../../../lib/events/event-type";
+import { ResultError } from "../../../lib/result/result-error";
 
 export class AddEditGearComponent extends BasePageComponent {
     private unitOfWork: IUnitOfWork;
@@ -124,26 +125,29 @@ export class AddEditGearComponent extends BasePageComponent {
     }
 
     private async addEquipmentItem(formData: FormData): Promise<void> {
-        const equipmentData = EquipmentItemFormFieldsDto.createFromJson(
-            formData.get("equipmentFields")?.toString() ?? "{}"
-        );
-        AppLogger.instance.debug("Form Data String", formData.get("equipmentFields")?.toString());
-        AppLogger.instance.debug("Parsed Equipment DTO Data", equipmentData);
         const request = new AddCustomEquipmentItemRequest();
         const feature = new AddCustomEquipmentItemFeature(this.unitOfWork);
 
-        request.formFields = equipmentData;
+        request.formFields = EquipmentItemFormFieldsDto.createFromJson(
+            formData.get("equipmentFields")?.toString() ?? new EquipmentItemFormFieldsDto().toJson()
+        );
 
         const result = await feature.handleAsync(request);
 
         if (result.isSuccess) {
-            this.dispatchHideNavigateBackButtonEvent();
-            this.navigateToGearPage();
+            this.handleSaveSuccess();
         } else {
-            EventBus.instance.dispatch(
-                new AppErrorEvent(EventType.ErrorPanelShow, result.error.description, result.error.details)
-            );
+            this.handleSaveFailure(result.error);
         }
+    }
+
+    private handleSaveSuccess() {
+        this.dispatchHideNavigateBackButtonEvent();
+        this.navigateToGearPage();
+    }
+
+    private handleSaveFailure(error: ResultError) {
+        EventBus.instance.dispatch(new AppErrorEvent(EventType.ErrorPanelShow, error.description, error.details));
     }
 
     private navigateToGearPage() {
