@@ -1,12 +1,12 @@
 import html from "./gear-equipment-form-fields.html";
 import { BaseComponent } from "../../base.component";
-import { EquipmentItemFormFields } from "../../../features/gear/equipment-item-form-fields";
+import { EquipmentItemFormFieldsDto } from "../../../features/gear/equipment-item-form-fields-dto";
 
 export class GearEquipmentFormFieldsComponent extends BaseComponent {
     static formAssociated = true;
 
     private _internals: ElementInternals;
-    private _formFieldsDto: EquipmentItemFormFields;
+    private _formFieldsDto: EquipmentItemFormFieldsDto;
 
     public get nameInputElement(): HTMLInputElement {
         return this.shadow.querySelector("#inputName") as HTMLInputElement;
@@ -27,7 +27,7 @@ export class GearEquipmentFormFieldsComponent extends BaseComponent {
     constructor() {
         super();
         this._internals = this.attachInternals();
-        this._formFieldsDto = new EquipmentItemFormFields();
+        this._formFieldsDto = new EquipmentItemFormFieldsDto();
     }
 
     public connectedCallback() {

@@ -2,7 +2,7 @@ import { AddCustomEquipmentItemRequest } from "../../src/features/gear/add-custo
 import { AddCustomEquipmentItemFeature } from "../../src/features/gear/add-custom-equipment-item/add-custom-equipment-item-feature";
 import { DataAccessUtils } from "../data-access/data-access-utils";
 import { UnitOfWork } from "../../src/lib/data-access/unit-of-work";
-import { EquipmentItemFormFields } from "../../src/features/gear/equipment-item-form-fields";
+import { EquipmentItemFormFieldsDto } from "../../src/features/gear/equipment-item-form-fields-dto";
 import { ErrorCode } from "../../src/lib/errors/error-code";
 import { LocalizationService } from "../../src/lib/localization/localization-service";
 import { MessageKeys } from "../../src/lib/localization/message-keys";
@@ -31,11 +31,11 @@ describe("AddCustomEquipmentItemFeature", () => {
 
     it("should fail if there is an unexpected exception", async () => {
         // Arrange
-        const equipmentItemFormFields: EquipmentItemFormFields = getValidCustomEquipmentItemFormFields();
+        const equipmentItemFormFields: EquipmentItemFormFieldsDto = getValidCustomEquipmentItemFormFields();
         equipmentItemFormFields.description = getStringOfRandomCharacters(1001);
         request.formFields = equipmentItemFormFields;
 
-        jest.spyOn(request.formFields, "name", "get").mockImplementation(() => {
+        jest.spyOn(request, "formFields", "get").mockImplementation(() => {
             throw new Error("Mocked exception");
         });
 
@@ -54,7 +54,7 @@ describe("AddCustomEquipmentItemFeature", () => {
 
     it.each([[""], [" "]])("should fail if the name is empty or whitespace", async (name: string) => {
         // Arrange
-        const equipmentItemFormFields: EquipmentItemFormFields = getValidCustomEquipmentItemFormFields();
+        const equipmentItemFormFields: EquipmentItemFormFieldsDto = getValidCustomEquipmentItemFormFields();
         equipmentItemFormFields.name = name;
         request.formFields = equipmentItemFormFields;
 
@@ -74,7 +74,7 @@ describe("AddCustomEquipmentItemFeature", () => {
 
     it("should fail if the name is greater than 100 characters long", async () => {
         // Arrange
-        const equipmentItemFormFields: EquipmentItemFormFields = getValidCustomEquipmentItemFormFields();
+        const equipmentItemFormFields: EquipmentItemFormFieldsDto = getValidCustomEquipmentItemFormFields();
         equipmentItemFormFields.name = getStringOfRandomCharacters(101);
         request.formFields = equipmentItemFormFields;
 
@@ -94,7 +94,7 @@ describe("AddCustomEquipmentItemFeature", () => {
 
     it("should fail if the description is greater than 1000 characters long", async () => {
         // Arrange
-        const equipmentItemFormFields: EquipmentItemFormFields = getValidCustomEquipmentItemFormFields();
+        const equipmentItemFormFields: EquipmentItemFormFieldsDto = getValidCustomEquipmentItemFormFields();
         equipmentItemFormFields.description = getStringOfRandomCharacters(1001);
         request.formFields = equipmentItemFormFields;
 
@@ -116,7 +116,7 @@ describe("AddCustomEquipmentItemFeature", () => {
         "should fail if the cost is negative or contains non-digit characters",
         async (cost: string) => {
             // Arrange
-            const equipmentItemFormFields: EquipmentItemFormFields = getValidCustomEquipmentItemFormFields();
+            const equipmentItemFormFields: EquipmentItemFormFieldsDto = getValidCustomEquipmentItemFormFields();
             equipmentItemFormFields.cost = cost;
             request.formFields = equipmentItemFormFields;
 
@@ -139,7 +139,7 @@ describe("AddCustomEquipmentItemFeature", () => {
     it("should add a valid equipment item to the database with an incremented ID and the source set to custom", async () => {
         // Arrange
         const numberOfEquipmentInDatabasePreAdd = unitOfWork.repo(EquipmentItem).list().length;
-        const equipmentItemFormFields: EquipmentItemFormFields = getValidCustomEquipmentItemFormFields();
+        const equipmentItemFormFields: EquipmentItemFormFieldsDto = getValidCustomEquipmentItemFormFields();
         request.formFields = equipmentItemFormFields;
 
         // Act
@@ -160,8 +160,8 @@ describe("AddCustomEquipmentItemFeature", () => {
         expect(itemFromDatabase.cost).toBe(result.value?.cost);
     });
 
-    function getValidCustomEquipmentItemFormFields(): EquipmentItemFormFields {
-        return new EquipmentItemFormFields("Test Custom Item", "A custom item created for unit testing.", "1000");
+    function getValidCustomEquipmentItemFormFields(): EquipmentItemFormFieldsDto {
+        return new EquipmentItemFormFieldsDto("Test Custom Item", "A custom item created for unit testing.", "1000");
     }
 
     function getRandomCharacter(): string {

@@ -1,8 +1,8 @@
 import { EquipmentItem } from "./equipment-item";
-import { EquipmentItemFormFields } from "./equipment-item-form-fields";
+import { EquipmentItemFormFieldsDto } from "./equipment-item-form-fields-dto";
 
 export class EquipmentItemMap {
-    static fromFormFields(formFields: EquipmentItemFormFields): EquipmentItem {
+    static fromFormFields(formFields: EquipmentItemFormFieldsDto): EquipmentItem {
         return new EquipmentItem(
             0,
             0,

@@ -11,7 +11,7 @@ import { WeaponItem } from "../../../features/gear/weapon-item";
 import { AppEventListener } from "../../../lib/events/app-event-listener-interface";
 import { EquipmentItem } from "../../../features/gear/equipment-item";
 import { AppLogger } from "../../../lib/logging/app-logger";
-import { EquipmentItemFormFields } from "../../../features/gear/equipment-item-form-fields";
+import { EquipmentItemFormFieldsDto } from "../../../features/gear/equipment-item-form-fields-dto";
 import { AddCustomEquipmentItemRequest } from "../../../features/gear/add-custom-equipment-item/add-custom-equipment-item-request";
 import { AddCustomEquipmentItemFeature } from "../../../features/gear/add-custom-equipment-item/add-custom-equipment-item-feature";
 import { IUnitOfWork } from "../../../lib/common/data-access/unit-of-work-interface";
@@ -124,7 +124,7 @@ export class AddEditGearComponent extends BasePageComponent {
     }
 
     private async addEquipmentItem(formData: FormData): Promise<void> {
-        const equipmentData = EquipmentItemFormFields.createFromJson(
+        const equipmentData = EquipmentItemFormFieldsDto.createFromJson(
             formData.get("equipmentFields")?.toString() ?? "{}"
         );
         AppLogger.instance.debug("Form Data String", formData.get("equipmentFields")?.toString());
