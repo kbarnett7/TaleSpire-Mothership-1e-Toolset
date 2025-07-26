@@ -14,10 +14,13 @@ export class EquipmentItem extends GearItem {
         this.cost = cost ?? 0;
     }
 
-    public validate(): string[] {
+    public validate(unitOfWork: IUnitOfWork): string[] {
         this.validationResults.length = 0;
 
-        (this.validateName() as EquipmentItem).validateDescription().validateCost();
+        (this.validateName() as EquipmentItem)
+            .validateDescription()
+            .validateCost()
+            .validateItemDoesNotAlreadyExist(unitOfWork);
 
         return this.validationResults;
     }
@@ -42,7 +45,19 @@ export class EquipmentItem extends GearItem {
         return this;
     }
 
-    public add(unitOfWork: IUnitOfWork): void {
+    private validateItemDoesNotAlreadyExist(unitOfWork: IUnitOfWork): EquipmentItem {
+        const existingItem = unitOfWork.repo(EquipmentItem).first((item) => item.name === this.name);
+
+        if (existingItem) {
+            this.validationResults.push(
+                `An equipment item with the name \"${this.name}\" already exists. The name must be unique.`
+            );
+        }
+
+        return this;
+    }
+
+    public addToDatabase(unitOfWork: IUnitOfWork): void {
         this.id = this.generateId(unitOfWork);
         this.sourceId = this.getCustomItemSourceId(unitOfWork);
 

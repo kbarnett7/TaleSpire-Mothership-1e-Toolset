@@ -160,6 +160,27 @@ describe("AddCustomEquipmentItemFeature", () => {
         expect(itemFromDatabase.cost).toBe(result.value?.cost);
     });
 
+    it("should fail if there already exists an equipment item with the same name already in the database", async () => {
+        // Arrange
+        const equipmentItemFormFields: EquipmentItemFormFieldsDto = getValidCustomEquipmentItemFormFields();
+        equipmentItemFormFields.name = "Binoculars";
+        request.formFields = equipmentItemFormFields;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.CreateError,
+            LocalizationService.instance.translate(MessageKeys.createCustomNpcFailed)
+        );
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("name");
+        expect(result.error.details[0]).toContain("Binoculars");
+        expect(result.error.details[0]).toContain("already exists");
+    });
+
     function getValidCustomEquipmentItemFormFields(): EquipmentItemFormFieldsDto {
         return new EquipmentItemFormFieldsDto("Test Custom Item", "A custom item created for unit testing.", "1000");
     }

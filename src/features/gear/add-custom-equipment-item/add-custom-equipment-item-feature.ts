@@ -25,7 +25,7 @@ export class AddCustomEquipmentItemFeature
     public async handleAsync(request: AddCustomEquipmentItemRequest): Promise<Result<EquipmentItem>> {
         try {
             const equipmentItem = EquipmentItemMap.fromFormFields(request.formFields);
-            const validationResults: string[] = equipmentItem.validate();
+            const validationResults: string[] = equipmentItem.validate(this.unitOfWork);
 
             if (validationResults.length > 0) {
                 return Result.failure(
@@ -33,9 +33,7 @@ export class AddCustomEquipmentItemFeature
                 );
             }
 
-            // TODO: Check if an equipment item with this name already exists
-
-            equipmentItem.add(this.unitOfWork);
+            equipmentItem.addToDatabase(this.unitOfWork);
 
             await this.unitOfWork.saveChanges();
 

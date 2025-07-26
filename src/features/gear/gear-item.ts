@@ -1,3 +1,5 @@
+import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface";
+
 export abstract class GearItem {
     public static gearCategory: string = "All";
 
@@ -14,7 +16,7 @@ export abstract class GearItem {
         this.validationResults = [];
     }
 
-    public abstract validate(): string[];
+    public abstract validate(unitOfWork: IUnitOfWork): string[];
 
     protected validateName(): GearItem {
         if (this.name.trim() == "") {
