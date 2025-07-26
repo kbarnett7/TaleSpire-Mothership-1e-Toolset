@@ -6,7 +6,6 @@ import { MessageKeys } from "../../../lib/localization/message-keys";
 import { AppLogger } from "../../../lib/logging/app-logger";
 import { Result } from "../../../lib/result/result";
 import { ResultError } from "../../../lib/result/result-error";
-import { Source } from "../../sources/source";
 import { EquipmentItem } from "../equipment-item";
 import { EquipmentItemMap } from "../equipment-item-map";
 import { AddCustomEquipmentItemRequest } from "./add-custom-equipment-item-request";
@@ -19,7 +18,7 @@ export class AddCustomEquipmentItemFeature
 
     constructor(unitOfWork: IUnitOfWork) {
         this.unitOfWork = unitOfWork;
-        this.baseFailureMessage = LocalizationService.instance.translate(MessageKeys.createCustomNpcFailed);
+        this.baseFailureMessage = LocalizationService.instance.translate(MessageKeys.createCustomEquipmentItemFailed);
     }
 
     public async handleAsync(request: AddCustomEquipmentItemRequest): Promise<Result<EquipmentItem>> {

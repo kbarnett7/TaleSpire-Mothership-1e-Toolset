@@ -2,8 +2,8 @@ export class Source {
     public id: number;
     public name: string;
 
-    constructor(id?: number, version?: string) {
+    constructor(id?: number, name?: string) {
         this.id = id ?? 0;
-        this.name = version ?? "";
+        this.name = name ?? "";
     }
 }

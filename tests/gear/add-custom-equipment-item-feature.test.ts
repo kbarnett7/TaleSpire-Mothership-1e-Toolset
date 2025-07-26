@@ -46,7 +46,7 @@ describe("AddCustomEquipmentItemFeature", () => {
         AssertUtils.expectResultToBeFailure(
             result,
             ErrorCode.CreateError,
-            LocalizationService.instance.translate(MessageKeys.createCustomNpcFailed)
+            LocalizationService.instance.translate(MessageKeys.createCustomEquipmentItemFailed)
         );
         expect(result.error.details.length).toBe(1);
         expect(result.error.details[0]).toContain("Mocked");
@@ -65,7 +65,7 @@ describe("AddCustomEquipmentItemFeature", () => {
         AssertUtils.expectResultToBeFailure(
             result,
             ErrorCode.CreateError,
-            LocalizationService.instance.translate(MessageKeys.createCustomNpcFailed)
+            LocalizationService.instance.translate(MessageKeys.createCustomEquipmentItemFailed)
         );
         expect(result.error.details.length).toBe(1);
         expect(result.error.details[0]).toContain("name");
@@ -85,7 +85,7 @@ describe("AddCustomEquipmentItemFeature", () => {
         AssertUtils.expectResultToBeFailure(
             result,
             ErrorCode.CreateError,
-            LocalizationService.instance.translate(MessageKeys.createCustomNpcFailed)
+            LocalizationService.instance.translate(MessageKeys.createCustomEquipmentItemFailed)
         );
         expect(result.error.details.length).toBe(1);
         expect(result.error.details[0]).toContain("name");
@@ -105,7 +105,7 @@ describe("AddCustomEquipmentItemFeature", () => {
         AssertUtils.expectResultToBeFailure(
             result,
             ErrorCode.CreateError,
-            LocalizationService.instance.translate(MessageKeys.createCustomNpcFailed)
+            LocalizationService.instance.translate(MessageKeys.createCustomEquipmentItemFailed)
         );
         expect(result.error.details.length).toBe(1);
         expect(result.error.details[0]).toContain("description");
@@ -127,7 +127,7 @@ describe("AddCustomEquipmentItemFeature", () => {
             AssertUtils.expectResultToBeFailure(
                 result,
                 ErrorCode.CreateError,
-                LocalizationService.instance.translate(MessageKeys.createCustomNpcFailed)
+                LocalizationService.instance.translate(MessageKeys.createCustomEquipmentItemFailed)
             );
             expect(result.error.details.length).toBe(1);
             expect(result.error.details[0]).toContain("cost");
@@ -173,7 +173,7 @@ describe("AddCustomEquipmentItemFeature", () => {
         AssertUtils.expectResultToBeFailure(
             result,
             ErrorCode.CreateError,
-            LocalizationService.instance.translate(MessageKeys.createCustomNpcFailed)
+            LocalizationService.instance.translate(MessageKeys.createCustomEquipmentItemFailed)
         );
         expect(result.error.details.length).toBe(1);
         expect(result.error.details[0]).toContain("name");
