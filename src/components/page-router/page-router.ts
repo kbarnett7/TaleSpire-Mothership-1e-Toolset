@@ -75,21 +75,23 @@ export class PageRouterComponent extends BaseComponent {
     }
 
     private onChangePageEvent: AppEventListener = (event: AppEvent) => {
-        this.gotoNewPage((event as ChangePageEvent).page);
+        this.gotoNewPage(event as ChangePageEvent);
     };
 
-    private gotoNewPage(newPage: PageRouteData) {
-        this.currentPage = newPage;
-        this.addCurrentPageToHistory();
+    private gotoNewPage(event: ChangePageEvent) {
+        this.currentPage = event.page;
+        this.addCurrentPageToHistory(event);
         this.renderCorrectPage();
     }
 
-    private addCurrentPageToHistory() {
-        history.pushState(
-            this.currentPage,
-            this.currentPage.title,
-            `${window.location.origin}${this.currentPage.path}`
-        );
+    private addCurrentPageToHistory(event: ChangePageEvent) {
+        let url = `${window.location.origin}${this.currentPage.path}`;
+
+        if (event.id !== "") {
+            url = url.replace("#", event.id);
+        }
+
+        history.pushState(this.currentPage, this.currentPage.title, url);
     }
 }
 

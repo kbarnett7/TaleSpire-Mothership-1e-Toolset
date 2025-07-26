@@ -9,6 +9,7 @@ import { IDatabase } from "../common/data-access/database-interface";
 import { AppSettings } from "../settings/app-settings";
 import { DatabaseVersion } from "../../features/database-versions/database-version";
 import { DatabaseCollectionNames } from "./database-collection-names";
+import { Source } from "../../features/sources/source";
 
 export class AppDatabaseContext implements IDatabaseContext {
     public static inject = ["database", "appSettings"] as const;
@@ -44,6 +45,7 @@ export class AppDatabaseContext implements IDatabaseContext {
 
     private initializeEntityKeyToDbKeyMap(): void {
         this._entityKeyToDbKeyMap.set(DatabaseVersion.name, DatabaseCollectionNames.databaseVersions);
+        this._entityKeyToDbKeyMap.set(Source.name, DatabaseCollectionNames.sources);
         this._entityKeyToDbKeyMap.set(ArmorItem.name, DatabaseCollectionNames.armor);
         this._entityKeyToDbKeyMap.set(EquipmentItem.name, DatabaseCollectionNames.equipment);
         this._entityKeyToDbKeyMap.set(WeaponItem.name, DatabaseCollectionNames.weapons);
@@ -52,6 +54,7 @@ export class AppDatabaseContext implements IDatabaseContext {
 
     private initializeDbSetsWithEmptyCollections() {
         this._dbSets.set(DatabaseVersion.name, new DbSet<DatabaseVersion>([]));
+        this._dbSets.set(Source.name, new DbSet<Source>([]));
         this._dbSets.set(ArmorItem.name, new DbSet<ArmorItem>([]));
         this._dbSets.set(EquipmentItem.name, new DbSet<EquipmentItem>([]));
         this._dbSets.set(WeaponItem.name, new DbSet<WeaponItem>([]));
@@ -66,6 +69,15 @@ export class AppDatabaseContext implements IDatabaseContext {
             new DbSet<DatabaseVersion>(
                 (await this._db.getCollection(DatabaseCollectionNames.databaseVersions)).map((obj) =>
                     Object.assign(new DatabaseVersion(), obj)
+                )
+            )
+        );
+
+        this._dbSets.set(
+            Source.name,
+            new DbSet<Source>(
+                (await this._db.getCollection(DatabaseCollectionNames.sources)).map((obj) =>
+                    Object.assign(new Source(), obj)
                 )
             )
         );

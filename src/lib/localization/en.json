@@ -4,5 +4,6 @@
     "notConnectedToDatabase": "Not connected to database",
     "storageKeyEmpty": "storageKey is empty",
 
+    "createCustomEquipmentItemFailed": "Failed to create custom equipment item.",
     "createCustomNpcFailed": "Failed to create custom NPC."
 }

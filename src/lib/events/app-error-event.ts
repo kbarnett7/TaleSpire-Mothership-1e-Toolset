@@ -2,12 +2,17 @@ import { AppEvent } from "./app-event";
 
 export class AppErrorEvent extends AppEvent {
     private readonly _error: string;
+    private readonly _details: string[];
 
     public get error(): string {
         return this._error;
     }
 
-    constructor(type: string, error: string) {
+    public get details(): string[] {
+        return [...this._details];
+    }
+
+    constructor(type: string, error: string, details?: string[]) {
         super(type);
 
         if (error.trim() === "") {
@@ -15,5 +20,7 @@ export class AppErrorEvent extends AppEvent {
         } else {
             this._error = error;
         }
+
+        this._details = details ?? [];
     }
 }

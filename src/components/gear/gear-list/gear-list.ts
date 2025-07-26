@@ -1,28 +1,28 @@
 import html from "./gear-list.html";
-import { GetAllGearFeature } from "../../features/gear/get-all-gear/get-all-gear-feature";
-import { GearListItem } from "../../features/gear/gear-list-item";
-import { EmptyRequest } from "../../lib/common/features/empty-request";
-import { EventBus } from "../../lib/events/event-bus";
-import { GearFilterChangedEvent } from "../../lib/events/gear-filter-changed-event";
-import { AppEvent } from "../../lib/events/app-event";
-import { FilterGearListFeature } from "../../features/gear/filter-gear-list/filter-gear-list-feature";
-import { FilterGearListRequest } from "../../features/gear/filter-gear-list/filter-gear-list-request";
-import { EventType } from "../../lib/events/event-type";
-import { SortGearListFeature } from "../../features/gear/sort-gear-list/sort-gear-list-feature";
-import { SortGearListRequest } from "../../features/gear/sort-gear-list/sort-gear-list-request";
-import { GearEquipmentFormComponent } from "../gear-equipment-form/gear-equipment-form";
-import { ModalDialogComponent } from "../modal-dialog/modal-dialog";
-import { EquipmentItem } from "../../features/gear/equipment-item";
-import { GetGearByIdFeature } from "../../features/gear/get-gear-by-id/get-gear-by-id-feature";
-import { GetGearByIdRequest } from "../../features/gear/get-gear-by-id/get-gear-by-id-request";
-import { GearItem } from "../../features/gear/gear-item";
-import { GearArmorFormComponent } from "../gear-armor-form/gear-armor-form";
-import { ArmorItem } from "../../features/gear/armor-item";
-import { WeaponItem } from "../../features/gear/weapon-item";
-import { GearWeaponFormComponent } from "../gear-weapon-form/gear-weapon-form";
-import { AppEventListener } from "../../lib/events/app-event-listener-interface";
-import { BaseListComponent } from "../base-list/base-list-component";
-import { TableHeader } from "../../lib/tables/table-header";
+import { GetAllGearFeature } from "../../../features/gear/get-all-gear/get-all-gear-feature";
+import { GearListItem } from "../../../features/gear/gear-list-item";
+import { EmptyRequest } from "../../../lib/common/features/empty-request";
+import { EventBus } from "../../../lib/events/event-bus";
+import { GearFilterChangedEvent } from "../../../lib/events/gear-filter-changed-event";
+import { AppEvent } from "../../../lib/events/app-event";
+import { FilterGearListFeature } from "../../../features/gear/filter-gear-list/filter-gear-list-feature";
+import { FilterGearListRequest } from "../../../features/gear/filter-gear-list/filter-gear-list-request";
+import { EventType } from "../../../lib/events/event-type";
+import { SortGearListFeature } from "../../../features/gear/sort-gear-list/sort-gear-list-feature";
+import { SortGearListRequest } from "../../../features/gear/sort-gear-list/sort-gear-list-request";
+import { GearEquipmentDisplayComponent } from "../gear-equipment-display/gear-equipment-display";
+import { ModalDialogComponent } from "../../modal-dialog/modal-dialog";
+import { EquipmentItem } from "../../../features/gear/equipment-item";
+import { GetGearByIdFeature } from "../../../features/gear/get-gear-by-id/get-gear-by-id-feature";
+import { GetGearByIdRequest } from "../../../features/gear/get-gear-by-id/get-gear-by-id-request";
+import { GearItem } from "../../../features/gear/gear-item";
+import { GearArmorDisplayComponent } from "../gear-armor-display/gear-armor-display";
+import { ArmorItem } from "../../../features/gear/armor-item";
+import { WeaponItem } from "../../../features/gear/weapon-item";
+import { GearWeaponDisplayComponent } from "../gear-weapon-display/gear-weapon-display";
+import { AppEventListener } from "../../../lib/events/app-event-listener-interface";
+import { BaseListComponent } from "../../base-list/base-list-component";
+import { TableHeader } from "../../../lib/tables/table-header";
 
 export class GearListComponent extends BaseListComponent {
     private gearList: Array<GearListItem> = [];
@@ -112,34 +112,34 @@ export class GearListComponent extends BaseListComponent {
 
         EventBus.instance.dispatch(new AppEvent(EventType.ErrorPanelHide));
 
-        this.populateAppropriateGearItemForm(gearItem);
+        this.populateAppropriateGearItemDisplay(gearItem);
 
         (modal as ModalDialogComponent).openModal();
     }
 
-    private populateAppropriateGearItemForm(gearItem: GearListItem) {
+    private populateAppropriateGearItemDisplay(gearItem: GearListItem) {
         if (gearItem.category === ArmorItem.gearCategory) {
-            this.setArmorForm(gearItem.id);
+            this.setArmorDisplay(gearItem.id);
         } else if (gearItem.category === EquipmentItem.gearCategory) {
-            this.setEquipmentForm(gearItem.id);
+            this.setEquipmentDisplay(gearItem.id);
         } else if (gearItem.category === WeaponItem.gearCategory) {
-            this.setWeaponForm(gearItem.id);
+            this.setWeaponDisplay(gearItem.id);
         }
     }
 
-    private setArmorForm(id: number) {
-        const armorForm = this.shadow.querySelector(`#gearArmorForm`) as GearArmorFormComponent;
-        armorForm.setEquipmentItem(this.getSelectedGearItem(id, ArmorItem.gearCategory) as ArmorItem);
+    private setArmorDisplay(id: number) {
+        const armorDisplay = this.shadow.querySelector(`#gearArmorDisplay`) as GearArmorDisplayComponent;
+        armorDisplay.setEquipmentItem(this.getSelectedGearItem(id, ArmorItem.gearCategory) as ArmorItem);
     }
 
-    private setEquipmentForm(id: number) {
-        const equipmentForm = this.shadow.querySelector(`#gearEquipmentForm`) as GearEquipmentFormComponent;
-        equipmentForm.setEquipmentItem(this.getSelectedGearItem(id, EquipmentItem.gearCategory) as EquipmentItem);
+    private setEquipmentDisplay(id: number) {
+        const equipmentDisplay = this.shadow.querySelector(`#gearEquipmentDisplay`) as GearEquipmentDisplayComponent;
+        equipmentDisplay.setEquipmentItem(this.getSelectedGearItem(id, EquipmentItem.gearCategory) as EquipmentItem);
     }
 
-    private setWeaponForm(id: number) {
-        const weaponForm = this.shadow.querySelector(`#gearWeaponForm`) as GearWeaponFormComponent;
-        weaponForm.setEquipmentItem(this.getSelectedGearItem(id, WeaponItem.gearCategory) as WeaponItem);
+    private setWeaponDisplay(id: number) {
+        const weaponDisplay = this.shadow.querySelector(`#gearWeaponDisplay`) as GearWeaponDisplayComponent;
+        weaponDisplay.setEquipmentItem(this.getSelectedGearItem(id, WeaponItem.gearCategory) as WeaponItem);
     }
 
     private getSelectedGearItem(id: number, category: string): GearItem {

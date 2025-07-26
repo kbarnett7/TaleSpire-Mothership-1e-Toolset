@@ -1,0 +1,47 @@
+<div class="grid grid-cols-2 gap-2 mb-3">
+    <div>
+        <label for="inputName" class="text-lg font-semibold uppercase">Name</label>
+        <input
+            id="inputName"
+            name="inputName"
+            type="text"
+            class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+            placeholder="Enter name of the item..."
+            aria-placeholder="Enter name of the item..."
+            required
+            aria-required
+            maxlength="100"
+            onchange="this.handleOnNameInputChanged(event)"
+        />
+    </div>
+    <div>
+        <label for="inputCost" class="text-lg font-semibold uppercase">Cost (cr)</label>
+        <input
+            id="inputCost"
+            name="inputCost"
+            type="number"
+            class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+            placeholder="Enter cost of the item in credits..."
+            aria-placeholder="Enter cost of the item in credits..."
+            min="0"
+            max="9000000000000000"
+            required
+            aria-required
+            onchange="this.handleOnCostInputChanged(event)"
+            value="0"
+        />
+    </div>
+</div>
+
+<div class="grid grid-cols-1 gap-1 mb-3">
+    <label for="inputDescription" class="text-lg font-semibold uppercase">Description</label>
+    <textarea
+        id="inputDescription"
+        type="text"
+        class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+        placeholder="Enter a description of the item..."
+        aria-placeholder="Enter a description of the item..."
+        rows="3"
+        onchange="this.handleOnDescriptionInputChanged(event)"
+    ></textarea>
+</div>

@@ -1,5 +1,19 @@
 <div class="flex justify-between items-center px-2 h-16 bg-black">
-    <div class="size-11"></div>
+    <!-- <div class="size-11"></div> -->
+    <div class="flex">
+        <svg
+            id="navigateBackButton"
+            xmlns="http://www.w3.org/2000/svg"
+            height="36px"
+            viewBox="0 -960 960 960"
+            width="36px"
+            fill="#e3e3e3"
+            class="cursor-pointer mx-1 p-1 fill-white hover:bg-white hover:fill-black rounded-md transition duration-150 ease-in-out hidden"
+            onclick="this.navigateBack()"
+        >
+            <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
+        </svg>
+    </div>
     <h1 id="pageTitle" class="text-3xl text-white font-bold uppercase"></h1>
     <div class="flex">
         <svg

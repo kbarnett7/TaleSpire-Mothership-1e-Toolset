@@ -1,7 +1,6 @@
 import html from "./npc-form.html";
-import { BaseComponent } from "../base.component";
-import { Npc } from "../../features/npcs/npc";
-import { NpcSpecialAbility } from "../../features/npcs/npc-special-ability";
+import { BaseComponent } from "../../base.component";
+import { Npc } from "../../../features/npcs/npc";
 
 export class NpcFormComponent extends BaseComponent {
     private npc: Npc;

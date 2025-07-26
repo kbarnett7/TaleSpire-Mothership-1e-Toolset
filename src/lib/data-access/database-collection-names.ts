@@ -1,5 +1,6 @@
 export class DatabaseCollectionNames {
     static databaseVersions: string = "databaseVersions";
+    static sources: string = "sources";
     static armor: string = "armor";
     static equipment: string = "equipment";
     static weapons: string = "weapons";
