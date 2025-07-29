@@ -7,13 +7,16 @@
     <gear-equipment-form-fields id="equipmentFields" name="equipmentFields"></gear-equipment-form-fields>
     <gear-armor-form-fields id="armorFields" name="armorFields" class="hidden"></gear-armor-form-fields>
     <gear-weapon-form-fields id="weaponFields" name="weaponFields" class="hidden"></gear-weapon-form-fields>
-    <button
-        type="submit"
-        class="text-white bg-black hover:bg-gray-900 active:bg-gray-700 font-bold min-w-32 px-4 py-1 rounded-full transition duration-150 ease-in-out cursor-pointer uppercase"
-    >
-        Save
-    </button>
-    <secondary-button>Cancel</secondary-button>
+
+    <div class="flex justify-center-safe">
+        <button
+            type="submit"
+            class="text-white bg-black hover:bg-gray-900 active:bg-gray-700 font-bold min-w-32 px-4 py-1 my-2 mr-2 rounded-full transition duration-150 ease-in-out cursor-pointer uppercase"
+        >
+            Save
+        </button>
+        <secondary-button onclick="this.handleCancelButtonClick(event)">Cancel</secondary-button>
+    </div>
 </form>
 
 <!-- TODO: Remove after adding the edit feature -->

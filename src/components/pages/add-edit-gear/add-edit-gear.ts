@@ -103,6 +103,10 @@ export class AddEditGearComponent extends BasePageComponent {
         }
     }
 
+    public handleCancelButtonClick(event: MouseEvent) {
+        this.navigateToGearPage();
+    }
+
     public async handleFormSubmit(event: SubmitEvent): Promise<void> {
         event.preventDefault();
 
