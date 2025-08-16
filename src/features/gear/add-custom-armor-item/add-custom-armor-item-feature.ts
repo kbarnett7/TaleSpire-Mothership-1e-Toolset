@@ -7,6 +7,7 @@ import { AppLogger } from "../../../lib/logging/app-logger";
 import { Result } from "../../../lib/result/result";
 import { ResultError } from "../../../lib/result/result-error";
 import { ArmorItem } from "../armor-item";
+import { ArmorItemMap } from "../armor-item-map";
 import { EquipmentItem } from "../equipment-item";
 import { AddCustomArmorItemRequest } from "./add-custom-armor-item-request";
 
@@ -16,37 +17,31 @@ export class AddCustomArmorItemFeature implements IAsyncFeature<AddCustomArmorIt
 
     constructor(unitOfWork: IUnitOfWork) {
         this.unitOfWork = unitOfWork;
-        this.baseFailureMessage = LocalizationService.instance.translate(MessageKeys.createCustomEquipmentItemFailed);
+        this.baseFailureMessage = LocalizationService.instance.translate(MessageKeys.createCustomArmorItemFailed);
     }
 
     public async handleAsync(request: AddCustomArmorItemRequest): Promise<Result<ArmorItem>> {
-        throw new Error("NOT IMPLEMENTED");
+        try {
+            const armorItem = ArmorItemMap.fromFormFields(request.formFields);
+            // const validationResults: string[] = equipmentItem.validate(this.unitOfWork);
+            // if (validationResults.length > 0) {
+            //     return Result.failure(
+            //         new ResultError(ErrorCode.CreateError, this.baseFailureMessage, validationResults)
+            //     );
+            // }
+            // equipmentItem.addToDatabase(this.unitOfWork);
+            // await this.unitOfWork.saveChanges();
+            return Result.success(armorItem);
+        } catch (error) {
+            const ex = error as Error;
 
-        // try {
-        //     const equipmentItem = ArmorItemMap.fromFormFields(request.formFields);
-        //     const validationResults: string[] = equipmentItem.validate(this.unitOfWork);
+            AppLogger.instance.error(`Error while creating a new armor item`, ex);
 
-        //     if (validationResults.length > 0) {
-        //         return Result.failure(
-        //             new ResultError(ErrorCode.CreateError, this.baseFailureMessage, validationResults)
-        //         );
-        //     }
-
-        //     equipmentItem.addToDatabase(this.unitOfWork);
-
-        //     await this.unitOfWork.saveChanges();
-
-        //     return Result.success(equipmentItem);
-        // } catch (error) {
-        //     const ex = error as Error;
-
-        //     AppLogger.instance.error(`Error while creating a new equipment item`, ex);
-
-        //     return this.createExceptionResult(ex);
-        // }
+            return this.createExceptionResult(ex);
+        }
     }
 
-    private createExceptionResult(ex: Error): Result<EquipmentItem> {
+    private createExceptionResult(ex: Error): Result<ArmorItem> {
         return Result.failure(new ResultError(ErrorCode.CreateError, this.baseFailureMessage, [ex.message]));
     }
 }

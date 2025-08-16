@@ -8,6 +8,7 @@ import { LocalizationService } from "../../src/lib/localization/localization-ser
 import { MessageKeys } from "../../src/lib/localization/message-keys";
 import { AssertUtils } from "../helpers/assert-utils";
 import { EquipmentItem } from "../../src/features/gear/equipment-item";
+import { ValueUtils } from "../helpers/value-utils";
 
 describe("AddCustomEquipmentItemFeature", () => {
     let unitOfWork: UnitOfWork;
@@ -32,7 +33,7 @@ describe("AddCustomEquipmentItemFeature", () => {
     it("should fail if there is an unexpected exception", async () => {
         // Arrange
         const equipmentItemFormFields: EquipmentItemFormFieldsDto = getValidCustomEquipmentItemFormFields();
-        equipmentItemFormFields.description = getStringOfRandomCharacters(1001);
+        equipmentItemFormFields.description = ValueUtils.getStringOfRandomCharacters(1001);
         request.formFields = equipmentItemFormFields;
 
         jest.spyOn(request, "formFields", "get").mockImplementation(() => {
@@ -75,7 +76,7 @@ describe("AddCustomEquipmentItemFeature", () => {
     it("should fail if the name is greater than 100 characters long", async () => {
         // Arrange
         const equipmentItemFormFields: EquipmentItemFormFieldsDto = getValidCustomEquipmentItemFormFields();
-        equipmentItemFormFields.name = getStringOfRandomCharacters(101);
+        equipmentItemFormFields.name = ValueUtils.getStringOfRandomCharacters(101);
         request.formFields = equipmentItemFormFields;
 
         // Act
@@ -95,7 +96,7 @@ describe("AddCustomEquipmentItemFeature", () => {
     it("should fail if the description is greater than 1000 characters long", async () => {
         // Arrange
         const equipmentItemFormFields: EquipmentItemFormFieldsDto = getValidCustomEquipmentItemFormFields();
-        equipmentItemFormFields.description = getStringOfRandomCharacters(1001);
+        equipmentItemFormFields.description = ValueUtils.getStringOfRandomCharacters(1001);
         request.formFields = equipmentItemFormFields;
 
         // Act
@@ -183,22 +184,6 @@ describe("AddCustomEquipmentItemFeature", () => {
 
     function getValidCustomEquipmentItemFormFields(): EquipmentItemFormFieldsDto {
         return new EquipmentItemFormFieldsDto("Test Custom Item", "A custom item created for unit testing.", "1000");
-    }
-
-    function getRandomCharacter(): string {
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        const index = Math.floor(Math.random() * chars.length);
-        return chars.charAt(index);
-    }
-
-    function getStringOfRandomCharacters(length: number) {
-        let result = "";
-
-        for (let i = 0; i < length; i++) {
-            result += getRandomCharacter();
-        }
-
-        return result;
     }
 
     function getLargestEquipmentItemIdInDatabase(): number {

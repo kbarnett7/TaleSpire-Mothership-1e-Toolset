@@ -7,6 +7,8 @@ import { LocalizationService } from "../../src/lib/localization/localization-ser
 import { MessageKeys } from "../../src/lib/localization/message-keys";
 import { DataAccessUtils } from "../data-access/data-access-utils";
 import { AssertUtils } from "../helpers/assert-utils";
+import { ArmorItemFormFieldsDto } from "../../src/features/gear/armor-item-form-fields-dto";
+import { ValueUtils } from "../helpers/value-utils";
 
 describe("AddCustomEquipmentItemFeature", () => {
     let unitOfWork: UnitOfWork;
@@ -29,24 +31,30 @@ describe("AddCustomEquipmentItemFeature", () => {
     });
 
     it("should fail if there is an unexpected exception", async () => {
-        // // Arrange
-        // const equipmentItemFormFields: EquipmentItemFormFieldsDto = getValidCustomEquipmentItemFormFields();
-        // equipmentItemFormFields.description = getStringOfRandomCharacters(1001);
-        // request.formFields = equipmentItemFormFields;
-        // jest.spyOn(request, "formFields", "get").mockImplementation(() => {
-        //     throw new Error("Mocked exception");
-        // });
-        // // Act
-        // const result = await feature.handleAsync(request);
-        // // Assert
-        // AssertUtils.expectResultToBeFailure(
-        //     result,
-        //     ErrorCode.CreateError,
-        //     LocalizationService.instance.translate(MessageKeys.createCustomEquipmentItemFailed)
-        // );
-        // expect(result.error.details.length).toBe(1);
-        // expect(result.error.details[0]).toContain("Mocked");
+        // Arrange
+        const armorItemFormFields: ArmorItemFormFieldsDto = getValidCustomArmorItemFormFields();
+        armorItemFormFields.description = ValueUtils.getStringOfRandomCharacters(1001);
+        request.formFields = armorItemFormFields;
+        jest.spyOn(request, "formFields", "get").mockImplementation(() => {
+            throw new Error("Mocked exception");
+        });
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.CreateError,
+            LocalizationService.instance.translate(MessageKeys.createCustomArmorItemFailed)
+        );
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("Mocked");
     });
+
+    function getValidCustomArmorItemFormFields(): ArmorItemFormFieldsDto {
+        return new ArmorItemFormFieldsDto("Test Custom Item", "A custom item created for unit testing.", "1000");
+    }
 
     function getLargestArmorItemIdInDatabase(): number {
         const sortedItems = unitOfWork
