@@ -9,6 +9,7 @@ import { DataAccessUtils } from "../data-access/data-access-utils";
 import { AssertUtils } from "../helpers/assert-utils";
 import { ArmorItemFormFieldsDto } from "../../src/features/gear/armor-item-form-fields-dto";
 import { ValueUtils } from "../helpers/value-utils";
+import { ArmorSpeed } from "../../src/features/gear/armor-speed";
 
 describe("AddCustomEquipmentItemFeature", () => {
     let unitOfWork: UnitOfWork;
@@ -96,8 +97,82 @@ describe("AddCustomEquipmentItemFeature", () => {
         }
     );
 
+    it.each([["-1"], ["123abc"]])(
+        "should fail if oxygen is negative or contains non-digit characters",
+        async (oxygen: string) => {
+            // Arrange
+            const armorItemFormFields: ArmorItemFormFieldsDto = getValidCustomArmorItemFormFields();
+            armorItemFormFields.oxygen = oxygen;
+            request.formFields = armorItemFormFields;
+
+            // Act
+            const result = await feature.handleAsync(request);
+
+            // Assert
+            AssertUtils.expectResultToBeFailure(
+                result,
+                ErrorCode.CreateError,
+                LocalizationService.instance.translate(MessageKeys.createCustomArmorItemFailed)
+            );
+            expect(result.error.details.length).toBe(1);
+            expect(result.error.details[0]).toContain("oxygen");
+            expect(result.error.details[0]).toContain("zero");
+            expect(result.error.details[0]).toContain("digit");
+        }
+    );
+
+    it("should fail if the speed is an invalid option", async () => {
+        // Arrange
+        const armorItemFormFields: ArmorItemFormFieldsDto = getValidCustomArmorItemFormFields();
+        armorItemFormFields.speed = "invalid";
+        request.formFields = armorItemFormFields;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.CreateError,
+            LocalizationService.instance.translate(MessageKeys.createCustomArmorItemFailed)
+        );
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("speed");
+        expect(result.error.details[0]).toContain(ArmorSpeed.Normal);
+        expect(result.error.details[0]).toContain(ArmorSpeed.Advantage);
+        expect(result.error.details[0]).toContain(ArmorSpeed.Disadvantage);
+    });
+
+    it("should fail if special is greater than 1000 characters long", async () => {
+        // Arrange
+        const armorItemFormFields: ArmorItemFormFieldsDto = getValidCustomArmorItemFormFields();
+        armorItemFormFields.special = ValueUtils.getStringOfRandomCharacters(1001);
+        request.formFields = armorItemFormFields;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.CreateError,
+            LocalizationService.instance.translate(MessageKeys.createCustomArmorItemFailed)
+        );
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("special");
+        expect(result.error.details[0]).toContain("1,000");
+    });
+
     function getValidCustomArmorItemFormFields(): ArmorItemFormFieldsDto {
-        return new ArmorItemFormFieldsDto("Test Custom Item", "A custom item created for unit testing.", "1000", "2");
+        return new ArmorItemFormFieldsDto(
+            "Test Custom Item",
+            "A custom item created for unit testing.",
+            "1000",
+            "2",
+            "6",
+            ArmorSpeed.Advantage,
+            "Pass the unit test!"
+        );
     }
 
     function getLargestArmorItemIdInDatabase(): number {

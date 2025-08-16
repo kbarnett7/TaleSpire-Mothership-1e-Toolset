@@ -9,7 +9,10 @@ export class ArmorItemMap {
             formFields.name,
             formFields.description,
             !isNaN(Number(formFields.cost)) ? parseInt(formFields.cost) : -1,
-            !isNaN(Number(formFields.armorPoints)) ? parseInt(formFields.armorPoints) : -1
+            !isNaN(Number(formFields.armorPoints)) ? parseInt(formFields.armorPoints) : -1,
+            !isNaN(Number(formFields.oxygen)) ? parseInt(formFields.oxygen) : -1,
+            formFields.speed,
+            formFields.special
         );
     }
 }
