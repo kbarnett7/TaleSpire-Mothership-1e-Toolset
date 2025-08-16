@@ -8,7 +8,8 @@ export class ArmorItemMap {
             0,
             formFields.name,
             formFields.description,
-            !isNaN(Number(formFields.cost)) ? parseInt(formFields.cost) : -1
+            !isNaN(Number(formFields.cost)) ? parseInt(formFields.cost) : -1,
+            !isNaN(Number(formFields.armorPoints)) ? parseInt(formFields.armorPoints) : -1
         );
     }
 }

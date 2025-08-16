@@ -23,13 +23,15 @@ export class AddCustomArmorItemFeature implements IAsyncFeature<AddCustomArmorIt
     public async handleAsync(request: AddCustomArmorItemRequest): Promise<Result<ArmorItem>> {
         try {
             const armorItem = ArmorItemMap.fromFormFields(request.formFields);
-            // const validationResults: string[] = equipmentItem.validate(this.unitOfWork);
-            // if (validationResults.length > 0) {
-            //     return Result.failure(
-            //         new ResultError(ErrorCode.CreateError, this.baseFailureMessage, validationResults)
-            //     );
-            // }
-            // equipmentItem.addToDatabase(this.unitOfWork);
+            const validationResults: string[] = armorItem.validate(this.unitOfWork);
+
+            if (validationResults.length > 0) {
+                return Result.failure(
+                    new ResultError(ErrorCode.CreateError, this.baseFailureMessage, validationResults)
+                );
+            }
+
+            // armorItem.addToDatabase(this.unitOfWork);
             // await this.unitOfWork.saveChanges();
             return Result.success(armorItem);
         } catch (error) {

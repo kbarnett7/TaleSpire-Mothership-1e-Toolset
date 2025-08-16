@@ -1,3 +1,4 @@
+import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface";
 import { EquipmentItem } from "./equipment-item";
 
 export class ArmorItem extends EquipmentItem {
@@ -24,5 +25,23 @@ export class ArmorItem extends EquipmentItem {
         this.oxygen = oxygen ?? 0;
         this.speed = speed ?? "";
         this.special = special ?? "";
+    }
+
+    public validate(unitOfWork: IUnitOfWork): string[] {
+        super.validate(unitOfWork);
+
+        this.validateArmorPoints();
+
+        return this.validationResults;
+    }
+
+    private validateArmorPoints(): ArmorItem {
+        if (this.armorPoints < 0) {
+            this.validationResults.push(
+                `The armor points \"${this.armorPoints}\" is invalid. The armor points must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`
+            );
+        }
+
+        return this;
     }
 }

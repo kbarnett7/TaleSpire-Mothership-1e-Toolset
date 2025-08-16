@@ -52,8 +52,52 @@ describe("AddCustomEquipmentItemFeature", () => {
         expect(result.error.details[0]).toContain("Mocked");
     });
 
+    it("should fail if the name is greater than 100 characters long", async () => {
+        // Arrange
+        const armorItemFormFields: ArmorItemFormFieldsDto = getValidCustomArmorItemFormFields();
+        armorItemFormFields.name = ValueUtils.getStringOfRandomCharacters(101);
+        request.formFields = armorItemFormFields;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.CreateError,
+            LocalizationService.instance.translate(MessageKeys.createCustomArmorItemFailed)
+        );
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("name");
+        expect(result.error.details[0]).toContain("100");
+    });
+
+    it.each([["-1"], ["123abc"]])(
+        "should fail if armor points is negative or contains non-digit characters",
+        async (armorPoints: string) => {
+            // Arrange
+            const armorItemFormFields: ArmorItemFormFieldsDto = getValidCustomArmorItemFormFields();
+            armorItemFormFields.armorPoints = armorPoints;
+            request.formFields = armorItemFormFields;
+
+            // Act
+            const result = await feature.handleAsync(request);
+
+            // Assert
+            AssertUtils.expectResultToBeFailure(
+                result,
+                ErrorCode.CreateError,
+                LocalizationService.instance.translate(MessageKeys.createCustomArmorItemFailed)
+            );
+            expect(result.error.details.length).toBe(1);
+            expect(result.error.details[0]).toContain("armor points");
+            expect(result.error.details[0]).toContain("zero");
+            expect(result.error.details[0]).toContain("digit");
+        }
+    );
+
     function getValidCustomArmorItemFormFields(): ArmorItemFormFieldsDto {
-        return new ArmorItemFormFieldsDto("Test Custom Item", "A custom item created for unit testing.", "1000");
+        return new ArmorItemFormFieldsDto("Test Custom Item", "A custom item created for unit testing.", "1000", "2");
     }
 
     function getLargestArmorItemIdInDatabase(): number {
