@@ -31,8 +31,10 @@ export class AddCustomArmorItemFeature implements IAsyncFeature<AddCustomArmorIt
                 );
             }
 
-            // armorItem.addToDatabase(this.unitOfWork);
-            // await this.unitOfWork.saveChanges();
+            armorItem.addToDatabase(this.unitOfWork);
+
+            await this.unitOfWork.saveChanges();
+
             return Result.success(armorItem);
         } catch (error) {
             const ex = error as Error;

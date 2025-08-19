@@ -87,4 +87,20 @@ export class ArmorItem extends EquipmentItem {
 
         return this;
     }
+
+    public addToDatabase(unitOfWork: IUnitOfWork): void {
+        this.id = this.generateId(unitOfWork);
+        this.sourceId = this.getCustomItemSourceId(unitOfWork);
+
+        unitOfWork.repo(ArmorItem).add(this);
+    }
+
+    protected getLargestItemIdInDatabase(unitOfWork: IUnitOfWork): number {
+        const sortedItems = unitOfWork
+            .repo(ArmorItem)
+            .list()
+            .sort((a, b) => a.id - b.id);
+
+        return sortedItems[sortedItems.length - 1].id;
+    }
 }

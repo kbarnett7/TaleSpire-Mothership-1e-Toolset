@@ -184,6 +184,30 @@ describe("AddCustomEquipmentItemFeature", () => {
         expect(result.error.details[0]).toContain("already exists");
     });
 
+    it("should add a valid armor item to the database with an incremented ID and the source set to custom", async () => {
+        // Arrange
+        const numberOfArmorInDatabasePreAdd = unitOfWork.repo(ArmorItem).list().length;
+        const armorItemFormFields: ArmorItemFormFieldsDto = getValidCustomArmorItemFormFields();
+        request.formFields = armorItemFormFields;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        const numberOfArmorInDatabasePostAdd = unitOfWork.repo(ArmorItem).list().length;
+        const itemFromDatabase =
+            unitOfWork.repo(ArmorItem).first((item) => item.id == result.value?.id) ?? new ArmorItem();
+
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(numberOfArmorInDatabasePostAdd).toBe(numberOfArmorInDatabasePreAdd + 1);
+        expect(itemFromDatabase.id).toBe(largestArmorItemId + 1);
+        expect(itemFromDatabase.id).toBe(result.value?.id);
+        expect(itemFromDatabase.name).toBe(result.value?.name);
+        expect(itemFromDatabase.description).toBe(result.value?.description);
+        expect(itemFromDatabase.cost).toBe(result.value?.cost);
+    });
+
     function getValidCustomArmorItemFormFields(): ArmorItemFormFieldsDto {
         return new ArmorItemFormFieldsDto(
             "Test Custom Item",
