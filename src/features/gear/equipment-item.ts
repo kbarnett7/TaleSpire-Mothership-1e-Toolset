@@ -14,13 +14,20 @@ export class EquipmentItem extends GearItem {
         this.cost = cost ?? 0;
     }
 
-    public validate(unitOfWork: IUnitOfWork): string[] {
-        this.validationResults.length = 0;
+    protected validateItemDoesNotAlreadyExist(unitOfWork: IUnitOfWork): EquipmentItem {
+        const existingItem = unitOfWork.repo(EquipmentItem).first((item) => item.name === this.name);
 
-        (this.validateName() as EquipmentItem)
-            .validateDescription()
-            .validateCost()
-            .validateItemDoesNotAlreadyExist(unitOfWork);
+        if (existingItem) {
+            this.validationResults.push(this.getItemAlreadyExistsValidationMessage(EquipmentItem.gearCategory));
+        }
+
+        return this;
+    }
+
+    public validate(unitOfWork: IUnitOfWork): string[] {
+        super.validate(unitOfWork);
+
+        this.validateDescription().validateCost();
 
         return this.validationResults;
     }
@@ -39,18 +46,6 @@ export class EquipmentItem extends GearItem {
         if (this.cost < 0) {
             this.validationResults.push(
                 `The cost \"${this.cost}\" is invalid. The cost must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`
-            );
-        }
-
-        return this;
-    }
-
-    private validateItemDoesNotAlreadyExist(unitOfWork: IUnitOfWork): EquipmentItem {
-        const existingItem = unitOfWork.repo(EquipmentItem).first((item) => item.name === this.name);
-
-        if (existingItem) {
-            this.validationResults.push(
-                `An equipment item with the name \"${this.name}\" already exists. The name must be unique.`
             );
         }
 

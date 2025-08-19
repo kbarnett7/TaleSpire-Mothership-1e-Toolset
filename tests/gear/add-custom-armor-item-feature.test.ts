@@ -163,6 +163,27 @@ describe("AddCustomEquipmentItemFeature", () => {
         expect(result.error.details[0]).toContain("1,000");
     });
 
+    it("should fail if there already exists an armor item with the same name already in the database", async () => {
+        // Arrange
+        const armorItemFormFields: ArmorItemFormFieldsDto = getValidCustomArmorItemFormFields();
+        armorItemFormFields.name = "Vaccsuit";
+        request.formFields = armorItemFormFields;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.CreateError,
+            LocalizationService.instance.translate(MessageKeys.createCustomArmorItemFailed)
+        );
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("name");
+        expect(result.error.details[0]).toContain("Vaccsuit");
+        expect(result.error.details[0]).toContain("already exists");
+    });
+
     function getValidCustomArmorItemFormFields(): ArmorItemFormFieldsDto {
         return new ArmorItemFormFieldsDto(
             "Test Custom Item",

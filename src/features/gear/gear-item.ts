@@ -16,7 +16,15 @@ export abstract class GearItem {
         this.validationResults = [];
     }
 
-    public abstract validate(unitOfWork: IUnitOfWork): string[];
+    protected abstract validateItemDoesNotAlreadyExist(unitOfWork: IUnitOfWork): GearItem;
+
+    public validate(unitOfWork: IUnitOfWork): string[] {
+        this.validationResults.length = 0;
+
+        this.validateName().validateItemDoesNotAlreadyExist(unitOfWork);
+
+        return this.validationResults;
+    }
 
     protected validateName(): GearItem {
         if (this.name.trim() == "") {
@@ -28,5 +36,15 @@ export abstract class GearItem {
         }
 
         return this;
+    }
+
+    protected getItemAlreadyExistsValidationMessage(gearCategory: string) {
+        let prefix = "An";
+
+        if (gearCategory === "Weapon") {
+            prefix = "A";
+        }
+
+        return `${prefix} ${gearCategory} item with the name \"${this.name}\" already exists. The name must be unique.`;
     }
 }

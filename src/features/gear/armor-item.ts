@@ -28,6 +28,16 @@ export class ArmorItem extends EquipmentItem {
         this.special = special ?? "";
     }
 
+    protected validateItemDoesNotAlreadyExist(unitOfWork: IUnitOfWork): ArmorItem {
+        const existingItem = unitOfWork.repo(ArmorItem).first((item) => item.name === this.name);
+
+        if (existingItem) {
+            this.validationResults.push(this.getItemAlreadyExistsValidationMessage(ArmorItem.gearCategory));
+        }
+
+        return this;
+    }
+
     public validate(unitOfWork: IUnitOfWork): string[] {
         super.validate(unitOfWork);
 
