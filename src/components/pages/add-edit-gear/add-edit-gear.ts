@@ -21,6 +21,10 @@ import { ChangePageEvent } from "../../../lib/events/change-page-event";
 import { AppErrorEvent } from "../../../lib/events/app-error-event";
 import { EventType } from "../../../lib/events/event-type";
 import { ResultError } from "../../../lib/result/result-error";
+import { AddCustomArmorItemRequest } from "../../../features/gear/add-custom-armor-item/add-custom-armor-item-request";
+import { AddCustomArmorItemFeature } from "../../../features/gear/add-custom-armor-item/add-custom-armor-item-feature";
+import { ArmorItemFormFieldsDto } from "../../../features/gear/armor-item-form-fields-dto";
+import { JsonService } from "../../../lib/services/json-service";
 
 export class AddEditGearComponent extends BasePageComponent {
     private unitOfWork: IUnitOfWork;
@@ -120,7 +124,7 @@ export class AddEditGearComponent extends BasePageComponent {
 
     private async addGear(formData: FormData): Promise<void> {
         if (this.selectedCategory == ArmorItem.gearCategory) {
-            AppLogger.instance.debug("Call CreateNewArmorItemFeature.handle()");
+            this.addArmorItem(formData);
         } else if (this.selectedCategory == WeaponItem.gearCategory) {
             AppLogger.instance.debug("Call CreateNewWeaponItemFeature.handle()");
         } else {
@@ -135,6 +139,30 @@ export class AddEditGearComponent extends BasePageComponent {
         request.formFields = EquipmentItemFormFieldsDto.createFromJson(
             formData.get("equipmentFields")?.toString() ?? new EquipmentItemFormFieldsDto().toJson()
         );
+
+        const result = await feature.handleAsync(request);
+
+        if (result.isSuccess) {
+            this.handleSaveSuccess();
+        } else {
+            this.handleSaveFailure(result.error);
+        }
+    }
+
+    private async addArmorItem(formData: FormData): Promise<void> {
+        const request = new AddCustomArmorItemRequest();
+        const feature = new AddCustomArmorItemFeature(this.unitOfWork);
+
+        const equipmentItemJson =
+            formData.get("equipmentFields")?.toString() ?? new EquipmentItemFormFieldsDto().toJson();
+        const armorItemJson = formData.get("armorFields")?.toString() ?? new ArmorItemFormFieldsDto().toJson();
+
+        AppLogger.instance.debug(`equipmentFields: ${equipmentItemJson}`);
+        AppLogger.instance.debug(`armorItemJson: ${armorItemJson}`);
+
+        const combinedJson = JsonService.instance.concat([equipmentItemJson, armorItemJson]);
+
+        request.formFields = ArmorItemFormFieldsDto.createFromJson(combinedJson);
 
         const result = await feature.handleAsync(request);
 

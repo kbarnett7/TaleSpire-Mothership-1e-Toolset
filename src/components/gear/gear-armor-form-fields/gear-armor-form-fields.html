@@ -9,6 +9,7 @@
             aria-placeholder="Enter item's armor points..."
             min="0"
             max="9000000000000000"
+            onchange="this.handleOnArmorPointsInputChanged(event)"
         />
     </div>
     <div>
@@ -22,6 +23,7 @@
             aria-placeholder="Enter item's hours of oxygen..."
             min="0"
             max="9000000000000000"
+            onchange="this.handleOnOxygenInputChanged(event)"
         />
     </div>
     <div>
@@ -30,6 +32,7 @@
         <select
             id="inputSpeed"
             class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+            onchange="this.handleOnSpeedSelectChanged(event)"
         >
             <option value="Normal">Normal</option>
             <option value="[+]">Advantage [+]</option>
@@ -48,5 +51,6 @@
         aria-placeholder="Enter item's special properties..."
         rows="3"
         maxlength="1000"
+        onchange="this.handleOnSpecialInputChanged(event)"
     ></textarea>
 </div>
