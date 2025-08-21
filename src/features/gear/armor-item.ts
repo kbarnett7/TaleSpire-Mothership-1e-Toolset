@@ -81,7 +81,7 @@ export class ArmorItem extends EquipmentItem {
     private validateSpecial(): EquipmentItem {
         if (this.special.trim().length > 1000) {
             this.validationResults.push(
-                `The special \"${this.description}\" is invalid. The special must be 1,000 characters or less.`
+                `The special \"${this.special}\" is invalid. The special must be 1,000 characters or less.`
             );
         }
 

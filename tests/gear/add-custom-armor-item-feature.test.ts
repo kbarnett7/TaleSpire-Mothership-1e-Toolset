@@ -11,7 +11,7 @@ import { ArmorItemFormFieldsDto } from "../../src/features/gear/armor-item-form-
 import { ValueUtils } from "../helpers/value-utils";
 import { ArmorSpeed } from "../../src/features/gear/armor-speed";
 
-describe("AddCustomEquipmentItemFeature", () => {
+describe("AddCustomArmorItemFeature", () => {
     let unitOfWork: UnitOfWork;
     let request: AddCustomArmorItemRequest;
     let feature: AddCustomArmorItemFeature;
