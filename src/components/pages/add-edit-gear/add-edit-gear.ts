@@ -21,6 +21,11 @@ import { ChangePageEvent } from "../../../lib/events/change-page-event";
 import { AppErrorEvent } from "../../../lib/events/app-error-event";
 import { EventType } from "../../../lib/events/event-type";
 import { ResultError } from "../../../lib/result/result-error";
+import { AddCustomArmorItemRequest } from "../../../features/gear/add-custom-armor-item/add-custom-armor-item-request";
+import { AddCustomArmorItemFeature } from "../../../features/gear/add-custom-armor-item/add-custom-armor-item-feature";
+import { ArmorItemFormFieldsDto } from "../../../features/gear/armor-item-form-fields-dto";
+import { IAsyncFeature } from "../../../lib/common/features/async-feature-interface";
+import { Result } from "../../../lib/result/result";
 
 export class AddEditGearComponent extends BasePageComponent {
     private unitOfWork: IUnitOfWork;
@@ -103,6 +108,10 @@ export class AddEditGearComponent extends BasePageComponent {
         }
     }
 
+    public handleCancelButtonClick(event: MouseEvent) {
+        this.navigateToGearPage();
+    }
+
     public async handleFormSubmit(event: SubmitEvent): Promise<void> {
         event.preventDefault();
 
@@ -116,7 +125,7 @@ export class AddEditGearComponent extends BasePageComponent {
 
     private async addGear(formData: FormData): Promise<void> {
         if (this.selectedCategory == ArmorItem.gearCategory) {
-            AppLogger.instance.debug("Call CreateNewArmorItemFeature.handle()");
+            this.addArmorItem(formData);
         } else if (this.selectedCategory == WeaponItem.gearCategory) {
             AppLogger.instance.debug("Call CreateNewWeaponItemFeature.handle()");
         } else {
@@ -128,10 +137,30 @@ export class AddEditGearComponent extends BasePageComponent {
         const request = new AddCustomEquipmentItemRequest();
         const feature = new AddCustomEquipmentItemFeature(this.unitOfWork);
 
-        request.formFields = EquipmentItemFormFieldsDto.createFromJson(
-            formData.get("equipmentFields")?.toString() ?? new EquipmentItemFormFieldsDto().toJson()
-        );
+        request.formFields = this.getEquipmentItemFormFields(formData);
 
+        await this.handleFeature(request, feature);
+    }
+
+    private async addArmorItem(formData: FormData): Promise<void> {
+        const request = new AddCustomArmorItemRequest();
+        const feature = new AddCustomArmorItemFeature(this.unitOfWork);
+        const equipmentItemFormFields = this.getEquipmentItemFormFields(formData);
+        const armorItemFormFields = this.getArmorItemFormFields(formData);
+
+        armorItemFormFields.name = equipmentItemFormFields.name;
+        armorItemFormFields.cost = equipmentItemFormFields.cost;
+        armorItemFormFields.description = equipmentItemFormFields.description;
+
+        request.formFields = armorItemFormFields;
+
+        await this.handleFeature(request, feature);
+    }
+
+    private async handleFeature<TRequest, TResponse>(
+        request: TRequest,
+        feature: IAsyncFeature<TRequest, Result<TResponse>>
+    ): Promise<void> {
         const result = await feature.handleAsync(request);
 
         if (result.isSuccess) {
@@ -156,6 +185,18 @@ export class AddEditGearComponent extends BasePageComponent {
         );
 
         EventBus.instance.dispatch(changePageEvent);
+    }
+
+    private getEquipmentItemFormFields(formData: FormData): EquipmentItemFormFieldsDto {
+        return EquipmentItemFormFieldsDto.createFromJson(
+            formData.get("equipmentFields")?.toString() ?? new EquipmentItemFormFieldsDto().toJson()
+        );
+    }
+
+    private getArmorItemFormFields(formData: FormData): ArmorItemFormFieldsDto {
+        return ArmorItemFormFieldsDto.createFromJson(
+            formData.get("armorFields")?.toString() ?? new ArmorItemFormFieldsDto().toJson()
+        );
     }
 }
 

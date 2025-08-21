@@ -1,51 +1,66 @@
 import html from "./gear-armor-form-fields.html";
 import { BaseComponent } from "../../base.component";
-import { ArmorItem } from "../../../features/gear/armor-item";
+import { ArmorItemFormFieldsDto } from "../../../features/gear/armor-item-form-fields-dto";
 
 export class GearArmorFormFieldsComponent extends BaseComponent {
-    private armorItem: ArmorItem;
+    static formAssociated = true;
+
+    private _internals: ElementInternals;
+    private _formFieldsDto: ArmorItemFormFieldsDto;
+
+    public get armorPointsInputElement(): HTMLInputElement {
+        return this.shadow.querySelector("#inputArmorPoints") as HTMLInputElement;
+    }
+
+    public get oxygenInputElement(): HTMLInputElement {
+        return this.shadow.querySelector("#inputOxygen") as HTMLInputElement;
+    }
+
+    public get speedSelectElement(): HTMLSelectElement {
+        return this.shadow.querySelector("#inputSpeed") as HTMLSelectElement;
+    }
+
+    public get specialInputElement(): HTMLTextAreaElement {
+        return this.shadow.querySelector("#inputSpecial") as HTMLTextAreaElement;
+    }
+
+    public get value(): string {
+        return this._formFieldsDto.toJson();
+    }
 
     constructor() {
         super();
-        this.armorItem = new ArmorItem();
+        this._internals = this.attachInternals();
+        this._formFieldsDto = new ArmorItemFormFieldsDto();
     }
 
     public connectedCallback() {
         this.render(html);
+        this.updateFormValue();
     }
 
-    public setEquipmentItem(armorItem: ArmorItem) {
-        this.armorItem = armorItem;
-
-        this.updateGearArmorPoints();
-        this.updateGearOxygen();
-        this.updateGearSpeed();
-        this.updateGearSpecial();
+    private updateFormValue() {
+        this._internals.setFormValue(this.value);
     }
 
-    private updateGearArmorPoints() {
-        const paragraph = this.shadow.querySelector("#inputArmorPoints") as HTMLParagraphElement;
-        paragraph.textContent = this.armorItem.armorPoints.toString();
+    public handleOnArmorPointsInputChanged(event: Event) {
+        this._formFieldsDto.armorPoints = this.armorPointsInputElement.value;
+        this.updateFormValue();
     }
 
-    private updateGearOxygen() {
-        const paragraph = this.shadow.querySelector("#inputOxygen") as HTMLParagraphElement;
-
-        if (this.armorItem.oxygen === 0) {
-            paragraph.textContent = "None";
-        } else {
-            paragraph.textContent = `${this.armorItem.oxygen} hours`;
-        }
+    public handleOnOxygenInputChanged(event: Event) {
+        this._formFieldsDto.oxygen = this.oxygenInputElement.value;
+        this.updateFormValue();
     }
 
-    private updateGearSpeed() {
-        const paragraph = this.shadow.querySelector("#inputSpeed") as HTMLParagraphElement;
-        paragraph.textContent = this.armorItem.speed;
+    public handleOnSpeedSelectChanged(event: Event) {
+        this._formFieldsDto.speed = this.speedSelectElement.value;
+        this.updateFormValue();
     }
 
-    private updateGearSpecial() {
-        const paragraph = this.shadow.querySelector("#inputSpecial") as HTMLParagraphElement;
-        paragraph.textContent = this.armorItem.special;
+    public handleOnSpecialInputChanged(event: Event) {
+        this._formFieldsDto.special = this.specialInputElement.value;
+        this.updateFormValue();
     }
 }
 

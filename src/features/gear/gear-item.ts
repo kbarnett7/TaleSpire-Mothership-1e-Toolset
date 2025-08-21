@@ -1,4 +1,5 @@
 import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface";
+import { Source } from "../sources/source";
 
 export abstract class GearItem {
     public static gearCategory: string = "All";
@@ -16,7 +17,13 @@ export abstract class GearItem {
         this.validationResults = [];
     }
 
-    public abstract validate(unitOfWork: IUnitOfWork): string[];
+    public validate(unitOfWork: IUnitOfWork): string[] {
+        this.validationResults.length = 0;
+
+        this.validateName().validateItemDoesNotAlreadyExist(unitOfWork);
+
+        return this.validationResults;
+    }
 
     protected validateName(): GearItem {
         if (this.name.trim() == "") {
@@ -29,4 +36,32 @@ export abstract class GearItem {
 
         return this;
     }
+
+    protected getItemAlreadyExistsValidationMessage(gearCategory: string) {
+        let prefix = "An";
+
+        if (gearCategory === "Weapon") {
+            prefix = "A";
+        }
+
+        return `${prefix} ${gearCategory} item with the name \"${this.name}\" already exists. The name must be unique.`;
+    }
+
+    protected generateId(unitOfWork: IUnitOfWork): number {
+        return this.getLargestItemIdInDatabase(unitOfWork) + 1;
+    }
+
+    protected getCustomItemSourceId(unitOfWork: IUnitOfWork): number {
+        const source = unitOfWork.repo(Source).first((item) => item.name == "Custom");
+
+        if (!source) {
+            throw new Error('"Custom" source not found in the database.');
+        }
+
+        return source.id;
+    }
+
+    public abstract addToDatabase(unitOfWork: IUnitOfWork): void;
+    protected abstract validateItemDoesNotAlreadyExist(unitOfWork: IUnitOfWork): GearItem;
+    protected abstract getLargestItemIdInDatabase(unitOfWork: IUnitOfWork): number;
 }

@@ -1,5 +1,4 @@
 import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface";
-import { Source } from "../sources/source";
 import { GearItem } from "./gear-item";
 
 export class EquipmentItem extends GearItem {
@@ -14,13 +13,20 @@ export class EquipmentItem extends GearItem {
         this.cost = cost ?? 0;
     }
 
-    public validate(unitOfWork: IUnitOfWork): string[] {
-        this.validationResults.length = 0;
+    protected validateItemDoesNotAlreadyExist(unitOfWork: IUnitOfWork): EquipmentItem {
+        const existingItem = unitOfWork.repo(EquipmentItem).first((item) => item.name === this.name);
 
-        (this.validateName() as EquipmentItem)
-            .validateDescription()
-            .validateCost()
-            .validateItemDoesNotAlreadyExist(unitOfWork);
+        if (existingItem) {
+            this.validationResults.push(this.getItemAlreadyExistsValidationMessage(EquipmentItem.gearCategory));
+        }
+
+        return this;
+    }
+
+    public validate(unitOfWork: IUnitOfWork): string[] {
+        super.validate(unitOfWork);
+
+        this.validateDescription().validateCost();
 
         return this.validationResults;
     }
@@ -45,18 +51,6 @@ export class EquipmentItem extends GearItem {
         return this;
     }
 
-    private validateItemDoesNotAlreadyExist(unitOfWork: IUnitOfWork): EquipmentItem {
-        const existingItem = unitOfWork.repo(EquipmentItem).first((item) => item.name === this.name);
-
-        if (existingItem) {
-            this.validationResults.push(
-                `An equipment item with the name \"${this.name}\" already exists. The name must be unique.`
-            );
-        }
-
-        return this;
-    }
-
     public addToDatabase(unitOfWork: IUnitOfWork): void {
         this.id = this.generateId(unitOfWork);
         this.sourceId = this.getCustomItemSourceId(unitOfWork);
@@ -64,26 +58,12 @@ export class EquipmentItem extends GearItem {
         unitOfWork.repo(EquipmentItem).add(this);
     }
 
-    private generateId(unitOfWork: IUnitOfWork): number {
-        return this.getLargestEquipmentItemIdInDatabase(unitOfWork) + 1;
-    }
-
-    private getLargestEquipmentItemIdInDatabase(unitOfWork: IUnitOfWork): number {
+    protected getLargestItemIdInDatabase(unitOfWork: IUnitOfWork): number {
         const sortedItems = unitOfWork
             .repo(EquipmentItem)
             .list()
             .sort((a, b) => a.id - b.id);
 
         return sortedItems[sortedItems.length - 1].id;
-    }
-
-    private getCustomItemSourceId(unitOfWork: IUnitOfWork): number {
-        const source = unitOfWork.repo(Source).first((item) => item.name == "Custom");
-
-        if (!source) {
-            throw new Error('"Custom" source not found in the database.');
-        }
-
-        return source.id;
     }
 }

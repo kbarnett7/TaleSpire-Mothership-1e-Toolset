@@ -5,5 +5,6 @@
     "storageKeyEmpty": "storageKey is empty",
 
     "createCustomEquipmentItemFailed": "Failed to create custom equipment item.",
+    "createCustomArmorItemFailed": "Failed to create custom armor item.",
     "createCustomNpcFailed": "Failed to create custom NPC."
 }
