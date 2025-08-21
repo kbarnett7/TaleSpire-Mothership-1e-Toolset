@@ -24,6 +24,8 @@ import { ResultError } from "../../../lib/result/result-error";
 import { AddCustomArmorItemRequest } from "../../../features/gear/add-custom-armor-item/add-custom-armor-item-request";
 import { AddCustomArmorItemFeature } from "../../../features/gear/add-custom-armor-item/add-custom-armor-item-feature";
 import { ArmorItemFormFieldsDto } from "../../../features/gear/armor-item-form-fields-dto";
+import { IAsyncFeature } from "../../../lib/common/features/async-feature-interface";
+import { Result } from "../../../lib/result/result";
 
 export class AddEditGearComponent extends BasePageComponent {
     private unitOfWork: IUnitOfWork;
@@ -135,30 +137,16 @@ export class AddEditGearComponent extends BasePageComponent {
         const request = new AddCustomEquipmentItemRequest();
         const feature = new AddCustomEquipmentItemFeature(this.unitOfWork);
 
-        request.formFields = EquipmentItemFormFieldsDto.createFromJson(
-            formData.get("equipmentFields")?.toString() ?? new EquipmentItemFormFieldsDto().toJson()
-        );
+        request.formFields = this.getEquipmentItemFormFields(formData);
 
-        const result = await feature.handleAsync(request);
-
-        if (result.isSuccess) {
-            this.handleSaveSuccess();
-        } else {
-            this.handleSaveFailure(result.error);
-        }
+        await this.handleFeature(request, feature);
     }
 
     private async addArmorItem(formData: FormData): Promise<void> {
         const request = new AddCustomArmorItemRequest();
         const feature = new AddCustomArmorItemFeature(this.unitOfWork);
-
-        const equipmentItemFormFields = EquipmentItemFormFieldsDto.createFromJson(
-            formData.get("equipmentFields")?.toString() ?? new EquipmentItemFormFieldsDto().toJson()
-        );
-
-        const armorItemFormFields = ArmorItemFormFieldsDto.createFromJson(
-            formData.get("armorFields")?.toString() ?? new ArmorItemFormFieldsDto().toJson()
-        );
+        const equipmentItemFormFields = this.getEquipmentItemFormFields(formData);
+        const armorItemFormFields = this.getArmorItemFormFields(formData);
 
         armorItemFormFields.name = equipmentItemFormFields.name;
         armorItemFormFields.cost = equipmentItemFormFields.cost;
@@ -166,6 +154,13 @@ export class AddEditGearComponent extends BasePageComponent {
 
         request.formFields = armorItemFormFields;
 
+        await this.handleFeature(request, feature);
+    }
+
+    private async handleFeature<TRequest, TResponse>(
+        request: TRequest,
+        feature: IAsyncFeature<TRequest, Result<TResponse>>
+    ): Promise<void> {
         const result = await feature.handleAsync(request);
 
         if (result.isSuccess) {
@@ -190,6 +185,18 @@ export class AddEditGearComponent extends BasePageComponent {
         );
 
         EventBus.instance.dispatch(changePageEvent);
+    }
+
+    private getEquipmentItemFormFields(formData: FormData): EquipmentItemFormFieldsDto {
+        return EquipmentItemFormFieldsDto.createFromJson(
+            formData.get("equipmentFields")?.toString() ?? new EquipmentItemFormFieldsDto().toJson()
+        );
+    }
+
+    private getArmorItemFormFields(formData: FormData): ArmorItemFormFieldsDto {
+        return ArmorItemFormFieldsDto.createFromJson(
+            formData.get("armorFields")?.toString() ?? new ArmorItemFormFieldsDto().toJson()
+        );
     }
 }
 
