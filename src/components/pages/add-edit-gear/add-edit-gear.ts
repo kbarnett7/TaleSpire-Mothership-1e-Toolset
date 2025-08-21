@@ -24,7 +24,6 @@ import { ResultError } from "../../../lib/result/result-error";
 import { AddCustomArmorItemRequest } from "../../../features/gear/add-custom-armor-item/add-custom-armor-item-request";
 import { AddCustomArmorItemFeature } from "../../../features/gear/add-custom-armor-item/add-custom-armor-item-feature";
 import { ArmorItemFormFieldsDto } from "../../../features/gear/armor-item-form-fields-dto";
-import { JsonService } from "../../../lib/services/json-service";
 
 export class AddEditGearComponent extends BasePageComponent {
     private unitOfWork: IUnitOfWork;
@@ -153,16 +152,19 @@ export class AddEditGearComponent extends BasePageComponent {
         const request = new AddCustomArmorItemRequest();
         const feature = new AddCustomArmorItemFeature(this.unitOfWork);
 
-        const equipmentItemJson =
-            formData.get("equipmentFields")?.toString() ?? new EquipmentItemFormFieldsDto().toJson();
-        const armorItemJson = formData.get("armorFields")?.toString() ?? new ArmorItemFormFieldsDto().toJson();
+        const equipmentItemFormFields = EquipmentItemFormFieldsDto.createFromJson(
+            formData.get("equipmentFields")?.toString() ?? new EquipmentItemFormFieldsDto().toJson()
+        );
 
-        AppLogger.instance.debug(`equipmentFields: ${equipmentItemJson}`);
-        AppLogger.instance.debug(`armorItemJson: ${armorItemJson}`);
+        const armorItemFormFields = ArmorItemFormFieldsDto.createFromJson(
+            formData.get("armorFields")?.toString() ?? new ArmorItemFormFieldsDto().toJson()
+        );
 
-        const combinedJson = JsonService.instance.concat([equipmentItemJson, armorItemJson]);
+        armorItemFormFields.name = equipmentItemFormFields.name;
+        armorItemFormFields.cost = equipmentItemFormFields.cost;
+        armorItemFormFields.description = equipmentItemFormFields.description;
 
-        request.formFields = ArmorItemFormFieldsDto.createFromJson(combinedJson);
+        request.formFields = armorItemFormFields;
 
         const result = await feature.handleAsync(request);
 
