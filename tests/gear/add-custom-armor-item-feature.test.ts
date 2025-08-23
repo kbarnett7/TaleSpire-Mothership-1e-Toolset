@@ -206,6 +206,10 @@ describe("AddCustomArmorItemFeature", () => {
         expect(itemFromDatabase.name).toBe(result.value?.name);
         expect(itemFromDatabase.description).toBe(result.value?.description);
         expect(itemFromDatabase.cost).toBe(result.value?.cost);
+        expect(itemFromDatabase.armorPoints).toBe(result.value?.armorPoints);
+        expect(itemFromDatabase.oxygen).toBe(result.value?.oxygen);
+        expect(itemFromDatabase.speed).toBe(result.value?.speed);
+        expect(itemFromDatabase.special).toBe(result.value?.special);
     });
 
     function getValidCustomArmorItemFormFields(): ArmorItemFormFieldsDto {

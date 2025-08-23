@@ -21,24 +21,24 @@ export class AddCustomWeaponItemFeature implements IAsyncFeature<AddCustomWeapon
 
     public async handleAsync(request: AddCustomWeaponItemRequest): Promise<Result<WeaponItem>> {
         try {
-            const WeaponItem = WeaponItemMap.fromFormFields(request.formFields);
-            // const validationResults: string[] = WeaponItem.validate(this.unitOfWork);
+            const weaponItem = WeaponItemMap.fromFormFields(request.formFields);
+            const validationResults: string[] = weaponItem.validate(this.unitOfWork);
 
-            // if (validationResults.length > 0) {
-            //     return Result.failure(
-            //         new ResultError(ErrorCode.CreateError, this.baseFailureMessage, validationResults)
-            //     );
-            // }
+            if (validationResults.length > 0) {
+                return Result.failure(
+                    new ResultError(ErrorCode.CreateError, this.baseFailureMessage, validationResults)
+                );
+            }
 
-            // WeaponItem.addToDatabase(this.unitOfWork);
+            weaponItem.addToDatabase(this.unitOfWork);
 
-            // await this.unitOfWork.saveChanges();
+            await this.unitOfWork.saveChanges();
 
-            return Result.success(WeaponItem);
+            return Result.success(weaponItem);
         } catch (error) {
             const ex = error as Error;
 
-            AppLogger.instance.error(`Error while creating a new Weapon item`, ex);
+            AppLogger.instance.error(`Error while creating a new weapon item`, ex);
 
             return this.createExceptionResult(ex);
         }
