@@ -8,7 +8,6 @@ import { Result } from "../../../lib/result/result";
 import { ResultError } from "../../../lib/result/result-error";
 import { ArmorItem } from "../armor-item";
 import { ArmorItemMap } from "../armor-item-map";
-import { EquipmentItem } from "../equipment-item";
 import { AddCustomArmorItemRequest } from "./add-custom-armor-item-request";
 
 export class AddCustomArmorItemFeature implements IAsyncFeature<AddCustomArmorItemRequest, Result<ArmorItem>> {
