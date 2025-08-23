@@ -21,6 +21,7 @@ export class GearWeaponDisplayComponent extends BaseComponent {
         this.updateGearName();
         this.updateGearDescription();
         this.updateGearCost();
+        this.updateWeaponCategory();
         this.updateGearRange();
         this.updateGearDamage();
         this.updateGearShots();
@@ -41,6 +42,11 @@ export class GearWeaponDisplayComponent extends BaseComponent {
     private updateGearCost() {
         const paragraph = this.shadow.querySelector("#gearCost") as HTMLParagraphElement;
         paragraph.textContent = CreditsAbbreviator.instance.abbreviate(this.weaponItem.cost);
+    }
+
+    private updateWeaponCategory() {
+        const paragraph = this.shadow.querySelector("#gearWeaponCategory") as HTMLParagraphElement;
+        paragraph.textContent = this.weaponItem.category;
     }
 
     private updateGearRange() {
