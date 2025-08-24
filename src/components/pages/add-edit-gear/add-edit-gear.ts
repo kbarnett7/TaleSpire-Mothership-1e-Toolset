@@ -26,6 +26,9 @@ import { AddCustomArmorItemFeature } from "../../../features/gear/add-custom-arm
 import { ArmorItemFormFieldsDto } from "../../../features/gear/armor-item-form-fields-dto";
 import { IAsyncFeature } from "../../../lib/common/features/async-feature-interface";
 import { Result } from "../../../lib/result/result";
+import { AddCustomWeaponItemRequest } from "../../../features/gear/add-custom-weapon-item/add-custom-weapon-item-request";
+import { AddCustomWeaponItemFeature } from "../../../features/gear/add-custom-weapon-item/add-custom-weapon-item-feature";
+import { WeaponItemFormFieldsDto } from "../../../features/gear/weapon-item-form-fields-dto";
 
 export class AddEditGearComponent extends BasePageComponent {
     private unitOfWork: IUnitOfWork;
@@ -127,7 +130,7 @@ export class AddEditGearComponent extends BasePageComponent {
         if (this.selectedCategory == ArmorItem.gearCategory) {
             this.addArmorItem(formData);
         } else if (this.selectedCategory == WeaponItem.gearCategory) {
-            AppLogger.instance.debug("Call CreateNewWeaponItemFeature.handle()");
+            this.addWeaponItem(formData);
         } else {
             this.addEquipmentItem(formData);
         }
@@ -153,6 +156,21 @@ export class AddEditGearComponent extends BasePageComponent {
         armorItemFormFields.description = equipmentItemFormFields.description;
 
         request.formFields = armorItemFormFields;
+
+        await this.handleFeature(request, feature);
+    }
+
+    private async addWeaponItem(formData: FormData): Promise<void> {
+        const request = new AddCustomWeaponItemRequest();
+        const feature = new AddCustomWeaponItemFeature(this.unitOfWork);
+        const equipmentItemFormFields = this.getEquipmentItemFormFields(formData);
+        const weaponItemFormFields = this.getWeaponItemFormFields(formData);
+
+        weaponItemFormFields.name = equipmentItemFormFields.name;
+        weaponItemFormFields.cost = equipmentItemFormFields.cost;
+        weaponItemFormFields.description = equipmentItemFormFields.description;
+
+        request.formFields = weaponItemFormFields;
 
         await this.handleFeature(request, feature);
     }
@@ -196,6 +214,12 @@ export class AddEditGearComponent extends BasePageComponent {
     private getArmorItemFormFields(formData: FormData): ArmorItemFormFieldsDto {
         return ArmorItemFormFieldsDto.createFromJson(
             formData.get("armorFields")?.toString() ?? new ArmorItemFormFieldsDto().toJson()
+        );
+    }
+
+    private getWeaponItemFormFields(formData: FormData): WeaponItemFormFieldsDto {
+        return WeaponItemFormFieldsDto.createFromJson(
+            formData.get("weaponFields")?.toString() ?? new WeaponItemFormFieldsDto().toJson()
         );
     }
 }
