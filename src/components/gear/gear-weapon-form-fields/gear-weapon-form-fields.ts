@@ -1,52 +1,85 @@
 import html from "./gear-weapon-form-fields.html";
 import { BaseComponent } from "../../base.component";
 import { WeaponItem } from "../../../features/gear/weapon-item";
+import { WeaponItemFormFieldsDto } from "../../../features/gear/weapon-item-form-fields-dto";
 
 export class GearWeaponFormFieldsComponent extends BaseComponent {
-    private weaponItem: WeaponItem;
+    static formAssociated = true;
+
+    private _internals: ElementInternals;
+    private _formFieldsDto: WeaponItemFormFieldsDto;
+
+    public get weaponCategorySelectElement(): HTMLSelectElement {
+        return this.shadow.querySelector("#inputWeaponCategory") as HTMLSelectElement;
+    }
+
+    public get rangeSelectElement(): HTMLSelectElement {
+        return this.shadow.querySelector("#inputRange") as HTMLSelectElement;
+    }
+
+    public get damageInputElement(): HTMLInputElement {
+        return this.shadow.querySelector("#inputDamage") as HTMLInputElement;
+    }
+
+    public get shotsInputElement(): HTMLInputElement {
+        return this.shadow.querySelector("#inputShots") as HTMLInputElement;
+    }
+
+    public get woundInputElement(): HTMLInputElement {
+        return this.shadow.querySelector("#inputWound") as HTMLInputElement;
+    }
+
+    public get specialInputElement(): HTMLTextAreaElement {
+        return this.shadow.querySelector("#inputSpecial") as HTMLTextAreaElement;
+    }
+
+    public get value(): string {
+        return this._formFieldsDto.toJson();
+    }
 
     constructor() {
         super();
-        this.weaponItem = new WeaponItem();
+        this._internals = this.attachInternals();
+        this._formFieldsDto = new WeaponItemFormFieldsDto();
     }
 
     public connectedCallback() {
         this.render(html);
+        this.updateFormValue();
     }
 
-    public setEquipmentItem(weaponItem: WeaponItem) {
-        this.weaponItem = weaponItem;
-
-        this.updateGearRange();
-        this.updateGearDamage();
-        this.updateGearShots();
-        this.updateGearWound();
-        this.updateGearSpecial();
+    private updateFormValue() {
+        this._internals.setFormValue(this.value);
     }
 
-    private updateGearRange() {
-        const paragraph = this.shadow.querySelector("#inputRange") as HTMLParagraphElement;
-        paragraph.textContent = this.weaponItem.range;
+    public handleOnWeaponCategorySelectChanged(event: Event) {
+        this._formFieldsDto.category = this.weaponCategorySelectElement.value;
+        this.updateFormValue();
     }
 
-    private updateGearDamage() {
-        const paragraph = this.shadow.querySelector("#inputDamage") as HTMLParagraphElement;
-        paragraph.textContent = this.weaponItem.damage;
+    public handleOnRangeSelectChanged(event: Event) {
+        this._formFieldsDto.range = this.rangeSelectElement.value;
+        this.updateFormValue();
     }
 
-    private updateGearShots() {
-        const paragraph = this.shadow.querySelector("#inputShots") as HTMLParagraphElement;
-        paragraph.textContent = this.weaponItem.shots.toString();
+    public handleOnDamageInputChanged(event: Event) {
+        this._formFieldsDto.damage = this.damageInputElement.value;
+        this.updateFormValue();
     }
 
-    private updateGearWound() {
-        const paragraph = this.shadow.querySelector("#inputWound") as HTMLParagraphElement;
-        paragraph.textContent = this.weaponItem.wound;
+    public handleOnShotsInputChanged(event: Event) {
+        this._formFieldsDto.shots = this.shotsInputElement.value;
+        this.updateFormValue();
     }
 
-    private updateGearSpecial() {
-        const paragraph = this.shadow.querySelector("#inputSpecial") as HTMLParagraphElement;
-        paragraph.textContent = this.weaponItem.special;
+    public handleOnWoundInputChanged(event: Event) {
+        this._formFieldsDto.wound = this.woundInputElement.value;
+        this.updateFormValue();
+    }
+
+    public handleOnSpecialInputChanged(event: Event) {
+        this._formFieldsDto.special = this.specialInputElement.value;
+        this.updateFormValue();
     }
 }
 

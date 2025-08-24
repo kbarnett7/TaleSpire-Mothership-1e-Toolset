@@ -6,23 +6,23 @@ import { MessageKeys } from "../../../lib/localization/message-keys";
 import { AppLogger } from "../../../lib/logging/app-logger";
 import { Result } from "../../../lib/result/result";
 import { ResultError } from "../../../lib/result/result-error";
-import { ArmorItem } from "../armor-item";
-import { ArmorItemMap } from "../armor-item-map";
-import { AddCustomArmorItemRequest } from "./add-custom-armor-item-request";
+import { WeaponItem } from "../weapon-item";
+import { WeaponItemMap } from "../weapon-item-map";
+import { AddCustomWeaponItemRequest } from "./add-custom-weapon-item-request";
 
-export class AddCustomArmorItemFeature implements IAsyncFeature<AddCustomArmorItemRequest, Result<ArmorItem>> {
+export class AddCustomWeaponItemFeature implements IAsyncFeature<AddCustomWeaponItemRequest, Result<WeaponItem>> {
     private readonly unitOfWork: IUnitOfWork;
     private readonly baseFailureMessage: string;
 
     constructor(unitOfWork: IUnitOfWork) {
         this.unitOfWork = unitOfWork;
-        this.baseFailureMessage = LocalizationService.instance.translate(MessageKeys.createCustomArmorItemFailed);
+        this.baseFailureMessage = LocalizationService.instance.translate(MessageKeys.createCustomWeaponItemFailed);
     }
 
-    public async handleAsync(request: AddCustomArmorItemRequest): Promise<Result<ArmorItem>> {
+    public async handleAsync(request: AddCustomWeaponItemRequest): Promise<Result<WeaponItem>> {
         try {
-            const armorItem = ArmorItemMap.fromFormFields(request.formFields);
-            const validationResults: string[] = armorItem.validate(this.unitOfWork);
+            const weaponItem = WeaponItemMap.fromFormFields(request.formFields);
+            const validationResults: string[] = weaponItem.validate(this.unitOfWork);
 
             if (validationResults.length > 0) {
                 return Result.failure(
@@ -30,21 +30,21 @@ export class AddCustomArmorItemFeature implements IAsyncFeature<AddCustomArmorIt
                 );
             }
 
-            armorItem.addToDatabase(this.unitOfWork);
+            weaponItem.addToDatabase(this.unitOfWork);
 
             await this.unitOfWork.saveChanges();
 
-            return Result.success(armorItem);
+            return Result.success(weaponItem);
         } catch (error) {
             const ex = error as Error;
 
-            AppLogger.instance.error(`Error while creating a new armor item`, ex);
+            AppLogger.instance.error(`Error while creating a new weapon item`, ex);
 
             return this.createExceptionResult(ex);
         }
     }
 
-    private createExceptionResult(ex: Error): Result<ArmorItem> {
+    private createExceptionResult(ex: Error): Result<WeaponItem> {
         return Result.failure(new ResultError(ErrorCode.CreateError, this.baseFailureMessage, [ex.message]));
     }
 }

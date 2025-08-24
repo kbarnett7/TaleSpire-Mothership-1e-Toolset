@@ -1,9 +1,22 @@
 <div class="grid grid-cols-2 gap-2 mb-3">
     <div>
+        <label for="inputWeaponCategory" class="text-lg font-semibold uppercase">Category</label>
+        <select
+            id="inputWeaponCategory"
+            class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+            onchange="this.handleOnWeaponCategorySelectChanged(event)"
+        >
+            <option value="Melee">Melee</option>
+            <option value="Firearm">Firearm</option>
+            <option value="Industrial Equipment">Industrial Equipment</option>
+        </select>
+    </div>
+    <div>
         <label for="inputRange" class="text-lg font-semibold uppercase">Range</label>
         <select
             id="inputRange"
             class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+            onchange="this.handleOnRangeSelectChanged(event)"
         >
             <option value="N/A">N/A</option>
             <option value="Adjacent">Adjacent</option>
@@ -12,17 +25,21 @@
             <option value="Extreme">Extreme</option>
         </select>
     </div>
+</div>
+
+<div class="grid grid-cols-2 gap-2 mb-3">
     <div>
         <label for="inputDamage" class="text-lg font-semibold uppercase">Damage</label>
         <input
             id="inputDamage"
             type="text"
             class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+            placeholder="Enter the weapon's damage..."
+            aria-placeholder="Enter the weapon's damage..."
+            maxlength="100"
+            onchange="this.handleOnDamageInputChanged(event)"
         />
     </div>
-</div>
-
-<div class="grid grid-cols-2 gap-2 mb-3">
     <div>
         <label for="inputShots" class="text-lg font-semibold uppercase">Shots</label>
         <input
@@ -33,14 +50,22 @@
             aria-placeholder="Enter item's number of shots..."
             min="0"
             max="9000000000000000"
+            onchange="this.handleOnShotsInputChanged(event)"
         />
     </div>
+</div>
+
+<div class="grid grid-cols-2 gap-2 mb-3">
     <div>
         <label for="inputWound" class="text-lg font-semibold uppercase">Wound</label>
         <input
             id="inputWound"
             type="text"
             class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+            placeholder="Enter the weapon's wound..."
+            aria-placeholder="Enter the weapon's wound..."
+            maxlength="100"
+            onchange="this.handleOnWoundInputChanged(event)"
         />
     </div>
 </div>
@@ -55,5 +80,6 @@
         aria-placeholder="Enter item's special properties..."
         rows="3"
         maxlength="1000"
+        onchange="this.handleOnSpecialInputChanged(event)"
     ></textarea>
 </div>
