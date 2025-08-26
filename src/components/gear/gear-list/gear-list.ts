@@ -23,6 +23,8 @@ import { GearWeaponDisplayComponent } from "../gear-weapon-display/gear-weapon-d
 import { AppEventListener } from "../../../lib/events/app-event-listener-interface";
 import { BaseListComponent } from "../../base-list/base-list-component";
 import { TableHeader } from "../../../lib/tables/table-header";
+import { IUnitOfWork } from "../../../lib/common/data-access/unit-of-work-interface";
+import { Source } from "../../../features/sources/source";
 
 export class GearListComponent extends BaseListComponent {
     private gearList: Array<GearListItem> = [];
@@ -64,7 +66,7 @@ export class GearListComponent extends BaseListComponent {
         const row = this.createBaseTableRowElement();
 
         row.innerHTML = `
-            <td class="p-2">${gearItem.name}</td>
+            <td class="p-2">${this.getNameTableDataInnerHtml(gearItem)}</td>
             <td class="p-2">${gearItem.abbreviatedCost}</td>
             <td class="p-2">${gearItem.category}</td>
             <td class="p-2 truncate max-w-50">${gearItem.description}</td>
@@ -73,6 +75,16 @@ export class GearListComponent extends BaseListComponent {
         row.addEventListener("click", (event: MouseEvent) => this.onTableDataRowClick(gearItem));
 
         return row;
+    }
+
+    private getNameTableDataInnerHtml(gearItem: GearListItem): string {
+        let nameInnerHtml = gearItem.name;
+
+        if (gearItem.sourceId === this.getCustomItemSourceId()) {
+            nameInnerHtml = `${gearItem.name} <sup>(C)</sup>`;
+        }
+
+        return nameInnerHtml;
     }
 
     private onGearFilterChangedEvent: AppEventListener = (event: AppEvent) => {
@@ -168,6 +180,16 @@ export class GearListComponent extends BaseListComponent {
         }
 
         this.gearList = result.value ?? [];
+    }
+
+    protected getCustomItemSourceId(): number {
+        const source = this.unitOfWork.repo(Source).first((item) => item.name == "Custom");
+
+        if (!source) {
+            throw new Error('"Custom" source not found in the database.');
+        }
+
+        return source.id;
     }
 }
 
