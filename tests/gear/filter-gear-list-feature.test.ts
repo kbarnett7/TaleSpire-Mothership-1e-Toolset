@@ -67,13 +67,13 @@ describe("FilterGearListFeature", () => {
 
         const gear = result.value ?? [];
         let item: GearListItem = GearTestUtils.getGearItemByName(gear, "Assorted Tools");
-        GearTestUtils.expectItemToBe(item, 1, "Assorted Tools", 20, EquipmentItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Assorted Tools", 20, EquipmentItem.gearCategory);
 
         item = GearTestUtils.getGearItemByName(gear, "Standard Crew Attire");
-        GearTestUtils.expectItemToBe(item, 1, "Standard Crew Attire", 100, ArmorItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Standard Crew Attire", 100, ArmorItem.gearCategory);
 
         item = GearTestUtils.getGearItemByName(gear, "Boarding Axe");
-        GearTestUtils.expectItemToBe(item, 1, "Boarding Axe", 150, WeaponItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Boarding Axe", 150, WeaponItem.gearCategory);
     });
 
     it('By "All" category returns a list of all gear list items', () => {
@@ -90,13 +90,13 @@ describe("FilterGearListFeature", () => {
 
         const gear = result.value ?? [];
         let item: GearListItem = GearTestUtils.getGearItemByName(gear, "Assorted Tools");
-        GearTestUtils.expectItemToBe(item, 1, "Assorted Tools", 20, EquipmentItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Assorted Tools", 20, EquipmentItem.gearCategory);
 
         item = GearTestUtils.getGearItemByName(gear, "Standard Crew Attire");
-        GearTestUtils.expectItemToBe(item, 1, "Standard Crew Attire", 100, ArmorItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Standard Crew Attire", 100, ArmorItem.gearCategory);
 
         item = GearTestUtils.getGearItemByName(gear, "Boarding Axe");
-        GearTestUtils.expectItemToBe(item, 1, "Boarding Axe", 150, WeaponItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Boarding Axe", 150, WeaponItem.gearCategory);
     });
 
     it('By "Armor" category returns a list of all armor gear list items', () => {
@@ -116,7 +116,7 @@ describe("FilterGearListFeature", () => {
         expect(item.id).toBe(0);
 
         item = GearTestUtils.getGearItemByName(gear, "Standard Crew Attire");
-        GearTestUtils.expectItemToBe(item, 1, "Standard Crew Attire", 100, ArmorItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Standard Crew Attire", 100, ArmorItem.gearCategory);
 
         item = GearTestUtils.getGearItemByName(gear, "Boarding Axe");
         expect(item.id).toBe(0);
@@ -136,7 +136,7 @@ describe("FilterGearListFeature", () => {
 
         const gear = result.value ?? [];
         let item: GearListItem = GearTestUtils.getGearItemByName(gear, "Assorted Tools");
-        GearTestUtils.expectItemToBe(item, 1, "Assorted Tools", 20, EquipmentItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Assorted Tools", 20, EquipmentItem.gearCategory);
 
         item = GearTestUtils.getGearItemByName(gear, "Standard Crew Attire");
         expect(item.id).toBe(0);
@@ -165,7 +165,7 @@ describe("FilterGearListFeature", () => {
         expect(item.id).toBe(0);
 
         item = GearTestUtils.getGearItemByName(gear, "Boarding Axe");
-        GearTestUtils.expectItemToBe(item, 1, "Boarding Axe", 150, WeaponItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Boarding Axe", 150, WeaponItem.gearCategory);
     });
 
     it("By empty item name returns a list of all gear list items", () => {
@@ -183,13 +183,13 @@ describe("FilterGearListFeature", () => {
 
         const gear = result.value ?? [];
         let item: GearListItem = GearTestUtils.getGearItemByName(gear, "Assorted Tools");
-        GearTestUtils.expectItemToBe(item, 1, "Assorted Tools", 20, EquipmentItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Assorted Tools", 20, EquipmentItem.gearCategory);
 
         item = GearTestUtils.getGearItemByName(gear, "Standard Crew Attire");
-        GearTestUtils.expectItemToBe(item, 1, "Standard Crew Attire", 100, ArmorItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Standard Crew Attire", 100, ArmorItem.gearCategory);
 
         item = GearTestUtils.getGearItemByName(gear, "Boarding Axe");
-        GearTestUtils.expectItemToBe(item, 1, "Boarding Axe", 150, WeaponItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Boarding Axe", 150, WeaponItem.gearCategory);
     });
 
     it('By " " (empty space) item name returns a list of all gear list items', () => {
@@ -207,13 +207,13 @@ describe("FilterGearListFeature", () => {
 
         const gear = result.value ?? [];
         let item: GearListItem = GearTestUtils.getGearItemByName(gear, "Assorted Tools");
-        GearTestUtils.expectItemToBe(item, 1, "Assorted Tools", 20, EquipmentItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Assorted Tools", 20, EquipmentItem.gearCategory);
 
         item = GearTestUtils.getGearItemByName(gear, "Standard Crew Attire");
-        GearTestUtils.expectItemToBe(item, 1, "Standard Crew Attire", 100, ArmorItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Standard Crew Attire", 100, ArmorItem.gearCategory);
 
         item = GearTestUtils.getGearItemByName(gear, "Boarding Axe");
-        GearTestUtils.expectItemToBe(item, 1, "Boarding Axe", 150, WeaponItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Boarding Axe", 150, WeaponItem.gearCategory);
     });
 
     it('By "ba" item name returns gear list items with names that have "ba" in them', () => {

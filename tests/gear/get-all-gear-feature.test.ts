@@ -22,12 +22,12 @@ describe("GetAllGearFeature", () => {
         expect(gear.length).toBeGreaterThan(0);
 
         let item: GearListItem = GearTestUtils.getGearItemByName(gear, "Assorted Tools");
-        GearTestUtils.expectItemToBe(item, 1, "Assorted Tools", 20, EquipmentItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Assorted Tools", 20, EquipmentItem.gearCategory);
 
         item = GearTestUtils.getGearItemByName(gear, "Standard Crew Attire");
-        GearTestUtils.expectItemToBe(item, 1, "Standard Crew Attire", 100, ArmorItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Standard Crew Attire", 100, ArmorItem.gearCategory);
 
         item = GearTestUtils.getGearItemByName(gear, "Boarding Axe");
-        GearTestUtils.expectItemToBe(item, 1, "Boarding Axe", 150, WeaponItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Boarding Axe", 150, WeaponItem.gearCategory);
     });
 });
