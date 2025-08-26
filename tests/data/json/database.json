@@ -60,6 +60,17 @@
             "oxygen": 1,
             "speed": "[-]",
             "special": "Includes short-range comms, body cam, headlamp, HUD, exoskeletal weave (Strength Checks [+]), and radiation shielding. Damage Reduction: 3."
+        },
+        {
+            "id": 6,
+            "sourceId": 1,
+            "name": "Custom Armor A",
+            "cost": 1200,
+            "description": "A user-created armor item.",
+            "armorPoints": 3,
+            "oxygen": 2,
+            "speed": "Normal",
+            "special": "Includes short-range comms and body cam."
         }
     ],
     "equipment": [

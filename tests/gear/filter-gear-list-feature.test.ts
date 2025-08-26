@@ -10,14 +10,23 @@ import { GearItem } from "../../src/features/gear/gear-item";
 import { ErrorCode } from "../../src/lib/errors/error-code";
 import { GearTestUtils } from "./gear-test-utils";
 import { DataAccessUtils } from "../data-access/data-access-utils";
+import { GetAllGearFeature } from "../../src/features/gear/get-all-gear/get-all-gear-feature";
+import { EmptyRequest } from "../../src/lib/common/features/empty-request";
 
 describe("FilterGearListFeature", () => {
+    let unitOfWork: UnitOfWork;
     let feature: FilterGearListFeature;
     let request: FilterGearListRequest;
+    let originalNumberOfGearItemsInDatabase: number;
+    let originalNumberOfEquipmentItemsInDatabase: number;
+    let originalNumberOfArmorItemsInDatabase: number;
+    let originalNumberOfWeaponItemsInDatabase: number;
 
     beforeEach(async () => {
         const dbContext = await DataAccessUtils.getInitializedDbContext();
-        const unitOfWork = new UnitOfWork(dbContext);
+        unitOfWork = new UnitOfWork(dbContext);
+
+        setOriginalNumberOfGearItemsIdInDatabase();
 
         feature = new FilterGearListFeature(unitOfWork);
         request = new FilterGearListRequest();
@@ -54,7 +63,7 @@ describe("FilterGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(15);
+        expect(result.value?.length).toBe(originalNumberOfGearItemsInDatabase);
 
         const gear = result.value ?? [];
         let item: GearListItem = GearTestUtils.getGearItemByName(gear, "Assorted Tools");
@@ -77,7 +86,7 @@ describe("FilterGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(15);
+        expect(result.value?.length).toBe(originalNumberOfGearItemsInDatabase);
 
         const gear = result.value ?? [];
         let item: GearListItem = GearTestUtils.getGearItemByName(gear, "Assorted Tools");
@@ -100,7 +109,7 @@ describe("FilterGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(5);
+        expect(result.value?.length).toBe(originalNumberOfArmorItemsInDatabase);
 
         const gear = result.value ?? [];
         let item: GearListItem = GearTestUtils.getGearItemByName(gear, "Assorted Tools");
@@ -123,7 +132,7 @@ describe("FilterGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(5);
+        expect(result.value?.length).toBe(originalNumberOfEquipmentItemsInDatabase);
 
         const gear = result.value ?? [];
         let item: GearListItem = GearTestUtils.getGearItemByName(gear, "Assorted Tools");
@@ -146,7 +155,7 @@ describe("FilterGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(5);
+        expect(result.value?.length).toBe(originalNumberOfWeaponItemsInDatabase);
 
         const gear = result.value ?? [];
         let item: GearListItem = GearTestUtils.getGearItemByName(gear, "Assorted Tools");
@@ -170,7 +179,7 @@ describe("FilterGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(15);
+        expect(result.value?.length).toBe(originalNumberOfGearItemsInDatabase);
 
         const gear = result.value ?? [];
         let item: GearListItem = GearTestUtils.getGearItemByName(gear, "Assorted Tools");
@@ -194,7 +203,7 @@ describe("FilterGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(15);
+        expect(result.value?.length).toBe(originalNumberOfGearItemsInDatabase);
 
         const gear = result.value ?? [];
         let item: GearListItem = GearTestUtils.getGearItemByName(gear, "Assorted Tools");
@@ -332,4 +341,19 @@ describe("FilterGearListFeature", () => {
             expect(item.name.toLowerCase()).toMatch(searchRegEx);
         });
     });
+
+    function setOriginalNumberOfGearItemsIdInDatabase(): void {
+        const feature = new GetAllGearFeature(unitOfWork);
+        const gear: GearListItem[] = feature.handle(new EmptyRequest());
+
+        originalNumberOfGearItemsInDatabase = gear.length;
+
+        originalNumberOfEquipmentItemsInDatabase = gear.filter(
+            (item) => item.category === EquipmentItem.gearCategory
+        ).length;
+
+        originalNumberOfArmorItemsInDatabase = gear.filter((item) => item.category === ArmorItem.gearCategory).length;
+
+        originalNumberOfWeaponItemsInDatabase = gear.filter((item) => item.category === WeaponItem.gearCategory).length;
+    }
 });

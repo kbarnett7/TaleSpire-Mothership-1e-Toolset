@@ -29,6 +29,7 @@ describe("UnitOfWork", () => {
     });
 
     it("should persist changes to the JSON database when saving changes", async () => {
+        const originalNumberOfArmorItemsInDatabase: number = unitOfWork.repo(ArmorItem).list().length;
         const newArmor = new ArmorItem(9999, 1, "Unit Test Armor", "Armor used by unit tests.");
         unitOfWork.repo(ArmorItem).add(newArmor);
 
@@ -38,7 +39,7 @@ describe("UnitOfWork", () => {
         unitOfWork = new UnitOfWork(dbContext);
         const length = unitOfWork.repo(ArmorItem).list().length;
         const lastItem = unitOfWork.repo(ArmorItem).list()[length - 1];
-        expect(length).toBe(6);
+        expect(length).toBe(originalNumberOfArmorItemsInDatabase + 1);
         expect(lastItem.id).toBe(9999);
         expect(lastItem.name).toBe("Unit Test Armor");
     });
