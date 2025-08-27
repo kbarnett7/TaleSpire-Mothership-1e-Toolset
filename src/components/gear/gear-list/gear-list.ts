@@ -97,6 +97,7 @@ export class GearListComponent extends BaseListComponent {
 
         request.category = event.category;
         request.search = event.search;
+        request.sourceId = event.sourceId;
 
         const result = feature.handle(request);
 

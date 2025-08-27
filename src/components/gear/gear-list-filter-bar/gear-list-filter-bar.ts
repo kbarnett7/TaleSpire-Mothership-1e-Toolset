@@ -19,6 +19,7 @@ export class GearListFilterBarComponent extends BaseComponent {
 
     private activeCategory: string;
     private currentSearch: string;
+    private currentSourceId: number;
 
     public get sourcesSelectElement(): HTMLSelectElement {
         return this.shadow.querySelector("#sourcesFilter") as HTMLSelectElement;
@@ -29,6 +30,7 @@ export class GearListFilterBarComponent extends BaseComponent {
         this.unitOfWork = appInjector.injectClass(UnitOfWork);
         this.activeCategory = GearItem.gearCategory;
         this.currentSearch = "";
+        this.currentSourceId = 0;
     }
 
     public connectedCallback() {
@@ -48,9 +50,7 @@ export class GearListFilterBarComponent extends BaseComponent {
 
         this.activeCategory = gearCategoryChangedEvent.category;
 
-        const appEvent = new GearFilterChangedEvent(this.activeCategory, this.currentSearch);
-
-        EventBus.instance.dispatch(appEvent);
+        this.dispatchGearFilterChangedEvent();
     };
 
     public handleOnSearchBoxKeyUp(event: KeyboardEvent) {
@@ -60,14 +60,21 @@ export class GearListFilterBarComponent extends BaseComponent {
 
         this.currentSearch = (event.target as HTMLInputElement).value;
 
-        const appEvent = new GearFilterChangedEvent(this.activeCategory, this.currentSearch);
-
-        EventBus.instance.dispatch(appEvent);
+        this.dispatchGearFilterChangedEvent();
     }
 
     public handleOnSourcesSelectChanged(event: Event) {
-        const selectedValue = this.sourcesSelectElement.value;
-        alert(`Selected: ${selectedValue}`);
+        const selectedValue = (event.target as HTMLSelectElement).value;
+
+        this.currentSourceId = parseInt(selectedValue);
+
+        this.dispatchGearFilterChangedEvent();
+    }
+
+    private dispatchGearFilterChangedEvent() {
+        const appEvent = new GearFilterChangedEvent(this.activeCategory, this.currentSearch, this.currentSourceId);
+
+        EventBus.instance.dispatch(appEvent);
     }
 
     private populateSourcesFilter() {
