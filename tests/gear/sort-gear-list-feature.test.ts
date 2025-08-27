@@ -11,20 +11,33 @@ import { Result } from "../../src/lib/result/result";
 import { ErrorCode } from "../../src/lib/errors/error-code";
 import { SortState } from "../../src/lib/sorting/sort-state";
 import { DataAccessUtils } from "../data-access/data-access-utils";
+import { WeaponItem } from "../../src/features/gear/weapon-item";
+import { EquipmentItem } from "../../src/features/gear/equipment-item";
 
 describe("SortGearListFeature", () => {
     const armorItemNameInAlphabeticalOrder: string[] = [
         "Advanced Battle Dress",
+        "Custom Armor A",
         "Hazard Suit",
         "Standard Battle Dress",
         "Standard Crew Attire",
         "Vaccsuit",
     ];
 
+    let unitOfWork: UnitOfWork;
     let feature: SortGearListFeature;
     let request: SortGearListRequest;
+    let originalNumberOfGearItemsInDatabase: number;
+    let originalNumberOfEquipmentItemsInDatabase: number;
+    let originalNumberOfArmorItemsInDatabase: number;
+    let originalNumberOfWeaponItemsInDatabase: number;
 
-    beforeEach(() => {
+    beforeEach(async () => {
+        const dbContext = await DataAccessUtils.getInitializedDbContext();
+        unitOfWork = new UnitOfWork(dbContext);
+
+        setOriginalNumberOfGearItemsIdInDatabase();
+
         feature = new SortGearListFeature();
         request = new SortGearListRequest();
     });
@@ -60,7 +73,7 @@ describe("SortGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(15);
+        expect(result.value?.length).toBe(originalNumberOfGearItemsInDatabase);
 
         const gear = result.value ?? [];
 
@@ -84,7 +97,7 @@ describe("SortGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(15);
+        expect(result.value?.length).toBe(originalNumberOfGearItemsInDatabase);
 
         const gear = result.value ?? [];
 
@@ -109,7 +122,7 @@ describe("SortGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(5);
+        expect(result.value?.length).toBe(originalNumberOfArmorItemsInDatabase);
 
         const gear = result.value ?? [];
 
@@ -135,7 +148,7 @@ describe("SortGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(5);
+        expect(result.value?.length).toBe(originalNumberOfArmorItemsInDatabase);
 
         const gear = result.value ?? [];
 
@@ -164,7 +177,7 @@ describe("SortGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(5);
+        expect(result.value?.length).toBe(originalNumberOfArmorItemsInDatabase);
 
         const gear = result.value ?? [];
 
@@ -190,7 +203,7 @@ describe("SortGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(5);
+        expect(result.value?.length).toBe(originalNumberOfArmorItemsInDatabase);
 
         const gear = result.value ?? [];
 
@@ -216,7 +229,7 @@ describe("SortGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(5);
+        expect(result.value?.length).toBe(originalNumberOfArmorItemsInDatabase);
 
         const gear = result.value ?? [];
 
@@ -227,7 +240,7 @@ describe("SortGearListFeature", () => {
 
     it('By item cost in "Ascending" direction returns gear list items sorted by lowest to highest cost', async () => {
         // Arrange
-        const expectedItemNameOrder: number[] = [100, 2000, 4000, 10000, 12000];
+        const expectedItemNameOrder: number[] = [100, 1200, 2000, 4000, 10000, 12000];
         const filteredGearItems: GearListItem[] = await getAllArmorGearListItems();
         const sortState = new SortState();
         sortState.set(SortGearListFeature.fieldCost);
@@ -241,7 +254,7 @@ describe("SortGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(5);
+        expect(result.value?.length).toBe(originalNumberOfArmorItemsInDatabase);
 
         const gear = result.value ?? [];
 
@@ -252,7 +265,7 @@ describe("SortGearListFeature", () => {
 
     it('By item cost in "Descending" direction returns gear list items sorted by highest to lowest cost', async () => {
         // Arrange
-        const expectedItemNameOrder: number[] = [12000, 10000, 4000, 2000, 100];
+        const expectedItemNameOrder: number[] = [12000, 10000, 4000, 2000, 1200, 100];
         const filteredGearItems: GearListItem[] = await getAllArmorGearListItems();
         const sortState = new SortState();
         sortState.set(SortGearListFeature.fieldCost);
@@ -267,7 +280,7 @@ describe("SortGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(5);
+        expect(result.value?.length).toBe(originalNumberOfArmorItemsInDatabase);
 
         const gear = result.value ?? [];
 
@@ -291,13 +304,15 @@ describe("SortGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(15);
+        expect(result.value?.length).toBe(originalNumberOfGearItemsInDatabase);
 
         const gear = result.value ?? [];
+        const firstEquipmentItemIndex = originalNumberOfArmorItemsInDatabase;
+        const firstWeaponItemIndex = originalNumberOfArmorItemsInDatabase + originalNumberOfEquipmentItemsInDatabase;
 
         expect(gear[0].category).toBe("Armor");
-        expect(gear[5].category).toBe("Equipment");
-        expect(gear[10].category).toBe("Weapon");
+        expect(gear[firstEquipmentItemIndex].category).toBe("Equipment");
+        expect(gear[firstWeaponItemIndex].category).toBe("Weapon");
     });
 
     it('By item category in "Descending" direction returns gear list items sorted by item category in reverse alphabetical order', async () => {
@@ -316,7 +331,7 @@ describe("SortGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(15);
+        expect(result.value?.length).toBe(originalNumberOfGearItemsInDatabase);
 
         const gear = result.value ?? [];
 
@@ -328,6 +343,7 @@ describe("SortGearListFeature", () => {
     it('By item description in "Ascending" direction returns gear list items sorted by item description in alphabetical order', async () => {
         // Arrange
         const expectedItemNameOrder: string[] = [
+            "Custom Armor A",
             "Standard Crew Attire",
             "Vaccsuit",
             "Hazard Suit",
@@ -347,7 +363,7 @@ describe("SortGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(5);
+        expect(result.value?.length).toBe(originalNumberOfArmorItemsInDatabase);
 
         const gear = result.value ?? [];
 
@@ -364,6 +380,7 @@ describe("SortGearListFeature", () => {
             "Hazard Suit",
             "Vaccsuit",
             "Standard Crew Attire",
+            "Custom Armor A",
         ];
         const filteredGearItems: GearListItem[] = await getAllArmorGearListItems();
         const sortState = new SortState();
@@ -379,7 +396,7 @@ describe("SortGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(5);
+        expect(result.value?.length).toBe(originalNumberOfArmorItemsInDatabase);
 
         const gear = result.value ?? [];
 
@@ -415,5 +432,20 @@ describe("SortGearListFeature", () => {
         const unitOfWork = new UnitOfWork(dbContext);
 
         return new FilterGearListFeature(unitOfWork);
+    }
+
+    function setOriginalNumberOfGearItemsIdInDatabase(): void {
+        const feature = new GetAllGearFeature(unitOfWork);
+        const gear: GearListItem[] = feature.handle(new EmptyRequest());
+
+        originalNumberOfGearItemsInDatabase = gear.length;
+
+        originalNumberOfEquipmentItemsInDatabase = gear.filter(
+            (item) => item.category === EquipmentItem.gearCategory
+        ).length;
+
+        originalNumberOfArmorItemsInDatabase = gear.filter((item) => item.category === ArmorItem.gearCategory).length;
+
+        originalNumberOfWeaponItemsInDatabase = gear.filter((item) => item.category === WeaponItem.gearCategory).length;
     }
 });

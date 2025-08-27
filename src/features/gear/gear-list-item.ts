@@ -2,6 +2,7 @@ import { CreditsAbbreviator } from "../../lib/services/credits-abbreviator";
 
 export class GearListItem {
     public id: number;
+    public sourceId: number;
     public name: string;
     public description: string;
     public cost: number;
@@ -11,8 +12,9 @@ export class GearListItem {
         return CreditsAbbreviator.instance.abbreviate(this.cost);
     }
 
-    constructor(id: number, name: string, description: string, cost: number, category: string) {
+    constructor(id: number, sourceId: number, name: string, description: string, cost: number, category: string) {
         this.id = id;
+        this.sourceId = sourceId;
         this.name = name;
         this.description = description;
         this.cost = cost;

@@ -10,14 +10,24 @@ import { GearItem } from "../../src/features/gear/gear-item";
 import { ErrorCode } from "../../src/lib/errors/error-code";
 import { GearTestUtils } from "./gear-test-utils";
 import { DataAccessUtils } from "../data-access/data-access-utils";
+import { GetAllGearFeature } from "../../src/features/gear/get-all-gear/get-all-gear-feature";
+import { EmptyRequest } from "../../src/lib/common/features/empty-request";
 
 describe("FilterGearListFeature", () => {
+    let unitOfWork: UnitOfWork;
     let feature: FilterGearListFeature;
     let request: FilterGearListRequest;
+    let originalNumberOfGearItemsInDatabase: number;
+    let originalNumberOfEquipmentItemsInDatabase: number;
+    let originalNumberOfArmorItemsInDatabase: number;
+    let originalNumberOfWeaponItemsInDatabase: number;
+    let originalNumberOfCustomGearItemsInDatabase: number;
 
     beforeEach(async () => {
         const dbContext = await DataAccessUtils.getInitializedDbContext();
-        const unitOfWork = new UnitOfWork(dbContext);
+        unitOfWork = new UnitOfWork(dbContext);
+
+        setOriginalNumberOfGearItemsIdInDatabase();
 
         feature = new FilterGearListFeature(unitOfWork);
         request = new FilterGearListRequest();
@@ -54,17 +64,17 @@ describe("FilterGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(15);
+        expect(result.value?.length).toBe(originalNumberOfGearItemsInDatabase);
 
         const gear = result.value ?? [];
         let item: GearListItem = GearTestUtils.getGearItemByName(gear, "Assorted Tools");
-        GearTestUtils.expectItemToBe(item, 1, "Assorted Tools", 20, EquipmentItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Assorted Tools", 20, EquipmentItem.gearCategory);
 
         item = GearTestUtils.getGearItemByName(gear, "Standard Crew Attire");
-        GearTestUtils.expectItemToBe(item, 1, "Standard Crew Attire", 100, ArmorItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Standard Crew Attire", 100, ArmorItem.gearCategory);
 
         item = GearTestUtils.getGearItemByName(gear, "Boarding Axe");
-        GearTestUtils.expectItemToBe(item, 1, "Boarding Axe", 150, WeaponItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Boarding Axe", 150, WeaponItem.gearCategory);
     });
 
     it('By "All" category returns a list of all gear list items', () => {
@@ -77,17 +87,17 @@ describe("FilterGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(15);
+        expect(result.value?.length).toBe(originalNumberOfGearItemsInDatabase);
 
         const gear = result.value ?? [];
         let item: GearListItem = GearTestUtils.getGearItemByName(gear, "Assorted Tools");
-        GearTestUtils.expectItemToBe(item, 1, "Assorted Tools", 20, EquipmentItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Assorted Tools", 20, EquipmentItem.gearCategory);
 
         item = GearTestUtils.getGearItemByName(gear, "Standard Crew Attire");
-        GearTestUtils.expectItemToBe(item, 1, "Standard Crew Attire", 100, ArmorItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Standard Crew Attire", 100, ArmorItem.gearCategory);
 
         item = GearTestUtils.getGearItemByName(gear, "Boarding Axe");
-        GearTestUtils.expectItemToBe(item, 1, "Boarding Axe", 150, WeaponItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Boarding Axe", 150, WeaponItem.gearCategory);
     });
 
     it('By "Armor" category returns a list of all armor gear list items', () => {
@@ -100,14 +110,14 @@ describe("FilterGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(5);
+        expect(result.value?.length).toBe(originalNumberOfArmorItemsInDatabase);
 
         const gear = result.value ?? [];
         let item: GearListItem = GearTestUtils.getGearItemByName(gear, "Assorted Tools");
         expect(item.id).toBe(0);
 
         item = GearTestUtils.getGearItemByName(gear, "Standard Crew Attire");
-        GearTestUtils.expectItemToBe(item, 1, "Standard Crew Attire", 100, ArmorItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Standard Crew Attire", 100, ArmorItem.gearCategory);
 
         item = GearTestUtils.getGearItemByName(gear, "Boarding Axe");
         expect(item.id).toBe(0);
@@ -123,11 +133,11 @@ describe("FilterGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(5);
+        expect(result.value?.length).toBe(originalNumberOfEquipmentItemsInDatabase);
 
         const gear = result.value ?? [];
         let item: GearListItem = GearTestUtils.getGearItemByName(gear, "Assorted Tools");
-        GearTestUtils.expectItemToBe(item, 1, "Assorted Tools", 20, EquipmentItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Assorted Tools", 20, EquipmentItem.gearCategory);
 
         item = GearTestUtils.getGearItemByName(gear, "Standard Crew Attire");
         expect(item.id).toBe(0);
@@ -146,7 +156,7 @@ describe("FilterGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(5);
+        expect(result.value?.length).toBe(originalNumberOfWeaponItemsInDatabase);
 
         const gear = result.value ?? [];
         let item: GearListItem = GearTestUtils.getGearItemByName(gear, "Assorted Tools");
@@ -156,7 +166,7 @@ describe("FilterGearListFeature", () => {
         expect(item.id).toBe(0);
 
         item = GearTestUtils.getGearItemByName(gear, "Boarding Axe");
-        GearTestUtils.expectItemToBe(item, 1, "Boarding Axe", 150, WeaponItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Boarding Axe", 150, WeaponItem.gearCategory);
     });
 
     it("By empty item name returns a list of all gear list items", () => {
@@ -170,17 +180,17 @@ describe("FilterGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(15);
+        expect(result.value?.length).toBe(originalNumberOfGearItemsInDatabase);
 
         const gear = result.value ?? [];
         let item: GearListItem = GearTestUtils.getGearItemByName(gear, "Assorted Tools");
-        GearTestUtils.expectItemToBe(item, 1, "Assorted Tools", 20, EquipmentItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Assorted Tools", 20, EquipmentItem.gearCategory);
 
         item = GearTestUtils.getGearItemByName(gear, "Standard Crew Attire");
-        GearTestUtils.expectItemToBe(item, 1, "Standard Crew Attire", 100, ArmorItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Standard Crew Attire", 100, ArmorItem.gearCategory);
 
         item = GearTestUtils.getGearItemByName(gear, "Boarding Axe");
-        GearTestUtils.expectItemToBe(item, 1, "Boarding Axe", 150, WeaponItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Boarding Axe", 150, WeaponItem.gearCategory);
     });
 
     it('By " " (empty space) item name returns a list of all gear list items', () => {
@@ -194,17 +204,17 @@ describe("FilterGearListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(15);
+        expect(result.value?.length).toBe(originalNumberOfGearItemsInDatabase);
 
         const gear = result.value ?? [];
         let item: GearListItem = GearTestUtils.getGearItemByName(gear, "Assorted Tools");
-        GearTestUtils.expectItemToBe(item, 1, "Assorted Tools", 20, EquipmentItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Assorted Tools", 20, EquipmentItem.gearCategory);
 
         item = GearTestUtils.getGearItemByName(gear, "Standard Crew Attire");
-        GearTestUtils.expectItemToBe(item, 1, "Standard Crew Attire", 100, ArmorItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Standard Crew Attire", 100, ArmorItem.gearCategory);
 
         item = GearTestUtils.getGearItemByName(gear, "Boarding Axe");
-        GearTestUtils.expectItemToBe(item, 1, "Boarding Axe", 150, WeaponItem.gearCategory);
+        GearTestUtils.expectItemToBe(item, 1, 2, "Boarding Axe", 150, WeaponItem.gearCategory);
     });
 
     it('By "ba" item name returns gear list items with names that have "ba" in them', () => {
@@ -332,4 +342,114 @@ describe("FilterGearListFeature", () => {
             expect(item.name.toLowerCase()).toMatch(searchRegEx);
         });
     });
+
+    it.each([1.2, -1, 4])("By invalid source returns the original list", (sourceId: number) => {
+        // Arrange
+        request.sourceId = sourceId;
+
+        // Act
+        const result: Result<GearListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(originalNumberOfGearItemsInDatabase);
+
+        const gear = result.value ?? [];
+        let item: GearListItem = GearTestUtils.getGearItemByName(gear, "Assorted Tools");
+        GearTestUtils.expectItemToBe(item, 1, 2, "Assorted Tools", 20, EquipmentItem.gearCategory);
+
+        item = GearTestUtils.getGearItemByName(gear, "Standard Crew Attire");
+        GearTestUtils.expectItemToBe(item, 1, 2, "Standard Crew Attire", 100, ArmorItem.gearCategory);
+
+        item = GearTestUtils.getGearItemByName(gear, "Boarding Axe");
+        GearTestUtils.expectItemToBe(item, 1, 2, "Boarding Axe", 150, WeaponItem.gearCategory);
+
+        item = GearTestUtils.getGearItemByName(gear, "Custom Armor A");
+        GearTestUtils.expectItemToBe(item, 6, 1, "Custom Armor A", 1200, ArmorItem.gearCategory);
+    });
+
+    it('By "All" source returns a list of all gear list items', () => {
+        // Arrange
+        request.sourceId = 0;
+
+        // Act
+        const result: Result<GearListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(originalNumberOfGearItemsInDatabase);
+
+        const gear = result.value ?? [];
+        let item: GearListItem = GearTestUtils.getGearItemByName(gear, "Assorted Tools");
+        GearTestUtils.expectItemToBe(item, 1, 2, "Assorted Tools", 20, EquipmentItem.gearCategory);
+
+        item = GearTestUtils.getGearItemByName(gear, "Standard Crew Attire");
+        GearTestUtils.expectItemToBe(item, 1, 2, "Standard Crew Attire", 100, ArmorItem.gearCategory);
+
+        item = GearTestUtils.getGearItemByName(gear, "Boarding Axe");
+        GearTestUtils.expectItemToBe(item, 1, 2, "Boarding Axe", 150, WeaponItem.gearCategory);
+
+        item = GearTestUtils.getGearItemByName(gear, "Custom Armor A");
+        GearTestUtils.expectItemToBe(item, 6, 1, "Custom Armor A", 1200, ArmorItem.gearCategory);
+    });
+
+    it('By "Custom" category returns a list of all custom gear list items', () => {
+        // Arrange
+        request.sourceId = 1;
+
+        // Act
+        const result: Result<GearListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(originalNumberOfCustomGearItemsInDatabase);
+
+        const gear = result.value ?? [];
+        let item: GearListItem = GearTestUtils.getGearItemByName(gear, "Custom Armor A");
+        GearTestUtils.expectItemToBe(item, 6, 1, "Custom Armor A", 1200, ArmorItem.gearCategory);
+
+        item = GearTestUtils.getGearItemByName(gear, "Assorted Tools");
+        expect(item.id).toBe(0);
+    });
+
+    it("By \"Player's Survival Guide\" category returns a list of all player's survival guide gear list items", () => {
+        // Arrange
+        const expectedGearItemCount = originalNumberOfGearItemsInDatabase - originalNumberOfCustomGearItemsInDatabase;
+        request.sourceId = 2;
+
+        // Act
+        const result: Result<GearListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(expectedGearItemCount);
+
+        const gear = result.value ?? [];
+        let item: GearListItem = GearTestUtils.getGearItemByName(gear, "Standard Crew Attire");
+        GearTestUtils.expectItemToBe(item, 1, 2, "Standard Crew Attire", 100, ArmorItem.gearCategory);
+
+        item = GearTestUtils.getGearItemByName(gear, "Custom Armor A");
+        expect(item.id).toBe(0);
+    });
+
+    function setOriginalNumberOfGearItemsIdInDatabase(): void {
+        const feature = new GetAllGearFeature(unitOfWork);
+        const gear: GearListItem[] = feature.handle(new EmptyRequest());
+
+        originalNumberOfGearItemsInDatabase = gear.length;
+
+        originalNumberOfEquipmentItemsInDatabase = gear.filter(
+            (item) => item.category === EquipmentItem.gearCategory
+        ).length;
+
+        originalNumberOfArmorItemsInDatabase = gear.filter((item) => item.category === ArmorItem.gearCategory).length;
+
+        originalNumberOfWeaponItemsInDatabase = gear.filter((item) => item.category === WeaponItem.gearCategory).length;
+
+        originalNumberOfCustomGearItemsInDatabase = gear.filter((item) => item.sourceId === 1).length;
+    }
 });
