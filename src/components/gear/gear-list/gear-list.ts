@@ -192,6 +192,14 @@ export class GearListComponent extends BaseListComponent {
 
         return source.id;
     }
+
+    public onEditButtonClick(event: MouseEvent) {
+        alert("Clicked edit!");
+    }
+
+    public onDeleteButtonClick(event: MouseEvent) {
+        alert("Clicked delete!");
+    }
 }
 
 customElements.define("gear-list", GearListComponent);
