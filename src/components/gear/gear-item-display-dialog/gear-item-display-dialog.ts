@@ -74,11 +74,14 @@ export class GearItemDisplayDialogComponent extends BaseComponent {
         this.rehideAllGearDisplayElements();
 
         if (category === ArmorItem.gearCategory) {
-            this.setArmorDisplay();
+            this.armorDisplayElement.setEquipmentItem(this.gearItem as ArmorItem);
+            this.armorDisplayElement.classList.remove("hidden");
         } else if (category === EquipmentItem.gearCategory) {
-            this.setEquipmentDisplay();
+            this.equipmentDisplayElement.setEquipmentItem(this.gearItem as EquipmentItem);
+            this.equipmentDisplayElement.classList.remove("hidden");
         } else if (category === WeaponItem.gearCategory) {
-            this.setWeaponDisplay();
+            this.weaponDisplayElement.setEquipmentItem(this.gearItem as WeaponItem);
+            this.weaponDisplayElement.classList.remove("hidden");
         }
     }
 
@@ -92,24 +95,6 @@ export class GearItemDisplayDialogComponent extends BaseComponent {
         if (element.classList.contains("hidden")) return;
 
         element.classList.add("hidden");
-    }
-
-    private setArmorDisplay() {
-        const armorDisplay = this.armorDisplayElement;
-        armorDisplay.setEquipmentItem(this.gearItem as ArmorItem);
-        armorDisplay.classList.remove("hidden");
-    }
-
-    private setEquipmentDisplay() {
-        const equipmentDisplay = this.equipmentDisplayElement;
-        equipmentDisplay.setEquipmentItem(this.gearItem as EquipmentItem);
-        equipmentDisplay.classList.remove("hidden");
-    }
-
-    private setWeaponDisplay() {
-        const weaponDisplay = this.weaponDisplayElement;
-        weaponDisplay.setEquipmentItem(this.gearItem as WeaponItem);
-        weaponDisplay.classList.remove("hidden");
     }
 
     public onEditButtonClick(event: MouseEvent) {
