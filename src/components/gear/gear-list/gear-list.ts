@@ -10,21 +10,11 @@ import { FilterGearListRequest } from "../../../features/gear/filter-gear-list/f
 import { EventType } from "../../../lib/events/event-type";
 import { SortGearListFeature } from "../../../features/gear/sort-gear-list/sort-gear-list-feature";
 import { SortGearListRequest } from "../../../features/gear/sort-gear-list/sort-gear-list-request";
-import { GearEquipmentDisplayComponent } from "../gear-equipment-display/gear-equipment-display";
-import { ModalDialogComponent } from "../../modal-dialog/modal-dialog";
-import { EquipmentItem } from "../../../features/gear/equipment-item";
-import { GetGearByIdFeature } from "../../../features/gear/get-gear-by-id/get-gear-by-id-feature";
-import { GetGearByIdRequest } from "../../../features/gear/get-gear-by-id/get-gear-by-id-request";
-import { GearItem } from "../../../features/gear/gear-item";
-import { GearArmorDisplayComponent } from "../gear-armor-display/gear-armor-display";
-import { ArmorItem } from "../../../features/gear/armor-item";
-import { WeaponItem } from "../../../features/gear/weapon-item";
-import { GearWeaponDisplayComponent } from "../gear-weapon-display/gear-weapon-display";
 import { AppEventListener } from "../../../lib/events/app-event-listener-interface";
 import { BaseListComponent } from "../../base-list/base-list-component";
 import { TableHeader } from "../../../lib/tables/table-header";
-import { IUnitOfWork } from "../../../lib/common/data-access/unit-of-work-interface";
 import { Source } from "../../../features/sources/source";
+import { GearItemDisplayDialogComponent } from "../gear-item-display-dialog/gear-item-display-dialog";
 
 export class GearListComponent extends BaseListComponent {
     private gearList: Array<GearListItem> = [];
@@ -116,50 +106,18 @@ export class GearListComponent extends BaseListComponent {
     }
 
     public onTableDataRowClick(gearItem: GearListItem) {
-        const modal = this.shadow.querySelector(`#gear${gearItem.category}Modal`);
+        const modal = this.shadow.querySelector(`#gearItemDisplayDialog`) as GearItemDisplayDialogComponent;
 
         if (!modal) {
-            this.dispatchErrorEvent(`Modal \"gear${gearItem.category}Modal\" not found.`);
+            this.dispatchErrorEvent(`Modal \"gearItemDisplayDialog\" not found.`);
             return;
         }
 
         EventBus.instance.dispatch(new AppEvent(EventType.ErrorPanelHide));
 
-        this.populateAppropriateGearItemDisplay(gearItem);
+        modal.setGearItem(gearItem.id, gearItem.category);
 
-        (modal as ModalDialogComponent).openModal();
-    }
-
-    private populateAppropriateGearItemDisplay(gearItem: GearListItem) {
-        if (gearItem.category === ArmorItem.gearCategory) {
-            this.setArmorDisplay(gearItem.id);
-        } else if (gearItem.category === EquipmentItem.gearCategory) {
-            this.setEquipmentDisplay(gearItem.id);
-        } else if (gearItem.category === WeaponItem.gearCategory) {
-            this.setWeaponDisplay(gearItem.id);
-        }
-    }
-
-    private setArmorDisplay(id: number) {
-        const armorDisplay = this.shadow.querySelector(`#gearArmorDisplay`) as GearArmorDisplayComponent;
-        armorDisplay.setEquipmentItem(this.getSelectedGearItem(id, ArmorItem.gearCategory) as ArmorItem);
-    }
-
-    private setEquipmentDisplay(id: number) {
-        const equipmentDisplay = this.shadow.querySelector(`#gearEquipmentDisplay`) as GearEquipmentDisplayComponent;
-        equipmentDisplay.setEquipmentItem(this.getSelectedGearItem(id, EquipmentItem.gearCategory) as EquipmentItem);
-    }
-
-    private setWeaponDisplay(id: number) {
-        const weaponDisplay = this.shadow.querySelector(`#gearWeaponDisplay`) as GearWeaponDisplayComponent;
-        weaponDisplay.setEquipmentItem(this.getSelectedGearItem(id, WeaponItem.gearCategory) as WeaponItem);
-    }
-
-    private getSelectedGearItem(id: number, category: string): GearItem {
-        const feature = new GetGearByIdFeature(this.unitOfWork);
-        const request = new GetGearByIdRequest(id, category);
-
-        return feature.handle(request);
+        modal.openModal();
     }
 
     protected sortItems() {
@@ -191,14 +149,6 @@ export class GearListComponent extends BaseListComponent {
         }
 
         return source.id;
-    }
-
-    public onEditButtonClick(event: MouseEvent) {
-        alert("Clicked edit!");
-    }
-
-    public onDeleteButtonClick(event: MouseEvent) {
-        alert("Clicked delete!");
     }
 }
 
