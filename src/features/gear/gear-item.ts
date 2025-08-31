@@ -17,6 +17,12 @@ export abstract class GearItem {
         this.validationResults = [];
     }
 
+    public canBeDelete(unitOfWork: IUnitOfWork): boolean {
+        const customSourceId = this.getCustomItemSourceId(unitOfWork);
+
+        return this.sourceId === customSourceId;
+    }
+
     public validate(unitOfWork: IUnitOfWork): string[] {
         this.validationResults.length = 0;
 
@@ -62,6 +68,7 @@ export abstract class GearItem {
     }
 
     public abstract addToDatabase(unitOfWork: IUnitOfWork): void;
+    public abstract deleteFromDatabase(unitOfWork: IUnitOfWork): void;
     protected abstract validateItemDoesNotAlreadyExist(unitOfWork: IUnitOfWork): GearItem;
     protected abstract getLargestItemIdInDatabase(unitOfWork: IUnitOfWork): number;
 }

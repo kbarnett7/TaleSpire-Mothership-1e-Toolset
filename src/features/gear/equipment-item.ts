@@ -58,6 +58,10 @@ export class EquipmentItem extends GearItem {
         unitOfWork.repo(EquipmentItem).add(this);
     }
 
+    public deleteFromDatabase(unitOfWork: IUnitOfWork): void {
+        unitOfWork.repo(EquipmentItem).remove(this);
+    }
+
     protected getLargestItemIdInDatabase(unitOfWork: IUnitOfWork): number {
         const sortedItems = unitOfWork
             .repo(EquipmentItem)

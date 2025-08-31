@@ -21,6 +21,7 @@ export class GearItemDisplayDialogComponent extends BaseComponent {
     protected unitOfWork: IUnitOfWork;
 
     private gearItem: GearItem;
+    private category: string;
 
     protected get armorDisplayElement(): GearArmorDisplayComponent {
         return this.shadow.querySelector(`#gearArmorDisplay`) as GearArmorDisplayComponent;
@@ -38,6 +39,7 @@ export class GearItemDisplayDialogComponent extends BaseComponent {
         super();
         this.unitOfWork = appInjector.injectClass(UnitOfWork);
         this.gearItem = new EquipmentItem();
+        this.category = "";
     }
 
     public connectedCallback() {
@@ -59,6 +61,7 @@ export class GearItemDisplayDialogComponent extends BaseComponent {
 
     public setGearItem(id: number, category: string) {
         this.gearItem = this.getSelectedGearItem(id, category);
+        this.category = category;
 
         this.showAppropriateGearItemDisplay(category);
     }

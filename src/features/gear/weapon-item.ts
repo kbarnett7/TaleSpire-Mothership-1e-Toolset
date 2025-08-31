@@ -133,6 +133,10 @@ export class WeaponItem extends EquipmentItem {
         unitOfWork.repo(WeaponItem).add(this);
     }
 
+    public deleteFromDatabase(unitOfWork: IUnitOfWork): void {
+        unitOfWork.repo(WeaponItem).remove(this);
+    }
+
     protected getLargestItemIdInDatabase(unitOfWork: IUnitOfWork): number {
         const sortedItems = unitOfWork
             .repo(WeaponItem)
