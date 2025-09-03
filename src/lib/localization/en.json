@@ -7,5 +7,6 @@
     "createCustomEquipmentItemFailed": "Failed to create custom equipment item.",
     "createCustomArmorItemFailed": "Failed to create custom armor item.",
     "createCustomWeaponItemFailed": "Failed to create custom weapon item.",
+    "deleteCustomGearItemFailed": "Failed to delete {category} item.",
     "createCustomNpcFailed": "Failed to create custom NPC."
 }

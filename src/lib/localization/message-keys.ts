@@ -6,5 +6,6 @@ export class MessageKeys {
     static createCustomEquipmentItemFailed: string = "createCustomEquipmentItemFailed";
     static createCustomArmorItemFailed: string = "createCustomArmorItemFailed";
     static createCustomWeaponItemFailed: string = "createCustomWeaponItemFailed";
+    static deleteCustomGearItemFailed: string = "deleteCustomGearItemFailed";
     static createCustomNpcFailed: string = "createCustomNpcFailed";
 }

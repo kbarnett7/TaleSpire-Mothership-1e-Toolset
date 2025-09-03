@@ -95,6 +95,10 @@ export class ArmorItem extends EquipmentItem {
         unitOfWork.repo(ArmorItem).add(this);
     }
 
+    public deleteFromDatabase(unitOfWork: IUnitOfWork): void {
+        unitOfWork.repo(ArmorItem).remove(this);
+    }
+
     protected getLargestItemIdInDatabase(unitOfWork: IUnitOfWork): number {
         const sortedItems = unitOfWork
             .repo(ArmorItem)
