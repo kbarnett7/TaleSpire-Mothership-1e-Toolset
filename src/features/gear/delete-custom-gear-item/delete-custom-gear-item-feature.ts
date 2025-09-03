@@ -32,7 +32,9 @@ export class DeleteCustomGearItemFeature implements IAsyncFeature<DeleteCustomGe
                 .translate(MessageKeys.deleteCustomGearItemFailed)
                 .replace("{category}", request.category);
 
-            return Result.failure(new ResultError(ErrorCode.DeleteError, msg, ["The item is not a custom item."]));
+            return Result.failure(
+                new ResultError(ErrorCode.DeleteError, msg, [`"${gearItem.name}" is not a custom item.`])
+            );
         }
 
         gearItem.deleteFromDatabase(this.unitOfWork);

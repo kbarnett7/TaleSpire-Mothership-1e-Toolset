@@ -31,7 +31,7 @@ export class ModalDialogComponent extends BaseComponent {
         dialog.scrollTop = 0;
     }
 
-    private closeModal() {
+    public closeModal() {
         this.hideModal();
 
         EventBus.instance.unregisterBrowserEvent("keyup", this.onKeyupEvent);

@@ -15,9 +15,12 @@ import { BaseListComponent } from "../../base-list/base-list-component";
 import { TableHeader } from "../../../lib/tables/table-header";
 import { Source } from "../../../features/sources/source";
 import { GearItemDisplayDialogComponent } from "../gear-item-display-dialog/gear-item-display-dialog";
+import { RefreshGearListEvent } from "../../../lib/events/refresh-gear-list-event";
+import { GearItem } from "../../../features/gear/gear-item";
 
 export class GearListComponent extends BaseListComponent {
     private gearList: Array<GearListItem> = [];
+    private currentFilters: GearFilterChangedEvent;
 
     constructor() {
         super(SortGearListFeature.fieldId, [
@@ -26,6 +29,7 @@ export class GearListComponent extends BaseListComponent {
             new TableHeader(SortGearListFeature.fieldCategory, "Category"),
             new TableHeader(SortGearListFeature.fieldDescription, "Description"),
         ]);
+        this.currentFilters = new GearFilterChangedEvent(GearItem.gearCategory, "", 0);
     }
 
     public connectedCallback() {
@@ -40,10 +44,12 @@ export class GearListComponent extends BaseListComponent {
         this.populateTableRows();
 
         EventBus.instance.register(GearFilterChangedEvent.name, this.onGearFilterChangedEvent);
+        EventBus.instance.register(RefreshGearListEvent.name, this.onRefreshGearListEvent);
     }
 
     public disconnectedCallback() {
         EventBus.instance.unregister(GearFilterChangedEvent.name, this.onGearFilterChangedEvent);
+        EventBus.instance.unregister(RefreshGearListEvent.name, this.onRefreshGearListEvent);
     }
 
     protected createTableRowsElements(tableBody: HTMLTableSectionElement) {
@@ -82,6 +88,8 @@ export class GearListComponent extends BaseListComponent {
     };
 
     private filterGear(event: GearFilterChangedEvent) {
+        this.currentFilters = event;
+
         const feature = new FilterGearListFeature(this.unitOfWork);
         const request = new FilterGearListRequest();
 
@@ -150,6 +158,10 @@ export class GearListComponent extends BaseListComponent {
 
         return source.id;
     }
+
+    private onRefreshGearListEvent: AppEventListener = (event: AppEvent) => {
+        this.filterGear(this.currentFilters);
+    };
 }
 
 customElements.define("gear-list", GearListComponent);

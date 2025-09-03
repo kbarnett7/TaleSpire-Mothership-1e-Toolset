@@ -66,6 +66,7 @@ export class ErrorPanelComponent extends BaseComponent {
         const detailsElement = this.shadow.querySelector(`#${this.errorDetailsId}`) as HTMLUListElement;
 
         detailsElement.classList.add("hidden");
+        detailsElement.replaceChildren();
 
         if (details.length > 0) {
             detailsElement.classList.remove("hidden");
