@@ -2,7 +2,7 @@ import html from "./header-bar.html";
 import { BaseComponent } from "../../base.component";
 import { EventBus } from "../../../lib/events/event-bus";
 import { AppEvent } from "../../../lib/events/app-event";
-import { UpdatePageTitleEvent } from "../../../lib/events/update-page-title-event";
+import { PageChangedEvent } from "../../../lib/events/page-changed-event";
 import { ChangePageEvent } from "../../../lib/events/change-page-event";
 import { PageRouterService } from "../../../lib/pages/page-router-service";
 import { AppEventListener } from "../../../lib/events/app-event-listener-interface";
@@ -20,19 +20,19 @@ export class HeaderBarComponent extends BaseComponent {
     public connectedCallback() {
         this.render(html);
 
-        EventBus.instance.register(UpdatePageTitleEvent.name, this.onUpdatePageTitle);
+        EventBus.instance.register(PageChangedEvent.name, this.onUpdatePageTitle);
         EventBus.instance.register(ShowNavigateBackButtonEvent.name, this.onShowNavigateBackButton);
         EventBus.instance.register(HideNavigateBackButtonEvent.name, this.onHideNavigateBackButton);
     }
 
     public disconnectedCallback() {
-        EventBus.instance.unregister(UpdatePageTitleEvent.name, this.onUpdatePageTitle);
+        EventBus.instance.unregister(PageChangedEvent.name, this.onUpdatePageTitle);
         EventBus.instance.unregister(ShowNavigateBackButtonEvent.name, this.onShowNavigateBackButton);
         EventBus.instance.unregister(HideNavigateBackButtonEvent.name, this.onHideNavigateBackButton);
     }
 
     private onUpdatePageTitle: AppEventListener = (event: AppEvent) => {
-        this.updatePageTitle((event as UpdatePageTitleEvent).newTitle);
+        this.updatePageTitle((event as PageChangedEvent).newTitle);
     };
 
     private onShowNavigateBackButton: AppEventListener = (event: AppEvent) => {

@@ -5,7 +5,7 @@ import { PageRouterService } from "../../../lib/pages/page-router-service";
 import { EventBus } from "../../../lib/events/event-bus";
 import { AppEventListener } from "../../../lib/events/app-event-listener-interface";
 import { AppEvent } from "../../../lib/events/app-event";
-import { UpdatePageTitleEvent } from "../../../lib/events/update-page-title-event";
+import { PageChangedEvent } from "../../../lib/events/page-changed-event";
 
 export class FooterBarComponent extends BaseComponent {
     private readonly footerBarId: string = "footerBar";
@@ -21,17 +21,17 @@ export class FooterBarComponent extends BaseComponent {
     public connectedCallback() {
         this.render(html);
 
-        EventBus.instance.register(UpdatePageTitleEvent.name, this.onUpdateActiveNavButton);
+        EventBus.instance.register(PageChangedEvent.name, this.onUpdateActiveNavButton);
         EventBus.instance.registerDocumentEvent("click", this.onDocumentMouseClickEvent);
     }
 
     public disconnectedCallback() {
-        EventBus.instance.unregister(UpdatePageTitleEvent.name, this.onUpdateActiveNavButton);
+        EventBus.instance.unregister(PageChangedEvent.name, this.onUpdateActiveNavButton);
         EventBus.instance.unregisterDocumentEvent("click", this.onDocumentMouseClickEvent);
     }
 
     private onUpdateActiveNavButton: AppEventListener = (event: AppEvent) => {
-        this.setActiveNavButton((event as UpdatePageTitleEvent).newTitle);
+        this.setActiveNavButton((event as PageChangedEvent).newTitle);
     };
 
     private onDocumentMouseClickEvent = (event: Event) => {

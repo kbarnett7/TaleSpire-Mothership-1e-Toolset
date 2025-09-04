@@ -1,10 +1,10 @@
 import { AppEvent } from "./app-event";
 
-export class UpdatePageTitleEvent extends AppEvent {
+export class PageChangedEvent extends AppEvent {
     public newTitle: string;
 
     constructor(newTitle: string) {
-        super(UpdatePageTitleEvent.name);
+        super(PageChangedEvent.name);
         this.newTitle = newTitle;
     }
 }

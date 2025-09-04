@@ -5,7 +5,7 @@ import { PageRouterService } from "../../lib/pages/page-router-service";
 import { EventBus } from "../../lib/events/event-bus";
 import { ChangePageEvent } from "../../lib/events/change-page-event";
 import { AppEvent } from "../../lib/events/app-event";
-import { UpdatePageTitleEvent } from "../../lib/events/update-page-title-event";
+import { PageChangedEvent } from "../../lib/events/page-changed-event";
 import { AppEventListener } from "../../lib/events/app-event-listener-interface";
 
 export class PageRouterComponent extends BaseComponent {
@@ -18,7 +18,7 @@ export class PageRouterComponent extends BaseComponent {
     private set currentPage(value: PageRouteData) {
         this._currentPage = value;
 
-        EventBus.instance.dispatch(new UpdatePageTitleEvent(this.currentPage.title));
+        EventBus.instance.dispatch(new PageChangedEvent(this.currentPage.title));
     }
 
     constructor() {
