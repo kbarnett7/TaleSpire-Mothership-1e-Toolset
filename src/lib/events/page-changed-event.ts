@@ -1,10 +1,13 @@
+import { PageRouteData } from "../pages/page-route-data";
 import { AppEvent } from "./app-event";
 
 export class PageChangedEvent extends AppEvent {
-    public newTitle: string;
+    public currentPage: PageRouteData;
+    public previousPage: PageRouteData;
 
-    constructor(newTitle: string) {
+    constructor(page: PageRouteData, previousPage: PageRouteData, id?: string) {
         super(PageChangedEvent.name);
-        this.newTitle = newTitle;
+        this.currentPage = page;
+        this.previousPage = previousPage;
     }
 }

@@ -31,7 +31,7 @@ export class FooterBarComponent extends BaseComponent {
     }
 
     private onUpdateActiveNavButton: AppEventListener = (event: AppEvent) => {
-        this.setActiveNavButton((event as PageChangedEvent).newTitle);
+        this.setActiveNavButton((event as PageChangedEvent).currentPage.title);
     };
 
     private onDocumentMouseClickEvent = (event: Event) => {

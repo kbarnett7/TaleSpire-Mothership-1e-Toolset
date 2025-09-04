@@ -55,7 +55,7 @@ export class PageRouterService {
 
         this._pages.set(
             PageRouterService.addEditGearPage,
-            new PageRouteData("/gear/#", "add-edit-gear-page", PageRouterService.addEditGearPage)
+            new PageRouteData("/gear/#", "add-edit-gear-page", PageRouterService.addEditGearPage, true)
         );
     }
 

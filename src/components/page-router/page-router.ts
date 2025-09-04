@@ -16,9 +16,10 @@ export class PageRouterComponent extends BaseComponent {
     }
 
     private set currentPage(value: PageRouteData) {
+        const previousPage = this._currentPage;
         this._currentPage = value;
 
-        EventBus.instance.dispatch(new PageChangedEvent(this.currentPage.title));
+        EventBus.instance.dispatch(new PageChangedEvent(this.currentPage, previousPage));
     }
 
     constructor() {
