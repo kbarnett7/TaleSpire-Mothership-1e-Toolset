@@ -16,7 +16,7 @@ import { EventBus } from "../../../lib/events/event-bus";
 import { ModalDialogComponent } from "../../modal-dialog/modal-dialog";
 import { DeleteCustomGearItemRequest } from "../../../features/gear/delete-custom-gear-item/delete-custom-gear-item-request";
 import { DeleteCustomGearItemFeature } from "../../../features/gear/delete-custom-gear-item/delete-custom-gear-item-feature";
-import { RefreshGearListEvent } from "../../../lib/events/refresh-gear-list-event";
+import { GearItemDeletedEvent } from "../../../lib/events/gear-item-deleted-event";
 import { UiReportableErrorOccurredEvent } from "../../../lib/events/ui-reportable-error-occurred-event";
 import { UiReportableErrorClearedEvent } from "../../../lib/events/ui-reportable-error-cleared-event";
 
@@ -139,7 +139,7 @@ export class GearItemDisplayDialogComponent extends BaseComponent {
             );
         } else {
             EventBus.instance.dispatch(new UiReportableErrorClearedEvent());
-            EventBus.instance.dispatch(new RefreshGearListEvent());
+            EventBus.instance.dispatch(new GearItemDeletedEvent());
         }
 
         this.closeModal();
