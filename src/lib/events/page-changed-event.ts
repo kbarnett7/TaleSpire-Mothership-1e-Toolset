@@ -5,9 +5,9 @@ export class PageChangedEvent extends AppEvent {
     public currentPage: PageRouteData;
     public previousPage: PageRouteData;
 
-    constructor(page: PageRouteData, previousPage: PageRouteData, id?: string) {
+    constructor(currentPage: PageRouteData, previousPage: PageRouteData) {
         super(PageChangedEvent.name);
-        this.currentPage = page;
+        this.currentPage = currentPage;
         this.previousPage = previousPage;
     }
 }
