@@ -3,9 +3,9 @@ import { BaseComponent } from "../base.component";
 import { PageRouteData } from "../../lib/pages/page-route-data";
 import { PageRouterService } from "../../lib/pages/page-router-service";
 import { EventBus } from "../../lib/events/event-bus";
-import { ChangePageEvent } from "../../lib/events/change-page-event";
+import { PageChangeInitiatedEvent } from "../../lib/events/page-change-initiated-event";
 import { AppEvent } from "../../lib/events/app-event";
-import { UpdatePageTitleEvent } from "../../lib/events/update-page-title-event";
+import { PageChangedEvent } from "../../lib/events/page-changed-event";
 import { AppEventListener } from "../../lib/events/app-event-listener-interface";
 
 export class PageRouterComponent extends BaseComponent {
@@ -16,9 +16,10 @@ export class PageRouterComponent extends BaseComponent {
     }
 
     private set currentPage(value: PageRouteData) {
+        const previousPage = this._currentPage;
         this._currentPage = value;
 
-        EventBus.instance.dispatch(new UpdatePageTitleEvent(this.currentPage.title));
+        EventBus.instance.dispatch(new PageChangedEvent(this.currentPage, previousPage));
     }
 
     constructor() {
@@ -35,7 +36,7 @@ export class PageRouterComponent extends BaseComponent {
 
     public disconnectedCallback() {
         EventBus.instance.unregisterBrowserEvent("popstate", this.onPopStateEvent);
-        EventBus.instance.unregister(ChangePageEvent.name, this.onChangePageEvent);
+        EventBus.instance.unregister(PageChangeInitiatedEvent.name, this.onPageChangeInitiatedEvent);
     }
 
     private onPopStateEvent = (event: Event) => {
@@ -60,31 +61,31 @@ export class PageRouterComponent extends BaseComponent {
         const previousPage = this.shadow.getElementById(elementId);
 
         if (previousPage) {
-            EventBus.instance.unregister(ChangePageEvent.name, this.onChangePageEvent);
+            EventBus.instance.unregister(PageChangeInitiatedEvent.name, this.onPageChangeInitiatedEvent);
             this.shadow.removeChild(previousPage);
         }
 
         const newPage = document.createElement(this.currentPage.component);
         newPage.id = elementId;
 
-        EventBus.instance.register(ChangePageEvent.name, this.onChangePageEvent);
+        EventBus.instance.register(PageChangeInitiatedEvent.name, this.onPageChangeInitiatedEvent);
 
         this.shadow.appendChild(newPage);
 
         document.title = `${this.currentPage.title} - TaleSpire Mothership 1e Toolset`;
     }
 
-    private onChangePageEvent: AppEventListener = (event: AppEvent) => {
-        this.gotoNewPage(event as ChangePageEvent);
+    private onPageChangeInitiatedEvent: AppEventListener = (event: AppEvent) => {
+        this.gotoNewPage(event as PageChangeInitiatedEvent);
     };
 
-    private gotoNewPage(event: ChangePageEvent) {
+    private gotoNewPage(event: PageChangeInitiatedEvent) {
         this.currentPage = event.page;
         this.addCurrentPageToHistory(event);
         this.renderCorrectPage();
     }
 
-    private addCurrentPageToHistory(event: ChangePageEvent) {
+    private addCurrentPageToHistory(event: PageChangeInitiatedEvent) {
         let url = `${window.location.origin}${this.currentPage.path}`;
 
         if (event.id !== "") {

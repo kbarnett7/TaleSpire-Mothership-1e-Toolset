@@ -3,7 +3,6 @@ import { GetAllNpcsFeature } from "../../../features/npcs/get-all-npcs/get-all-n
 import { NpcListItem } from "../../../features/npcs/npc-list-item";
 import { EmptyRequest } from "../../../lib/common/features/empty-request";
 import { EventBus } from "../../../lib/events/event-bus";
-import { EventType } from "../../../lib/events/event-type";
 import { AppEvent } from "../../../lib/events/app-event";
 import { ModalDialogComponent } from "../../modal-dialog/modal-dialog";
 import { NpcFormComponent } from "../npc-form/npc-form";
@@ -18,6 +17,7 @@ import { AppEventListener } from "../../../lib/events/app-event-listener-interfa
 import { FilterNpcsListFeature } from "../../../features/npcs/filter-npcs-list/filter-npcs-list-feature";
 import { FilterNpcsListRequest } from "../../../features/npcs/filter-npcs-list/filter-npcs-list-request";
 import { BaseListComponent } from "../../base-list/base-list-component";
+import { UiReportableErrorClearedEvent } from "../../../lib/events/ui-reportable-error-cleared-event";
 
 export class NpcListComponent extends BaseListComponent {
     private npcsList: Array<NpcListItem>;
@@ -112,7 +112,7 @@ export class NpcListComponent extends BaseListComponent {
             return;
         }
 
-        EventBus.instance.dispatch(new AppEvent(EventType.ErrorPanelHide));
+        EventBus.instance.dispatch(new UiReportableErrorClearedEvent());
 
         this.populateNpcForm(npcListItem);
 
@@ -148,7 +148,7 @@ export class NpcListComponent extends BaseListComponent {
             return;
         }
 
-        EventBus.instance.dispatch(new AppEvent(EventType.ErrorPanelHide));
+        EventBus.instance.dispatch(new UiReportableErrorClearedEvent());
 
         this.npcsList = result.value ?? [];
 

@@ -1,8 +1,7 @@
 import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface";
 import { UnitOfWork } from "../../lib/data-access/unit-of-work";
-import { AppErrorEvent } from "../../lib/events/app-error-event";
 import { EventBus } from "../../lib/events/event-bus";
-import { EventType } from "../../lib/events/event-type";
+import { UiReportableErrorOccurredEvent } from "../../lib/events/ui-reportable-error-occurred-event";
 import { appInjector } from "../../lib/infrastructure/app-injector";
 import { SortDirection } from "../../lib/sorting/sort-direction";
 import { SortState } from "../../lib/sorting/sort-state";
@@ -116,7 +115,7 @@ export abstract class BaseListComponent extends BaseComponent {
     }
 
     protected dispatchErrorEvent(error: string) {
-        EventBus.instance.dispatch(new AppErrorEvent(EventType.ErrorPanelShow, error));
+        EventBus.instance.dispatch(new UiReportableErrorOccurredEvent(error));
     }
 
     protected abstract sortItems(): void;

@@ -12,14 +12,13 @@ import { WeaponItem } from "../../../features/gear/weapon-item";
 import { GearArmorDisplayComponent } from "../gear-armor-display/gear-armor-display";
 import { GearEquipmentDisplayComponent } from "../gear-equipment-display/gear-equipment-display";
 import { GearWeaponDisplayComponent } from "../gear-weapon-display/gear-weapon-display";
-import { AppErrorEvent } from "../../../lib/events/app-error-event";
 import { EventBus } from "../../../lib/events/event-bus";
-import { EventType } from "../../../lib/events/event-type";
 import { ModalDialogComponent } from "../../modal-dialog/modal-dialog";
 import { DeleteCustomGearItemRequest } from "../../../features/gear/delete-custom-gear-item/delete-custom-gear-item-request";
 import { DeleteCustomGearItemFeature } from "../../../features/gear/delete-custom-gear-item/delete-custom-gear-item-feature";
-import { AppEvent } from "../../../lib/events/app-event";
-import { RefreshGearListEvent } from "../../../lib/events/refresh-gear-list-event";
+import { GearItemDeletedEvent } from "../../../lib/events/gear-item-deleted-event";
+import { UiReportableErrorOccurredEvent } from "../../../lib/events/ui-reportable-error-occurred-event";
+import { UiReportableErrorClearedEvent } from "../../../lib/events/ui-reportable-error-cleared-event";
 
 export class GearItemDisplayDialogComponent extends BaseComponent {
     protected unitOfWork: IUnitOfWork;
@@ -77,9 +76,7 @@ export class GearItemDisplayDialogComponent extends BaseComponent {
     }
 
     private dispatchModalNotFoundEvent() {
-        EventBus.instance.dispatch(
-            new AppErrorEvent(EventType.ErrorPanelShow, 'Modal "gearItemDisplayDialog" not found.')
-        );
+        EventBus.instance.dispatch(new UiReportableErrorOccurredEvent('Modal "gearItemDisplayDialog" not found.'));
     }
 
     public setGearItem(id: number, category: string) {
@@ -138,11 +135,11 @@ export class GearItemDisplayDialogComponent extends BaseComponent {
 
         if (result.isFailure) {
             EventBus.instance.dispatch(
-                new AppErrorEvent(EventType.ErrorPanelShow, result.error.description, result.error.details)
+                new UiReportableErrorOccurredEvent(result.error.description, result.error.details)
             );
         } else {
-            EventBus.instance.dispatch(new AppEvent(EventType.ErrorPanelHide));
-            EventBus.instance.dispatch(new RefreshGearListEvent());
+            EventBus.instance.dispatch(new UiReportableErrorClearedEvent());
+            EventBus.instance.dispatch(new GearItemDeletedEvent());
         }
 
         this.closeModal();

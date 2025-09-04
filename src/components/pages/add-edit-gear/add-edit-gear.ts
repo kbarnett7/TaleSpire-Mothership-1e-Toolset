@@ -2,24 +2,19 @@ import html from "./add-edit-gear.html";
 import { BasePageComponent } from "../base-page.component";
 import { EventBus } from "../../../lib/events/event-bus";
 import { PageRouterService } from "../../../lib/pages/page-router-service";
-import { ShowNavigateBackButtonEvent } from "../../../lib/events/show-navigate-back-button-event";
-import { HideNavigateBackButtonEvent } from "../../../lib/events/hide-navigate-back-button-event";
 import { GearCategoryChangedEvent } from "../../../lib/events/gear-category-changed-event";
 import { AppEvent } from "../../../lib/events/app-event";
 import { ArmorItem } from "../../../features/gear/armor-item";
 import { WeaponItem } from "../../../features/gear/weapon-item";
 import { AppEventListener } from "../../../lib/events/app-event-listener-interface";
 import { EquipmentItem } from "../../../features/gear/equipment-item";
-import { AppLogger } from "../../../lib/logging/app-logger";
 import { EquipmentItemFormFieldsDto } from "../../../features/gear/equipment-item-form-fields-dto";
 import { AddCustomEquipmentItemRequest } from "../../../features/gear/add-custom-equipment-item/add-custom-equipment-item-request";
 import { AddCustomEquipmentItemFeature } from "../../../features/gear/add-custom-equipment-item/add-custom-equipment-item-feature";
 import { IUnitOfWork } from "../../../lib/common/data-access/unit-of-work-interface";
 import { appInjector } from "../../../lib/infrastructure/app-injector";
 import { UnitOfWork } from "../../../lib/data-access/unit-of-work";
-import { ChangePageEvent } from "../../../lib/events/change-page-event";
-import { AppErrorEvent } from "../../../lib/events/app-error-event";
-import { EventType } from "../../../lib/events/event-type";
+import { PageChangeInitiatedEvent } from "../../../lib/events/page-change-initiated-event";
 import { ResultError } from "../../../lib/result/result-error";
 import { AddCustomArmorItemRequest } from "../../../features/gear/add-custom-armor-item/add-custom-armor-item-request";
 import { AddCustomArmorItemFeature } from "../../../features/gear/add-custom-armor-item/add-custom-armor-item-feature";
@@ -29,6 +24,8 @@ import { Result } from "../../../lib/result/result";
 import { AddCustomWeaponItemRequest } from "../../../features/gear/add-custom-weapon-item/add-custom-weapon-item-request";
 import { AddCustomWeaponItemFeature } from "../../../features/gear/add-custom-weapon-item/add-custom-weapon-item-feature";
 import { WeaponItemFormFieldsDto } from "../../../features/gear/weapon-item-form-fields-dto";
+import { UiReportableErrorOccurredEvent } from "../../../lib/events/ui-reportable-error-occurred-event";
+import { UiReportableErrorClearedEvent } from "../../../lib/events/ui-reportable-error-cleared-event";
 
 export class AddEditGearComponent extends BasePageComponent {
     private unitOfWork: IUnitOfWork;
@@ -57,8 +54,6 @@ export class AddEditGearComponent extends BasePageComponent {
 
         this.render(html);
 
-        this.dispatchShowNavigateBackButtonEvent();
-
         EventBus.instance.register(GearCategoryChangedEvent.name, this.handleGearCategoryChangedEvent);
 
         // TODO: temp; remove.
@@ -67,22 +62,7 @@ export class AddEditGearComponent extends BasePageComponent {
     }
 
     public disconnectedCallback() {
-        this.dispatchHideNavigateBackButtonEvent();
         EventBus.instance.unregister(GearCategoryChangedEvent.name, this.handleGearCategoryChangedEvent);
-    }
-
-    private dispatchShowNavigateBackButtonEvent() {
-        const showNavigateBackButtonEvent = new ShowNavigateBackButtonEvent(
-            PageRouterService.instance.getPageByTitle(PageRouterService.gearPage)
-        );
-
-        EventBus.instance.dispatch(showNavigateBackButtonEvent);
-    }
-
-    private dispatchHideNavigateBackButtonEvent() {
-        const hideNavigateBackButtonEvent = new HideNavigateBackButtonEvent();
-
-        EventBus.instance.dispatch(hideNavigateBackButtonEvent);
     }
 
     private getIdFromUrl(): string {
@@ -118,7 +98,7 @@ export class AddEditGearComponent extends BasePageComponent {
     public async handleFormSubmit(event: SubmitEvent): Promise<void> {
         event.preventDefault();
 
-        EventBus.instance.dispatch(new AppEvent(EventType.ErrorPanelHide));
+        EventBus.instance.dispatch(new UiReportableErrorClearedEvent());
 
         const form = event.target as HTMLFormElement;
         const formData = new FormData(form);
@@ -189,20 +169,19 @@ export class AddEditGearComponent extends BasePageComponent {
     }
 
     private handleSaveSuccess() {
-        this.dispatchHideNavigateBackButtonEvent();
         this.navigateToGearPage();
     }
 
     private handleSaveFailure(error: ResultError) {
-        EventBus.instance.dispatch(new AppErrorEvent(EventType.ErrorPanelShow, error.description, error.details));
+        EventBus.instance.dispatch(new UiReportableErrorOccurredEvent(error.description, error.details));
     }
 
     private navigateToGearPage() {
-        const changePageEvent = new ChangePageEvent(
+        const pageChangeInitiatedEvent = new PageChangeInitiatedEvent(
             PageRouterService.instance.getPageByTitle(PageRouterService.gearPage)
         );
 
-        EventBus.instance.dispatch(changePageEvent);
+        EventBus.instance.dispatch(pageChangeInitiatedEvent);
     }
 
     private getEquipmentItemFormFields(formData: FormData): EquipmentItemFormFieldsDto {

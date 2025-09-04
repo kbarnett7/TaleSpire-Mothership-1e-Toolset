@@ -7,7 +7,6 @@ import { GearFilterChangedEvent } from "../../../lib/events/gear-filter-changed-
 import { AppEvent } from "../../../lib/events/app-event";
 import { FilterGearListFeature } from "../../../features/gear/filter-gear-list/filter-gear-list-feature";
 import { FilterGearListRequest } from "../../../features/gear/filter-gear-list/filter-gear-list-request";
-import { EventType } from "../../../lib/events/event-type";
 import { SortGearListFeature } from "../../../features/gear/sort-gear-list/sort-gear-list-feature";
 import { SortGearListRequest } from "../../../features/gear/sort-gear-list/sort-gear-list-request";
 import { AppEventListener } from "../../../lib/events/app-event-listener-interface";
@@ -15,8 +14,9 @@ import { BaseListComponent } from "../../base-list/base-list-component";
 import { TableHeader } from "../../../lib/tables/table-header";
 import { Source } from "../../../features/sources/source";
 import { GearItemDisplayDialogComponent } from "../gear-item-display-dialog/gear-item-display-dialog";
-import { RefreshGearListEvent } from "../../../lib/events/refresh-gear-list-event";
+import { GearItemDeletedEvent } from "../../../lib/events/gear-item-deleted-event";
 import { GearItem } from "../../../features/gear/gear-item";
+import { UiReportableErrorClearedEvent } from "../../../lib/events/ui-reportable-error-cleared-event";
 
 export class GearListComponent extends BaseListComponent {
     private gearList: Array<GearListItem> = [];
@@ -44,12 +44,12 @@ export class GearListComponent extends BaseListComponent {
         this.populateTableRows();
 
         EventBus.instance.register(GearFilterChangedEvent.name, this.onGearFilterChangedEvent);
-        EventBus.instance.register(RefreshGearListEvent.name, this.onRefreshGearListEvent);
+        EventBus.instance.register(GearItemDeletedEvent.name, this.onGearItemDeletedEvent);
     }
 
     public disconnectedCallback() {
         EventBus.instance.unregister(GearFilterChangedEvent.name, this.onGearFilterChangedEvent);
-        EventBus.instance.unregister(RefreshGearListEvent.name, this.onRefreshGearListEvent);
+        EventBus.instance.unregister(GearItemDeletedEvent.name, this.onGearItemDeletedEvent);
     }
 
     protected createTableRowsElements(tableBody: HTMLTableSectionElement) {
@@ -104,7 +104,7 @@ export class GearListComponent extends BaseListComponent {
             return;
         }
 
-        EventBus.instance.dispatch(new AppEvent(EventType.ErrorPanelHide));
+        EventBus.instance.dispatch(new UiReportableErrorClearedEvent());
 
         this.gearList = result.value ?? [];
 
@@ -121,7 +121,7 @@ export class GearListComponent extends BaseListComponent {
             return;
         }
 
-        EventBus.instance.dispatch(new AppEvent(EventType.ErrorPanelHide));
+        EventBus.instance.dispatch(new UiReportableErrorClearedEvent());
 
         modal.setGearItem(gearItem.id, gearItem.category);
 
@@ -159,7 +159,7 @@ export class GearListComponent extends BaseListComponent {
         return source.id;
     }
 
-    private onRefreshGearListEvent: AppEventListener = (event: AppEvent) => {
+    private onGearItemDeletedEvent: AppEventListener = (event: AppEvent) => {
         this.filterGear(this.currentFilters);
     };
 }
