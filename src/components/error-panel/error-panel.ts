@@ -2,9 +2,9 @@ import html from "./error-panel.html";
 import { BaseComponent } from "../base.component";
 import { EventBus } from "../../lib/events/event-bus";
 import { AppEvent } from "../../lib/events/app-event";
-import { AppErrorEvent } from "../../lib/events/app-error-event";
-import { EventType } from "../../lib/events/event-type";
 import { AppEventListener } from "../../lib/events/app-event-listener-interface";
+import { UiReportableErrorOccurredEvent } from "../../lib/events/ui-reportable-error-occurred-event";
+import { UiReportableErrorClearedEvent } from "../../lib/events/ui-reportable-error-cleared-event";
 
 export class ErrorPanelComponent extends BaseComponent {
     private readonly errorPanelId = "errorPanel";
@@ -18,24 +18,24 @@ export class ErrorPanelComponent extends BaseComponent {
     public connectedCallback() {
         this.render(html);
 
-        EventBus.instance.register(EventType.ErrorPanelShow, this.onShowErrorEvent);
-        EventBus.instance.register(EventType.ErrorPanelHide, this.onHideErrorEvent);
+        EventBus.instance.register(UiReportableErrorOccurredEvent.name, this.onShowErrorEvent);
+        EventBus.instance.register(UiReportableErrorClearedEvent.name, this.onHideErrorEvent);
     }
 
     public disconnectedCallback() {
-        EventBus.instance.unregister(EventType.ErrorPanelShow, this.onShowErrorEvent);
-        EventBus.instance.unregister(EventType.ErrorPanelHide, this.onHideErrorEvent);
+        EventBus.instance.unregister(UiReportableErrorOccurredEvent.name, this.onShowErrorEvent);
+        EventBus.instance.unregister(UiReportableErrorClearedEvent.name, this.onHideErrorEvent);
     }
 
     private onShowErrorEvent: AppEventListener = (event: AppEvent) => {
-        this.handleShowEvent(event as AppErrorEvent);
+        this.handleShowEvent(event as UiReportableErrorOccurredEvent);
     };
 
     private onHideErrorEvent: AppEventListener = (event: AppEvent) => {
         this.handleHideEvent(event);
     };
 
-    private handleShowEvent(event: AppErrorEvent) {
+    private handleShowEvent(event: UiReportableErrorOccurredEvent) {
         this.showErrorPanel();
         this.setErrorDescription(event.error);
         this.setErrorDetails(event.details);
