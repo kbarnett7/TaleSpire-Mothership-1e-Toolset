@@ -14,7 +14,7 @@ import { AddCustomEquipmentItemFeature } from "../../../features/gear/add-custom
 import { IUnitOfWork } from "../../../lib/common/data-access/unit-of-work-interface";
 import { appInjector } from "../../../lib/infrastructure/app-injector";
 import { UnitOfWork } from "../../../lib/data-access/unit-of-work";
-import { ChangePageEvent } from "../../../lib/events/change-page-event";
+import { PageChangeInitiatedEvent } from "../../../lib/events/page-change-initiated-event";
 import { ResultError } from "../../../lib/result/result-error";
 import { AddCustomArmorItemRequest } from "../../../features/gear/add-custom-armor-item/add-custom-armor-item-request";
 import { AddCustomArmorItemFeature } from "../../../features/gear/add-custom-armor-item/add-custom-armor-item-feature";
@@ -177,11 +177,11 @@ export class AddEditGearComponent extends BasePageComponent {
     }
 
     private navigateToGearPage() {
-        const changePageEvent = new ChangePageEvent(
+        const pageChangeInitiatedEvent = new PageChangeInitiatedEvent(
             PageRouterService.instance.getPageByTitle(PageRouterService.gearPage)
         );
 
-        EventBus.instance.dispatch(changePageEvent);
+        EventBus.instance.dispatch(pageChangeInitiatedEvent);
     }
 
     private getEquipmentItemFormFields(formData: FormData): EquipmentItemFormFieldsDto {
