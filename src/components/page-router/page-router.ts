@@ -92,6 +92,10 @@ export class PageRouterComponent extends BaseComponent {
             url = url.replace("#", event.id);
         }
 
+        if (event.params.toString().length > 0) {
+            url = url + `?${event.params.toString()}`;
+        }
+
         history.pushState(this.currentPage, this.currentPage.title, url);
     }
 }

@@ -79,8 +79,12 @@ export class PageRouterService {
         return this._defaultPage;
     }
 
-    public navigateToPage(pageTitle: string, id?: string) {
-        const pageChangeInitiatedEvent = new PageChangeInitiatedEvent(this.getPageByTitle(pageTitle), id);
+    public navigateToPage(
+        pageTitle: string,
+        id?: string,
+        params?: string | URLSearchParams | string[][] | Record<string, string> | undefined
+    ) {
+        const pageChangeInitiatedEvent = new PageChangeInitiatedEvent(this.getPageByTitle(pageTitle), id, params);
 
         EventBus.instance.dispatch(pageChangeInitiatedEvent);
     }

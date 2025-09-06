@@ -28,7 +28,7 @@ import { UiReportableErrorClearedEvent } from "../../../lib/events/ui-reportable
 
 export class AddEditGearComponent extends BasePageComponent {
     private unitOfWork: IUnitOfWork;
-    private gearItemIdFromUrl: string;
+    private gearItemIdFromUrl: number;
     private selectedCategory: string;
 
     private get armorFieldsDiv(): HTMLDivElement {
@@ -42,7 +42,7 @@ export class AddEditGearComponent extends BasePageComponent {
     constructor() {
         super();
         this.unitOfWork = appInjector.injectClass(UnitOfWork);
-        this.gearItemIdFromUrl = "";
+        this.gearItemIdFromUrl = 0;
         this.selectedCategory = EquipmentItem.gearCategory;
     }
 
@@ -53,20 +53,46 @@ export class AddEditGearComponent extends BasePageComponent {
 
         this.gearItemIdFromUrl = this.getIdFromUrl();
 
+        if (this.gearItemIdFromUrl > 0) {
+            this.configurePageForEditing();
+        }
+
         EventBus.instance.register(GearCategoryChangedEvent.name, this.handleGearCategoryChangedEvent);
 
         // TODO: temp; remove.
         const gearIdElement = this.shadow.querySelector("#gearId") as HTMLSpanElement;
-        gearIdElement.textContent = this.gearItemIdFromUrl;
+        gearIdElement.textContent = this.gearItemIdFromUrl.toString();
     }
 
     public disconnectedCallback() {
         EventBus.instance.unregister(GearCategoryChangedEvent.name, this.handleGearCategoryChangedEvent);
     }
 
-    private getIdFromUrl(): string {
+    private getIdFromUrl(): number {
         const urlComponents = window.location.pathname.split("/");
-        return urlComponents[urlComponents.length - 1];
+        const idComponent = urlComponents[urlComponents.length - 1].trim();
+
+        if (this.isValidId(idComponent) === false) {
+            return 0;
+        }
+
+        return Number(idComponent);
+    }
+
+    private getCategoryFromUrl(): string {
+        const url = new URL(window.location.href);
+        const params = new URLSearchParams(url.search);
+
+        return params.get("category") ?? EquipmentItem.gearCategory;
+    }
+
+    private isValidId(id: string): boolean {
+        return !isNaN(Number(id)) && Number.isInteger(Number(id));
+    }
+
+    private configurePageForEditing() {
+        this.shadow.querySelector("#gearCategories")?.classList.add("hidden");
+        this.handleGearCategoryChangedEvent(new GearCategoryChangedEvent(this.getCategoryFromUrl()));
     }
 
     private handleGearCategoryChangedEvent: AppEventListener = (event: AppEvent) => {
