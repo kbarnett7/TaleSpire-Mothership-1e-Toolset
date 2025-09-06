@@ -3,7 +3,6 @@ import { BaseComponent } from "../../base.component";
 import { EventBus } from "../../../lib/events/event-bus";
 import { AppEvent } from "../../../lib/events/app-event";
 import { PageChangedEvent } from "../../../lib/events/page-changed-event";
-import { PageChangeInitiatedEvent } from "../../../lib/events/page-change-initiated-event";
 import { PageRouterService } from "../../../lib/pages/page-router-service";
 import { AppEventListener } from "../../../lib/events/app-event-listener-interface";
 
@@ -62,9 +61,7 @@ export class HeaderBarComponent extends BaseComponent {
     }
 
     public navigateToPage(page: string) {
-        const pageChangeInitiatedEvent = new PageChangeInitiatedEvent(PageRouterService.instance.getPageByTitle(page));
-
-        EventBus.instance.dispatch(pageChangeInitiatedEvent);
+        PageRouterService.instance.navigateToPage(page);
     }
 
     public navigateBack() {

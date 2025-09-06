@@ -1,8 +1,6 @@
 import html from "./nav-menu.component.html";
 import { BaseComponent } from "../../base.component";
 import { PageRouterService } from "../../../lib/pages/page-router-service";
-import { PageChangeInitiatedEvent } from "../../../lib/events/page-change-initiated-event";
-import { EventBus } from "../../../lib/events/event-bus";
 
 export class NavMenuComponent extends BaseComponent {
     constructor() {
@@ -14,9 +12,7 @@ export class NavMenuComponent extends BaseComponent {
     }
 
     private navigateToPage(page: string) {
-        const pageChangeInitiatedEvent = new PageChangeInitiatedEvent(PageRouterService.instance.getPageByTitle(page));
-
-        EventBus.instance.dispatch(pageChangeInitiatedEvent);
+        PageRouterService.instance.navigateToPage(page);
     }
 
     public openNav() {

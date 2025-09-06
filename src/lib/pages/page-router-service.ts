@@ -1,3 +1,5 @@
+import { EventBus } from "../events/event-bus";
+import { PageChangeInitiatedEvent } from "../events/page-change-initiated-event";
 import { PageRouteData } from "./page-route-data";
 
 export class PageRouterService {
@@ -75,5 +77,11 @@ export class PageRouterService {
         }
 
         return this._defaultPage;
+    }
+
+    public navigateToPage(pageTitle: string, id?: string) {
+        const pageChangeInitiatedEvent = new PageChangeInitiatedEvent(this.getPageByTitle(pageTitle), id);
+
+        EventBus.instance.dispatch(pageChangeInitiatedEvent);
     }
 }
