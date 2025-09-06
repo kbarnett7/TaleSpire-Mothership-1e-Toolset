@@ -12,7 +12,7 @@ export class AddNewGearItemButtonComponent extends BaseComponent {
     }
 
     public onAddNewGearItemButtonClick(event: MouseEvent) {
-        PageRouterService.instance.navigateToPage(PageRouterService.addEditGearPage, "0");
+        PageRouterService.instance.navigateToPage(PageRouterService.gearItemPage, "0");
     }
 }
 

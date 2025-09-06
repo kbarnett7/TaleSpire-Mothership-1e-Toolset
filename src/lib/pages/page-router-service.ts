@@ -8,7 +8,7 @@ export class PageRouterService {
     public static gearPage: string = "Gear";
     public static codexPage: string = "Codex";
     public static aboutPage: string = "About";
-    public static addEditGearPage: string = "Add Gear";
+    public static gearItemPage: string = "Add Gear";
 
     private static _instance: PageRouterService;
 
@@ -56,8 +56,8 @@ export class PageRouterService {
         );
 
         this._pages.set(
-            PageRouterService.addEditGearPage,
-            new PageRouteData("/gear/#", "add-edit-gear-page", PageRouterService.addEditGearPage, true)
+            PageRouterService.gearItemPage,
+            new PageRouteData("/gear/#", "gear-item-page", PageRouterService.gearItemPage, true)
         );
     }
 

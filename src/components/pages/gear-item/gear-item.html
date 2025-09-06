@@ -1,9 +1,8 @@
-<!-- TODO: Hide this or disable the pills when editing an existing item -->
 <gear-categories-pill-bar id="gearCategories" hide-all-category></gear-categories-pill-bar>
 
 <error-panel></error-panel>
 
-<form id="addEditGearForm" onsubmit="this.handleFormSubmit(event)">
+<form id="gearItemForm" onsubmit="this.handleFormSubmit(event)">
     <gear-equipment-form-fields id="equipmentFields" name="equipmentFields"></gear-equipment-form-fields>
     <gear-armor-form-fields id="armorFields" name="armorFields" class="hidden"></gear-armor-form-fields>
     <gear-weapon-form-fields id="weaponFields" name="weaponFields" class="hidden"></gear-weapon-form-fields>

@@ -1,4 +1,4 @@
-import html from "./add-edit-gear.html";
+import html from "./gear-item.html";
 import { BasePageComponent } from "../base-page.component";
 import { EventBus } from "../../../lib/events/event-bus";
 import { PageRouterService } from "../../../lib/pages/page-router-service";
@@ -25,8 +25,12 @@ import { AddCustomWeaponItemFeature } from "../../../features/gear/add-custom-we
 import { WeaponItemFormFieldsDto } from "../../../features/gear/weapon-item-form-fields-dto";
 import { UiReportableErrorOccurredEvent } from "../../../lib/events/ui-reportable-error-occurred-event";
 import { UiReportableErrorClearedEvent } from "../../../lib/events/ui-reportable-error-cleared-event";
+import { GearItem } from "../../../features/gear/gear-item";
+import { GetGearByIdFeature } from "../../../features/gear/get-gear-by-id/get-gear-by-id-feature";
+import { GetGearByIdRequest } from "../../../features/gear/get-gear-by-id/get-gear-by-id-request";
+import { AppLogger } from "../../../lib/logging/app-logger";
 
-export class AddEditGearComponent extends BasePageComponent {
+export class GearItemComponent extends BasePageComponent {
     private unitOfWork: IUnitOfWork;
     private gearItemIdFromUrl: number;
     private selectedCategory: string;
@@ -93,6 +97,22 @@ export class AddEditGearComponent extends BasePageComponent {
     private configurePageForEditing() {
         this.shadow.querySelector("#gearCategories")?.classList.add("hidden");
         this.handleGearCategoryChangedEvent(new GearCategoryChangedEvent(this.getCategoryFromUrl()));
+        const gearItem = this.getSelectedGearItem(this.gearItemIdFromUrl, this.selectedCategory);
+
+        if (this.selectedCategory == ArmorItem.gearCategory) {
+            // TODO: Set armor fields
+        } else if (this.selectedCategory == WeaponItem.gearCategory) {
+            // TODO: Set weapon fields
+        } else {
+            // TODO: Set equipment fields
+        }
+    }
+
+    private getSelectedGearItem(id: number, category: string): GearItem {
+        const feature = new GetGearByIdFeature(this.unitOfWork);
+        const request = new GetGearByIdRequest(id, category);
+
+        return feature.handle(request);
     }
 
     private handleGearCategoryChangedEvent: AppEventListener = (event: AppEvent) => {
@@ -224,4 +244,4 @@ export class AddEditGearComponent extends BasePageComponent {
     }
 }
 
-customElements.define("add-edit-gear-page", AddEditGearComponent);
+customElements.define("gear-item-page", GearItemComponent);

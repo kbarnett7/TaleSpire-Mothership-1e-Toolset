@@ -122,7 +122,7 @@ export class GearItemDisplayDialogComponent extends BaseComponent {
     }
 
     public onEditButtonClick(event: MouseEvent) {
-        PageRouterService.instance.navigateToPage(PageRouterService.addEditGearPage, this.gearItem.id.toString(), {
+        PageRouterService.instance.navigateToPage(PageRouterService.gearItemPage, this.gearItem.id.toString(), {
             category: this.gearItemCategory,
         });
     }
