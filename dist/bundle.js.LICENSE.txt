@@ -14,11 +14,25 @@
 
 /*! ../../../features/database-versions/database-version */
 
+/*! ../../../features/gear/add-custom-armor-item/add-custom-armor-item-feature */
+
+/*! ../../../features/gear/add-custom-armor-item/add-custom-armor-item-request */
+
 /*! ../../../features/gear/add-custom-equipment-item/add-custom-equipment-item-feature */
 
 /*! ../../../features/gear/add-custom-equipment-item/add-custom-equipment-item-request */
 
+/*! ../../../features/gear/add-custom-weapon-item/add-custom-weapon-item-feature */
+
+/*! ../../../features/gear/add-custom-weapon-item/add-custom-weapon-item-request */
+
 /*! ../../../features/gear/armor-item */
+
+/*! ../../../features/gear/armor-item-form-fields-dto */
+
+/*! ../../../features/gear/delete-custom-gear-item/delete-custom-gear-item-feature */
+
+/*! ../../../features/gear/delete-custom-gear-item/delete-custom-gear-item-request */
 
 /*! ../../../features/gear/equipment-item */
 
@@ -42,6 +56,8 @@
 
 /*! ../../../features/gear/weapon-item */
 
+/*! ../../../features/gear/weapon-item-form-fields-dto */
+
 /*! ../../../features/npcs/filter-npcs-list/filter-npcs-list-feature */
 
 /*! ../../../features/npcs/filter-npcs-list/filter-npcs-list-request */
@@ -58,6 +74,8 @@
 
 /*! ../../../features/npcs/sort-npcs-list/sort-npcs-list-request */
 
+/*! ../../../features/sources/source */
+
 /*! ../../../lib/common/features/empty-request */
 
 /*! ../../../lib/common/features/filter-list-feature */
@@ -68,27 +86,21 @@
 
 /*! ../../../lib/errors/error-code */
 
-/*! ../../../lib/events/app-error-event */
-
-/*! ../../../lib/events/app-event */
-
-/*! ../../../lib/events/change-page-event */
-
 /*! ../../../lib/events/event-bus */
-
-/*! ../../../lib/events/event-type */
 
 /*! ../../../lib/events/gear-category-changed-event */
 
 /*! ../../../lib/events/gear-filter-changed-event */
 
-/*! ../../../lib/events/hide-navigate-back-button-event */
+/*! ../../../lib/events/gear-item-deleted-event */
 
 /*! ../../../lib/events/npc-filter-changed-event */
 
-/*! ../../../lib/events/show-navigate-back-button-event */
+/*! ../../../lib/events/page-changed-event */
 
-/*! ../../../lib/events/update-page-title-event */
+/*! ../../../lib/events/ui-reportable-error-cleared-event */
+
+/*! ../../../lib/events/ui-reportable-error-occurred-event */
 
 /*! ../../../lib/infrastructure/app-injector */
 
@@ -136,15 +148,15 @@
 
 /*! ../../lib/data-access/unit-of-work */
 
-/*! ../../lib/events/app-error-event */
-
-/*! ../../lib/events/change-page-event */
-
 /*! ../../lib/events/event-bus */
 
-/*! ../../lib/events/event-type */
+/*! ../../lib/events/page-change-initiated-event */
 
-/*! ../../lib/events/update-page-title-event */
+/*! ../../lib/events/page-changed-event */
+
+/*! ../../lib/events/ui-reportable-error-cleared-event */
+
+/*! ../../lib/events/ui-reportable-error-occurred-event */
 
 /*! ../../lib/infrastructure/app-injector */
 
@@ -168,7 +180,13 @@
 
 /*! ../../sorting/sort-direction */
 
+/*! ../../sources/source */
+
 /*! ../armor-item */
+
+/*! ../armor-item-form-fields-dto */
+
+/*! ../armor-item-map */
 
 /*! ../base-page.component */
 
@@ -193,6 +211,10 @@
 /*! ../equipment-item-map */
 
 /*! ../errors/error-code */
+
+/*! ../events/event-bus */
+
+/*! ../events/page-change-initiated-event */
 
 /*! ../gear-item */
 
@@ -234,11 +256,13 @@
 
 /*! ../weapon-item */
 
+/*! ../weapon-item-form-fields-dto */
+
+/*! ../weapon-item-map */
+
 /*! ./InjectorImpl.js */
 
 /*! ./about.component.html */
-
-/*! ./add-edit-gear.html */
 
 /*! ./add-new-gear-item-button.html */
 
@@ -258,6 +282,8 @@
 
 /*! ./api/TChildContext.js */
 
+/*! ./app-error-event */
+
 /*! ./app-event */
 
 /*! ./app-init.html */
@@ -267,6 +293,8 @@
 /*! ./app-log-formatter */
 
 /*! ./armor-item */
+
+/*! ./armor-speed */
 
 /*! ./base-repository */
 
@@ -279,6 +307,8 @@
 /*! ./en.json */
 
 /*! ./equipment-item */
+
+/*! ./equipment-item-form-fields-dto */
 
 /*! ./error-panel.html */
 
@@ -298,6 +328,10 @@
 
 /*! ./gear-item */
 
+/*! ./gear-item-display-dialog.html */
+
+/*! ./gear-item.html */
+
 /*! ./gear-list-filter-bar.html */
 
 /*! ./gear-list-item */
@@ -315,10 +349,6 @@
 /*! ./index.css */
 
 /*! ./modal-dialog.html */
-
-/*! ./nav-menu-hamburger-button.component.html */
-
-/*! ./nav-menu.component.html */
 
 /*! ./npc-form.html */
 
@@ -395,10 +425,6 @@
   \**************************************/
 
 /*!**************************************!*\
-  !*** ./src/lib/events/event-type.ts ***!
-  \**************************************/
-
-/*!**************************************!*\
   !*** ./src/lib/localization/en.json ***!
   \**************************************/
 
@@ -440,6 +466,10 @@
 
 /*!******************************************!*\
   !*** ./src/components/base.component.ts ***!
+  \******************************************/
+
+/*!******************************************!*\
+  !*** ./src/features/gear/armor-speed.ts ***!
   \******************************************/
 
 /*!******************************************!*\
@@ -511,6 +541,10 @@
   \*********************************************/
 
 /*!*********************************************!*\
+  !*** ./src/features/gear/armor-item-map.ts ***!
+  \*********************************************/
+
+/*!*********************************************!*\
   !*** ./src/features/gear/equipment-item.ts ***!
   \*********************************************/
 
@@ -523,10 +557,6 @@
   \*********************************************/
 
 /*!*********************************************!*\
-  !*** ./src/lib/events/change-page-event.ts ***!
-  \*********************************************/
-
-/*!*********************************************!*\
   !*** ./src/lib/logging/logger-interface.ts ***!
   \*********************************************/
 
@@ -535,7 +565,15 @@
   \**********************************************/
 
 /*!**********************************************!*\
+  !*** ./src/features/gear/weapon-item-map.ts ***!
+  \**********************************************/
+
+/*!**********************************************!*\
   !*** ./src/lib/common/data-access/db-set.ts ***!
+  \**********************************************/
+
+/*!**********************************************!*\
+  !*** ./src/lib/events/page-changed-event.ts ***!
   \**********************************************/
 
 /*!**********************************************!*\
@@ -579,10 +617,6 @@
   \*************************************************/
 
 /*!*************************************************!*\
-  !*** ./src/lib/events/open-gear-modal-event.ts ***!
-  \*************************************************/
-
-/*!*************************************************!*\
   !*** ./src/lib/services/credits-abbreviator.ts ***!
   \*************************************************/
 
@@ -615,7 +649,7 @@
   \***************************************************/
 
 /*!***************************************************!*\
-  !*** ./src/lib/events/update-page-title-event.ts ***!
+  !*** ./src/lib/events/gear-item-deleted-event.ts ***!
   \***************************************************/
 
 /*!****************************************************!*\
@@ -656,6 +690,10 @@
 
 /*!*****************************************************!*\
   !*** ./src/components/pages/base-page.component.ts ***!
+  \*****************************************************/
+
+/*!*****************************************************!*\
+  !*** ./src/components/pages/gear-item/gear-item.ts ***!
   \*****************************************************/
 
 /*!*****************************************************!*\
@@ -715,6 +753,10 @@
   \*******************************************************/
 
 /*!*******************************************************!*\
+  !*** ./src/components/pages/gear-item/gear-item.html ***!
+  \*******************************************************/
+
+/*!*******************************************************!*\
   !*** ./src/components/pages/gear/gear.component.html ***!
   \*******************************************************/
 
@@ -728,6 +770,10 @@
 
 /*!*******************************************************!*\
   !*** ./src/lib/events/gear-category-changed-event.ts ***!
+  \*******************************************************/
+
+/*!*******************************************************!*\
+  !*** ./src/lib/events/page-change-initiated-event.ts ***!
   \*******************************************************/
 
 /*!********************************************************!*\
@@ -762,6 +808,10 @@
   !*** ./src/components/pages/characters/characters.html ***!
   \*********************************************************/
 
+/*!*********************************************************!*\
+  !*** ./src/features/gear/armor-item-form-fields-dto.ts ***!
+  \*********************************************************/
+
 /*!**********************************************************!*\
   !*** ./src/components/layout/footer-bar/footer-bar.html ***!
   \**********************************************************/
@@ -771,20 +821,16 @@
   \**********************************************************/
 
 /*!**********************************************************!*\
+  !*** ./src/features/gear/weapon-item-form-fields-dto.ts ***!
+  \**********************************************************/
+
+/*!**********************************************************!*\
   !*** ./src/lib/common/data-access/database-interface.ts ***!
   \**********************************************************/
 
 /*!**********************************************************!*\
   !*** ./src/lib/data-access/database-collection-names.ts ***!
   \**********************************************************/
-
-/*!***********************************************************!*\
-  !*** ./src/lib/events/hide-navigate-back-button-event.ts ***!
-  \***********************************************************/
-
-/*!***********************************************************!*\
-  !*** ./src/lib/events/show-navigate-back-button-event.ts ***!
-  \***********************************************************/
 
 /*!************************************************************!*\
   !*** ./node_modules/css-loader/dist/runtime/sourceMaps.js ***!
@@ -815,11 +861,11 @@
   \************************************************************/
 
 /*!*************************************************************!*\
-  !*** ./src/components/pages/add-edit-gear/add-edit-gear.ts ***!
+  !*** ./src/features/gear/equipment-item-form-fields-dto.ts ***!
   \*************************************************************/
 
 /*!*************************************************************!*\
-  !*** ./src/features/gear/equipment-item-form-fields-dto.ts ***!
+  !*** ./src/lib/events/ui-reportable-error-cleared-event.ts ***!
   \*************************************************************/
 
 /*!**************************************************************!*\
@@ -831,10 +877,6 @@
   \**************************************************************/
 
 /*!**************************************************************!*\
-  !*** ./src/components/layout/nav-menu/nav-menu.component.ts ***!
-  \**************************************************************/
-
-/*!**************************************************************!*\
   !*** ./src/lib/common/data-access/blob-storage-interface.ts ***!
   \**************************************************************/
 
@@ -842,17 +884,13 @@
   !*** ./src/lib/common/data-access/unit-of-work-interface.ts ***!
   \**************************************************************/
 
+/*!**************************************************************!*\
+  !*** ./src/lib/events/ui-reportable-error-occurred-event.ts ***!
+  \**************************************************************/
+
 /*!***************************************************************!*\
   !*** ./node_modules/style-loader/dist/runtime/styleDomAPI.js ***!
   \***************************************************************/
-
-/*!***************************************************************!*\
-  !*** ./src/components/pages/add-edit-gear/add-edit-gear.html ***!
-  \***************************************************************/
-
-/*!****************************************************************!*\
-  !*** ./src/components/layout/nav-menu/nav-menu.component.html ***!
-  \****************************************************************/
 
 /*!****************************************************************!*\
   !*** ./src/features/gear/get-all-gear/get-all-gear-feature.ts ***!
@@ -1043,7 +1081,19 @@
   \**********************************************************************************/
 
 /*!**********************************************************************************!*\
+  !*** ./src/components/gear/gear-item-display-dialog/gear-item-display-dialog.ts ***!
+  \**********************************************************************************/
+
+/*!**********************************************************************************!*\
   !*** ./src/components/gear/gear-weapon-form-fields/gear-weapon-form-fields.html ***!
+  \**********************************************************************************/
+
+/*!**********************************************************************************!*\
+  !*** ./src/features/gear/add-custom-armor-item/add-custom-armor-item-feature.ts ***!
+  \**********************************************************************************/
+
+/*!**********************************************************************************!*\
+  !*** ./src/features/gear/add-custom-armor-item/add-custom-armor-item-request.ts ***!
   \**********************************************************************************/
 
 /*!************************************************************************************!*\
@@ -1054,8 +1104,28 @@
   !*** ./src/components/gear/gear-categories-pill-bar/gear-categories-pill-bar.html ***!
   \************************************************************************************/
 
+/*!************************************************************************************!*\
+  !*** ./src/components/gear/gear-item-display-dialog/gear-item-display-dialog.html ***!
+  \************************************************************************************/
+
+/*!************************************************************************************!*\
+  !*** ./src/features/gear/add-custom-weapon-item/add-custom-weapon-item-feature.ts ***!
+  \************************************************************************************/
+
+/*!************************************************************************************!*\
+  !*** ./src/features/gear/add-custom-weapon-item/add-custom-weapon-item-request.ts ***!
+  \************************************************************************************/
+
 /*!**************************************************************************************!*\
   !*** ./src/components/gear/gear-equipment-form-fields/gear-equipment-form-fields.ts ***!
+  \**************************************************************************************/
+
+/*!**************************************************************************************!*\
+  !*** ./src/features/gear/delete-custom-gear-item/delete-custom-gear-item-feature.ts ***!
+  \**************************************************************************************/
+
+/*!**************************************************************************************!*\
+  !*** ./src/features/gear/delete-custom-gear-item/delete-custom-gear-item-request.ts ***!
   \**************************************************************************************/
 
 /*!****************************************************************************************!*\
@@ -1069,14 +1139,6 @@
 /*!******************************************************************************************!*\
   !*** ./src/features/gear/add-custom-equipment-item/add-custom-equipment-item-request.ts ***!
   \******************************************************************************************/
-
-/*!************************************************************************************************!*\
-  !*** ./src/components/layout/nav-menu-hamburger-button/nav-menu-hamburger-button.component.ts ***!
-  \************************************************************************************************/
-
-/*!**************************************************************************************************!*\
-  !*** ./src/components/layout/nav-menu-hamburger-button/nav-menu-hamburger-button.component.html ***!
-  \**************************************************************************************************/
 
 /*!*******************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./src/index.css ***!

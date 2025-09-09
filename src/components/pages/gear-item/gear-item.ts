@@ -29,18 +29,25 @@ import { GearItem } from "../../../features/gear/gear-item";
 import { GetGearByIdFeature } from "../../../features/gear/get-gear-by-id/get-gear-by-id-feature";
 import { GetGearByIdRequest } from "../../../features/gear/get-gear-by-id/get-gear-by-id-request";
 import { AppLogger } from "../../../lib/logging/app-logger";
+import { GearArmorFormFieldsComponent } from "../../gear/gear-armor-form-fields/gear-armor-form-fields";
+import { GearWeaponFormFieldsComponent } from "../../gear/gear-weapon-form-fields/gear-weapon-form-fields";
+import { GearEquipmentFormFieldsComponent } from "../../gear/gear-equipment-form-fields/gear-equipment-form-fields";
 
 export class GearItemComponent extends BasePageComponent {
     private unitOfWork: IUnitOfWork;
     private gearItemIdFromUrl: number;
     private selectedCategory: string;
 
-    private get armorFieldsDiv(): HTMLDivElement {
-        return this.shadow.querySelector("#armorFields") as HTMLDivElement;
+    private get armorFormFieldsComponent(): GearArmorFormFieldsComponent {
+        return this.shadow.querySelector("#armorFields") as GearArmorFormFieldsComponent;
     }
 
-    private get weaponFieldsDiv(): HTMLDivElement {
-        return this.shadow.querySelector("#weaponFields") as HTMLDivElement;
+    private get weaponFormFieldsComponent(): GearWeaponFormFieldsComponent {
+        return this.shadow.querySelector("#weaponFields") as GearWeaponFormFieldsComponent;
+    }
+
+    private get equipmentFormFieldsComponent(): GearEquipmentFormFieldsComponent {
+        return this.shadow.querySelector("#equipmentFields") as GearEquipmentFormFieldsComponent;
     }
 
     constructor() {
@@ -95,16 +102,24 @@ export class GearItemComponent extends BasePageComponent {
     }
 
     private configurePageForEditing() {
-        this.shadow.querySelector("#gearCategories")?.classList.add("hidden");
+        this.hideGearCategoriesElement();
         this.handleGearCategoryChangedEvent(new GearCategoryChangedEvent(this.getCategoryFromUrl()));
+        this.setInitialFormValues();
+    }
+
+    private hideGearCategoriesElement() {
+        this.shadow.querySelector("#gearCategories")?.classList.add("hidden");
+    }
+
+    private setInitialFormValues() {
         const gearItem = this.getSelectedGearItem(this.gearItemIdFromUrl, this.selectedCategory);
 
+        this.equipmentFormFieldsComponent.setInitialFormValues(gearItem as EquipmentItem);
+
         if (this.selectedCategory == ArmorItem.gearCategory) {
-            // TODO: Set armor fields
+            this.armorFormFieldsComponent.setInitialFormValues(gearItem as ArmorItem);
         } else if (this.selectedCategory == WeaponItem.gearCategory) {
-            // TODO: Set weapon fields
-        } else {
-            // TODO: Set equipment fields
+            this.weaponFormFieldsComponent.setInitialFormValues(gearItem as WeaponItem);
         }
     }
 
@@ -125,14 +140,14 @@ export class GearItemComponent extends BasePageComponent {
 
     private updateFieldDivVisiblities(): void {
         if (this.selectedCategory == ArmorItem.gearCategory) {
-            this.armorFieldsDiv.classList.remove("hidden");
-            this.weaponFieldsDiv.classList.add("hidden");
+            this.armorFormFieldsComponent.classList.remove("hidden");
+            this.weaponFormFieldsComponent.classList.add("hidden");
         } else if (this.selectedCategory == WeaponItem.gearCategory) {
-            this.armorFieldsDiv.classList.add("hidden");
-            this.weaponFieldsDiv.classList.remove("hidden");
+            this.armorFormFieldsComponent.classList.add("hidden");
+            this.weaponFormFieldsComponent.classList.remove("hidden");
         } else {
-            this.armorFieldsDiv.classList.add("hidden");
-            this.weaponFieldsDiv.classList.add("hidden");
+            this.armorFormFieldsComponent.classList.add("hidden");
+            this.weaponFormFieldsComponent.classList.add("hidden");
         }
     }
 
