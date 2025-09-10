@@ -1,10 +1,27 @@
 import { GearListItem } from "../../src/features/gear/gear-list-item";
+import { IRepository } from "../../src/lib/common/data-access/repository-interface";
 
 export class GearTestUtils {
     static getGearItemByName(gear: GearListItem[], name: string): GearListItem {
         const foundItem = gear.find((item) => item.name.toLocaleLowerCase() === name.toLocaleLowerCase());
 
         return foundItem || new GearListItem(0, 0, "", "", 0, "");
+    }
+
+    static getLargestGearItemIdInDatabase(repository: IRepository<any>): number {
+        const sortedItems = repository.list().sort((a, b) => a.id - b.id);
+
+        return sortedItems[sortedItems.length - 1].id;
+    }
+
+    static resetGearItemListInDatabase(repository: IRepository<any>, largestId: number) {
+        const gear = repository.list();
+
+        for (let item of gear) {
+            if (item.id > largestId) {
+                repository.remove(item);
+            }
+        }
     }
 
     static expectItemToBe(

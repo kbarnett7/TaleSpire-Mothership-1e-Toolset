@@ -9,6 +9,7 @@ import { MessageKeys } from "../../src/lib/localization/message-keys";
 import { AssertUtils } from "../helpers/assert-utils";
 import { EquipmentItem } from "../../src/features/gear/equipment-item";
 import { ValueUtils } from "../helpers/value-utils";
+import { GearTestUtils } from "./gear-test-utils";
 
 describe("AddCustomEquipmentItemFeature", () => {
     let unitOfWork: UnitOfWork;
@@ -20,14 +21,14 @@ describe("AddCustomEquipmentItemFeature", () => {
         const dbContext = await DataAccessUtils.getInitializedDbContext();
         unitOfWork = new UnitOfWork(dbContext);
 
-        largestEquipmentId = getLargestEquipmentItemIdInDatabase();
+        largestEquipmentId = GearTestUtils.getLargestGearItemIdInDatabase(unitOfWork.repo(EquipmentItem));
 
         request = new AddCustomEquipmentItemRequest();
         feature = new AddCustomEquipmentItemFeature(unitOfWork);
     });
 
     afterEach(async () => {
-        resetEquipmentListInDatabase();
+        GearTestUtils.resetGearItemListInDatabase(unitOfWork.repo(EquipmentItem), largestEquipmentId);
     });
 
     it("should fail if there is an unexpected exception", async () => {
@@ -184,24 +185,5 @@ describe("AddCustomEquipmentItemFeature", () => {
 
     function getValidCustomEquipmentItemFormFields(): EquipmentItemFormFieldsDto {
         return new EquipmentItemFormFieldsDto("Test Custom Item", "A custom item created for unit testing.", "1000");
-    }
-
-    function getLargestEquipmentItemIdInDatabase(): number {
-        const sortedItems = unitOfWork
-            .repo(EquipmentItem)
-            .list()
-            .sort((a, b) => a.id - b.id);
-
-        return sortedItems[sortedItems.length - 1].id;
-    }
-
-    function resetEquipmentListInDatabase() {
-        const equipment = unitOfWork.repo(EquipmentItem).list();
-
-        for (let item of equipment) {
-            if (item.id > largestEquipmentId) {
-                unitOfWork.repo(EquipmentItem).remove(item);
-            }
-        }
     }
 });
