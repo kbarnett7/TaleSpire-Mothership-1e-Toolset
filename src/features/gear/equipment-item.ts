@@ -16,7 +16,7 @@ export class EquipmentItem extends GearItem {
     protected validateItemDoesNotAlreadyExist(unitOfWork: IUnitOfWork): EquipmentItem {
         const existingItem = unitOfWork.repo(EquipmentItem).first((item) => item.name === this.name);
 
-        if (existingItem) {
+        if (existingItem && existingItem.id !== this.id) {
             this.validationResults.push(this.getItemAlreadyExistsValidationMessage(EquipmentItem.gearCategory));
         }
 

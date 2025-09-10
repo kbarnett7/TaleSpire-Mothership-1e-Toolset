@@ -138,6 +138,27 @@ describe("AddCustomEquipmentItemFeature", () => {
         }
     );
 
+    it("should fail if there already exists an equipment item with the same name already in the database", async () => {
+        // Arrange
+        const equipmentItemFormFields: EquipmentItemFormFieldsDto = getValidCustomEquipmentItemFormFields();
+        equipmentItemFormFields.name = "Binoculars";
+        request.formFields = equipmentItemFormFields;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.CreateError,
+            LocalizationService.instance.translate(MessageKeys.createCustomEquipmentItemFailed)
+        );
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("name");
+        expect(result.error.details[0]).toContain("Binoculars");
+        expect(result.error.details[0]).toContain("already exists");
+    });
+
     it("should add a valid equipment item to the database with an incremented ID and the source set to custom", async () => {
         // Arrange
         const numberOfEquipmentInDatabasePreAdd = unitOfWork.repo(EquipmentItem).list().length;
@@ -160,27 +181,6 @@ describe("AddCustomEquipmentItemFeature", () => {
         expect(itemFromDatabase.name).toBe(result.value?.name);
         expect(itemFromDatabase.description).toBe(result.value?.description);
         expect(itemFromDatabase.cost).toBe(result.value?.cost);
-    });
-
-    it("should fail if there already exists an equipment item with the same name already in the database", async () => {
-        // Arrange
-        const equipmentItemFormFields: EquipmentItemFormFieldsDto = getValidCustomEquipmentItemFormFields();
-        equipmentItemFormFields.name = "Binoculars";
-        request.formFields = equipmentItemFormFields;
-
-        // Act
-        const result = await feature.handleAsync(request);
-
-        // Assert
-        AssertUtils.expectResultToBeFailure(
-            result,
-            ErrorCode.CreateError,
-            LocalizationService.instance.translate(MessageKeys.createCustomEquipmentItemFailed)
-        );
-        expect(result.error.details.length).toBe(1);
-        expect(result.error.details[0]).toContain("name");
-        expect(result.error.details[0]).toContain("Binoculars");
-        expect(result.error.details[0]).toContain("already exists");
     });
 
     function getValidCustomEquipmentItemFormFields(): EquipmentItemFormFieldsDto {

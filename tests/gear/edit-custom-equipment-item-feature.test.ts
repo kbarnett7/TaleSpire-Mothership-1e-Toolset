@@ -107,6 +107,31 @@ describe("EditCustomEquipmentItemFeature", () => {
         expect(result.error.details[0]).toContain("100");
     });
 
+    it("should fail if there already exists an equipment item with the same name already in the database", async () => {
+        // Arrange
+        const equipmentItemId = await addBaseCustomEquipmentItemToDatabase();
+        const equipmentItemFormFields = getValidEditedEquipmentItemFormFields();
+
+        equipmentItemFormFields.name = "Binoculars";
+
+        request.formFields = equipmentItemFormFields;
+        request.itemId = equipmentItemId;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.EditError,
+            LocalizationService.instance.translate(MessageKeys.editCustomEquipmentItemFailed)
+        );
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("name");
+        expect(result.error.details[0]).toContain("Binoculars");
+        expect(result.error.details[0]).toContain("already exists");
+    });
+
     async function addBaseCustomEquipmentItemToDatabase(): Promise<number> {
         const equipmentItem = new EquipmentItem(0, 0, "Test Equipment to Edit", "Edit me!", 1000);
 
