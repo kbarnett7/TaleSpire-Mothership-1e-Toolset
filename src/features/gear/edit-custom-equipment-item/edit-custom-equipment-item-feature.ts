@@ -27,9 +27,7 @@ export class EditCustomEquipmentItemFeature
             const validationResults: string[] = equipmentItem.validate(this.unitOfWork);
 
             if (validationResults.length > 0) {
-                return Result.failure(
-                    new ResultError(ErrorCode.CreateError, this.baseFailureMessage, validationResults)
-                );
+                return Result.failure(new ResultError(ErrorCode.EditError, this.baseFailureMessage, validationResults));
             }
 
             //equipmentItem.addToDatabase(this.unitOfWork);
