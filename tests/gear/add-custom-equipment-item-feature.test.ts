@@ -29,6 +29,8 @@ describe("AddCustomEquipmentItemFeature", () => {
 
     afterEach(async () => {
         GearTestUtils.resetGearItemListInDatabase(unitOfWork.repo(EquipmentItem), largestEquipmentId);
+
+        await unitOfWork.saveChanges();
     });
 
     it("should fail if there is an unexpected exception", async () => {
@@ -138,7 +140,7 @@ describe("AddCustomEquipmentItemFeature", () => {
         }
     );
 
-    it("should fail if there already exists an equipment item with the same name already in the database", async () => {
+    it("should fail when adding an equipment item if there already exists an equipment item with the same name in the database", async () => {
         // Arrange
         const equipmentItemFormFields: EquipmentItemFormFieldsDto = getValidCustomEquipmentItemFormFields();
         equipmentItemFormFields.name = "Binoculars";
@@ -183,7 +185,99 @@ describe("AddCustomEquipmentItemFeature", () => {
         expect(itemFromDatabase.cost).toBe(result.value?.cost);
     });
 
+    it("should fail when editing an equipment item to have the same name as another equipment item in the database", async () => {
+        // Arrange
+        const equipmentItemId = await addBaseCustomEquipmentItemToDatabase();
+        const equipmentItemFormFields = getValidEditedEquipmentItemFormFields();
+
+        equipmentItemFormFields.name = "Binoculars";
+
+        request.formFields = equipmentItemFormFields;
+        request.itemId = equipmentItemId;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.EditError,
+            LocalizationService.instance.translate(MessageKeys.editCustomEquipmentItemFailed)
+        );
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("name");
+        expect(result.error.details[0]).toContain("Binoculars");
+        expect(result.error.details[0]).toContain("already exists");
+    });
+
+    it("should save an edited equipment item with valid changes to the database", async () => {
+        // Arrange
+        const equipmentItemId = await addBaseCustomEquipmentItemToDatabase();
+        const equipmentItemFormFields = getValidEditedEquipmentItemFormFields();
+        const numberOfEquipmentInDatabasePreEdit = unitOfWork.repo(EquipmentItem).list().length;
+
+        request.formFields = equipmentItemFormFields;
+        request.itemId = equipmentItemId;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        const numberOfEquipmentInDatabasePostEdit = unitOfWork.repo(EquipmentItem).list().length;
+        const itemFromDatabase =
+            unitOfWork.repo(EquipmentItem).first((item) => item.id == result.value?.id) ?? new EquipmentItem();
+
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(numberOfEquipmentInDatabasePostEdit).toBe(numberOfEquipmentInDatabasePreEdit);
+        expect(itemFromDatabase.id).toBe(result.value?.id);
+        expect(itemFromDatabase.name).toBe(result.value?.name);
+        expect(itemFromDatabase.description).toBe(result.value?.description);
+        expect(itemFromDatabase.cost).toBe(result.value?.cost);
+    });
+
+    it("should add a valid equipment item with a non-zero ID that doesn't exist in the database to the database with an incremented ID and the source set to custom", async () => {
+        // Arrange
+        const nonExistantId = largestEquipmentId + 10;
+        const equipmentItemFormFields = getValidCustomEquipmentItemFormFields();
+        const numberOfEquipmentInDatabasePreEdit = unitOfWork.repo(EquipmentItem).list().length;
+
+        request.formFields = equipmentItemFormFields;
+        request.itemId = nonExistantId;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        const numberOfEquipmentInDatabasePostEdit = unitOfWork.repo(EquipmentItem).list().length;
+        const itemFromDatabase =
+            unitOfWork.repo(EquipmentItem).first((item) => item.id == result.value?.id) ?? new EquipmentItem();
+
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(numberOfEquipmentInDatabasePostEdit).toBe(numberOfEquipmentInDatabasePreEdit + 1);
+        expect(itemFromDatabase.id).toBe(result.value?.id);
+        expect(itemFromDatabase.id).not.toBe(nonExistantId);
+        expect(itemFromDatabase.name).toBe(result.value?.name);
+        expect(itemFromDatabase.description).toBe(result.value?.description);
+        expect(itemFromDatabase.cost).toBe(result.value?.cost);
+    });
+
     function getValidCustomEquipmentItemFormFields(): EquipmentItemFormFieldsDto {
         return new EquipmentItemFormFieldsDto("Test Custom Item", "A custom item created for unit testing.", "1000");
+    }
+
+    async function addBaseCustomEquipmentItemToDatabase(): Promise<number> {
+        const equipmentItem = new EquipmentItem(0, 0, "Test Equipment to Edit", "Edit me!", 1000);
+
+        equipmentItem.saveToDatabase(unitOfWork);
+
+        await unitOfWork.saveChanges();
+
+        return equipmentItem.id;
+    }
+
+    function getValidEditedEquipmentItemFormFields(): EquipmentItemFormFieldsDto {
+        return new EquipmentItemFormFieldsDto("Edited Test Equipment to Edit", "Edit me! Edited.", "1750");
     }
 });

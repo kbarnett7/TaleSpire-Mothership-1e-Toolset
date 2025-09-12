@@ -126,7 +126,7 @@ export class WeaponItem extends EquipmentItem {
         return this;
     }
 
-    public addToDatabase(unitOfWork: IUnitOfWork): void {
+    public saveToDatabase(unitOfWork: IUnitOfWork): void {
         this.id = this.generateId(unitOfWork);
         this.sourceId = this.getCustomItemSourceId(unitOfWork);
 

@@ -51,11 +51,29 @@ export class EquipmentItem extends GearItem {
         return this;
     }
 
-    public addToDatabase(unitOfWork: IUnitOfWork): void {
+    public saveToDatabase(unitOfWork: IUnitOfWork): void {
+        if (this.id == 0) {
+            this.addToDatabase(unitOfWork);
+        } else {
+            this.updateInDatabase(unitOfWork);
+        }
+    }
+
+    private addToDatabase(unitOfWork: IUnitOfWork): void {
         this.id = this.generateId(unitOfWork);
         this.sourceId = this.getCustomItemSourceId(unitOfWork);
-
         unitOfWork.repo(EquipmentItem).add(this);
+    }
+
+    private updateInDatabase(unitOfWork: IUnitOfWork): void {
+        const repository = unitOfWork.repo(EquipmentItem);
+        const existingItem = repository.first((item) => item.id === this.id) ?? new EquipmentItem();
+
+        if (existingItem.id === 0) {
+            this.addToDatabase(unitOfWork);
+        }
+
+        repository.update(existingItem, this);
     }
 
     public deleteFromDatabase(unitOfWork: IUnitOfWork): void {

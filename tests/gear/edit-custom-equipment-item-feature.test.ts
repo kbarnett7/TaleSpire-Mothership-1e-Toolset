@@ -135,7 +135,7 @@ describe("EditCustomEquipmentItemFeature", () => {
     async function addBaseCustomEquipmentItemToDatabase(): Promise<number> {
         const equipmentItem = new EquipmentItem(0, 0, "Test Equipment to Edit", "Edit me!", 1000);
 
-        equipmentItem.addToDatabase(unitOfWork);
+        equipmentItem.saveToDatabase(unitOfWork);
 
         await unitOfWork.saveChanges();
 

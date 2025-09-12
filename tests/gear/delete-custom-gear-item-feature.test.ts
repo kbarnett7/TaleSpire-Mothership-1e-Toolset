@@ -93,7 +93,7 @@ describe("DeleteCustomGearItemFeature", () => {
         // Arrange
         const equipmentItemId = largestEquipmentItemId + 1;
         const equipmentItem = new EquipmentItem(0, 0, "Test Equipment to Delete", "Delete me!", 1000);
-        equipmentItem.addToDatabase(unitOfWork);
+        equipmentItem.saveToDatabase(unitOfWork);
         await unitOfWork.saveChanges();
         request.id = equipmentItemId;
         request.category = EquipmentItem.gearCategory;
@@ -116,7 +116,7 @@ describe("DeleteCustomGearItemFeature", () => {
         // Arrange
         const armorItemId = largestArmorItemId + 1;
         const armorItem = new ArmorItem(0, 0, "Test Armor to Delete", "Delete me!", 1000);
-        armorItem.addToDatabase(unitOfWork);
+        armorItem.saveToDatabase(unitOfWork);
         await unitOfWork.saveChanges();
         request.id = armorItemId;
         request.category = ArmorItem.gearCategory;
@@ -139,7 +139,7 @@ describe("DeleteCustomGearItemFeature", () => {
         // Arrange
         const weaponItemId = largestWeaponItemId + 1;
         const weaponItem = new WeaponItem(0, 0, "Test Weapon to Delete", "Delete me!", 1000);
-        weaponItem.addToDatabase(unitOfWork);
+        weaponItem.saveToDatabase(unitOfWork);
         await unitOfWork.saveChanges();
         request.id = weaponItemId;
         request.category = WeaponItem.gearCategory;

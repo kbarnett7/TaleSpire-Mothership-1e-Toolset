@@ -38,6 +38,10 @@ export abstract class BaseRepository<T> implements IRepository<T> {
         this.getSet().add(entity);
     }
 
+    public update(existingEntity: T, updatedEntity: T): void {
+        this.getSet().update(existingEntity, updatedEntity);
+    }
+
     public remove(entity: T): void {
         this.getSet().remove(entity);
     }

@@ -24,15 +24,21 @@ export class AddCustomEquipmentItemFeature
     public async handleAsync(request: AddCustomEquipmentItemRequest): Promise<Result<EquipmentItem>> {
         try {
             const equipmentItem = EquipmentItemMap.fromFormFields(request.formFields);
+            equipmentItem.id = request.itemId;
+
             const validationResults: string[] = equipmentItem.validate(this.unitOfWork);
 
             if (validationResults.length > 0) {
-                return Result.failure(
-                    new ResultError(ErrorCode.CreateError, this.baseFailureMessage, validationResults)
-                );
+                const code = request.itemId === 0 ? ErrorCode.CreateError : ErrorCode.EditError;
+                const baseFailureMessage =
+                    request.itemId === 0
+                        ? LocalizationService.instance.translate(MessageKeys.createCustomEquipmentItemFailed)
+                        : LocalizationService.instance.translate(MessageKeys.editCustomEquipmentItemFailed);
+
+                return Result.failure(new ResultError(code, baseFailureMessage, validationResults));
             }
 
-            equipmentItem.addToDatabase(this.unitOfWork);
+            equipmentItem.saveToDatabase(this.unitOfWork);
 
             await this.unitOfWork.saveChanges();
 

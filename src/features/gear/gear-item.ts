@@ -67,7 +67,7 @@ export abstract class GearItem {
         return source.id;
     }
 
-    public abstract addToDatabase(unitOfWork: IUnitOfWork): void;
+    public abstract saveToDatabase(unitOfWork: IUnitOfWork): void;
     public abstract deleteFromDatabase(unitOfWork: IUnitOfWork): void;
     protected abstract validateItemDoesNotAlreadyExist(unitOfWork: IUnitOfWork): GearItem;
     protected abstract getLargestItemIdInDatabase(unitOfWork: IUnitOfWork): number;

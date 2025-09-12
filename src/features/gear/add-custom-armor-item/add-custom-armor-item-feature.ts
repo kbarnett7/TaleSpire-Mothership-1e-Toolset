@@ -30,7 +30,7 @@ export class AddCustomArmorItemFeature implements IAsyncFeature<AddCustomArmorIt
                 );
             }
 
-            armorItem.addToDatabase(this.unitOfWork);
+            armorItem.saveToDatabase(this.unitOfWork);
 
             await this.unitOfWork.saveChanges();
 

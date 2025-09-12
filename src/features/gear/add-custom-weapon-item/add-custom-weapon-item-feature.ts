@@ -30,7 +30,7 @@ export class AddCustomWeaponItemFeature implements IAsyncFeature<AddCustomWeapon
                 );
             }
 
-            weaponItem.addToDatabase(this.unitOfWork);
+            weaponItem.saveToDatabase(this.unitOfWork);
 
             await this.unitOfWork.saveChanges();
 
