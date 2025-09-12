@@ -14,28 +14,26 @@ export class AddCustomEquipmentItemFeature
     implements IAsyncFeature<AddCustomEquipmentItemRequest, Result<EquipmentItem>>
 {
     private readonly unitOfWork: IUnitOfWork;
-    private readonly baseFailureMessage: string;
+    private baseFailureMessage: string;
+    private errorCode: string;
 
     constructor(unitOfWork: IUnitOfWork) {
         this.unitOfWork = unitOfWork;
-        this.baseFailureMessage = LocalizationService.instance.translate(MessageKeys.createCustomEquipmentItemFailed);
+        this.baseFailureMessage = LocalizationService.instance.translate(MessageKeys.saveCustomEquipmentItemFailed);
+        this.errorCode = ErrorCode.UnexpectedError;
     }
 
     public async handleAsync(request: AddCustomEquipmentItemRequest): Promise<Result<EquipmentItem>> {
         try {
+            this.setErrorResultFields(request);
+
             const equipmentItem = EquipmentItemMap.fromFormFields(request.formFields);
             equipmentItem.id = request.itemId;
 
             const validationResults: string[] = equipmentItem.validate(this.unitOfWork);
 
             if (validationResults.length > 0) {
-                const code = request.itemId === 0 ? ErrorCode.CreateError : ErrorCode.EditError;
-                const baseFailureMessage =
-                    request.itemId === 0
-                        ? LocalizationService.instance.translate(MessageKeys.createCustomEquipmentItemFailed)
-                        : LocalizationService.instance.translate(MessageKeys.editCustomEquipmentItemFailed);
-
-                return Result.failure(new ResultError(code, baseFailureMessage, validationResults));
+                return Result.failure(new ResultError(this.errorCode, this.baseFailureMessage, validationResults));
             }
 
             equipmentItem.saveToDatabase(this.unitOfWork);
@@ -52,7 +50,19 @@ export class AddCustomEquipmentItemFeature
         }
     }
 
+    private setErrorResultFields(request: AddCustomEquipmentItemRequest) {
+        if (request.itemId === 0) {
+            this.errorCode = ErrorCode.CreateError;
+            this.baseFailureMessage = LocalizationService.instance.translate(
+                MessageKeys.createCustomEquipmentItemFailed
+            );
+        } else {
+            this.errorCode = ErrorCode.EditError;
+            this.baseFailureMessage = LocalizationService.instance.translate(MessageKeys.editCustomEquipmentItemFailed);
+        }
+    }
+
     private createExceptionResult(ex: Error): Result<EquipmentItem> {
-        return Result.failure(new ResultError(ErrorCode.CreateError, this.baseFailureMessage, [ex.message]));
+        return Result.failure(new ResultError(this.errorCode, this.baseFailureMessage, [ex.message]));
     }
 }

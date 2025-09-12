@@ -3,6 +3,7 @@ export class MessageKeys {
     static notConnectedToDatabase: string = "notConnectedToDatabase";
     static storageKeyEmpty: string = "storageKeyEmpty";
 
+    static saveCustomEquipmentItemFailed: string = "saveCustomEquipmentItemFailed";
     static createCustomEquipmentItemFailed: string = "createCustomEquipmentItemFailed";
     static createCustomArmorItemFailed: string = "createCustomArmorItemFailed";
     static createCustomWeaponItemFailed: string = "createCustomWeaponItemFailed";

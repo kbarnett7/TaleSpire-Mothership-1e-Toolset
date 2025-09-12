@@ -85,6 +85,8 @@ TypeScript: `npm install typescript --save-dev`
 -   [Gainwell MVC Web App](https://dev.azure.com/stanfieldsystems/Gainwell%20AFL-PA/_git/Gainwell%20AFL-PA?version=GBmain&path=/Gainwell.MediCal.AFLPA/Gainwell.MediCal.AFLPA.Presentation.MvcWebApp)
 -   [App Templates - Next.js React App](https://dev.azure.com/stanfieldsystems/SSI%20Application%20Templates/_git/SSI%20Application%20Templates?version=GBmain&path=/react/src/NextJsWebApp)
 
+-   [Google Style Guides](https://google.github.io/styleguide/)
+
 Add semantic tags to index.html
 
 -   <nav>

@@ -33,7 +33,7 @@ describe("AddCustomEquipmentItemFeature", () => {
         await unitOfWork.saveChanges();
     });
 
-    it("should fail if there is an unexpected exception", async () => {
+    it("should fail if there is an unexpected exception when adding a new equipment item", async () => {
         // Arrange
         const equipmentItemFormFields: EquipmentItemFormFieldsDto = getValidCustomEquipmentItemFormFields();
         equipmentItemFormFields.description = ValueUtils.getStringOfRandomCharacters(1001);
@@ -54,6 +54,70 @@ describe("AddCustomEquipmentItemFeature", () => {
         );
         expect(result.error.details.length).toBe(1);
         expect(result.error.details[0]).toContain("Mocked");
+    });
+
+    it("should fail if there is an unexpected exception when editing an existing equipment item", async () => {
+        // Arrange
+        const equipmentItemId = await addBaseCustomEquipmentItemToDatabase();
+        const equipmentItemFormFields = getValidEditedEquipmentItemFormFields();
+
+        request.formFields = equipmentItemFormFields;
+        request.itemId = equipmentItemId;
+
+        jest.spyOn(request, "formFields", "get").mockImplementation(() => {
+            throw new Error("Mocked exception");
+        });
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.EditError,
+            LocalizationService.instance.translate(MessageKeys.editCustomEquipmentItemFailed)
+        );
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("Mocked");
+    });
+
+    it("should have create error code info when adding an equipment item fails", async () => {
+        // Arrange
+        const equipmentItemFormFields: EquipmentItemFormFieldsDto = getValidCustomEquipmentItemFormFields();
+        equipmentItemFormFields.name = ValueUtils.getStringOfRandomCharacters(101);
+
+        request.formFields = equipmentItemFormFields;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.CreateError,
+            LocalizationService.instance.translate(MessageKeys.createCustomEquipmentItemFailed)
+        );
+    });
+
+    it("should have edit error code info when editing an equipment item fails", async () => {
+        // Arrange
+        const equipmentItemId = await addBaseCustomEquipmentItemToDatabase();
+        const equipmentItemFormFields = getValidEditedEquipmentItemFormFields();
+
+        equipmentItemFormFields.name = ValueUtils.getStringOfRandomCharacters(101);
+
+        request.formFields = equipmentItemFormFields;
+        request.itemId = equipmentItemId;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.EditError,
+            LocalizationService.instance.translate(MessageKeys.editCustomEquipmentItemFailed)
+        );
     });
 
     it.each([[""], [" "]])("should fail if the name is empty or whitespace", async (name: string) => {
@@ -267,6 +331,10 @@ describe("AddCustomEquipmentItemFeature", () => {
         return new EquipmentItemFormFieldsDto("Test Custom Item", "A custom item created for unit testing.", "1000");
     }
 
+    function getValidEditedEquipmentItemFormFields(): EquipmentItemFormFieldsDto {
+        return new EquipmentItemFormFieldsDto("Edited Test Equipment to Edit", "Edit me! Edited.", "1750");
+    }
+
     async function addBaseCustomEquipmentItemToDatabase(): Promise<number> {
         const equipmentItem = new EquipmentItem(0, 0, "Test Equipment to Edit", "Edit me!", 1000);
 
@@ -275,9 +343,5 @@ describe("AddCustomEquipmentItemFeature", () => {
         await unitOfWork.saveChanges();
 
         return equipmentItem.id;
-    }
-
-    function getValidEditedEquipmentItemFormFields(): EquipmentItemFormFieldsDto {
-        return new EquipmentItemFormFieldsDto("Edited Test Equipment to Edit", "Edit me! Edited.", "1750");
     }
 });
