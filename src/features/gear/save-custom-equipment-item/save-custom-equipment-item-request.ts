@@ -1,6 +1,6 @@
 import { EquipmentItemFormFieldsDto } from "../equipment-item-form-fields-dto";
 
-export class AddCustomEquipmentItemRequest {
+export class SaveCustomEquipmentItemRequest {
     private _formFields: EquipmentItemFormFieldsDto;
     private _itemId: number;
 

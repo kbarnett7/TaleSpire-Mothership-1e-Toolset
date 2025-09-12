@@ -1,5 +1,5 @@
-import { AddCustomEquipmentItemRequest } from "../../src/features/gear/add-custom-equipment-item/add-custom-equipment-item-request";
-import { AddCustomEquipmentItemFeature } from "../../src/features/gear/add-custom-equipment-item/add-custom-equipment-item-feature";
+import { SaveCustomEquipmentItemRequest } from "../../src/features/gear/save-custom-equipment-item/save-custom-equipment-item-request";
+import { SaveCustomEquipmentItemFeature } from "../../src/features/gear/save-custom-equipment-item/save-custom-equipment-item-feature";
 import { DataAccessUtils } from "../data-access/data-access-utils";
 import { UnitOfWork } from "../../src/lib/data-access/unit-of-work";
 import { EquipmentItemFormFieldsDto } from "../../src/features/gear/equipment-item-form-fields-dto";
@@ -11,10 +11,10 @@ import { EquipmentItem } from "../../src/features/gear/equipment-item";
 import { ValueUtils } from "../helpers/value-utils";
 import { GearTestUtils } from "./gear-test-utils";
 
-describe("AddCustomEquipmentItemFeature", () => {
+describe("SaveCustomEquipmentItemFeature", () => {
     let unitOfWork: UnitOfWork;
-    let request: AddCustomEquipmentItemRequest;
-    let feature: AddCustomEquipmentItemFeature;
+    let request: SaveCustomEquipmentItemRequest;
+    let feature: SaveCustomEquipmentItemFeature;
     let largestEquipmentId: number;
 
     beforeEach(async () => {
@@ -23,8 +23,8 @@ describe("AddCustomEquipmentItemFeature", () => {
 
         largestEquipmentId = GearTestUtils.getLargestGearItemIdInDatabase(unitOfWork.repo(EquipmentItem));
 
-        request = new AddCustomEquipmentItemRequest();
-        feature = new AddCustomEquipmentItemFeature(unitOfWork);
+        request = new SaveCustomEquipmentItemRequest();
+        feature = new SaveCustomEquipmentItemFeature(unitOfWork);
     });
 
     afterEach(async () => {

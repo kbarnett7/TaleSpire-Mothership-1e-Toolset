@@ -9,8 +9,8 @@ import { WeaponItem } from "../../../features/gear/weapon-item";
 import { AppEventListener } from "../../../lib/events/app-event-listener-interface";
 import { EquipmentItem } from "../../../features/gear/equipment-item";
 import { EquipmentItemFormFieldsDto } from "../../../features/gear/equipment-item-form-fields-dto";
-import { AddCustomEquipmentItemRequest } from "../../../features/gear/add-custom-equipment-item/add-custom-equipment-item-request";
-import { AddCustomEquipmentItemFeature } from "../../../features/gear/add-custom-equipment-item/add-custom-equipment-item-feature";
+import { SaveCustomEquipmentItemRequest } from "../../../features/gear/save-custom-equipment-item/save-custom-equipment-item-request";
+import { SaveCustomEquipmentItemFeature } from "../../../features/gear/save-custom-equipment-item/save-custom-equipment-item-feature";
 import { IUnitOfWork } from "../../../lib/common/data-access/unit-of-work-interface";
 import { appInjector } from "../../../lib/infrastructure/app-injector";
 import { UnitOfWork } from "../../../lib/data-access/unit-of-work";
@@ -177,8 +177,8 @@ export class GearItemComponent extends BasePageComponent {
     }
 
     private async addEquipmentItem(formData: FormData): Promise<void> {
-        const request = new AddCustomEquipmentItemRequest();
-        const feature = new AddCustomEquipmentItemFeature(this.unitOfWork);
+        const request = new SaveCustomEquipmentItemRequest();
+        const feature = new SaveCustomEquipmentItemFeature(this.unitOfWork);
 
         request.formFields = this.getEquipmentItemFormFields(formData);
 

@@ -8,10 +8,10 @@ import { Result } from "../../../lib/result/result";
 import { ResultError } from "../../../lib/result/result-error";
 import { EquipmentItem } from "../equipment-item";
 import { EquipmentItemMap } from "../equipment-item-map";
-import { AddCustomEquipmentItemRequest } from "./add-custom-equipment-item-request";
+import { SaveCustomEquipmentItemRequest } from "./save-custom-equipment-item-request";
 
-export class AddCustomEquipmentItemFeature
-    implements IAsyncFeature<AddCustomEquipmentItemRequest, Result<EquipmentItem>>
+export class SaveCustomEquipmentItemFeature
+    implements IAsyncFeature<SaveCustomEquipmentItemRequest, Result<EquipmentItem>>
 {
     private readonly unitOfWork: IUnitOfWork;
     private baseFailureMessage: string;
@@ -23,7 +23,7 @@ export class AddCustomEquipmentItemFeature
         this.errorCode = ErrorCode.UnexpectedError;
     }
 
-    public async handleAsync(request: AddCustomEquipmentItemRequest): Promise<Result<EquipmentItem>> {
+    public async handleAsync(request: SaveCustomEquipmentItemRequest): Promise<Result<EquipmentItem>> {
         try {
             this.setErrorResultFields(request);
 
@@ -50,7 +50,7 @@ export class AddCustomEquipmentItemFeature
         }
     }
 
-    private setErrorResultFields(request: AddCustomEquipmentItemRequest) {
+    private setErrorResultFields(request: SaveCustomEquipmentItemRequest) {
         if (request.itemId === 0) {
             this.errorCode = ErrorCode.CreateError;
             this.baseFailureMessage = LocalizationService.instance.translate(
