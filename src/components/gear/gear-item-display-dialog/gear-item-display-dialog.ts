@@ -19,6 +19,7 @@ import { DeleteCustomGearItemFeature } from "../../../features/gear/delete-custo
 import { GearItemDeletedEvent } from "../../../lib/events/gear-item-deleted-event";
 import { UiReportableErrorOccurredEvent } from "../../../lib/events/ui-reportable-error-occurred-event";
 import { UiReportableErrorClearedEvent } from "../../../lib/events/ui-reportable-error-cleared-event";
+import { PageRouterService } from "../../../lib/pages/page-router-service";
 
 export class GearItemDisplayDialogComponent extends BaseComponent {
     protected unitOfWork: IUnitOfWork;
@@ -121,7 +122,9 @@ export class GearItemDisplayDialogComponent extends BaseComponent {
     }
 
     public onEditButtonClick(event: MouseEvent) {
-        alert(`Clicked edit for ${this.gearItem.name}!`);
+        PageRouterService.instance.navigateToPage(PageRouterService.gearItemPage, this.gearItem.id.toString(), {
+            category: this.gearItemCategory,
+        });
     }
 
     public async onDeleteButtonClick(event: MouseEvent): Promise<void> {

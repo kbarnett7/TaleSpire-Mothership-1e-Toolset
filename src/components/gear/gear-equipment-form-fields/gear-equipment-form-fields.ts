@@ -1,6 +1,7 @@
 import html from "./gear-equipment-form-fields.html";
 import { BaseComponent } from "../../base.component";
 import { EquipmentItemFormFieldsDto } from "../../../features/gear/equipment-item-form-fields-dto";
+import { EquipmentItem } from "../../../features/gear/equipment-item";
 
 export class GearEquipmentFormFieldsComponent extends BaseComponent {
     static formAssociated = true;
@@ -37,6 +38,18 @@ export class GearEquipmentFormFieldsComponent extends BaseComponent {
 
     private updateFormValue() {
         this._internals.setFormValue(this.value);
+    }
+
+    public setInitialFormValues(item: EquipmentItem) {
+        this.nameInputElement.value = item.name;
+        this.costInputElement.value = item.cost.toString();
+        this.descriptionInputElement.value = item.description;
+
+        this._formFieldsDto.name = item.name;
+        this._formFieldsDto.cost = item.cost.toString();
+        this._formFieldsDto.description = item.description;
+
+        this.updateFormValue();
     }
 
     public handleOnNameInputChanged(event: Event) {

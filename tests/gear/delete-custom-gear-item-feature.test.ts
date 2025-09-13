@@ -13,6 +13,7 @@ import { IRepository } from "../../src/lib/common/data-access/repository-interfa
 import { GearListItem } from "../../src/features/gear/gear-list-item";
 import { GetAllGearFeature } from "../../src/features/gear/get-all-gear/get-all-gear-feature";
 import { EmptyRequest } from "../../src/lib/common/features/empty-request";
+import { GearTestUtils } from "./gear-test-utils";
 
 describe("DeleteCustomGearItemFeature", () => {
     let unitOfWork: UnitOfWork;
@@ -29,9 +30,9 @@ describe("DeleteCustomGearItemFeature", () => {
         const dbContext = await DataAccessUtils.getInitializedDbContext();
         unitOfWork = new UnitOfWork(dbContext);
 
-        largestArmorItemId = getLargestGearItemIdInDatabase(unitOfWork.repo(ArmorItem));
-        largestEquipmentItemId = getLargestGearItemIdInDatabase(unitOfWork.repo(EquipmentItem));
-        largestWeaponItemId = getLargestGearItemIdInDatabase(unitOfWork.repo(WeaponItem));
+        largestArmorItemId = GearTestUtils.getLargestGearItemIdInDatabase(unitOfWork.repo(ArmorItem));
+        largestEquipmentItemId = GearTestUtils.getLargestGearItemIdInDatabase(unitOfWork.repo(EquipmentItem));
+        largestWeaponItemId = GearTestUtils.getLargestGearItemIdInDatabase(unitOfWork.repo(WeaponItem));
 
         setOriginalNumberOfGearItemsIdInDatabase();
 
@@ -40,9 +41,9 @@ describe("DeleteCustomGearItemFeature", () => {
     });
 
     afterEach(async () => {
-        resetGearItemListInDatabase(unitOfWork.repo(ArmorItem), largestArmorItemId);
-        resetGearItemListInDatabase(unitOfWork.repo(EquipmentItem), largestEquipmentItemId);
-        resetGearItemListInDatabase(unitOfWork.repo(WeaponItem), largestWeaponItemId);
+        GearTestUtils.resetGearItemListInDatabase(unitOfWork.repo(ArmorItem), largestArmorItemId);
+        GearTestUtils.resetGearItemListInDatabase(unitOfWork.repo(EquipmentItem), largestEquipmentItemId);
+        GearTestUtils.resetGearItemListInDatabase(unitOfWork.repo(WeaponItem), largestWeaponItemId);
 
         await unitOfWork.saveChanges();
     });
@@ -92,7 +93,7 @@ describe("DeleteCustomGearItemFeature", () => {
         // Arrange
         const equipmentItemId = largestEquipmentItemId + 1;
         const equipmentItem = new EquipmentItem(0, 0, "Test Equipment to Delete", "Delete me!", 1000);
-        equipmentItem.addToDatabase(unitOfWork);
+        equipmentItem.saveToDatabase(unitOfWork);
         await unitOfWork.saveChanges();
         request.id = equipmentItemId;
         request.category = EquipmentItem.gearCategory;
@@ -115,7 +116,7 @@ describe("DeleteCustomGearItemFeature", () => {
         // Arrange
         const armorItemId = largestArmorItemId + 1;
         const armorItem = new ArmorItem(0, 0, "Test Armor to Delete", "Delete me!", 1000);
-        armorItem.addToDatabase(unitOfWork);
+        armorItem.saveToDatabase(unitOfWork);
         await unitOfWork.saveChanges();
         request.id = armorItemId;
         request.category = ArmorItem.gearCategory;
@@ -138,7 +139,7 @@ describe("DeleteCustomGearItemFeature", () => {
         // Arrange
         const weaponItemId = largestWeaponItemId + 1;
         const weaponItem = new WeaponItem(0, 0, "Test Weapon to Delete", "Delete me!", 1000);
-        weaponItem.addToDatabase(unitOfWork);
+        weaponItem.saveToDatabase(unitOfWork);
         await unitOfWork.saveChanges();
         request.id = weaponItemId;
         request.category = WeaponItem.gearCategory;
@@ -179,22 +180,6 @@ describe("DeleteCustomGearItemFeature", () => {
         const countWeaponInDatabase = unitOfWork.repo(WeaponItem).list().length;
 
         expect(countWeaponInDatabase).toBe(originalNumberOfWeaponItemsInDatabase);
-    }
-
-    function getLargestGearItemIdInDatabase(repository: IRepository<any>): number {
-        const sortedItems = repository.list().sort((a, b) => a.id - b.id);
-
-        return sortedItems[sortedItems.length - 1].id;
-    }
-
-    function resetGearItemListInDatabase(repository: IRepository<any>, largestId: number) {
-        const gear = repository.list();
-
-        for (let item of gear) {
-            if (item.id > largestId) {
-                repository.remove(item);
-            }
-        }
     }
 
     function setOriginalNumberOfGearItemsIdInDatabase(): void {

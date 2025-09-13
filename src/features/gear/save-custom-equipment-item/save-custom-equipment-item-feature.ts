@@ -8,31 +8,35 @@ import { Result } from "../../../lib/result/result";
 import { ResultError } from "../../../lib/result/result-error";
 import { EquipmentItem } from "../equipment-item";
 import { EquipmentItemMap } from "../equipment-item-map";
-import { AddCustomEquipmentItemRequest } from "./add-custom-equipment-item-request";
+import { SaveCustomEquipmentItemRequest } from "./save-custom-equipment-item-request";
 
-export class AddCustomEquipmentItemFeature
-    implements IAsyncFeature<AddCustomEquipmentItemRequest, Result<EquipmentItem>>
+export class SaveCustomEquipmentItemFeature
+    implements IAsyncFeature<SaveCustomEquipmentItemRequest, Result<EquipmentItem>>
 {
     private readonly unitOfWork: IUnitOfWork;
-    private readonly baseFailureMessage: string;
+    private baseFailureMessage: string;
+    private errorCode: string;
 
     constructor(unitOfWork: IUnitOfWork) {
         this.unitOfWork = unitOfWork;
-        this.baseFailureMessage = LocalizationService.instance.translate(MessageKeys.createCustomEquipmentItemFailed);
+        this.baseFailureMessage = LocalizationService.instance.translate(MessageKeys.saveCustomEquipmentItemFailed);
+        this.errorCode = ErrorCode.UnexpectedError;
     }
 
-    public async handleAsync(request: AddCustomEquipmentItemRequest): Promise<Result<EquipmentItem>> {
+    public async handleAsync(request: SaveCustomEquipmentItemRequest): Promise<Result<EquipmentItem>> {
         try {
+            this.setErrorResultFields(request);
+
             const equipmentItem = EquipmentItemMap.fromFormFields(request.formFields);
+            equipmentItem.id = request.itemId;
+
             const validationResults: string[] = equipmentItem.validate(this.unitOfWork);
 
             if (validationResults.length > 0) {
-                return Result.failure(
-                    new ResultError(ErrorCode.CreateError, this.baseFailureMessage, validationResults)
-                );
+                return Result.failure(new ResultError(this.errorCode, this.baseFailureMessage, validationResults));
             }
 
-            equipmentItem.addToDatabase(this.unitOfWork);
+            equipmentItem.saveToDatabase(this.unitOfWork);
 
             await this.unitOfWork.saveChanges();
 
@@ -46,7 +50,19 @@ export class AddCustomEquipmentItemFeature
         }
     }
 
+    private setErrorResultFields(request: SaveCustomEquipmentItemRequest) {
+        if (request.itemId === 0) {
+            this.errorCode = ErrorCode.CreateError;
+            this.baseFailureMessage = LocalizationService.instance.translate(
+                MessageKeys.createCustomEquipmentItemFailed
+            );
+        } else {
+            this.errorCode = ErrorCode.EditError;
+            this.baseFailureMessage = LocalizationService.instance.translate(MessageKeys.editCustomEquipmentItemFailed);
+        }
+    }
+
     private createExceptionResult(ex: Error): Result<EquipmentItem> {
-        return Result.failure(new ResultError(ErrorCode.CreateError, this.baseFailureMessage, [ex.message]));
+        return Result.failure(new ResultError(this.errorCode, this.baseFailureMessage, [ex.message]));
     }
 }

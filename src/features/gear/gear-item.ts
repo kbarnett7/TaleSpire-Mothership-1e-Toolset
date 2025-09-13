@@ -67,8 +67,17 @@ export abstract class GearItem {
         return source.id;
     }
 
-    public abstract addToDatabase(unitOfWork: IUnitOfWork): void;
+    public saveToDatabase(unitOfWork: IUnitOfWork): void {
+        if (this.id == 0) {
+            this.addToDatabase(unitOfWork);
+        } else {
+            this.updateInDatabase(unitOfWork);
+        }
+    }
+
     public abstract deleteFromDatabase(unitOfWork: IUnitOfWork): void;
+    protected abstract addToDatabase(unitOfWork: IUnitOfWork): void;
+    protected abstract updateInDatabase(unitOfWork: IUnitOfWork): void;
     protected abstract validateItemDoesNotAlreadyExist(unitOfWork: IUnitOfWork): GearItem;
     protected abstract getLargestItemIdInDatabase(unitOfWork: IUnitOfWork): number;
 }

@@ -1,7 +1,8 @@
 import { EquipmentItemFormFieldsDto } from "../equipment-item-form-fields-dto";
 
-export class AddCustomEquipmentItemRequest {
+export class SaveCustomEquipmentItemRequest {
     private _formFields: EquipmentItemFormFieldsDto;
+    private _itemId: number;
 
     public get formFields(): EquipmentItemFormFieldsDto {
         return this._formFields;
@@ -11,7 +12,16 @@ export class AddCustomEquipmentItemRequest {
         this._formFields = value;
     }
 
+    public get itemId(): number {
+        return this._itemId;
+    }
+
+    public set itemId(value: number) {
+        this._itemId = value;
+    }
+
     constructor() {
         this._formFields = new EquipmentItemFormFieldsDto();
+        this._itemId = 0;
     }
 }

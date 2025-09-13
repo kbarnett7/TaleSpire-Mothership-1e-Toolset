@@ -1,6 +1,7 @@
 import html from "./gear-armor-form-fields.html";
 import { BaseComponent } from "../../base.component";
 import { ArmorItemFormFieldsDto } from "../../../features/gear/armor-item-form-fields-dto";
+import { ArmorItem } from "../../../features/gear/armor-item";
 
 export class GearArmorFormFieldsComponent extends BaseComponent {
     static formAssociated = true;
@@ -41,6 +42,20 @@ export class GearArmorFormFieldsComponent extends BaseComponent {
 
     private updateFormValue() {
         this._internals.setFormValue(this.value);
+    }
+
+    public setInitialFormValues(item: ArmorItem) {
+        this.armorPointsInputElement.value = item.armorPoints.toString();
+        this.oxygenInputElement.value = item.oxygen.toString();
+        this.speedSelectElement.value = item.speed;
+        this.specialInputElement.value = item.special;
+
+        this._formFieldsDto.armorPoints = item.armorPoints.toString();
+        this._formFieldsDto.oxygen = item.oxygen.toString();
+        this._formFieldsDto.speed = item.speed;
+        this._formFieldsDto.special = item.special;
+
+        this.updateFormValue();
     }
 
     public handleOnArmorPointsInputChanged(event: Event) {

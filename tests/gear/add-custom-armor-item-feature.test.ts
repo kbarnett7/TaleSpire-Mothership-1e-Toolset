@@ -10,6 +10,7 @@ import { AssertUtils } from "../helpers/assert-utils";
 import { ArmorItemFormFieldsDto } from "../../src/features/gear/armor-item-form-fields-dto";
 import { ValueUtils } from "../helpers/value-utils";
 import { ArmorSpeed } from "../../src/features/gear/armor-speed";
+import { GearTestUtils } from "./gear-test-utils";
 
 describe("AddCustomArmorItemFeature", () => {
     let unitOfWork: UnitOfWork;
@@ -21,14 +22,14 @@ describe("AddCustomArmorItemFeature", () => {
         const dbContext = await DataAccessUtils.getInitializedDbContext();
         unitOfWork = new UnitOfWork(dbContext);
 
-        largestArmorItemId = getLargestArmorItemIdInDatabase();
+        largestArmorItemId = GearTestUtils.getLargestGearItemIdInDatabase(unitOfWork.repo(ArmorItem));
 
         request = new AddCustomArmorItemRequest();
         feature = new AddCustomArmorItemFeature(unitOfWork);
     });
 
     afterEach(async () => {
-        resetArmorListInDatabase();
+        GearTestUtils.resetGearItemListInDatabase(unitOfWork.repo(ArmorItem), largestArmorItemId);
     });
 
     it("should fail if there is an unexpected exception", async () => {
@@ -222,24 +223,5 @@ describe("AddCustomArmorItemFeature", () => {
             ArmorSpeed.Advantage,
             "Pass the unit test!"
         );
-    }
-
-    function getLargestArmorItemIdInDatabase(): number {
-        const sortedItems = unitOfWork
-            .repo(ArmorItem)
-            .list()
-            .sort((a, b) => a.id - b.id);
-
-        return sortedItems[sortedItems.length - 1].id;
-    }
-
-    function resetArmorListInDatabase() {
-        const equipment = unitOfWork.repo(ArmorItem).list();
-
-        for (let item of equipment) {
-            if (item.id > largestArmorItemId) {
-                unitOfWork.repo(ArmorItem).remove(item);
-            }
-        }
     }
 });

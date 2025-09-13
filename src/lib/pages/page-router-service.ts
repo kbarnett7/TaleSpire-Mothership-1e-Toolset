@@ -1,3 +1,5 @@
+import { EventBus } from "../events/event-bus";
+import { PageChangeInitiatedEvent } from "../events/page-change-initiated-event";
 import { PageRouteData } from "./page-route-data";
 
 export class PageRouterService {
@@ -6,7 +8,7 @@ export class PageRouterService {
     public static gearPage: string = "Gear";
     public static codexPage: string = "Codex";
     public static aboutPage: string = "About";
-    public static addEditGearPage: string = "Add Gear";
+    public static gearItemPage: string = "Gear Item";
 
     private static _instance: PageRouterService;
 
@@ -54,8 +56,8 @@ export class PageRouterService {
         );
 
         this._pages.set(
-            PageRouterService.addEditGearPage,
-            new PageRouteData("/gear/#", "add-edit-gear-page", PageRouterService.addEditGearPage, true)
+            PageRouterService.gearItemPage,
+            new PageRouteData("/gear/#", "gear-item-page", PageRouterService.gearItemPage, true)
         );
     }
 
@@ -75,5 +77,15 @@ export class PageRouterService {
         }
 
         return this._defaultPage;
+    }
+
+    public navigateToPage(
+        pageTitle: string,
+        id?: string,
+        params?: string | URLSearchParams | string[][] | Record<string, string> | undefined
+    ) {
+        const pageChangeInitiatedEvent = new PageChangeInitiatedEvent(this.getPageByTitle(pageTitle), id, params);
+
+        EventBus.instance.dispatch(pageChangeInitiatedEvent);
     }
 }

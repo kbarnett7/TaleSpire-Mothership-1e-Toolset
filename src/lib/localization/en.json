@@ -4,9 +4,11 @@
     "notConnectedToDatabase": "Not connected to database",
     "storageKeyEmpty": "storageKey is empty",
 
+    "saveCustomEquipmentItemFailed": "Failed to save custom equipment item.",
     "createCustomEquipmentItemFailed": "Failed to create custom equipment item.",
     "createCustomArmorItemFailed": "Failed to create custom armor item.",
     "createCustomWeaponItemFailed": "Failed to create custom weapon item.",
+    "editCustomEquipmentItemFailed": "Failed to edit custom equipment item.",
     "deleteCustomGearItemFailed": "Failed to delete {category} item.",
     "createCustomNpcFailed": "Failed to create custom NPC."
 }

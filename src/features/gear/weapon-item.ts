@@ -35,7 +35,7 @@ export class WeaponItem extends EquipmentItem {
         this.special = special ?? "";
     }
 
-    protected validateItemDoesNotAlreadyExist(unitOfWork: IUnitOfWork): WeaponItem {
+    protected override validateItemDoesNotAlreadyExist(unitOfWork: IUnitOfWork): WeaponItem {
         const existingItem = unitOfWork.repo(WeaponItem).first((item) => item.name === this.name);
 
         if (existingItem) {
@@ -126,18 +126,20 @@ export class WeaponItem extends EquipmentItem {
         return this;
     }
 
-    public addToDatabase(unitOfWork: IUnitOfWork): void {
+    protected override addToDatabase(unitOfWork: IUnitOfWork): void {
         this.id = this.generateId(unitOfWork);
         this.sourceId = this.getCustomItemSourceId(unitOfWork);
 
         unitOfWork.repo(WeaponItem).add(this);
     }
 
-    public deleteFromDatabase(unitOfWork: IUnitOfWork): void {
+    protected override updateInDatabase(unitOfWork: IUnitOfWork): void {}
+
+    public override deleteFromDatabase(unitOfWork: IUnitOfWork): void {
         unitOfWork.repo(WeaponItem).remove(this);
     }
 
-    protected getLargestItemIdInDatabase(unitOfWork: IUnitOfWork): number {
+    protected override getLargestItemIdInDatabase(unitOfWork: IUnitOfWork): number {
         const sortedItems = unitOfWork
             .repo(WeaponItem)
             .list()

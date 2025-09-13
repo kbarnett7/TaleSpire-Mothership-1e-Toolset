@@ -1,4 +1,4 @@
-import html from "./add-edit-gear.html";
+import html from "./gear-item.html";
 import { BasePageComponent } from "../base-page.component";
 import { EventBus } from "../../../lib/events/event-bus";
 import { PageRouterService } from "../../../lib/pages/page-router-service";
@@ -9,12 +9,11 @@ import { WeaponItem } from "../../../features/gear/weapon-item";
 import { AppEventListener } from "../../../lib/events/app-event-listener-interface";
 import { EquipmentItem } from "../../../features/gear/equipment-item";
 import { EquipmentItemFormFieldsDto } from "../../../features/gear/equipment-item-form-fields-dto";
-import { AddCustomEquipmentItemRequest } from "../../../features/gear/add-custom-equipment-item/add-custom-equipment-item-request";
-import { AddCustomEquipmentItemFeature } from "../../../features/gear/add-custom-equipment-item/add-custom-equipment-item-feature";
+import { SaveCustomEquipmentItemRequest } from "../../../features/gear/save-custom-equipment-item/save-custom-equipment-item-request";
+import { SaveCustomEquipmentItemFeature } from "../../../features/gear/save-custom-equipment-item/save-custom-equipment-item-feature";
 import { IUnitOfWork } from "../../../lib/common/data-access/unit-of-work-interface";
 import { appInjector } from "../../../lib/infrastructure/app-injector";
 import { UnitOfWork } from "../../../lib/data-access/unit-of-work";
-import { PageChangeInitiatedEvent } from "../../../lib/events/page-change-initiated-event";
 import { ResultError } from "../../../lib/result/result-error";
 import { AddCustomArmorItemRequest } from "../../../features/gear/add-custom-armor-item/add-custom-armor-item-request";
 import { AddCustomArmorItemFeature } from "../../../features/gear/add-custom-armor-item/add-custom-armor-item-feature";
@@ -26,48 +25,105 @@ import { AddCustomWeaponItemFeature } from "../../../features/gear/add-custom-we
 import { WeaponItemFormFieldsDto } from "../../../features/gear/weapon-item-form-fields-dto";
 import { UiReportableErrorOccurredEvent } from "../../../lib/events/ui-reportable-error-occurred-event";
 import { UiReportableErrorClearedEvent } from "../../../lib/events/ui-reportable-error-cleared-event";
+import { GearItem } from "../../../features/gear/gear-item";
+import { GetGearByIdFeature } from "../../../features/gear/get-gear-by-id/get-gear-by-id-feature";
+import { GetGearByIdRequest } from "../../../features/gear/get-gear-by-id/get-gear-by-id-request";
+import { AppLogger } from "../../../lib/logging/app-logger";
+import { GearArmorFormFieldsComponent } from "../../gear/gear-armor-form-fields/gear-armor-form-fields";
+import { GearWeaponFormFieldsComponent } from "../../gear/gear-weapon-form-fields/gear-weapon-form-fields";
+import { GearEquipmentFormFieldsComponent } from "../../gear/gear-equipment-form-fields/gear-equipment-form-fields";
 
-export class AddEditGearComponent extends BasePageComponent {
+export class GearItemComponent extends BasePageComponent {
     private unitOfWork: IUnitOfWork;
-    private gearItemIdFromUrl: string;
+    private gearItemIdFromUrl: number;
     private selectedCategory: string;
 
-    private get armorFieldsDiv(): HTMLDivElement {
-        return this.shadow.querySelector("#armorFields") as HTMLDivElement;
+    private get armorFormFieldsComponent(): GearArmorFormFieldsComponent {
+        return this.shadow.querySelector("#armorFields") as GearArmorFormFieldsComponent;
     }
 
-    private get weaponFieldsDiv(): HTMLDivElement {
-        return this.shadow.querySelector("#weaponFields") as HTMLDivElement;
+    private get weaponFormFieldsComponent(): GearWeaponFormFieldsComponent {
+        return this.shadow.querySelector("#weaponFields") as GearWeaponFormFieldsComponent;
+    }
+
+    private get equipmentFormFieldsComponent(): GearEquipmentFormFieldsComponent {
+        return this.shadow.querySelector("#equipmentFields") as GearEquipmentFormFieldsComponent;
     }
 
     constructor() {
         super();
         this.unitOfWork = appInjector.injectClass(UnitOfWork);
-        this.gearItemIdFromUrl = "";
+        this.gearItemIdFromUrl = 0;
         this.selectedCategory = EquipmentItem.gearCategory;
     }
 
     public async connectedCallback() {
         await super.connectedCallback();
 
-        this.gearItemIdFromUrl = this.getIdFromUrl();
-
         this.render(html);
 
-        EventBus.instance.register(GearCategoryChangedEvent.name, this.handleGearCategoryChangedEvent);
+        this.gearItemIdFromUrl = this.getIdFromUrl();
 
-        // TODO: temp; remove.
-        const gearIdElement = this.shadow.querySelector("#gearId") as HTMLSpanElement;
-        gearIdElement.textContent = this.gearItemIdFromUrl;
+        if (this.gearItemIdFromUrl > 0) {
+            this.configurePageForEditing();
+        }
+
+        EventBus.instance.register(GearCategoryChangedEvent.name, this.handleGearCategoryChangedEvent);
     }
 
     public disconnectedCallback() {
         EventBus.instance.unregister(GearCategoryChangedEvent.name, this.handleGearCategoryChangedEvent);
     }
 
-    private getIdFromUrl(): string {
+    private getIdFromUrl(): number {
         const urlComponents = window.location.pathname.split("/");
-        return urlComponents[urlComponents.length - 1];
+        const idComponent = urlComponents[urlComponents.length - 1].trim();
+
+        if (this.isValidId(idComponent) === false) {
+            return 0;
+        }
+
+        return Number(idComponent);
+    }
+
+    private getCategoryFromUrl(): string {
+        const url = new URL(window.location.href);
+        const params = new URLSearchParams(url.search);
+
+        return params.get("category") ?? EquipmentItem.gearCategory;
+    }
+
+    private isValidId(id: string): boolean {
+        return !isNaN(Number(id)) && Number.isInteger(Number(id));
+    }
+
+    private configurePageForEditing() {
+        this.hideGearCategoriesElement();
+        this.handleGearCategoryChangedEvent(new GearCategoryChangedEvent(this.getCategoryFromUrl()));
+        this.setInitialFormValues();
+    }
+
+    private hideGearCategoriesElement() {
+        this.shadow.querySelector("#gearCategories")?.classList.add("hidden");
+    }
+
+    private setInitialFormValues() {
+        const gearItem = this.getSelectedGearItem(this.gearItemIdFromUrl, this.selectedCategory);
+
+        this.equipmentFormFieldsComponent.setInitialFormValues(gearItem as EquipmentItem);
+
+        if (this.selectedCategory == ArmorItem.gearCategory) {
+            this.armorFormFieldsComponent.setInitialFormValues(gearItem as ArmorItem);
+        } else if (this.selectedCategory == WeaponItem.gearCategory) {
+            this.weaponFormFieldsComponent.setInitialFormValues(gearItem as WeaponItem);
+        }
+    }
+
+    private getSelectedGearItem(id: number, category: string): GearItem {
+        const feature = new GetGearByIdFeature(this.unitOfWork);
+        const request = new GetGearByIdRequest(id, category);
+
+        return feature.handle(request);
     }
 
     private handleGearCategoryChangedEvent: AppEventListener = (event: AppEvent) => {
@@ -80,14 +136,14 @@ export class AddEditGearComponent extends BasePageComponent {
 
     private updateFieldDivVisiblities(): void {
         if (this.selectedCategory == ArmorItem.gearCategory) {
-            this.armorFieldsDiv.classList.remove("hidden");
-            this.weaponFieldsDiv.classList.add("hidden");
+            this.armorFormFieldsComponent.classList.remove("hidden");
+            this.weaponFormFieldsComponent.classList.add("hidden");
         } else if (this.selectedCategory == WeaponItem.gearCategory) {
-            this.armorFieldsDiv.classList.add("hidden");
-            this.weaponFieldsDiv.classList.remove("hidden");
+            this.armorFormFieldsComponent.classList.add("hidden");
+            this.weaponFormFieldsComponent.classList.remove("hidden");
         } else {
-            this.armorFieldsDiv.classList.add("hidden");
-            this.weaponFieldsDiv.classList.add("hidden");
+            this.armorFormFieldsComponent.classList.add("hidden");
+            this.weaponFormFieldsComponent.classList.add("hidden");
         }
     }
 
@@ -103,29 +159,30 @@ export class AddEditGearComponent extends BasePageComponent {
         const form = event.target as HTMLFormElement;
         const formData = new FormData(form);
 
-        await this.addGear(formData);
+        await this.saveGearItem(formData);
     }
 
-    private async addGear(formData: FormData): Promise<void> {
+    private async saveGearItem(formData: FormData): Promise<void> {
         if (this.selectedCategory == ArmorItem.gearCategory) {
-            this.addArmorItem(formData);
+            this.saveArmorItem(formData);
         } else if (this.selectedCategory == WeaponItem.gearCategory) {
-            this.addWeaponItem(formData);
+            this.saveWeaponItem(formData);
         } else {
-            this.addEquipmentItem(formData);
+            this.saveEquipmentItem(formData);
         }
     }
 
-    private async addEquipmentItem(formData: FormData): Promise<void> {
-        const request = new AddCustomEquipmentItemRequest();
-        const feature = new AddCustomEquipmentItemFeature(this.unitOfWork);
+    private async saveEquipmentItem(formData: FormData): Promise<void> {
+        const request = new SaveCustomEquipmentItemRequest();
+        const feature = new SaveCustomEquipmentItemFeature(this.unitOfWork);
 
         request.formFields = this.getEquipmentItemFormFields(formData);
+        request.itemId = this.gearItemIdFromUrl;
 
         await this.handleFeature(request, feature);
     }
 
-    private async addArmorItem(formData: FormData): Promise<void> {
+    private async saveArmorItem(formData: FormData): Promise<void> {
         const request = new AddCustomArmorItemRequest();
         const feature = new AddCustomArmorItemFeature(this.unitOfWork);
         const equipmentItemFormFields = this.getEquipmentItemFormFields(formData);
@@ -140,7 +197,7 @@ export class AddEditGearComponent extends BasePageComponent {
         await this.handleFeature(request, feature);
     }
 
-    private async addWeaponItem(formData: FormData): Promise<void> {
+    private async saveWeaponItem(formData: FormData): Promise<void> {
         const request = new AddCustomWeaponItemRequest();
         const feature = new AddCustomWeaponItemFeature(this.unitOfWork);
         const equipmentItemFormFields = this.getEquipmentItemFormFields(formData);
@@ -177,11 +234,7 @@ export class AddEditGearComponent extends BasePageComponent {
     }
 
     private navigateToGearPage() {
-        const pageChangeInitiatedEvent = new PageChangeInitiatedEvent(
-            PageRouterService.instance.getPageByTitle(PageRouterService.gearPage)
-        );
-
-        EventBus.instance.dispatch(pageChangeInitiatedEvent);
+        PageRouterService.instance.navigateToPage(PageRouterService.gearPage);
     }
 
     private getEquipmentItemFormFields(formData: FormData): EquipmentItemFormFieldsDto {
@@ -203,4 +256,4 @@ export class AddEditGearComponent extends BasePageComponent {
     }
 }
 
-customElements.define("add-edit-gear-page", AddEditGearComponent);
+customElements.define("gear-item-page", GearItemComponent);

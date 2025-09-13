@@ -13,10 +13,10 @@ export class EquipmentItem extends GearItem {
         this.cost = cost ?? 0;
     }
 
-    protected validateItemDoesNotAlreadyExist(unitOfWork: IUnitOfWork): EquipmentItem {
+    protected override validateItemDoesNotAlreadyExist(unitOfWork: IUnitOfWork): EquipmentItem {
         const existingItem = unitOfWork.repo(EquipmentItem).first((item) => item.name === this.name);
 
-        if (existingItem) {
+        if (existingItem && existingItem.id !== this.id) {
             this.validationResults.push(this.getItemAlreadyExistsValidationMessage(EquipmentItem.gearCategory));
         }
 
@@ -51,18 +51,28 @@ export class EquipmentItem extends GearItem {
         return this;
     }
 
-    public addToDatabase(unitOfWork: IUnitOfWork): void {
+    protected override addToDatabase(unitOfWork: IUnitOfWork): void {
         this.id = this.generateId(unitOfWork);
         this.sourceId = this.getCustomItemSourceId(unitOfWork);
-
         unitOfWork.repo(EquipmentItem).add(this);
     }
 
-    public deleteFromDatabase(unitOfWork: IUnitOfWork): void {
+    protected override updateInDatabase(unitOfWork: IUnitOfWork): void {
+        const repository = unitOfWork.repo(EquipmentItem);
+        const existingItem = repository.first((item) => item.id === this.id) ?? new EquipmentItem();
+
+        if (existingItem.id === 0) {
+            this.addToDatabase(unitOfWork);
+        } else {
+            repository.update(existingItem, this);
+        }
+    }
+
+    public override deleteFromDatabase(unitOfWork: IUnitOfWork): void {
         unitOfWork.repo(EquipmentItem).remove(this);
     }
 
-    protected getLargestItemIdInDatabase(unitOfWork: IUnitOfWork): number {
+    protected override getLargestItemIdInDatabase(unitOfWork: IUnitOfWork): number {
         const sortedItems = unitOfWork
             .repo(EquipmentItem)
             .list()

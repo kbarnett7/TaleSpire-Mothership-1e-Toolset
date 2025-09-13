@@ -52,6 +52,24 @@ export class GearWeaponFormFieldsComponent extends BaseComponent {
         this._internals.setFormValue(this.value);
     }
 
+    public setInitialFormValues(item: WeaponItem) {
+        this.weaponCategorySelectElement.value = item.category;
+        this.rangeSelectElement.value = item.range;
+        this.damageInputElement.value = item.damage;
+        this.shotsInputElement.value = item.shots.toString();
+        this.woundInputElement.value = item.wound;
+        this.specialInputElement.value = item.special;
+
+        this._formFieldsDto.category = item.category;
+        this._formFieldsDto.range = item.range;
+        this._formFieldsDto.damage = item.damage;
+        this._formFieldsDto.shots = item.shots.toString();
+        this._formFieldsDto.wound = item.wound;
+        this._formFieldsDto.special = item.special;
+
+        this.updateFormValue();
+    }
+
     public handleOnWeaponCategorySelectChanged(event: Event) {
         this._formFieldsDto.category = this.weaponCategorySelectElement.value;
         this.updateFormValue();

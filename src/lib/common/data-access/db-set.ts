@@ -13,6 +13,14 @@ export class DbSet<T> {
         this.collection.push(entity);
     }
 
+    public update(existingEntity: T, updatedEntity: T): void {
+        const index = this.collection.findIndex((entity) => entity === existingEntity);
+
+        if (index === -1) return;
+
+        this.collection[index] = updatedEntity;
+    }
+
     public remove(entity: T): void {
         const index = this.collection.indexOf(entity);
 

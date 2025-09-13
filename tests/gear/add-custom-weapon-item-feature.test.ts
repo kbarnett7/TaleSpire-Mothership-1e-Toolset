@@ -11,6 +11,7 @@ import { AssertUtils } from "../helpers/assert-utils";
 import { ErrorCode } from "../../src/lib/errors/error-code";
 import { LocalizationService } from "../../src/lib/localization/localization-service";
 import { MessageKeys } from "../../src/lib/localization/message-keys";
+import { GearTestUtils } from "./gear-test-utils";
 
 describe("AddCustomWeaponItemFeature", () => {
     let unitOfWork: UnitOfWork;
@@ -22,14 +23,14 @@ describe("AddCustomWeaponItemFeature", () => {
         const dbContext = await DataAccessUtils.getInitializedDbContext();
         unitOfWork = new UnitOfWork(dbContext);
 
-        largestWeaponItemId = getLargestWeaponItemIdInDatabase();
+        largestWeaponItemId = GearTestUtils.getLargestGearItemIdInDatabase(unitOfWork.repo(WeaponItem));
 
         request = new AddCustomWeaponItemRequest();
         feature = new AddCustomWeaponItemFeature(unitOfWork);
     });
 
     afterEach(async () => {
-        resetWeaponListInDatabase();
+        GearTestUtils.resetGearItemListInDatabase(unitOfWork.repo(WeaponItem), largestWeaponItemId);
     });
 
     it("should fail if there is an unexpected exception", async () => {
@@ -266,24 +267,5 @@ describe("AddCustomWeaponItemFeature", () => {
             "Gunshot",
             "Pass the unit test!"
         );
-    }
-
-    function getLargestWeaponItemIdInDatabase(): number {
-        const sortedItems = unitOfWork
-            .repo(WeaponItem)
-            .list()
-            .sort((a, b) => a.id - b.id);
-
-        return sortedItems[sortedItems.length - 1].id;
-    }
-
-    function resetWeaponListInDatabase() {
-        const equipment = unitOfWork.repo(WeaponItem).list();
-
-        for (let item of equipment) {
-            if (item.id > largestWeaponItemId) {
-                unitOfWork.repo(WeaponItem).remove(item);
-            }
-        }
     }
 });
