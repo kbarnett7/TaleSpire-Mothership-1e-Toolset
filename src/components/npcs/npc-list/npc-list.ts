@@ -51,7 +51,7 @@ export class NpcListComponent extends BaseListComponent {
         EventBus.instance.unregister(NpcFilterChangedEvent.name, this.onNpcFilterChangedEvent);
     }
 
-    protected createTableRowsElements(tableBody: HTMLTableSectionElement) {
+    protected override createTableRowsElements(tableBody: HTMLTableSectionElement) {
         this.npcsList.forEach((item) => {
             tableBody.appendChild(this.createTableRowElement(item));
         });
@@ -83,7 +83,7 @@ export class NpcListComponent extends BaseListComponent {
         return value.toString();
     }
 
-    protected sortItems() {
+    protected override sortItems() {
         this.tableHeaders.forEach((currentHeader) => {
             this.updateSortIcons(currentHeader.field);
         });

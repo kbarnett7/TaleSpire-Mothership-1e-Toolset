@@ -52,7 +52,7 @@ export class GearListComponent extends BaseListComponent {
         EventBus.instance.unregister(GearItemDeletedEvent.name, this.onGearItemDeletedEvent);
     }
 
-    protected createTableRowsElements(tableBody: HTMLTableSectionElement) {
+    protected override createTableRowsElements(tableBody: HTMLTableSectionElement) {
         this.gearList.forEach((item) => {
             tableBody.appendChild(this.createTableRowElement(item));
         });
@@ -128,7 +128,7 @@ export class GearListComponent extends BaseListComponent {
         modal.openModal();
     }
 
-    protected sortItems() {
+    protected override sortItems() {
         this.tableHeaders.forEach((currentHeader) => {
             this.updateSortIcons(currentHeader.field);
         });
