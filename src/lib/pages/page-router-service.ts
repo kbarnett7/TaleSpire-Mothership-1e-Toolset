@@ -8,7 +8,7 @@ export class PageRouterService {
     public static gearPage: string = "Gear";
     public static codexPage: string = "Codex";
     public static aboutPage: string = "About";
-    public static gearItemPage: string = "Add Gear";
+    public static gearItemPage: string = "Gear Item";
 
     private static _instance: PageRouterService;
 

@@ -69,10 +69,6 @@ export class GearItemComponent extends BasePageComponent {
         }
 
         EventBus.instance.register(GearCategoryChangedEvent.name, this.handleGearCategoryChangedEvent);
-
-        // TODO: temp; remove.
-        const gearIdElement = this.shadow.querySelector("#gearId") as HTMLSpanElement;
-        gearIdElement.textContent = this.gearItemIdFromUrl.toString();
     }
 
     public disconnectedCallback() {
@@ -163,29 +159,30 @@ export class GearItemComponent extends BasePageComponent {
         const form = event.target as HTMLFormElement;
         const formData = new FormData(form);
 
-        await this.addGear(formData);
+        await this.saveGearItem(formData);
     }
 
-    private async addGear(formData: FormData): Promise<void> {
+    private async saveGearItem(formData: FormData): Promise<void> {
         if (this.selectedCategory == ArmorItem.gearCategory) {
-            this.addArmorItem(formData);
+            this.saveArmorItem(formData);
         } else if (this.selectedCategory == WeaponItem.gearCategory) {
-            this.addWeaponItem(formData);
+            this.saveWeaponItem(formData);
         } else {
-            this.addEquipmentItem(formData);
+            this.saveEquipmentItem(formData);
         }
     }
 
-    private async addEquipmentItem(formData: FormData): Promise<void> {
+    private async saveEquipmentItem(formData: FormData): Promise<void> {
         const request = new SaveCustomEquipmentItemRequest();
         const feature = new SaveCustomEquipmentItemFeature(this.unitOfWork);
 
         request.formFields = this.getEquipmentItemFormFields(formData);
+        request.itemId = this.gearItemIdFromUrl;
 
         await this.handleFeature(request, feature);
     }
 
-    private async addArmorItem(formData: FormData): Promise<void> {
+    private async saveArmorItem(formData: FormData): Promise<void> {
         const request = new AddCustomArmorItemRequest();
         const feature = new AddCustomArmorItemFeature(this.unitOfWork);
         const equipmentItemFormFields = this.getEquipmentItemFormFields(formData);
@@ -200,7 +197,7 @@ export class GearItemComponent extends BasePageComponent {
         await this.handleFeature(request, feature);
     }
 
-    private async addWeaponItem(formData: FormData): Promise<void> {
+    private async saveWeaponItem(formData: FormData): Promise<void> {
         const request = new AddCustomWeaponItemRequest();
         const feature = new AddCustomWeaponItemFeature(this.unitOfWork);
         const equipmentItemFormFields = this.getEquipmentItemFormFields(formData);
