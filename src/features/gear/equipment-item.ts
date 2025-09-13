@@ -63,9 +63,9 @@ export class EquipmentItem extends GearItem {
 
         if (existingItem.id === 0) {
             this.addToDatabase(unitOfWork);
+        } else {
+            repository.update(existingItem, this);
         }
-
-        repository.update(existingItem, this);
     }
 
     public override deleteFromDatabase(unitOfWork: IUnitOfWork): void {

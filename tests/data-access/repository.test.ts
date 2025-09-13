@@ -63,7 +63,7 @@ describe("Repository", () => {
         expect(entities[originalLength].name).toBe("Test Armor");
     });
 
-    it("should updated an existing entity in the DB set when given an modified version of the existing entity", async () => {
+    it("should update an existing entity in the DB set when given an modified version of the existing entity", async () => {
         // Arrange
         const repository = new Repository(ArmorItem, dbContext);
 
