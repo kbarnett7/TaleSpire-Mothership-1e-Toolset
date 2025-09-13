@@ -63,6 +63,28 @@ describe("Repository", () => {
         expect(entities[originalLength].name).toBe("Test Armor");
     });
 
+    it("should updated an existing entity in the DB set when given an modified version of the existing entity", async () => {
+        // Arrange
+        const repository = new Repository(ArmorItem, dbContext);
+
+        const existingEntity = new ArmorItem(99, 1, "Test Armor");
+        repository.add(existingEntity);
+        await dbContext.saveChanges();
+
+        const originalLength = repository.list().length;
+        const editedEntity = new ArmorItem(99, 1, "Edited Test Armor");
+
+        // Act
+        repository.update(existingEntity, editedEntity);
+        await dbContext.saveChanges();
+
+        // Assert
+        const entity = repository.first((entity) => entity.id === 99) ?? new ArmorItem();
+        expect(repository.list().length).toBe(originalLength);
+        expect(entity.id).toBe(99);
+        expect(entity.name).toBe("Edited Test Armor");
+    });
+
     async function clearDbSet<T>(dbContext: IDatabaseContext, dbSet: DbSet<T>) {
         for (const element of dbSet.toArray()) {
             dbSet.remove(element);
