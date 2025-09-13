@@ -51,21 +51,13 @@ export class EquipmentItem extends GearItem {
         return this;
     }
 
-    public override saveToDatabase(unitOfWork: IUnitOfWork): void {
-        if (this.id == 0) {
-            this.addToDatabase(unitOfWork);
-        } else {
-            this.updateInDatabase(unitOfWork);
-        }
-    }
-
-    private addToDatabase(unitOfWork: IUnitOfWork): void {
+    protected override addToDatabase(unitOfWork: IUnitOfWork): void {
         this.id = this.generateId(unitOfWork);
         this.sourceId = this.getCustomItemSourceId(unitOfWork);
         unitOfWork.repo(EquipmentItem).add(this);
     }
 
-    private updateInDatabase(unitOfWork: IUnitOfWork): void {
+    protected override updateInDatabase(unitOfWork: IUnitOfWork): void {
         const repository = unitOfWork.repo(EquipmentItem);
         const existingItem = repository.first((item) => item.id === this.id) ?? new EquipmentItem();
 

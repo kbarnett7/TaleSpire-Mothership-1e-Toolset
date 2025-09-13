@@ -126,12 +126,14 @@ export class WeaponItem extends EquipmentItem {
         return this;
     }
 
-    public override saveToDatabase(unitOfWork: IUnitOfWork): void {
+    protected override addToDatabase(unitOfWork: IUnitOfWork): void {
         this.id = this.generateId(unitOfWork);
         this.sourceId = this.getCustomItemSourceId(unitOfWork);
 
         unitOfWork.repo(WeaponItem).add(this);
     }
+
+    protected override updateInDatabase(unitOfWork: IUnitOfWork): void {}
 
     public override deleteFromDatabase(unitOfWork: IUnitOfWork): void {
         unitOfWork.repo(WeaponItem).remove(this);

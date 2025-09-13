@@ -88,12 +88,14 @@ export class ArmorItem extends EquipmentItem {
         return this;
     }
 
-    public override saveToDatabase(unitOfWork: IUnitOfWork): void {
+    protected override addToDatabase(unitOfWork: IUnitOfWork): void {
         this.id = this.generateId(unitOfWork);
         this.sourceId = this.getCustomItemSourceId(unitOfWork);
 
         unitOfWork.repo(ArmorItem).add(this);
     }
+
+    protected override updateInDatabase(unitOfWork: IUnitOfWork): void {}
 
     public override deleteFromDatabase(unitOfWork: IUnitOfWork): void {
         unitOfWork.repo(ArmorItem).remove(this);
