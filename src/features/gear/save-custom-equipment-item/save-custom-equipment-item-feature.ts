@@ -1,5 +1,6 @@
 import { IUnitOfWork } from "../../../lib/common/data-access/unit-of-work-interface";
 import { IAsyncFeature } from "../../../lib/common/features/async-feature-interface";
+import { SaveDbEntityFeature } from "../../../lib/common/features/save-db-entity-feature";
 import { ErrorCode } from "../../../lib/errors/error-code";
 import { LocalizationService } from "../../../lib/localization/localization-service";
 import { MessageKeys } from "../../../lib/localization/message-keys";
@@ -11,24 +12,23 @@ import { EquipmentItemMap } from "../equipment-item-map";
 import { SaveCustomEquipmentItemRequest } from "./save-custom-equipment-item-request";
 
 export class SaveCustomEquipmentItemFeature
+    extends SaveDbEntityFeature
     implements IAsyncFeature<SaveCustomEquipmentItemRequest, Result<EquipmentItem>>
 {
-    private readonly unitOfWork: IUnitOfWork;
-    private baseFailureMessage: string;
-    private errorCode: string;
-
     constructor(unitOfWork: IUnitOfWork) {
-        this.unitOfWork = unitOfWork;
-        this.baseFailureMessage = LocalizationService.instance.translate(MessageKeys.saveCustomEquipmentItemFailed);
-        this.errorCode = ErrorCode.UnexpectedError;
+        super(unitOfWork);
     }
 
     public async handleAsync(request: SaveCustomEquipmentItemRequest): Promise<Result<EquipmentItem>> {
         try {
-            this.setErrorResultFields(request);
+            this.setErrorResultFields(
+                request.id,
+                MessageKeys.createCustomEquipmentItemFailed,
+                MessageKeys.editCustomEquipmentItemFailed
+            );
 
             const equipmentItem = EquipmentItemMap.fromFormFields(request.formFields);
-            equipmentItem.id = request.itemId;
+            equipmentItem.id = request.id;
 
             const validationResults: string[] = equipmentItem.validate(this.unitOfWork);
 
@@ -46,23 +46,7 @@ export class SaveCustomEquipmentItemFeature
 
             AppLogger.instance.error(`Error while creating a new equipment item`, ex);
 
-            return this.createExceptionResult(ex);
+            return this.createExceptionResult<EquipmentItem>(ex);
         }
-    }
-
-    private setErrorResultFields(request: SaveCustomEquipmentItemRequest) {
-        if (request.itemId === 0) {
-            this.errorCode = ErrorCode.CreateError;
-            this.baseFailureMessage = LocalizationService.instance.translate(
-                MessageKeys.createCustomEquipmentItemFailed
-            );
-        } else {
-            this.errorCode = ErrorCode.EditError;
-            this.baseFailureMessage = LocalizationService.instance.translate(MessageKeys.editCustomEquipmentItemFailed);
-        }
-    }
-
-    private createExceptionResult(ex: Error): Result<EquipmentItem> {
-        return Result.failure(new ResultError(this.errorCode, this.baseFailureMessage, [ex.message]));
     }
 }

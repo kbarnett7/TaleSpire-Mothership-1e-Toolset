@@ -31,7 +31,7 @@ export class ArmorItem extends EquipmentItem {
     protected override validateItemDoesNotAlreadyExist(unitOfWork: IUnitOfWork): ArmorItem {
         const existingItem = unitOfWork.repo(ArmorItem).first((item) => item.name === this.name);
 
-        if (existingItem) {
+        if (existingItem && existingItem.id !== this.id) {
             this.validationResults.push(this.getItemAlreadyExistsValidationMessage(ArmorItem.gearCategory));
         }
 
@@ -95,7 +95,16 @@ export class ArmorItem extends EquipmentItem {
         unitOfWork.repo(ArmorItem).add(this);
     }
 
-    protected override updateInDatabase(unitOfWork: IUnitOfWork): void {}
+    protected override updateInDatabase(unitOfWork: IUnitOfWork): void {
+        const repository = unitOfWork.repo(ArmorItem);
+        const existingItem = repository.first((item) => item.id === this.id) ?? new ArmorItem();
+
+        if (existingItem.id === 0) {
+            this.addToDatabase(unitOfWork);
+        } else {
+            repository.update(existingItem, this);
+        }
+    }
 
     public override deleteFromDatabase(unitOfWork: IUnitOfWork): void {
         unitOfWork.repo(ArmorItem).remove(this);

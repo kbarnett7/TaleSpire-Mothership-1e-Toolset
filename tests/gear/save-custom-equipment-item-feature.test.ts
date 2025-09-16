@@ -62,7 +62,7 @@ describe("SaveCustomEquipmentItemFeature", () => {
         const equipmentItemFormFields = getValidEditedEquipmentItemFormFields();
 
         request.formFields = equipmentItemFormFields;
-        request.itemId = equipmentItemId;
+        request.id = equipmentItemId;
 
         jest.spyOn(request, "formFields", "get").mockImplementation(() => {
             throw new Error("Mocked exception");
@@ -107,7 +107,7 @@ describe("SaveCustomEquipmentItemFeature", () => {
         equipmentItemFormFields.name = ValueUtils.getStringOfRandomCharacters(101);
 
         request.formFields = equipmentItemFormFields;
-        request.itemId = equipmentItemId;
+        request.id = equipmentItemId;
 
         // Act
         const result = await feature.handleAsync(request);
@@ -257,7 +257,7 @@ describe("SaveCustomEquipmentItemFeature", () => {
         equipmentItemFormFields.name = "Binoculars";
 
         request.formFields = equipmentItemFormFields;
-        request.itemId = equipmentItemId;
+        request.id = equipmentItemId;
 
         // Act
         const result = await feature.handleAsync(request);
@@ -281,7 +281,7 @@ describe("SaveCustomEquipmentItemFeature", () => {
         const numberOfEquipmentInDatabasePreEdit = unitOfWork.repo(EquipmentItem).list().length;
 
         request.formFields = equipmentItemFormFields;
-        request.itemId = equipmentItemId;
+        request.id = equipmentItemId;
 
         // Act
         const result = await feature.handleAsync(request);
@@ -307,7 +307,7 @@ describe("SaveCustomEquipmentItemFeature", () => {
         const numberOfEquipmentInDatabasePreEdit = unitOfWork.repo(EquipmentItem).list().length;
 
         request.formFields = equipmentItemFormFields;
-        request.itemId = nonExistantId;
+        request.id = nonExistantId;
 
         // Act
         const result = await feature.handleAsync(request);
@@ -322,6 +322,34 @@ describe("SaveCustomEquipmentItemFeature", () => {
         expect(numberOfEquipmentInDatabasePostEdit).toBe(numberOfEquipmentInDatabasePreEdit + 1);
         expect(itemFromDatabase.id).toBe(result.value?.id);
         expect(itemFromDatabase.id).not.toBe(nonExistantId);
+        expect(itemFromDatabase.name).toBe(result.value?.name);
+        expect(itemFromDatabase.description).toBe(result.value?.description);
+        expect(itemFromDatabase.cost).toBe(result.value?.cost);
+    });
+
+    it("should save an edited equipment item with valid changes to the database when the name wasn't changed", async () => {
+        // Arrange
+        const equipmentItemId = await addBaseCustomEquipmentItemToDatabase();
+        const equipmentItemFormFields = getValidEditedEquipmentItemFormFields();
+        const numberOfEquipmentInDatabasePreEdit = unitOfWork.repo(EquipmentItem).list().length;
+
+        equipmentItemFormFields.name = "Test Equipment to Edit";
+
+        request.formFields = equipmentItemFormFields;
+        request.id = equipmentItemId;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        const numberOfEquipmentInDatabasePostEdit = unitOfWork.repo(EquipmentItem).list().length;
+        const itemFromDatabase =
+            unitOfWork.repo(EquipmentItem).first((item) => item.id == result.value?.id) ?? new EquipmentItem();
+
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(numberOfEquipmentInDatabasePostEdit).toBe(numberOfEquipmentInDatabasePreEdit);
+        expect(itemFromDatabase.id).toBe(result.value?.id);
         expect(itemFromDatabase.name).toBe(result.value?.name);
         expect(itemFromDatabase.description).toBe(result.value?.description);
         expect(itemFromDatabase.cost).toBe(result.value?.cost);
