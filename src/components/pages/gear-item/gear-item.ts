@@ -193,6 +193,7 @@ export class GearItemComponent extends BasePageComponent {
         armorItemFormFields.description = equipmentItemFormFields.description;
 
         request.formFields = armorItemFormFields;
+        request.id = this.gearItemIdFromUrl;
 
         await this.handleFeature(request, feature);
     }
