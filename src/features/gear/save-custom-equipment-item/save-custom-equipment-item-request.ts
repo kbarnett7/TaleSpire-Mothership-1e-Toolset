@@ -1,8 +1,8 @@
+import { SaveDbEntityRequest } from "../../../lib/common/features/save-db-entity-request";
 import { EquipmentItemFormFieldsDto } from "../equipment-item-form-fields-dto";
 
-export class SaveCustomEquipmentItemRequest {
+export class SaveCustomEquipmentItemRequest extends SaveDbEntityRequest {
     private _formFields: EquipmentItemFormFieldsDto;
-    private _itemId: number;
 
     public get formFields(): EquipmentItemFormFieldsDto {
         return this._formFields;
@@ -12,16 +12,8 @@ export class SaveCustomEquipmentItemRequest {
         this._formFields = value;
     }
 
-    public get itemId(): number {
-        return this._itemId;
-    }
-
-    public set itemId(value: number) {
-        this._itemId = value;
-    }
-
     constructor() {
+        super();
         this._formFields = new EquipmentItemFormFieldsDto();
-        this._itemId = 0;
     }
 }

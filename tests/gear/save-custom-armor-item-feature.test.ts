@@ -30,9 +30,11 @@ describe("SaveCustomArmorItemFeature", () => {
 
     afterEach(async () => {
         GearTestUtils.resetGearItemListInDatabase(unitOfWork.repo(ArmorItem), largestArmorItemId);
+
+        await unitOfWork.saveChanges();
     });
 
-    it("should fail if there is an unexpected exception", async () => {
+    it("should fail if there is an unexpected exception when adding a new armor item", async () => {
         // Arrange
         const armorItemFormFields: ArmorItemFormFieldsDto = getValidCustomArmorItemFormFields();
         armorItemFormFields.description = ValueUtils.getStringOfRandomCharacters(1001);
@@ -52,6 +54,69 @@ describe("SaveCustomArmorItemFeature", () => {
         );
         expect(result.error.details.length).toBe(1);
         expect(result.error.details[0]).toContain("Mocked");
+    });
+
+    it("should fail if there is an unexpected exception when editing an existing armor item", async () => {
+        // Arrange
+        const armorItemId = await addBaseCustomArmorItemToDatabase();
+        const armorItemFormFields = getValidEditedArmorItemFormFields();
+
+        request.formFields = armorItemFormFields;
+        request.id = armorItemId;
+
+        jest.spyOn(request, "formFields", "get").mockImplementation(() => {
+            throw new Error("Mocked exception");
+        });
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.EditError,
+            LocalizationService.instance.translate(MessageKeys.editCustomArmorItemFailed)
+        );
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("Mocked");
+    });
+
+    it("should have create error code info when adding an armor item fails", async () => {
+        // Arrange
+        const armorItemFormFields: ArmorItemFormFieldsDto = getValidCustomArmorItemFormFields();
+        armorItemFormFields.name = ValueUtils.getStringOfRandomCharacters(101);
+        request.formFields = armorItemFormFields;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.CreateError,
+            LocalizationService.instance.translate(MessageKeys.createCustomArmorItemFailed)
+        );
+    });
+
+    it("should have edit error code info when editing an armor item fails", async () => {
+        // Arrange
+        const armorItemId = await addBaseCustomArmorItemToDatabase();
+        const armorItemFormFields = getValidEditedArmorItemFormFields();
+
+        armorItemFormFields.name = ValueUtils.getStringOfRandomCharacters(101);
+
+        request.formFields = armorItemFormFields;
+        request.id = armorItemId;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.EditError,
+            LocalizationService.instance.translate(MessageKeys.editCustomArmorItemFailed)
+        );
     });
 
     it("should fail if the name is greater than 100 characters long", async () => {
@@ -213,6 +278,124 @@ describe("SaveCustomArmorItemFeature", () => {
         expect(itemFromDatabase.special).toBe(result.value?.special);
     });
 
+    it("should fail when editing an armor item to have the same name as another armor item in the database", async () => {
+        // Arrange
+        const armorItemId = await addBaseCustomArmorItemToDatabase();
+        const armorItemFormFields = getValidEditedArmorItemFormFields();
+
+        armorItemFormFields.name = "Vaccsuit";
+
+        request.formFields = armorItemFormFields;
+        request.id = armorItemId;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.EditError,
+            LocalizationService.instance.translate(MessageKeys.editCustomArmorItemFailed)
+        );
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("name");
+        expect(result.error.details[0]).toContain("Vaccsuit");
+        expect(result.error.details[0]).toContain("already exists");
+    });
+
+    it("should save an edited armor item with valid changes to the database", async () => {
+        // Arrange
+        const armorItemId = await addBaseCustomArmorItemToDatabase();
+        const armorItemFormFields = getValidEditedArmorItemFormFields();
+        const numberOfArmorInDatabasePreEdit = unitOfWork.repo(ArmorItem).list().length;
+
+        request.formFields = armorItemFormFields;
+        request.id = armorItemId;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        const numberOfEquipmentInDatabasePostEdit = unitOfWork.repo(ArmorItem).list().length;
+        const itemFromDatabase =
+            unitOfWork.repo(ArmorItem).first((item) => item.id == result.value?.id) ?? new ArmorItem();
+
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(numberOfEquipmentInDatabasePostEdit).toBe(numberOfArmorInDatabasePreEdit);
+        expect(itemFromDatabase.id).toBe(result.value?.id);
+        expect(itemFromDatabase.name).toBe(result.value?.name);
+        expect(itemFromDatabase.description).toBe(result.value?.description);
+        expect(itemFromDatabase.cost).toBe(result.value?.cost);
+        expect(itemFromDatabase.armorPoints).toBe(result.value?.armorPoints);
+        expect(itemFromDatabase.oxygen).toBe(result.value?.oxygen);
+        expect(itemFromDatabase.speed).toBe(result.value?.speed);
+        expect(itemFromDatabase.special).toBe(result.value?.special);
+    });
+
+    it("should add a valid armor item with a non-zero ID that doesn't exist in the database to the database with an incremented ID and the source set to custom", async () => {
+        // Arrange
+        const nonExistantId = largestArmorItemId + 10;
+        const armorItemFormFields = getValidCustomArmorItemFormFields();
+        const numberOfArmorInDatabasePreEdit = unitOfWork.repo(ArmorItem).list().length;
+
+        request.formFields = armorItemFormFields;
+        request.id = nonExistantId;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        const numberOfEquipmentInDatabasePostEdit = unitOfWork.repo(ArmorItem).list().length;
+        const itemFromDatabase =
+            unitOfWork.repo(ArmorItem).first((item) => item.id == result.value?.id) ?? new ArmorItem();
+
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(numberOfEquipmentInDatabasePostEdit).toBe(numberOfArmorInDatabasePreEdit + 1);
+        expect(itemFromDatabase.id).toBe(result.value?.id);
+        expect(itemFromDatabase.id).not.toBe(nonExistantId);
+        expect(itemFromDatabase.name).toBe(result.value?.name);
+        expect(itemFromDatabase.description).toBe(result.value?.description);
+        expect(itemFromDatabase.cost).toBe(result.value?.cost);
+        expect(itemFromDatabase.armorPoints).toBe(result.value?.armorPoints);
+        expect(itemFromDatabase.oxygen).toBe(result.value?.oxygen);
+        expect(itemFromDatabase.speed).toBe(result.value?.speed);
+        expect(itemFromDatabase.special).toBe(result.value?.special);
+    });
+
+    it("should save an edited armor item with valid changes to the database when the name wasn't changed", async () => {
+        // Arrange
+        const armorItemId = await addBaseCustomArmorItemToDatabase();
+        const armorItemFormFields = getValidEditedArmorItemFormFields();
+        const numberOfArmorInDatabasePreEdit = unitOfWork.repo(ArmorItem).list().length;
+
+        armorItemFormFields.name = "Test Armor to Edit";
+
+        request.formFields = armorItemFormFields;
+        request.id = armorItemId;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        const numberOfEquipmentInDatabasePostEdit = unitOfWork.repo(ArmorItem).list().length;
+        const itemFromDatabase =
+            unitOfWork.repo(ArmorItem).first((item) => item.id == result.value?.id) ?? new ArmorItem();
+
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(numberOfEquipmentInDatabasePostEdit).toBe(numberOfArmorInDatabasePreEdit);
+        expect(itemFromDatabase.id).toBe(result.value?.id);
+        expect(itemFromDatabase.name).toBe(result.value?.name);
+        expect(itemFromDatabase.description).toBe(result.value?.description);
+        expect(itemFromDatabase.cost).toBe(result.value?.cost);
+        expect(itemFromDatabase.armorPoints).toBe(result.value?.armorPoints);
+        expect(itemFromDatabase.oxygen).toBe(result.value?.oxygen);
+        expect(itemFromDatabase.speed).toBe(result.value?.speed);
+        expect(itemFromDatabase.special).toBe(result.value?.special);
+    });
+
     function getValidCustomArmorItemFormFields(): ArmorItemFormFieldsDto {
         return new ArmorItemFormFieldsDto(
             "Test Custom Item",
@@ -223,5 +406,37 @@ describe("SaveCustomArmorItemFeature", () => {
             ArmorSpeed.Advantage,
             "Pass the unit test!"
         );
+    }
+
+    function getValidEditedArmorItemFormFields(): ArmorItemFormFieldsDto {
+        return new ArmorItemFormFieldsDto(
+            "Edited Test Custom Item",
+            "A custom item created for unit testing. Edit!",
+            "3000",
+            "4",
+            "2",
+            ArmorSpeed.Disadvantage,
+            "Pass the unit test for editing!"
+        );
+    }
+
+    async function addBaseCustomArmorItemToDatabase(): Promise<number> {
+        const armorItem = new ArmorItem(
+            0,
+            0,
+            "Test Armor to Edit",
+            "Edit me!",
+            1000,
+            2,
+            6,
+            ArmorSpeed.Advantage,
+            "Pass the unit test!"
+        );
+
+        armorItem.saveToDatabase(unitOfWork);
+
+        await unitOfWork.saveChanges();
+
+        return armorItem.id;
     }
 });

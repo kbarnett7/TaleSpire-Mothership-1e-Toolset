@@ -1,6 +1,7 @@
+import { SaveDbEntityRequest } from "../../../lib/common/features/save-db-entity-request";
 import { ArmorItemFormFieldsDto } from "../armor-item-form-fields-dto";
 
-export class SaveCustomArmorItemRequest {
+export class SaveCustomArmorItemRequest extends SaveDbEntityRequest {
     private _formFields: ArmorItemFormFieldsDto;
 
     public get formFields(): ArmorItemFormFieldsDto {
@@ -12,6 +13,7 @@ export class SaveCustomArmorItemRequest {
     }
 
     constructor() {
+        super();
         this._formFields = new ArmorItemFormFieldsDto();
     }
 }

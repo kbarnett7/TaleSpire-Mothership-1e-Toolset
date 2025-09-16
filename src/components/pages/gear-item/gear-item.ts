@@ -177,7 +177,7 @@ export class GearItemComponent extends BasePageComponent {
         const feature = new SaveCustomEquipmentItemFeature(this.unitOfWork);
 
         request.formFields = this.getEquipmentItemFormFields(formData);
-        request.itemId = this.gearItemIdFromUrl;
+        request.id = this.gearItemIdFromUrl;
 
         await this.handleFeature(request, feature);
     }
