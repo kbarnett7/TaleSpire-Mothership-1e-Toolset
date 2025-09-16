@@ -15,8 +15,8 @@ import { IUnitOfWork } from "../../../lib/common/data-access/unit-of-work-interf
 import { appInjector } from "../../../lib/infrastructure/app-injector";
 import { UnitOfWork } from "../../../lib/data-access/unit-of-work";
 import { ResultError } from "../../../lib/result/result-error";
-import { AddCustomArmorItemRequest } from "../../../features/gear/add-custom-armor-item/add-custom-armor-item-request";
-import { AddCustomArmorItemFeature } from "../../../features/gear/add-custom-armor-item/add-custom-armor-item-feature";
+import { SaveCustomArmorItemRequest } from "../../../features/gear/save-custom-armor-item/save-custom-armor-item-request";
+import { SaveCustomArmorItemFeature } from "../../../features/gear/save-custom-armor-item/save-custom-armor-item-feature";
 import { ArmorItemFormFieldsDto } from "../../../features/gear/armor-item-form-fields-dto";
 import { IAsyncFeature } from "../../../lib/common/features/async-feature-interface";
 import { Result } from "../../../lib/result/result";
@@ -183,8 +183,8 @@ export class GearItemComponent extends BasePageComponent {
     }
 
     private async saveArmorItem(formData: FormData): Promise<void> {
-        const request = new AddCustomArmorItemRequest();
-        const feature = new AddCustomArmorItemFeature(this.unitOfWork);
+        const request = new SaveCustomArmorItemRequest();
+        const feature = new SaveCustomArmorItemFeature(this.unitOfWork);
         const equipmentItemFormFields = this.getEquipmentItemFormFields(formData);
         const armorItemFormFields = this.getArmorItemFormFields(formData);
 

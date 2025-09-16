@@ -1,5 +1,5 @@
-import { AddCustomArmorItemRequest } from "../../src/features/gear/add-custom-armor-item/add-custom-armor-item-request";
-import { AddCustomArmorItemFeature } from "../../src/features/gear/add-custom-armor-item/add-custom-armor-item-feature";
+import { SaveCustomArmorItemRequest } from "../../src/features/gear/save-custom-armor-item/save-custom-armor-item-request";
+import { SaveCustomArmorItemFeature } from "../../src/features/gear/save-custom-armor-item/save-custom-armor-item-feature";
 import { ArmorItem } from "../../src/features/gear/armor-item";
 import { UnitOfWork } from "../../src/lib/data-access/unit-of-work";
 import { ErrorCode } from "../../src/lib/errors/error-code";
@@ -12,10 +12,10 @@ import { ValueUtils } from "../helpers/value-utils";
 import { ArmorSpeed } from "../../src/features/gear/armor-speed";
 import { GearTestUtils } from "./gear-test-utils";
 
-describe("AddCustomArmorItemFeature", () => {
+describe("SaveCustomArmorItemFeature", () => {
     let unitOfWork: UnitOfWork;
-    let request: AddCustomArmorItemRequest;
-    let feature: AddCustomArmorItemFeature;
+    let request: SaveCustomArmorItemRequest;
+    let feature: SaveCustomArmorItemFeature;
     let largestArmorItemId: number;
 
     beforeEach(async () => {
@@ -24,8 +24,8 @@ describe("AddCustomArmorItemFeature", () => {
 
         largestArmorItemId = GearTestUtils.getLargestGearItemIdInDatabase(unitOfWork.repo(ArmorItem));
 
-        request = new AddCustomArmorItemRequest();
-        feature = new AddCustomArmorItemFeature(unitOfWork);
+        request = new SaveCustomArmorItemRequest();
+        feature = new SaveCustomArmorItemFeature(unitOfWork);
     });
 
     afterEach(async () => {

@@ -1,6 +1,6 @@
 import { ArmorItemFormFieldsDto } from "../armor-item-form-fields-dto";
 
-export class AddCustomArmorItemRequest {
+export class SaveCustomArmorItemRequest {
     private _formFields: ArmorItemFormFieldsDto;
 
     public get formFields(): ArmorItemFormFieldsDto {

@@ -8,9 +8,9 @@ import { Result } from "../../../lib/result/result";
 import { ResultError } from "../../../lib/result/result-error";
 import { ArmorItem } from "../armor-item";
 import { ArmorItemMap } from "../armor-item-map";
-import { AddCustomArmorItemRequest } from "./add-custom-armor-item-request";
+import { SaveCustomArmorItemRequest } from "./save-custom-armor-item-request";
 
-export class AddCustomArmorItemFeature implements IAsyncFeature<AddCustomArmorItemRequest, Result<ArmorItem>> {
+export class SaveCustomArmorItemFeature implements IAsyncFeature<SaveCustomArmorItemRequest, Result<ArmorItem>> {
     private readonly unitOfWork: IUnitOfWork;
     private readonly baseFailureMessage: string;
 
@@ -19,7 +19,7 @@ export class AddCustomArmorItemFeature implements IAsyncFeature<AddCustomArmorIt
         this.baseFailureMessage = LocalizationService.instance.translate(MessageKeys.createCustomArmorItemFailed);
     }
 
-    public async handleAsync(request: AddCustomArmorItemRequest): Promise<Result<ArmorItem>> {
+    public async handleAsync(request: SaveCustomArmorItemRequest): Promise<Result<ArmorItem>> {
         try {
             const armorItem = ArmorItemMap.fromFormFields(request.formFields);
             const validationResults: string[] = armorItem.validate(this.unitOfWork);
