@@ -305,12 +305,12 @@ describe("SaveCustomEquipmentItemFeature", () => {
 
     it("should add a valid equipment item with a non-zero ID that doesn't exist in the database to the database with an incremented ID and the source set to custom", async () => {
         // Arrange
-        const nonExistantId = largestEquipmentId + 10;
+        const nonExistentId = largestEquipmentId + 10;
         const equipmentItemFormFields = getValidCustomEquipmentItemFormFields();
         const numberOfEquipmentInDatabasePreEdit = unitOfWork.repo(EquipmentItem).list().length;
 
         request.formFields = equipmentItemFormFields;
-        request.id = nonExistantId;
+        request.id = nonExistentId;
 
         // Act
         const result = await feature.handleAsync(request);
@@ -324,7 +324,7 @@ describe("SaveCustomEquipmentItemFeature", () => {
         expect(result.value).toBeDefined();
         expect(numberOfEquipmentInDatabasePostEdit).toBe(numberOfEquipmentInDatabasePreEdit + 1);
         expect(itemFromDatabase.id).toBe(result.value?.id);
-        expect(itemFromDatabase.id).not.toBe(nonExistantId);
+        expect(itemFromDatabase.id).not.toBe(nonExistentId);
         expect(itemFromDatabase.sourceId).toBe(SourcesService.instance.getCustomItemSourceId(unitOfWork));
         expect(itemFromDatabase.name).toBe(result.value?.name);
         expect(itemFromDatabase.description).toBe(result.value?.description);
