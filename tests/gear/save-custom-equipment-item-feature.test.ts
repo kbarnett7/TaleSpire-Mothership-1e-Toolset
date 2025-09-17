@@ -10,6 +10,7 @@ import { AssertUtils } from "../helpers/assert-utils";
 import { EquipmentItem } from "../../src/features/gear/equipment-item";
 import { ValueUtils } from "../helpers/value-utils";
 import { GearTestUtils } from "./gear-test-utils";
+import { SourcesService } from "../../src/features/sources/sources-service";
 
 describe("SaveCustomEquipmentItemFeature", () => {
     let unitOfWork: UnitOfWork;
@@ -244,6 +245,7 @@ describe("SaveCustomEquipmentItemFeature", () => {
         expect(numberOfEquipmentInDatabasePostAdd).toBe(numberOfEquipmentInDatabasePreAdd + 1);
         expect(itemFromDatabase.id).toBe(largestEquipmentId + 1);
         expect(itemFromDatabase.id).toBe(result.value?.id);
+        expect(itemFromDatabase.sourceId).toBe(SourcesService.instance.getCustomItemSourceId(unitOfWork));
         expect(itemFromDatabase.name).toBe(result.value?.name);
         expect(itemFromDatabase.description).toBe(result.value?.description);
         expect(itemFromDatabase.cost).toBe(result.value?.cost);
@@ -295,6 +297,7 @@ describe("SaveCustomEquipmentItemFeature", () => {
         expect(result.value).toBeDefined();
         expect(numberOfEquipmentInDatabasePostEdit).toBe(numberOfEquipmentInDatabasePreEdit);
         expect(itemFromDatabase.id).toBe(result.value?.id);
+        expect(itemFromDatabase.sourceId).toBe(SourcesService.instance.getCustomItemSourceId(unitOfWork));
         expect(itemFromDatabase.name).toBe(result.value?.name);
         expect(itemFromDatabase.description).toBe(result.value?.description);
         expect(itemFromDatabase.cost).toBe(result.value?.cost);
@@ -322,6 +325,7 @@ describe("SaveCustomEquipmentItemFeature", () => {
         expect(numberOfEquipmentInDatabasePostEdit).toBe(numberOfEquipmentInDatabasePreEdit + 1);
         expect(itemFromDatabase.id).toBe(result.value?.id);
         expect(itemFromDatabase.id).not.toBe(nonExistantId);
+        expect(itemFromDatabase.sourceId).toBe(SourcesService.instance.getCustomItemSourceId(unitOfWork));
         expect(itemFromDatabase.name).toBe(result.value?.name);
         expect(itemFromDatabase.description).toBe(result.value?.description);
         expect(itemFromDatabase.cost).toBe(result.value?.cost);
@@ -350,6 +354,7 @@ describe("SaveCustomEquipmentItemFeature", () => {
         expect(result.value).toBeDefined();
         expect(numberOfEquipmentInDatabasePostEdit).toBe(numberOfEquipmentInDatabasePreEdit);
         expect(itemFromDatabase.id).toBe(result.value?.id);
+        expect(itemFromDatabase.sourceId).toBe(SourcesService.instance.getCustomItemSourceId(unitOfWork));
         expect(itemFromDatabase.name).toBe(result.value?.name);
         expect(itemFromDatabase.description).toBe(result.value?.description);
         expect(itemFromDatabase.cost).toBe(result.value?.cost);

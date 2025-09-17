@@ -110,7 +110,6 @@ export class GearItemDisplayDialogComponent extends BaseComponent {
     }
 
     private isCustomItem(): boolean {
-        console.log(`DEBUG -- Gear Item Source Id = ${this.gearItem.sourceId}`);
         return this.gearItem.sourceId === SourcesService.instance.getCustomItemSourceId(this.unitOfWork);
     }
 

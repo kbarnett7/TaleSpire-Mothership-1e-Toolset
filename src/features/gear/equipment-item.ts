@@ -55,6 +55,7 @@ export class EquipmentItem extends GearItem {
     protected override addToDatabase(unitOfWork: IUnitOfWork): void {
         this.id = this.generateId(unitOfWork);
         this.sourceId = SourcesService.instance.getCustomItemSourceId(unitOfWork);
+
         unitOfWork.repo(EquipmentItem).add(this);
     }
 
@@ -65,6 +66,8 @@ export class EquipmentItem extends GearItem {
         if (existingItem.id === 0) {
             this.addToDatabase(unitOfWork);
         } else {
+            this.sourceId = existingItem.sourceId;
+
             repository.update(existingItem, this);
         }
     }

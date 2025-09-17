@@ -103,6 +103,8 @@ export class ArmorItem extends EquipmentItem {
         if (existingItem.id === 0) {
             this.addToDatabase(unitOfWork);
         } else {
+            this.sourceId = existingItem.sourceId;
+
             repository.update(existingItem, this);
         }
     }

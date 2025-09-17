@@ -12,6 +12,7 @@ import { ErrorCode } from "../../src/lib/errors/error-code";
 import { LocalizationService } from "../../src/lib/localization/localization-service";
 import { MessageKeys } from "../../src/lib/localization/message-keys";
 import { GearTestUtils } from "./gear-test-utils";
+import { SourcesService } from "../../src/features/sources/sources-service";
 
 describe("SaveCustomWeaponItemFeature", () => {
     let unitOfWork: UnitOfWork;
@@ -309,6 +310,7 @@ describe("SaveCustomWeaponItemFeature", () => {
         expect(numberOfWeaponsInDatabasePostAdd).toBe(numberOfWeaponsInDatabasePreAdd + 1);
         expect(itemFromDatabase.id).toBe(largestWeaponItemId + 1);
         expect(itemFromDatabase.id).toBe(result.value?.id);
+        expect(itemFromDatabase.sourceId).toBe(SourcesService.instance.getCustomItemSourceId(unitOfWork));
         expect(itemFromDatabase.name).toBe(result.value?.name);
         expect(itemFromDatabase.description).toBe(result.value?.description);
         expect(itemFromDatabase.cost).toBe(result.value?.cost);
@@ -366,6 +368,7 @@ describe("SaveCustomWeaponItemFeature", () => {
         expect(result.value).toBeDefined();
         expect(numberOfWeaponsInDatabasePostEdit).toBe(numberOfWeaponInDatabasePreEdit);
         expect(itemFromDatabase.id).toBe(result.value?.id);
+        expect(itemFromDatabase.sourceId).toBe(SourcesService.instance.getCustomItemSourceId(unitOfWork));
         expect(itemFromDatabase.name).toBe(result.value?.name);
         expect(itemFromDatabase.description).toBe(result.value?.description);
         expect(itemFromDatabase.cost).toBe(result.value?.cost);
@@ -399,6 +402,7 @@ describe("SaveCustomWeaponItemFeature", () => {
         expect(numberOfWeaponsInDatabasePostEdit).toBe(numberOfWeaponsInDatabasePreEdit + 1);
         expect(itemFromDatabase.id).toBe(result.value?.id);
         expect(itemFromDatabase.id).not.toBe(nonExistantId);
+        expect(itemFromDatabase.sourceId).toBe(SourcesService.instance.getCustomItemSourceId(unitOfWork));
         expect(itemFromDatabase.name).toBe(result.value?.name);
         expect(itemFromDatabase.description).toBe(result.value?.description);
         expect(itemFromDatabase.cost).toBe(result.value?.cost);
@@ -433,6 +437,7 @@ describe("SaveCustomWeaponItemFeature", () => {
         expect(result.value).toBeDefined();
         expect(numberOfWeaponsInDatabasePostEdit).toBe(numberOfWeaponInDatabasePreEdit);
         expect(itemFromDatabase.id).toBe(result.value?.id);
+        expect(itemFromDatabase.sourceId).toBe(SourcesService.instance.getCustomItemSourceId(unitOfWork));
         expect(itemFromDatabase.name).toBe(result.value?.name);
         expect(itemFromDatabase.description).toBe(result.value?.description);
         expect(itemFromDatabase.cost).toBe(result.value?.cost);
