@@ -1,5 +1,6 @@
 import { IUnitOfWork } from "../../../lib/common/data-access/unit-of-work-interface";
 import { IAsyncFeature } from "../../../lib/common/features/async-feature-interface";
+import { SaveDbEntityFeature } from "../../../lib/common/features/save-db-entity-feature";
 import { ErrorCode } from "../../../lib/errors/error-code";
 import { LocalizationService } from "../../../lib/localization/localization-service";
 import { MessageKeys } from "../../../lib/localization/message-keys";
@@ -10,24 +11,29 @@ import { WeaponItem } from "../weapon-item";
 import { WeaponItemMap } from "../weapon-item-map";
 import { SaveCustomWeaponItemRequest } from "./save-custom-weapon-item-request";
 
-export class SaveCustomWeaponItemFeature implements IAsyncFeature<SaveCustomWeaponItemRequest, Result<WeaponItem>> {
-    private readonly unitOfWork: IUnitOfWork;
-    private readonly baseFailureMessage: string;
-
+export class SaveCustomWeaponItemFeature
+    extends SaveDbEntityFeature
+    implements IAsyncFeature<SaveCustomWeaponItemRequest, Result<WeaponItem>>
+{
     constructor(unitOfWork: IUnitOfWork) {
-        this.unitOfWork = unitOfWork;
-        this.baseFailureMessage = LocalizationService.instance.translate(MessageKeys.createCustomWeaponItemFailed);
+        super(unitOfWork);
     }
 
     public async handleAsync(request: SaveCustomWeaponItemRequest): Promise<Result<WeaponItem>> {
         try {
+            this.setErrorResultFields(
+                request.id,
+                MessageKeys.createCustomWeaponItemFailed,
+                MessageKeys.editCustomWeaponItemFailed
+            );
+
             const weaponItem = WeaponItemMap.fromFormFields(request.formFields);
+            weaponItem.id = request.id;
+
             const validationResults: string[] = weaponItem.validate(this.unitOfWork);
 
             if (validationResults.length > 0) {
-                return Result.failure(
-                    new ResultError(ErrorCode.CreateError, this.baseFailureMessage, validationResults)
-                );
+                return Result.failure(new ResultError(this.errorCode, this.baseFailureMessage, validationResults));
             }
 
             weaponItem.saveToDatabase(this.unitOfWork);
@@ -40,11 +46,7 @@ export class SaveCustomWeaponItemFeature implements IAsyncFeature<SaveCustomWeap
 
             AppLogger.instance.error(`Error while creating a new weapon item`, ex);
 
-            return this.createExceptionResult(ex);
+            return this.createExceptionResult<WeaponItem>(ex);
         }
-    }
-
-    private createExceptionResult(ex: Error): Result<WeaponItem> {
-        return Result.failure(new ResultError(ErrorCode.CreateError, this.baseFailureMessage, [ex.message]));
     }
 }

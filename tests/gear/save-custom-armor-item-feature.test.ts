@@ -316,13 +316,13 @@ describe("SaveCustomArmorItemFeature", () => {
         const result = await feature.handleAsync(request);
 
         // Assert
-        const numberOfEquipmentInDatabasePostEdit = unitOfWork.repo(ArmorItem).list().length;
+        const numberOfArmorInDatabasePostEdit = unitOfWork.repo(ArmorItem).list().length;
         const itemFromDatabase =
             unitOfWork.repo(ArmorItem).first((item) => item.id == result.value?.id) ?? new ArmorItem();
 
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(numberOfEquipmentInDatabasePostEdit).toBe(numberOfArmorInDatabasePreEdit);
+        expect(numberOfArmorInDatabasePostEdit).toBe(numberOfArmorInDatabasePreEdit);
         expect(itemFromDatabase.id).toBe(result.value?.id);
         expect(itemFromDatabase.name).toBe(result.value?.name);
         expect(itemFromDatabase.description).toBe(result.value?.description);
@@ -346,13 +346,13 @@ describe("SaveCustomArmorItemFeature", () => {
         const result = await feature.handleAsync(request);
 
         // Assert
-        const numberOfEquipmentInDatabasePostEdit = unitOfWork.repo(ArmorItem).list().length;
+        const numberOfArmorInDatabasePostEdit = unitOfWork.repo(ArmorItem).list().length;
         const itemFromDatabase =
             unitOfWork.repo(ArmorItem).first((item) => item.id == result.value?.id) ?? new ArmorItem();
 
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(numberOfEquipmentInDatabasePostEdit).toBe(numberOfArmorInDatabasePreEdit + 1);
+        expect(numberOfArmorInDatabasePostEdit).toBe(numberOfArmorInDatabasePreEdit + 1);
         expect(itemFromDatabase.id).toBe(result.value?.id);
         expect(itemFromDatabase.id).not.toBe(nonExistantId);
         expect(itemFromDatabase.name).toBe(result.value?.name);
@@ -379,13 +379,13 @@ describe("SaveCustomArmorItemFeature", () => {
         const result = await feature.handleAsync(request);
 
         // Assert
-        const numberOfEquipmentInDatabasePostEdit = unitOfWork.repo(ArmorItem).list().length;
+        const numberOfArmorInDatabasePostEdit = unitOfWork.repo(ArmorItem).list().length;
         const itemFromDatabase =
             unitOfWork.repo(ArmorItem).first((item) => item.id == result.value?.id) ?? new ArmorItem();
 
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(numberOfEquipmentInDatabasePostEdit).toBe(numberOfArmorInDatabasePreEdit);
+        expect(numberOfArmorInDatabasePostEdit).toBe(numberOfArmorInDatabasePreEdit);
         expect(itemFromDatabase.id).toBe(result.value?.id);
         expect(itemFromDatabase.name).toBe(result.value?.name);
         expect(itemFromDatabase.description).toBe(result.value?.description);
