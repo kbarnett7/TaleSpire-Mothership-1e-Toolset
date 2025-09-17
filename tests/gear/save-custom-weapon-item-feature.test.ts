@@ -1,5 +1,5 @@
-import { AddCustomWeaponItemRequest } from "../../src/features/gear/add-custom-weapon-item/add-custom-weapon-item-request";
-import { AddCustomWeaponItemFeature } from "../../src/features/gear/add-custom-weapon-item/add-custom-weapon-item-feature";
+import { SaveCustomWeaponItemRequest } from "../../src/features/gear/save-custom-weapon-item/save-custom-weapon-item-request";
+import { SaveCustomWeaponItemFeature } from "../../src/features/gear/save-custom-weapon-item/save-custom-weapon-item-feature";
 import { UnitOfWork } from "../../src/lib/data-access/unit-of-work";
 import { DataAccessUtils } from "../data-access/data-access-utils";
 import { WeaponItemFormFieldsDto } from "../../src/features/gear/weapon-item-form-fields-dto";
@@ -13,10 +13,10 @@ import { LocalizationService } from "../../src/lib/localization/localization-ser
 import { MessageKeys } from "../../src/lib/localization/message-keys";
 import { GearTestUtils } from "./gear-test-utils";
 
-describe("AddCustomWeaponItemFeature", () => {
+describe("SaveCustomWeaponItemFeature", () => {
     let unitOfWork: UnitOfWork;
-    let request: AddCustomWeaponItemRequest;
-    let feature: AddCustomWeaponItemFeature;
+    let request: SaveCustomWeaponItemRequest;
+    let feature: SaveCustomWeaponItemFeature;
     let largestWeaponItemId: number;
 
     beforeEach(async () => {
@@ -25,8 +25,8 @@ describe("AddCustomWeaponItemFeature", () => {
 
         largestWeaponItemId = GearTestUtils.getLargestGearItemIdInDatabase(unitOfWork.repo(WeaponItem));
 
-        request = new AddCustomWeaponItemRequest();
-        feature = new AddCustomWeaponItemFeature(unitOfWork);
+        request = new SaveCustomWeaponItemRequest();
+        feature = new SaveCustomWeaponItemFeature(unitOfWork);
     });
 
     afterEach(async () => {

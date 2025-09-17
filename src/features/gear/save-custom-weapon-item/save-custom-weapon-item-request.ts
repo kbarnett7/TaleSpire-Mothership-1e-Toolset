@@ -1,6 +1,6 @@
 import { WeaponItemFormFieldsDto } from "../weapon-item-form-fields-dto";
 
-export class AddCustomWeaponItemRequest {
+export class SaveCustomWeaponItemRequest {
     private _formFields: WeaponItemFormFieldsDto;
 
     public get formFields(): WeaponItemFormFieldsDto {

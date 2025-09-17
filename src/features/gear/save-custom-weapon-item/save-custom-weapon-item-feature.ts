@@ -8,9 +8,9 @@ import { Result } from "../../../lib/result/result";
 import { ResultError } from "../../../lib/result/result-error";
 import { WeaponItem } from "../weapon-item";
 import { WeaponItemMap } from "../weapon-item-map";
-import { AddCustomWeaponItemRequest } from "./add-custom-weapon-item-request";
+import { SaveCustomWeaponItemRequest } from "./save-custom-weapon-item-request";
 
-export class AddCustomWeaponItemFeature implements IAsyncFeature<AddCustomWeaponItemRequest, Result<WeaponItem>> {
+export class SaveCustomWeaponItemFeature implements IAsyncFeature<SaveCustomWeaponItemRequest, Result<WeaponItem>> {
     private readonly unitOfWork: IUnitOfWork;
     private readonly baseFailureMessage: string;
 
@@ -19,7 +19,7 @@ export class AddCustomWeaponItemFeature implements IAsyncFeature<AddCustomWeapon
         this.baseFailureMessage = LocalizationService.instance.translate(MessageKeys.createCustomWeaponItemFailed);
     }
 
-    public async handleAsync(request: AddCustomWeaponItemRequest): Promise<Result<WeaponItem>> {
+    public async handleAsync(request: SaveCustomWeaponItemRequest): Promise<Result<WeaponItem>> {
         try {
             const weaponItem = WeaponItemMap.fromFormFields(request.formFields);
             const validationResults: string[] = weaponItem.validate(this.unitOfWork);
