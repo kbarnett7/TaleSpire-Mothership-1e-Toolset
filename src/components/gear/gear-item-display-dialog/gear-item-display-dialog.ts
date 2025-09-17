@@ -20,12 +20,14 @@ import { GearItemDeletedEvent } from "../../../lib/events/gear-item-deleted-even
 import { UiReportableErrorOccurredEvent } from "../../../lib/events/ui-reportable-error-occurred-event";
 import { UiReportableErrorClearedEvent } from "../../../lib/events/ui-reportable-error-cleared-event";
 import { PageRouterService } from "../../../lib/pages/page-router-service";
+import { Source } from "../../../features/sources/source";
 
 export class GearItemDisplayDialogComponent extends BaseComponent {
     protected unitOfWork: IUnitOfWork;
 
     private gearItem: GearItem;
     private gearItemCategory: string;
+    private isCustomGearItem: boolean;
 
     protected get armorDisplayElement(): GearArmorDisplayComponent {
         return this.shadow.querySelector(`#gearArmorDisplay`) as GearArmorDisplayComponent;
@@ -43,11 +45,20 @@ export class GearItemDisplayDialogComponent extends BaseComponent {
         return this.shadow.querySelector("#gearItemModal") as ModalDialogComponent;
     }
 
+    protected get editGearItemButton(): HTMLButtonElement {
+        return this.shadow.querySelector("#editItemButton") as HTMLButtonElement;
+    }
+
+    protected get deleteGearItemButton(): HTMLButtonElement {
+        return this.shadow.querySelector("#deleteItemButton") as HTMLButtonElement;
+    }
+
     constructor() {
         super();
         this.unitOfWork = appInjector.injectClass(UnitOfWork);
         this.gearItem = new EquipmentItem();
         this.gearItemCategory = "";
+        this.isCustomGearItem = false;
     }
 
     public connectedCallback() {
@@ -83,8 +94,11 @@ export class GearItemDisplayDialogComponent extends BaseComponent {
     public setGearItem(id: number, category: string) {
         this.gearItem = this.getSelectedGearItem(id, category);
         this.gearItemCategory = category;
+        this.isCustomGearItem = this.isCustomItem();
 
-        this.showAppropriateGearItemDisplay(category);
+        this.showAppropriateGearItemDisplay();
+        this.setEditButtonVisiblity();
+        this.setDeleteButtonVisiblity();
     }
 
     private getSelectedGearItem(id: number, category: string): GearItem {
@@ -94,16 +108,31 @@ export class GearItemDisplayDialogComponent extends BaseComponent {
         return feature.handle(request);
     }
 
-    private showAppropriateGearItemDisplay(category: string) {
+    private isCustomItem(): boolean {
+        console.log(`DEBUG -- Gear Item Source Id = ${this.gearItem.sourceId}`);
+        return this.gearItem.sourceId === this.getCustomItemSourceId();
+    }
+
+    protected getCustomItemSourceId(): number {
+        const source = this.unitOfWork.repo(Source).first((item) => item.name == "Custom");
+
+        if (!source) {
+            throw new Error('"Custom" source not found in the database.');
+        }
+
+        return source.id;
+    }
+
+    private showAppropriateGearItemDisplay() {
         this.rehideAllGearDisplayElements();
 
-        if (category === ArmorItem.gearCategory) {
+        if (this.gearItemCategory === ArmorItem.gearCategory) {
             this.armorDisplayElement.setEquipmentItem(this.gearItem as ArmorItem);
             this.armorDisplayElement.classList.remove("hidden");
-        } else if (category === EquipmentItem.gearCategory) {
+        } else if (this.gearItemCategory === EquipmentItem.gearCategory) {
             this.equipmentDisplayElement.setEquipmentItem(this.gearItem as EquipmentItem);
             this.equipmentDisplayElement.classList.remove("hidden");
-        } else if (category === WeaponItem.gearCategory) {
+        } else if (this.gearItemCategory === WeaponItem.gearCategory) {
             this.weaponDisplayElement.setEquipmentItem(this.gearItem as WeaponItem);
             this.weaponDisplayElement.classList.remove("hidden");
         }
@@ -119,6 +148,26 @@ export class GearItemDisplayDialogComponent extends BaseComponent {
         if (element.classList.contains("hidden")) return;
 
         element.classList.add("hidden");
+    }
+
+    private setEditButtonVisiblity() {
+        if (this.isCustomGearItem) {
+            this.editGearItemButton.classList.remove("hidden");
+            this.editGearItemButton.classList.add("inline-flex");
+        } else {
+            this.editGearItemButton.classList.add("hidden");
+            this.editGearItemButton.classList.remove("inline-flex");
+        }
+    }
+
+    private setDeleteButtonVisiblity() {
+        if (this.isCustomGearItem) {
+            this.deleteGearItemButton.classList.remove("hidden");
+            this.deleteGearItemButton.classList.add("inline-flex");
+        } else {
+            this.deleteGearItemButton.classList.add("hidden");
+            this.deleteGearItemButton.classList.remove("inline-flex");
+        }
     }
 
     public onEditButtonClick(event: MouseEvent) {
