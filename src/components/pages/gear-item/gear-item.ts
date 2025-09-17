@@ -20,8 +20,8 @@ import { SaveCustomArmorItemFeature } from "../../../features/gear/save-custom-a
 import { ArmorItemFormFieldsDto } from "../../../features/gear/armor-item-form-fields-dto";
 import { IAsyncFeature } from "../../../lib/common/features/async-feature-interface";
 import { Result } from "../../../lib/result/result";
-import { AddCustomWeaponItemRequest } from "../../../features/gear/add-custom-weapon-item/add-custom-weapon-item-request";
-import { AddCustomWeaponItemFeature } from "../../../features/gear/add-custom-weapon-item/add-custom-weapon-item-feature";
+import { SaveCustomWeaponItemRequest } from "../../../features/gear/save-custom-weapon-item/save-custom-weapon-item-request";
+import { SaveCustomWeaponItemFeature } from "../../../features/gear/save-custom-weapon-item/save-custom-weapon-item-feature";
 import { WeaponItemFormFieldsDto } from "../../../features/gear/weapon-item-form-fields-dto";
 import { UiReportableErrorOccurredEvent } from "../../../lib/events/ui-reportable-error-occurred-event";
 import { UiReportableErrorClearedEvent } from "../../../lib/events/ui-reportable-error-cleared-event";
@@ -199,8 +199,8 @@ export class GearItemComponent extends BasePageComponent {
     }
 
     private async saveWeaponItem(formData: FormData): Promise<void> {
-        const request = new AddCustomWeaponItemRequest();
-        const feature = new AddCustomWeaponItemFeature(this.unitOfWork);
+        const request = new SaveCustomWeaponItemRequest();
+        const feature = new SaveCustomWeaponItemFeature(this.unitOfWork);
         const equipmentItemFormFields = this.getEquipmentItemFormFields(formData);
         const weaponItemFormFields = this.getWeaponItemFormFields(formData);
 
@@ -209,6 +209,7 @@ export class GearItemComponent extends BasePageComponent {
         weaponItemFormFields.description = equipmentItemFormFields.description;
 
         request.formFields = weaponItemFormFields;
+        request.id = this.gearItemIdFromUrl;
 
         await this.handleFeature(request, feature);
     }

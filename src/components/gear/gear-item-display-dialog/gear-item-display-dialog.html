@@ -2,6 +2,7 @@
     <span slot="modal-header" class="flex">
         <span class="mr-1">Item Details</span>
         <button
+            id="editItemButton"
             type="button"
             class="text-white bg-transparent hover:bg-white hover:text-black rounded-md text-sm w-8 h-8 ms-auto inline-flex justify-center items-center transition duration-150 ease-in-out cursor-pointer"
             onclick="this.onEditButtonClick(event)"
@@ -20,6 +21,7 @@
             <span class="sr-only">Edit item</span>
         </button>
         <button
+            id="deleteItemButton"
             type="button"
             class="text-white bg-transparent hover:bg-white hover:text-black rounded-md text-sm w-8 h-8 ms-auto inline-flex justify-center items-center transition duration-150 ease-in-out cursor-pointer"
             onclick="this.onDeleteButtonClick(event)"

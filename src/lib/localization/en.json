@@ -5,11 +5,16 @@
     "storageKeyEmpty": "storageKey is empty",
 
     "saveCustomGearItemFailed": "Failed to save custom gear item.",
+
     "createCustomEquipmentItemFailed": "Failed to create custom equipment item.",
     "createCustomArmorItemFailed": "Failed to create custom armor item.",
     "createCustomWeaponItemFailed": "Failed to create custom weapon item.",
+
     "editCustomEquipmentItemFailed": "Failed to edit custom equipment item.",
     "editCustomArmorItemFailed": "Failed to edit custom armor item.",
+    "editCustomWeaponItemFailed": "Failed to edit custom weapon item.",
+
     "deleteCustomGearItemFailed": "Failed to delete {category} item.",
+
     "createCustomNpcFailed": "Failed to create custom NPC."
 }

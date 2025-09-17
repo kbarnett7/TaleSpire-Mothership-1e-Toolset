@@ -11,6 +11,7 @@ import { ArmorItemFormFieldsDto } from "../../src/features/gear/armor-item-form-
 import { ValueUtils } from "../helpers/value-utils";
 import { ArmorSpeed } from "../../src/features/gear/armor-speed";
 import { GearTestUtils } from "./gear-test-utils";
+import { SourcesService } from "../../src/features/sources/sources-service";
 
 describe("SaveCustomArmorItemFeature", () => {
     let unitOfWork: UnitOfWork;
@@ -269,6 +270,7 @@ describe("SaveCustomArmorItemFeature", () => {
         expect(numberOfArmorInDatabasePostAdd).toBe(numberOfArmorInDatabasePreAdd + 1);
         expect(itemFromDatabase.id).toBe(largestArmorItemId + 1);
         expect(itemFromDatabase.id).toBe(result.value?.id);
+        expect(itemFromDatabase.sourceId).toBe(SourcesService.instance.getCustomItemSourceId(unitOfWork));
         expect(itemFromDatabase.name).toBe(result.value?.name);
         expect(itemFromDatabase.description).toBe(result.value?.description);
         expect(itemFromDatabase.cost).toBe(result.value?.cost);
@@ -316,15 +318,16 @@ describe("SaveCustomArmorItemFeature", () => {
         const result = await feature.handleAsync(request);
 
         // Assert
-        const numberOfEquipmentInDatabasePostEdit = unitOfWork.repo(ArmorItem).list().length;
+        const numberOfArmorInDatabasePostEdit = unitOfWork.repo(ArmorItem).list().length;
         const itemFromDatabase =
             unitOfWork.repo(ArmorItem).first((item) => item.id == result.value?.id) ?? new ArmorItem();
 
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(numberOfEquipmentInDatabasePostEdit).toBe(numberOfArmorInDatabasePreEdit);
+        expect(numberOfArmorInDatabasePostEdit).toBe(numberOfArmorInDatabasePreEdit);
         expect(itemFromDatabase.id).toBe(result.value?.id);
         expect(itemFromDatabase.name).toBe(result.value?.name);
+        expect(itemFromDatabase.sourceId).toBe(SourcesService.instance.getCustomItemSourceId(unitOfWork));
         expect(itemFromDatabase.description).toBe(result.value?.description);
         expect(itemFromDatabase.cost).toBe(result.value?.cost);
         expect(itemFromDatabase.armorPoints).toBe(result.value?.armorPoints);
@@ -335,26 +338,27 @@ describe("SaveCustomArmorItemFeature", () => {
 
     it("should add a valid armor item with a non-zero ID that doesn't exist in the database to the database with an incremented ID and the source set to custom", async () => {
         // Arrange
-        const nonExistantId = largestArmorItemId + 10;
+        const nonExistentId = largestArmorItemId + 10;
         const armorItemFormFields = getValidCustomArmorItemFormFields();
         const numberOfArmorInDatabasePreEdit = unitOfWork.repo(ArmorItem).list().length;
 
         request.formFields = armorItemFormFields;
-        request.id = nonExistantId;
+        request.id = nonExistentId;
 
         // Act
         const result = await feature.handleAsync(request);
 
         // Assert
-        const numberOfEquipmentInDatabasePostEdit = unitOfWork.repo(ArmorItem).list().length;
+        const numberOfArmorInDatabasePostEdit = unitOfWork.repo(ArmorItem).list().length;
         const itemFromDatabase =
             unitOfWork.repo(ArmorItem).first((item) => item.id == result.value?.id) ?? new ArmorItem();
 
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(numberOfEquipmentInDatabasePostEdit).toBe(numberOfArmorInDatabasePreEdit + 1);
+        expect(numberOfArmorInDatabasePostEdit).toBe(numberOfArmorInDatabasePreEdit + 1);
         expect(itemFromDatabase.id).toBe(result.value?.id);
-        expect(itemFromDatabase.id).not.toBe(nonExistantId);
+        expect(itemFromDatabase.id).not.toBe(nonExistentId);
+        expect(itemFromDatabase.sourceId).toBe(SourcesService.instance.getCustomItemSourceId(unitOfWork));
         expect(itemFromDatabase.name).toBe(result.value?.name);
         expect(itemFromDatabase.description).toBe(result.value?.description);
         expect(itemFromDatabase.cost).toBe(result.value?.cost);
@@ -379,14 +383,15 @@ describe("SaveCustomArmorItemFeature", () => {
         const result = await feature.handleAsync(request);
 
         // Assert
-        const numberOfEquipmentInDatabasePostEdit = unitOfWork.repo(ArmorItem).list().length;
+        const numberOfArmorInDatabasePostEdit = unitOfWork.repo(ArmorItem).list().length;
         const itemFromDatabase =
             unitOfWork.repo(ArmorItem).first((item) => item.id == result.value?.id) ?? new ArmorItem();
 
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(numberOfEquipmentInDatabasePostEdit).toBe(numberOfArmorInDatabasePreEdit);
+        expect(numberOfArmorInDatabasePostEdit).toBe(numberOfArmorInDatabasePreEdit);
         expect(itemFromDatabase.id).toBe(result.value?.id);
+        expect(itemFromDatabase.sourceId).toBe(SourcesService.instance.getCustomItemSourceId(unitOfWork));
         expect(itemFromDatabase.name).toBe(result.value?.name);
         expect(itemFromDatabase.description).toBe(result.value?.description);
         expect(itemFromDatabase.cost).toBe(result.value?.cost);

@@ -1,4 +1,5 @@
 import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface";
+import { SourcesService } from "../sources/sources-service";
 import { EquipmentItem } from "./equipment-item";
 import { WeaponCategory } from "./weapon-category";
 import { WeaponRange } from "./weapon-range";
@@ -38,7 +39,7 @@ export class WeaponItem extends EquipmentItem {
     protected override validateItemDoesNotAlreadyExist(unitOfWork: IUnitOfWork): WeaponItem {
         const existingItem = unitOfWork.repo(WeaponItem).first((item) => item.name === this.name);
 
-        if (existingItem) {
+        if (existingItem && existingItem.id !== this.id) {
             this.validationResults.push(this.getItemAlreadyExistsValidationMessage(WeaponItem.gearCategory));
         }
 
@@ -128,12 +129,23 @@ export class WeaponItem extends EquipmentItem {
 
     protected override addToDatabase(unitOfWork: IUnitOfWork): void {
         this.id = this.generateId(unitOfWork);
-        this.sourceId = this.getCustomItemSourceId(unitOfWork);
+        this.sourceId = SourcesService.instance.getCustomItemSourceId(unitOfWork);
 
         unitOfWork.repo(WeaponItem).add(this);
     }
 
-    protected override updateInDatabase(unitOfWork: IUnitOfWork): void {}
+    protected override updateInDatabase(unitOfWork: IUnitOfWork): void {
+        const repository = unitOfWork.repo(WeaponItem);
+        const existingItem = repository.first((item) => item.id === this.id) ?? new WeaponItem();
+
+        if (existingItem.id === 0) {
+            this.addToDatabase(unitOfWork);
+        } else {
+            this.sourceId = existingItem.sourceId;
+
+            repository.update(existingItem, this);
+        }
+    }
 
     public override deleteFromDatabase(unitOfWork: IUnitOfWork): void {
         unitOfWork.repo(WeaponItem).remove(this);

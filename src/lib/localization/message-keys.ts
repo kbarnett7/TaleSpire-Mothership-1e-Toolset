@@ -9,6 +9,7 @@ export class MessageKeys {
     static createCustomWeaponItemFailed: string = "createCustomWeaponItemFailed";
     static editCustomEquipmentItemFailed: string = "editCustomEquipmentItemFailed";
     static editCustomArmorItemFailed: string = "editCustomArmorItemFailed";
+    static editCustomWeaponItemFailed: string = "editCustomWeaponItemFailed";
     static deleteCustomGearItemFailed: string = "deleteCustomGearItemFailed";
     static createCustomNpcFailed: string = "createCustomNpcFailed";
 }

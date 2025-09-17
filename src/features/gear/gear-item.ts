@@ -1,5 +1,6 @@
 import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface";
 import { Source } from "../sources/source";
+import { SourcesService } from "../sources/sources-service";
 
 export abstract class GearItem {
     public static gearCategory: string = "All";
@@ -18,7 +19,7 @@ export abstract class GearItem {
     }
 
     public canBeDelete(unitOfWork: IUnitOfWork): boolean {
-        const customSourceId = this.getCustomItemSourceId(unitOfWork);
+        const customSourceId = SourcesService.instance.getCustomItemSourceId(unitOfWork);
 
         return this.sourceId === customSourceId;
     }
@@ -55,16 +56,6 @@ export abstract class GearItem {
 
     protected generateId(unitOfWork: IUnitOfWork): number {
         return this.getLargestItemIdInDatabase(unitOfWork) + 1;
-    }
-
-    protected getCustomItemSourceId(unitOfWork: IUnitOfWork): number {
-        const source = unitOfWork.repo(Source).first((item) => item.name == "Custom");
-
-        if (!source) {
-            throw new Error('"Custom" source not found in the database.');
-        }
-
-        return source.id;
     }
 
     public saveToDatabase(unitOfWork: IUnitOfWork): void {

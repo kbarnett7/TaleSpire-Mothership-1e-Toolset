@@ -1,4 +1,5 @@
 import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface";
+import { SourcesService } from "../sources/sources-service";
 import { ArmorSpeed } from "./armor-speed";
 import { EquipmentItem } from "./equipment-item";
 
@@ -90,7 +91,7 @@ export class ArmorItem extends EquipmentItem {
 
     protected override addToDatabase(unitOfWork: IUnitOfWork): void {
         this.id = this.generateId(unitOfWork);
-        this.sourceId = this.getCustomItemSourceId(unitOfWork);
+        this.sourceId = SourcesService.instance.getCustomItemSourceId(unitOfWork);
 
         unitOfWork.repo(ArmorItem).add(this);
     }
@@ -102,6 +103,8 @@ export class ArmorItem extends EquipmentItem {
         if (existingItem.id === 0) {
             this.addToDatabase(unitOfWork);
         } else {
+            this.sourceId = existingItem.sourceId;
+
             repository.update(existingItem, this);
         }
     }
