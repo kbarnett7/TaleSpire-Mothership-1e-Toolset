@@ -1,4 +1,5 @@
 import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface";
+import { SourcesService } from "../sources/sources-service";
 import { EquipmentItem } from "./equipment-item";
 import { WeaponCategory } from "./weapon-category";
 import { WeaponRange } from "./weapon-range";
@@ -128,7 +129,7 @@ export class WeaponItem extends EquipmentItem {
 
     protected override addToDatabase(unitOfWork: IUnitOfWork): void {
         this.id = this.generateId(unitOfWork);
-        this.sourceId = this.getCustomItemSourceId(unitOfWork);
+        this.sourceId = SourcesService.instance.getCustomItemSourceId(unitOfWork);
 
         unitOfWork.repo(WeaponItem).add(this);
     }

@@ -21,6 +21,7 @@ import { UiReportableErrorOccurredEvent } from "../../../lib/events/ui-reportabl
 import { UiReportableErrorClearedEvent } from "../../../lib/events/ui-reportable-error-cleared-event";
 import { PageRouterService } from "../../../lib/pages/page-router-service";
 import { Source } from "../../../features/sources/source";
+import { SourcesService } from "../../../features/sources/sources-service";
 
 export class GearItemDisplayDialogComponent extends BaseComponent {
     protected unitOfWork: IUnitOfWork;
@@ -110,17 +111,7 @@ export class GearItemDisplayDialogComponent extends BaseComponent {
 
     private isCustomItem(): boolean {
         console.log(`DEBUG -- Gear Item Source Id = ${this.gearItem.sourceId}`);
-        return this.gearItem.sourceId === this.getCustomItemSourceId();
-    }
-
-    protected getCustomItemSourceId(): number {
-        const source = this.unitOfWork.repo(Source).first((item) => item.name == "Custom");
-
-        if (!source) {
-            throw new Error('"Custom" source not found in the database.');
-        }
-
-        return source.id;
+        return this.gearItem.sourceId === SourcesService.instance.getCustomItemSourceId(this.unitOfWork);
     }
 
     private showAppropriateGearItemDisplay() {

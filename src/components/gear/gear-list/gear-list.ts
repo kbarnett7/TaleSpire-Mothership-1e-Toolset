@@ -17,6 +17,7 @@ import { GearItemDisplayDialogComponent } from "../gear-item-display-dialog/gear
 import { GearItemDeletedEvent } from "../../../lib/events/gear-item-deleted-event";
 import { GearItem } from "../../../features/gear/gear-item";
 import { UiReportableErrorClearedEvent } from "../../../lib/events/ui-reportable-error-cleared-event";
+import { SourcesService } from "../../../features/sources/sources-service";
 
 export class GearListComponent extends BaseListComponent {
     private gearList: Array<GearListItem> = [];
@@ -76,7 +77,7 @@ export class GearListComponent extends BaseListComponent {
     private getNameTableDataInnerHtml(gearItem: GearListItem): string {
         let nameInnerHtml = gearItem.name;
 
-        if (gearItem.sourceId === this.getCustomItemSourceId()) {
+        if (gearItem.sourceId === SourcesService.instance.getCustomItemSourceId(this.unitOfWork)) {
             nameInnerHtml = `${gearItem.name} <sup>(C)</sup>`;
         }
 
@@ -147,16 +148,6 @@ export class GearListComponent extends BaseListComponent {
         }
 
         this.gearList = result.value ?? [];
-    }
-
-    protected getCustomItemSourceId(): number {
-        const source = this.unitOfWork.repo(Source).first((item) => item.name == "Custom");
-
-        if (!source) {
-            throw new Error('"Custom" source not found in the database.');
-        }
-
-        return source.id;
     }
 
     private onGearItemDeletedEvent: AppEventListener = (event: AppEvent) => {

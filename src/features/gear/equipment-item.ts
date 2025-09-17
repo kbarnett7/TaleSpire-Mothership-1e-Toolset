@@ -1,4 +1,5 @@
 import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface";
+import { SourcesService } from "../sources/sources-service";
 import { GearItem } from "./gear-item";
 
 export class EquipmentItem extends GearItem {
@@ -53,7 +54,7 @@ export class EquipmentItem extends GearItem {
 
     protected override addToDatabase(unitOfWork: IUnitOfWork): void {
         this.id = this.generateId(unitOfWork);
-        this.sourceId = this.getCustomItemSourceId(unitOfWork);
+        this.sourceId = SourcesService.instance.getCustomItemSourceId(unitOfWork);
         unitOfWork.repo(EquipmentItem).add(this);
     }
 
