@@ -38,7 +38,6 @@ export class CharactersComponent extends BasePageComponent {
         const eventPath = event.composedPath();
 
         if (!eventPath.includes(menuElement)) {
-            console.log("onDocumentMouseClickEvent().closeMenu()");
             this.closeMenu();
         }
     };
@@ -98,10 +97,9 @@ export class CharactersComponent extends BasePageComponent {
     }
 
     public handleCustomSelectComponentItemChanged(event: Event) {
-        // (this.shadow.querySelector("#selectedValue") as HTMLParagraphElement).textContent =
-        //     "custom select component changed";
-        (this.shadow.querySelector("#selectedValue") as HTMLParagraphElement).textContent =
-            (event.target as HTMLDivElement).getAttribute("data-value") ?? "";
+        (this.shadow.querySelector("#selectedValue") as HTMLParagraphElement).textContent = (
+            event.target as HTMLOptionElement
+        ).value;
     }
 }
 
