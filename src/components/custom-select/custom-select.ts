@@ -2,9 +2,10 @@ import html from "./custom-select.html";
 import { BaseComponent } from "../base.component";
 import { EventBus } from "../../lib/events/event-bus";
 import { SelectOption } from "../../lib/selects/select-option";
+import { SelectChangedCallback } from "../../lib/selects/select-changed-callback";
 
 export class CustomSelectComponent extends BaseComponent {
-    public onChange = null;
+    public onChange: SelectChangedCallback | null = null;
 
     protected get customSelectMenuElement(): HTMLDivElement {
         return this.shadow.querySelector("#customSelectMenu") as HTMLDivElement;
@@ -72,8 +73,15 @@ export class CustomSelectComponent extends BaseComponent {
     public handleCustomSelectItemClicked = (event: MouseEvent) => {
         event.stopPropagation();
 
-        if (typeof this.onchange === "function") {
-            this.onchange(event);
+        // if (typeof this.onchange === "function") {
+        //     this.onchange(event);
+        // }
+
+        if (this.onChange !== null) {
+            const selectedItemElement = event.target as HTMLOptionElement;
+            const selectedOption = new SelectOption(selectedItemElement.value, selectedItemElement.text);
+
+            this.onChange(selectedOption);
         }
 
         this.updateSelectedItem(event.target as HTMLDivElement);

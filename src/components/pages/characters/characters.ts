@@ -30,6 +30,9 @@ export class CharactersComponent extends BasePageComponent {
 
         this.populateCustomSelectElement();
 
+        (this.shadow.querySelector("#testCustomSelect") as CustomSelectComponent).onChange =
+            this.handleCustomSelectComponentItemChanged;
+
         EventBus.instance.registerDocumentEvent("click", this.onDocumentMouseClickEvent);
     }
 
@@ -107,11 +110,9 @@ export class CharactersComponent extends BasePageComponent {
         menuElement.classList.remove("scale-100");
     }
 
-    public handleCustomSelectComponentItemChanged(event: Event) {
-        (this.shadow.querySelector("#selectedValue") as HTMLParagraphElement).textContent = (
-            event.target as HTMLOptionElement
-        ).value;
-    }
+    public handleCustomSelectComponentItemChanged = (newValue: SelectOption) => {
+        (this.shadow.querySelector("#selectedValue") as HTMLParagraphElement).textContent = newValue.value;
+    };
 }
 
 customElements.define("characters-page", CharactersComponent);
