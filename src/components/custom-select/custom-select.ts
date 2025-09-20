@@ -1,30 +1,16 @@
-import html from "./characters.html";
-import { BasePageComponent } from "../base-page.component";
-import { IUnitOfWork } from "../../../lib/common/data-access/unit-of-work-interface";
-import { appInjector } from "../../../lib/infrastructure/app-injector";
-import { UnitOfWork } from "../../../lib/data-access/unit-of-work";
-import { DatabaseVersion } from "../../../features/database-versions/database-version";
-import { EventBus } from "../../../lib/events/event-bus";
+import html from "./custom-select.html";
+import { BaseComponent } from "../base.component";
+import { EventBus } from "../../lib/events/event-bus";
 
-export class CharactersComponent extends BasePageComponent {
-    protected unitOfWork: IUnitOfWork;
+export class CustomSelectComponent extends BaseComponent {
+    public onChange = null;
 
     constructor() {
         super();
-        this.unitOfWork = appInjector.injectClass(UnitOfWork);
     }
 
-    public async connectedCallback() {
-        await super.connectedCallback();
-
+    public connectedCallback() {
         this.render(html);
-
-        const element = this.shadow.querySelector("#tempElement");
-
-        if (element) {
-            let dbVersion = this.unitOfWork.repo(DatabaseVersion).first() ?? new DatabaseVersion(0, "0");
-            element.textContent = `Database Version: ${dbVersion?.version}`;
-        }
 
         EventBus.instance.registerDocumentEvent("click", this.onDocumentMouseClickEvent);
     }
@@ -38,16 +24,9 @@ export class CharactersComponent extends BasePageComponent {
         const eventPath = event.composedPath();
 
         if (!eventPath.includes(menuElement)) {
-            console.log("onDocumentMouseClickEvent().closeMenu()");
             this.closeMenu();
         }
     };
-
-    public handleOnSelectChanged(event: Event) {
-        const selectedValue = (event.target as HTMLSelectElement).value;
-
-        (this.shadow.querySelector("#selectedValue") as HTMLParagraphElement).textContent = selectedValue;
-    }
 
     public handleCustomSelectButtonClicked(event: MouseEvent) {
         event.stopPropagation();
@@ -64,6 +43,10 @@ export class CharactersComponent extends BasePageComponent {
     public handleCustomSelectItemClicked(event: MouseEvent) {
         event.stopPropagation();
 
+        if (typeof this.onchange === "function") {
+            this.onchange(event);
+        }
+
         this.updateSelectedItem(event.target as HTMLDivElement);
         this.updateActiveItem(event.target as HTMLDivElement);
         this.closeMenu();
@@ -76,8 +59,8 @@ export class CharactersComponent extends BasePageComponent {
         selectedItemElement.innerText = clickedElement.innerText;
         selectedItemInputElement.value = clickedElement.getAttribute("data-value") ?? "";
 
-        (this.shadow.querySelector("#selectedValue") as HTMLParagraphElement).textContent =
-            clickedElement.getAttribute("data-value") ?? "";
+        //(this.shadow.querySelector("#selectedValue") as HTMLParagraphElement).textContent = clickedElement.getAttribute("data-value") ?? "";
+        // execute the callback the parent passes into this compoent.
     }
 
     private updateActiveItem(clickedElement: HTMLDivElement) {
@@ -96,13 +79,6 @@ export class CharactersComponent extends BasePageComponent {
         menuElement.classList.remove("opacity-100");
         menuElement.classList.remove("scale-100");
     }
-
-    public handleCustomSelectComponentItemChanged(event: Event) {
-        // (this.shadow.querySelector("#selectedValue") as HTMLParagraphElement).textContent =
-        //     "custom select component changed";
-        (this.shadow.querySelector("#selectedValue") as HTMLParagraphElement).textContent =
-            (event.target as HTMLDivElement).getAttribute("data-value") ?? "";
-    }
 }
 
-customElements.define("characters-page", CharactersComponent);
+customElements.define("custom-select", CustomSelectComponent);
