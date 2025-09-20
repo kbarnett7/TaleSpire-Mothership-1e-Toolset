@@ -1,9 +1,14 @@
 import html from "./custom-select.html";
 import { BaseComponent } from "../base.component";
 import { EventBus } from "../../lib/events/event-bus";
+import { SelectOption } from "../../lib/selects/select-option";
 
 export class CustomSelectComponent extends BaseComponent {
     public onChange = null;
+
+    protected get customSelectMenuElement(): HTMLDivElement {
+        return this.shadow.querySelector("#customSelectMenu") as HTMLDivElement;
+    }
 
     constructor() {
         super();
@@ -19,8 +24,32 @@ export class CustomSelectComponent extends BaseComponent {
         EventBus.instance.unregisterDocumentEvent("click", this.onDocumentMouseClickEvent);
     }
 
+    public populateOptions(options: SelectOption[]) {
+        const menuElement = this.customSelectMenuElement;
+
+        menuElement.replaceChildren();
+
+        for (const option of options) {
+            menuElement.appendChild(this.createOptionElement(option));
+        }
+    }
+
+    private createOptionElement(option: SelectOption): HTMLOptionElement {
+        const optionElement = document.createElement("option");
+
+        optionElement.value = option.value;
+        optionElement.text = option.text;
+
+        optionElement.className =
+            "flex justify-start items-center hover:bg-gray-200 transition duration-150 ease-in-out cursor-pointer";
+
+        optionElement.onclick = this.handleCustomSelectItemClicked;
+
+        return optionElement;
+    }
+
     private onDocumentMouseClickEvent = (event: Event) => {
-        const menuElement = this.shadow.querySelector("#customSelectMenu") as HTMLDivElement;
+        const menuElement = this.customSelectMenuElement;
         const eventPath = event.composedPath();
 
         if (!eventPath.includes(menuElement)) {
@@ -35,12 +64,12 @@ export class CustomSelectComponent extends BaseComponent {
     }
 
     private toggleMenu() {
-        const menuElement = this.shadow.querySelector("#customSelectMenu") as HTMLDivElement;
+        const menuElement = this.customSelectMenuElement;
         menuElement.classList.toggle("opacity-100");
         menuElement.classList.toggle("scale-100");
     }
 
-    public handleCustomSelectItemClicked(event: MouseEvent) {
+    public handleCustomSelectItemClicked = (event: MouseEvent) => {
         event.stopPropagation();
 
         if (typeof this.onchange === "function") {
@@ -50,7 +79,7 @@ export class CustomSelectComponent extends BaseComponent {
         this.updateSelectedItem(event.target as HTMLDivElement);
         this.updateActiveItem(event.target as HTMLDivElement);
         this.closeMenu();
-    }
+    };
 
     private updateSelectedItem(clickedElement: HTMLDivElement) {
         const selectedItemElement = this.shadow.querySelector("#selectedItem") as HTMLSpanElement;
@@ -64,7 +93,7 @@ export class CustomSelectComponent extends BaseComponent {
     }
 
     private updateActiveItem(clickedElement: HTMLDivElement) {
-        const menuElement = this.shadow.querySelector("#customSelectMenu") as HTMLDivElement;
+        const menuElement = this.customSelectMenuElement;
         const itemElements = menuElement.children;
 
         for (const item of itemElements) {
@@ -75,7 +104,7 @@ export class CustomSelectComponent extends BaseComponent {
     }
 
     private closeMenu() {
-        const menuElement = this.shadow.querySelector("#customSelectMenu") as HTMLDivElement;
+        const menuElement = this.customSelectMenuElement;
         menuElement.classList.remove("opacity-100");
         menuElement.classList.remove("scale-100");
     }

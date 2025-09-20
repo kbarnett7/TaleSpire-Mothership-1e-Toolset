@@ -5,6 +5,8 @@ import { appInjector } from "../../../lib/infrastructure/app-injector";
 import { UnitOfWork } from "../../../lib/data-access/unit-of-work";
 import { DatabaseVersion } from "../../../features/database-versions/database-version";
 import { EventBus } from "../../../lib/events/event-bus";
+import { CustomSelectComponent } from "../../custom-select/custom-select";
+import { SelectOption } from "../../../lib/selects/select-option";
 
 export class CharactersComponent extends BasePageComponent {
     protected unitOfWork: IUnitOfWork;
@@ -26,6 +28,8 @@ export class CharactersComponent extends BasePageComponent {
             element.textContent = `Database Version: ${dbVersion?.version}`;
         }
 
+        this.populateCustomSelectElement();
+
         EventBus.instance.registerDocumentEvent("click", this.onDocumentMouseClickEvent);
     }
 
@@ -41,6 +45,13 @@ export class CharactersComponent extends BasePageComponent {
             this.closeMenu();
         }
     };
+
+    private populateCustomSelectElement() {
+        const element = this.shadow.querySelector("#testCustomSelect") as CustomSelectComponent;
+        const options = [new SelectOption("7", "Theta"), new SelectOption("8", "Phi"), new SelectOption("9", "Pie")];
+
+        element.populateOptions(options);
+    }
 
     public handleOnSelectChanged(event: Event) {
         const selectedValue = (event.target as HTMLSelectElement).value;
