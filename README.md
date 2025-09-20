@@ -120,6 +120,8 @@ https://simpleicons.org/
 
 Tailwind CSS IntelliSense VSCode Extension: https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss
 
+https://www.youtube.com/watch?v=BEwDYtY1L8A
+
 ## ERD
 
 Gear Item
