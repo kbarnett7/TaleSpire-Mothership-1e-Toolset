@@ -1,3 +1,69 @@
+<style></style>
 <p>This is the Characters page!</p>
 <p>!!!UNDER CONSTRUCTION!!!</p>
 <p id="tempElement"></p>
+
+<select
+    id="normalSelect"
+    class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+    onchange="this.handleOnSelectChanged(event)"
+>
+    <option value="1">Alpha</option>
+    <option value="2">Beta</option>
+    <option value="3">Charlie</option>
+</select>
+
+<div id="customSelectContainer" class="relative">
+    <div
+        id="customSelectButton"
+        class="flex justify-between items-center w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0 cursor-pointer"
+        onclick="this.handleCustomSelectButtonClicked(event)"
+    >
+        <span id="selectedItem">Select item...</span>
+        <span class="text-black">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="currentColor"
+                class="inline"
+            >
+                <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z" />
+            </svg>
+        </span>
+        <input type="hidden" name="inputSelectedItem" id="inputSelectedItem" value="" />
+    </div>
+
+    <div
+        id="customSelectMenu"
+        class="absolute top-10 w-full bg-white text-base text-black px-2 py-1 border-x-3 border-b-3 border-t-1 border-black opacity-20 scale-0"
+    >
+        <div
+            class="flex justify-start items-center hover:bg-gray-200 transition duration-150 ease-in-out cursor-pointer"
+            data-value="4"
+            onclick="this.handleCustomSelectItemClicked(event)"
+        >
+            Delta
+        </div>
+        <div
+            class="flex justify-start items-center hover:bg-gray-200 transition duration-150 ease-in-out cursor-pointer"
+            data-value="5"
+            onclick="this.handleCustomSelectItemClicked(event)"
+        >
+            Echo
+        </div>
+        <div
+            class="flex justify-start items-center hover:bg-gray-200 transition duration-150 ease-in-out cursor-pointer"
+            data-value="6"
+            onclick="this.handleCustomSelectItemClicked(event)"
+        >
+            Foxtrot
+        </div>
+    </div>
+</div>
+
+<div>
+    <label>Selected Value:</label>
+    <p id="selectedValue"></p>
+</div>
