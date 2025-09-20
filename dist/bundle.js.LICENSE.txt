@@ -14,18 +14,6 @@
 
 /*! ../../../features/database-versions/database-version */
 
-/*! ../../../features/gear/add-custom-armor-item/add-custom-armor-item-feature */
-
-/*! ../../../features/gear/add-custom-armor-item/add-custom-armor-item-request */
-
-/*! ../../../features/gear/add-custom-equipment-item/add-custom-equipment-item-feature */
-
-/*! ../../../features/gear/add-custom-equipment-item/add-custom-equipment-item-request */
-
-/*! ../../../features/gear/add-custom-weapon-item/add-custom-weapon-item-feature */
-
-/*! ../../../features/gear/add-custom-weapon-item/add-custom-weapon-item-request */
-
 /*! ../../../features/gear/armor-item */
 
 /*! ../../../features/gear/armor-item-form-fields-dto */
@@ -49,6 +37,18 @@
 /*! ../../../features/gear/get-gear-by-id/get-gear-by-id-feature */
 
 /*! ../../../features/gear/get-gear-by-id/get-gear-by-id-request */
+
+/*! ../../../features/gear/save-custom-armor-item/save-custom-armor-item-feature */
+
+/*! ../../../features/gear/save-custom-armor-item/save-custom-armor-item-request */
+
+/*! ../../../features/gear/save-custom-equipment-item/save-custom-equipment-item-feature */
+
+/*! ../../../features/gear/save-custom-equipment-item/save-custom-equipment-item-request */
+
+/*! ../../../features/gear/save-custom-weapon-item/save-custom-weapon-item-feature */
+
+/*! ../../../features/gear/save-custom-weapon-item/save-custom-weapon-item-request */
 
 /*! ../../../features/gear/sort-gear-list/sort-gear-list-feature */
 
@@ -76,9 +76,15 @@
 
 /*! ../../../features/sources/source */
 
+/*! ../../../features/sources/sources-service */
+
 /*! ../../../lib/common/features/empty-request */
 
 /*! ../../../lib/common/features/filter-list-feature */
+
+/*! ../../../lib/common/features/save-db-entity-feature */
+
+/*! ../../../lib/common/features/save-db-entity-request */
 
 /*! ../../../lib/common/features/sort-list-feature */
 
@@ -172,6 +178,10 @@
 
 /*! ../../lib/sorting/sort-state */
 
+/*! ../../localization/localization-service */
+
+/*! ../../localization/message-keys */
+
 /*! ../../logging/app-logger */
 
 /*! ../../result/result */
@@ -252,7 +262,7 @@
 
 /*! ../settings/app-settings */
 
-/*! ../sources/source */
+/*! ../sources/sources-service */
 
 /*! ../weapon-item */
 
@@ -373,6 +383,8 @@
 /*! ./secondary-button.html */
 
 /*! ./sort-direction */
+
+/*! ./source */
 
 /*! ./startup */
 
@@ -617,6 +629,10 @@
   \*************************************************/
 
 /*!*************************************************!*\
+  !*** ./src/features/sources/sources-service.ts ***!
+  \*************************************************/
+
+/*!*************************************************!*\
   !*** ./src/lib/services/credits-abbreviator.ts ***!
   \*************************************************/
 
@@ -831,6 +847,14 @@
 /*!**********************************************************!*\
   !*** ./src/lib/data-access/database-collection-names.ts ***!
   \**********************************************************/
+
+/*!***********************************************************!*\
+  !*** ./src/lib/common/features/save-db-entity-feature.ts ***!
+  \***********************************************************/
+
+/*!***********************************************************!*\
+  !*** ./src/lib/common/features/save-db-entity-request.ts ***!
+  \***********************************************************/
 
 /*!************************************************************!*\
   !*** ./node_modules/css-loader/dist/runtime/sourceMaps.js ***!
@@ -1088,14 +1112,6 @@
   !*** ./src/components/gear/gear-weapon-form-fields/gear-weapon-form-fields.html ***!
   \**********************************************************************************/
 
-/*!**********************************************************************************!*\
-  !*** ./src/features/gear/add-custom-armor-item/add-custom-armor-item-feature.ts ***!
-  \**********************************************************************************/
-
-/*!**********************************************************************************!*\
-  !*** ./src/features/gear/add-custom-armor-item/add-custom-armor-item-request.ts ***!
-  \**********************************************************************************/
-
 /*!************************************************************************************!*\
   !*** ./src/components/gear/add-new-gear-item-button/add-new-gear-item-button.html ***!
   \************************************************************************************/
@@ -1109,11 +1125,11 @@
   \************************************************************************************/
 
 /*!************************************************************************************!*\
-  !*** ./src/features/gear/add-custom-weapon-item/add-custom-weapon-item-feature.ts ***!
+  !*** ./src/features/gear/save-custom-armor-item/save-custom-armor-item-feature.ts ***!
   \************************************************************************************/
 
 /*!************************************************************************************!*\
-  !*** ./src/features/gear/add-custom-weapon-item/add-custom-weapon-item-request.ts ***!
+  !*** ./src/features/gear/save-custom-armor-item/save-custom-armor-item-request.ts ***!
   \************************************************************************************/
 
 /*!**************************************************************************************!*\
@@ -1128,17 +1144,25 @@
   !*** ./src/features/gear/delete-custom-gear-item/delete-custom-gear-item-request.ts ***!
   \**************************************************************************************/
 
+/*!**************************************************************************************!*\
+  !*** ./src/features/gear/save-custom-weapon-item/save-custom-weapon-item-feature.ts ***!
+  \**************************************************************************************/
+
+/*!**************************************************************************************!*\
+  !*** ./src/features/gear/save-custom-weapon-item/save-custom-weapon-item-request.ts ***!
+  \**************************************************************************************/
+
 /*!****************************************************************************************!*\
   !*** ./src/components/gear/gear-equipment-form-fields/gear-equipment-form-fields.html ***!
   \****************************************************************************************/
 
-/*!******************************************************************************************!*\
-  !*** ./src/features/gear/add-custom-equipment-item/add-custom-equipment-item-feature.ts ***!
-  \******************************************************************************************/
+/*!********************************************************************************************!*\
+  !*** ./src/features/gear/save-custom-equipment-item/save-custom-equipment-item-feature.ts ***!
+  \********************************************************************************************/
 
-/*!******************************************************************************************!*\
-  !*** ./src/features/gear/add-custom-equipment-item/add-custom-equipment-item-request.ts ***!
-  \******************************************************************************************/
+/*!********************************************************************************************!*\
+  !*** ./src/features/gear/save-custom-equipment-item/save-custom-equipment-item-request.ts ***!
+  \********************************************************************************************/
 
 /*!*******************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./src/index.css ***!

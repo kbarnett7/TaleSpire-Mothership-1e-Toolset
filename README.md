@@ -6,17 +6,35 @@ An unofficial custom TaleSpire Symbiote the recreates the 1e character sheet fro
 
 Run the following command at the root of the project (i.e. the same directory as the tsconfig.json file):
 
-**Build**
+### Build
+
+**Development Build**
 
 `npm run build`
 
-**Unit Tests**
+**Production Build**
+
+`npm run build:talespire`
+
+### Unit Tests
+
+**Run All Tests**
 
 `npm test`
 
-**Unit Test with Code Coverage**
+**Run All Tests with Code Coverage**
 
 `npm run test:converage`
+
+## How-To Deploy
+
+### Web Browser (Development)
+
+http://localhost:4000/
+
+### TaleSpire (Production)
+
+http://localhost:8080/
 
 ## Appendex B: Dependencies
 
