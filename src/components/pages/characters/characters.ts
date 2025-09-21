@@ -30,7 +30,7 @@ export class CharactersComponent extends BasePageComponent {
 
         this.populateCustomSelectElement();
 
-        (this.shadow.querySelector("#testCustomSelect") as CustomSelectComponent).onChange =
+        (this.shadow.querySelector("#testCustomSelect") as CustomSelectComponent).onOptionChange =
             this.handleCustomSelectComponentItemChanged;
 
         EventBus.instance.registerDocumentEvent("click", this.onDocumentMouseClickEvent);
