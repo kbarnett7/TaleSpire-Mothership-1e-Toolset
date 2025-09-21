@@ -57,14 +57,14 @@ export class CustomSelectComponent extends BaseComponent {
         }
     }
 
-    private createOptionElement(option: SelectOption): HTMLOptionElement {
-        const optionElement = document.createElement("option");
+    private createOptionElement(option: SelectOption): HTMLDivElement {
+        const optionElement = document.createElement("div");
 
-        optionElement.value = option.value;
-        optionElement.text = option.text;
+        optionElement.dataset.value = option.value;
+        optionElement.innerText = option.text;
 
         optionElement.className =
-            "flex justify-start items-center px-1 hover:bg-gray-200 transition duration-150 ease-in-out cursor-pointer";
+            "whitespace-nowrap w-full px-1 hover:bg-gray-200 transition duration-150 ease-in-out cursor-pointer";
 
         optionElement.onclick = this.handleCustomSelectOptionClicked;
 
@@ -94,8 +94,8 @@ export class CustomSelectComponent extends BaseComponent {
     public handleCustomSelectOptionClicked = (event: MouseEvent) => {
         event.stopPropagation();
 
-        const selectedOptionElement = event.target as HTMLOptionElement;
-        const selectedOption = new SelectOption(selectedOptionElement.value, selectedOptionElement.text);
+        const selectedOptionElement = event.target as HTMLDivElement;
+        const selectedOption = new SelectOption(selectedOptionElement.dataset.value, selectedOptionElement.innerText);
 
         if (selectedOption.value !== this.selectedOptionInputElement.value) {
             this.updateSelectedOptionElements(selectedOption);
@@ -111,7 +111,7 @@ export class CustomSelectComponent extends BaseComponent {
         this.selectedOptionInputElement.value = selectedOption.value;
     }
 
-    private updateActiveOptionStyling(clickedElement: HTMLOptionElement) {
+    private updateActiveOptionStyling(clickedElement: HTMLDivElement) {
         for (const optionElement of this.optionElements) {
             optionElement.classList.remove("font-bold");
         }
