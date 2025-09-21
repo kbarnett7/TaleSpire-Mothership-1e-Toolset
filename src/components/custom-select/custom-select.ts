@@ -2,7 +2,6 @@ import html from "./custom-select.html";
 import { BaseComponent } from "../base.component";
 import { EventBus } from "../../lib/events/event-bus";
 import { SelectOption } from "../../lib/selects/select-option";
-import { SelectChangedCallback } from "../../lib/selects/select-changed-callback";
 
 export class CustomSelectComponent extends BaseComponent {
     public onOptionChange: (newValue: SelectOption) => void;
@@ -65,7 +64,7 @@ export class CustomSelectComponent extends BaseComponent {
         optionElement.text = option.text;
 
         optionElement.className =
-            "flex justify-start items-center hover:bg-gray-200 transition duration-150 ease-in-out cursor-pointer";
+            "flex justify-start items-center px-1 hover:bg-gray-200 transition duration-150 ease-in-out cursor-pointer";
 
         optionElement.onclick = this.handleCustomSelectOptionClicked;
 
