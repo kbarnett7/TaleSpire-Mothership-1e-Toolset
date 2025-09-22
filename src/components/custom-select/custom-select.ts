@@ -4,6 +4,16 @@ import { EventBus } from "../../lib/events/event-bus";
 import { SelectOption } from "../../lib/selects/select-option";
 
 export class CustomSelectComponent extends BaseComponent {
+    static formAssociated = true;
+
+    private _internals: ElementInternals;
+
+    private _value: string;
+
+    public get value(): string {
+        return this._value;
+    }
+
     public onOptionChange: (newValue: SelectOption) => void;
 
     protected get customSelectMenuElement(): HTMLDivElement {
@@ -24,6 +34,8 @@ export class CustomSelectComponent extends BaseComponent {
 
     constructor() {
         super();
+        this._internals = this.attachInternals();
+        this._value = "";
         this.onOptionChange = this.defaultOnOptionChangeCallback;
     }
 
@@ -35,6 +47,10 @@ export class CustomSelectComponent extends BaseComponent {
 
     public disconnectedCallback() {
         EventBus.instance.unregisterDocumentEvent("click", this.onDocumentMouseClickEvent);
+    }
+
+    private updateFormValue() {
+        this._internals.setFormValue(this.value);
     }
 
     public populateOptions(options: SelectOption[]) {
@@ -109,6 +125,8 @@ export class CustomSelectComponent extends BaseComponent {
     private updateSelectedOptionElements(selectedOption: SelectOption) {
         this.selectedOptionElement.innerText = selectedOption.text;
         this.selectedOptionInputElement.value = selectedOption.value;
+        this._value = selectedOption.value;
+        this.updateFormValue();
     }
 
     private updateActiveOptionStyling(clickedElement: HTMLDivElement) {
