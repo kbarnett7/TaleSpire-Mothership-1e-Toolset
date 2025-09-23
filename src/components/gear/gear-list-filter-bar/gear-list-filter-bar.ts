@@ -38,9 +38,8 @@ export class GearListFilterBarComponent extends BaseComponent {
     public connectedCallback() {
         this.render(html);
 
-        this.populateSourcesFilter();
-
         this.sourcesSelectElement.onOptionChange = this.handleOnSourcesSelectChanged;
+        this.populateSourcesFilter();
 
         EventBus.instance.register(GearCategoryChangedEvent.name, this.handleGearCategoryChangedEvent);
     }

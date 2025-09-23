@@ -2,6 +2,8 @@ import html from "./gear-armor-form-fields.html";
 import { BaseComponent } from "../../base.component";
 import { ArmorItemFormFieldsDto } from "../../../features/gear/armor-item-form-fields-dto";
 import { ArmorItem } from "../../../features/gear/armor-item";
+import { SelectOption } from "../../../lib/selects/select-option";
+import { CustomSelectComponent } from "../../custom-select/custom-select";
 
 export class GearArmorFormFieldsComponent extends BaseComponent {
     static formAssociated = true;
@@ -17,8 +19,8 @@ export class GearArmorFormFieldsComponent extends BaseComponent {
         return this.shadow.querySelector("#inputOxygen") as HTMLInputElement;
     }
 
-    public get speedSelectElement(): HTMLSelectElement {
-        return this.shadow.querySelector("#inputSpeed") as HTMLSelectElement;
+    public get speedSelectElement(): CustomSelectComponent {
+        return this.shadow.querySelector("#inputSpeed") as CustomSelectComponent;
     }
 
     public get specialInputElement(): HTMLTextAreaElement {
@@ -37,6 +39,8 @@ export class GearArmorFormFieldsComponent extends BaseComponent {
 
     public connectedCallback() {
         this.render(html);
+        this.speedSelectElement.onOptionChange = this.handleOnSpeedSelectChanged;
+        this.populateSpeedSelectElement();
         this.updateFormValue();
     }
 
@@ -58,6 +62,16 @@ export class GearArmorFormFieldsComponent extends BaseComponent {
         this.updateFormValue();
     }
 
+    private populateSpeedSelectElement() {
+        const speedOptions = [
+            new SelectOption("Normal", "Normal"),
+            new SelectOption("[+]", "Advantage [+]"),
+            new SelectOption("[-]", "Disadvantage [-]"),
+        ];
+
+        this.speedSelectElement.populateOptions(speedOptions);
+    }
+
     public handleOnArmorPointsInputChanged(event: Event) {
         this._formFieldsDto.armorPoints = this.armorPointsInputElement.value;
         this.updateFormValue();
@@ -68,10 +82,10 @@ export class GearArmorFormFieldsComponent extends BaseComponent {
         this.updateFormValue();
     }
 
-    public handleOnSpeedSelectChanged(event: Event) {
-        this._formFieldsDto.speed = this.speedSelectElement.value;
+    public handleOnSpeedSelectChanged = (newValue: SelectOption) => {
+        this._formFieldsDto.speed = newValue.value;
         this.updateFormValue();
-    }
+    };
 
     public handleOnSpecialInputChanged(event: Event) {
         this._formFieldsDto.special = this.specialInputElement.value;

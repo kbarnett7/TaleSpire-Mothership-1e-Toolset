@@ -14,6 +14,22 @@ export class CustomSelectComponent extends BaseComponent {
         return this._value;
     }
 
+    public set value(value: string) {
+        this._value = value;
+
+        const optionElement = this._optionElements.get(value);
+
+        if (optionElement === undefined) return;
+
+        this.updateSelectedOptionElements(value, optionElement.innerText);
+        this.updateActiveOptionStyling(optionElement);
+        this.updateFormValue();
+
+        this.onOptionChange(new SelectOption(value, optionElement.innerText));
+    }
+
+    private _optionElements: Map<string, HTMLDivElement>;
+
     public onOptionChange: (newValue: SelectOption) => void;
 
     protected get customSelectMenuElement(): HTMLDivElement {
@@ -36,6 +52,7 @@ export class CustomSelectComponent extends BaseComponent {
         super();
         this._internals = this.attachInternals();
         this._value = "";
+        this._optionElements = new Map<string, HTMLDivElement>();
         this.onOptionChange = this.defaultOnOptionChangeCallback;
     }
 
@@ -58,15 +75,17 @@ export class CustomSelectComponent extends BaseComponent {
         let hasSelectedFirstElement = false;
 
         menuElement.replaceChildren();
+        this._optionElements.clear();
 
         for (const option of options) {
             const optionElement = this.createOptionElement(option);
 
             menuElement.appendChild(optionElement);
 
+            this._optionElements.set(option.value, optionElement);
+
             if (hasSelectedFirstElement === false) {
-                this.updateSelectedOptionElements(option);
-                this.updateActiveOptionStyling(optionElement);
+                this.value = option.value;
 
                 hasSelectedFirstElement = true;
             }
@@ -114,19 +133,15 @@ export class CustomSelectComponent extends BaseComponent {
         const selectedOption = new SelectOption(selectedOptionElement.dataset.value, selectedOptionElement.innerText);
 
         if (selectedOption.value !== this.selectedOptionInputElement.value) {
-            this.updateSelectedOptionElements(selectedOption);
-            this.updateActiveOptionStyling(selectedOptionElement);
-            this.onOptionChange(selectedOption);
+            this.value = selectedOption.value;
         }
 
         this.closeMenu();
     };
 
-    private updateSelectedOptionElements(selectedOption: SelectOption) {
-        this.selectedOptionElement.innerText = selectedOption.text;
-        this.selectedOptionInputElement.value = selectedOption.value;
-        this._value = selectedOption.value;
-        this.updateFormValue();
+    private updateSelectedOptionElements(value: string, text: string) {
+        this.selectedOptionElement.innerText = text;
+        this.selectedOptionInputElement.value = value;
     }
 
     private updateActiveOptionStyling(clickedElement: HTMLDivElement) {
