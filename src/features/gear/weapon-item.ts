@@ -55,15 +55,13 @@ export class WeaponItem extends EquipmentItem {
     }
 
     private validateCategory(): WeaponItem {
-        const validCategories: string[] = [
-            WeaponCategory.Melee,
-            WeaponCategory.Firearm,
-            WeaponCategory.IndustrialEquipment,
-        ];
+        const validCategories: string[] = Object.values(WeaponCategory);
 
         if (!validCategories.find((category) => category === this.category)) {
             this.validationResults.push(
-                `The weapon category \"${this.category}\" is invalid. The weapon category must be one of the following values: ${WeaponCategory.Melee}, ${WeaponCategory.Firearm}, ${WeaponCategory.IndustrialEquipment}`
+                `The weapon category \"${
+                    this.category
+                }\" is invalid. The weapon category must be one of the following values: ${validCategories.join(", ")}`
             );
         }
 
@@ -71,16 +69,13 @@ export class WeaponItem extends EquipmentItem {
     }
 
     private validateRange(): WeaponItem {
-        const validCategories: string[] = [
-            WeaponRange.Adjacent,
-            WeaponRange.Close,
-            WeaponRange.Long,
-            WeaponRange.Extreme,
-        ];
+        const validRanges: string[] = Object.values(WeaponRange);
 
-        if (!validCategories.find((range) => range === this.range)) {
+        if (!validRanges.find((range) => range === this.range)) {
             this.validationResults.push(
-                `The range \"${this.range}\" is invalid. The range must be one of the following values: ${WeaponRange.Adjacent}, ${WeaponRange.Close}, ${WeaponRange.Long}, ${WeaponRange.Extreme}`
+                `The range \"${
+                    this.range
+                }\" is invalid. The range must be one of the following values: ${validRanges.join(", ")}`
             );
         }
 

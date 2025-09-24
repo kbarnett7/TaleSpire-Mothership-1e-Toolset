@@ -68,11 +68,13 @@ export class ArmorItem extends EquipmentItem {
     }
 
     private validateSpeed(): ArmorItem {
-        const validSpeeds: string[] = [ArmorSpeed.Normal, ArmorSpeed.Advantage, ArmorSpeed.Disadvantage];
+        const validSpeeds: string[] = Object.values(ArmorSpeed);
 
         if (!validSpeeds.find((speed) => speed === this.speed)) {
             this.validationResults.push(
-                `The speed \"${this.speed}\" is invalid. The speed must be one of the following values: ${ArmorSpeed.Normal}, ${ArmorSpeed.Advantage}, ${ArmorSpeed.Disadvantage}`
+                `The speed \"${
+                    this.speed
+                }\" is invalid. The speed must be one of the following values: ${validSpeeds.join(", ")}`
             );
         }
 
