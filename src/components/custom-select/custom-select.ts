@@ -9,6 +9,9 @@ export class CustomSelectComponent extends BaseComponent {
     private _internals: ElementInternals;
 
     private _value: string;
+    private _optionElements: Map<string, HTMLDivElement>;
+
+    public onOptionChange: (newValue: SelectOption) => void;
 
     public get value(): string {
         return this._value;
@@ -28,9 +31,25 @@ export class CustomSelectComponent extends BaseComponent {
         this.onOptionChange(new SelectOption(value, optionElement.innerText));
     }
 
-    private _optionElements: Map<string, HTMLDivElement>;
+    public get containerCssClassList(): DOMTokenList {
+        return this.customSelectContainerElement.classList;
+    }
 
-    public onOptionChange: (newValue: SelectOption) => void;
+    public get customSelectButtonCssClassList(): DOMTokenList {
+        return this.customSelectButtonElement.classList;
+    }
+
+    public get customSelectMenuCssClassList(): DOMTokenList {
+        return this.customSelectMenuElement.classList;
+    }
+
+    protected get customSelectContainerElement(): HTMLDivElement {
+        return this.shadow.querySelector("#customSelectContainer") as HTMLDivElement;
+    }
+
+    protected get customSelectButtonElement(): HTMLDivElement {
+        return this.shadow.querySelector("#customSelectButton") as HTMLDivElement;
+    }
 
     protected get customSelectMenuElement(): HTMLDivElement {
         return this.shadow.querySelector("#customSelectMenu") as HTMLDivElement;

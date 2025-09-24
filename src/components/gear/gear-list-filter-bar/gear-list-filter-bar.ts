@@ -37,9 +37,7 @@ export class GearListFilterBarComponent extends BaseComponent {
 
     public connectedCallback() {
         this.render(html);
-
-        this.sourcesSelectElement.onOptionChange = this.handleOnSourcesSelectChanged;
-        this.populateSourcesFilter();
+        this.configureSourcesFilter();
 
         EventBus.instance.register(GearCategoryChangedEvent.name, this.handleGearCategoryChangedEvent);
     }
@@ -48,22 +46,11 @@ export class GearListFilterBarComponent extends BaseComponent {
         EventBus.instance.unregister(GearCategoryChangedEvent.name, this.handleGearCategoryChangedEvent);
     }
 
-    private handleGearCategoryChangedEvent: AppEventListener = (event: AppEvent) => {
-        const gearCategoryChangedEvent = event as GearCategoryChangedEvent;
-
-        this.activeCategory = gearCategoryChangedEvent.category;
-
-        this.dispatchGearFilterChangedEvent();
-    };
-
-    public handleOnSearchBoxKeyUp(event: KeyboardEvent) {
-        // Ignore shift key up events, otherwise two GearFilterChangedEvents are triggered when
-        // typing an UPPERCASE character into the search box.
-        if (event.shiftKey === true) return;
-
-        this.currentSearch = (event.target as HTMLInputElement).value;
-
-        this.dispatchGearFilterChangedEvent();
+    private configureSourcesFilter() {
+        this.sourcesSelectElement.onOptionChange = this.handleOnSourcesSelectChanged;
+        this.sourcesSelectElement.containerCssClassList.add("h-full");
+        this.sourcesSelectElement.customSelectButtonCssClassList.add("h-full");
+        this.populateSourcesFilter();
     }
 
     public handleOnSourcesSelectChanged = (newValue: SelectOption) => {
@@ -89,6 +76,24 @@ export class GearListFilterBarComponent extends BaseComponent {
         }
 
         this.sourcesSelectElement.populateOptions(sourceOptions);
+    }
+
+    private handleGearCategoryChangedEvent: AppEventListener = (event: AppEvent) => {
+        const gearCategoryChangedEvent = event as GearCategoryChangedEvent;
+
+        this.activeCategory = gearCategoryChangedEvent.category;
+
+        this.dispatchGearFilterChangedEvent();
+    };
+
+    public handleOnSearchBoxKeyUp(event: KeyboardEvent) {
+        // Ignore shift key up events, otherwise two GearFilterChangedEvents are triggered when
+        // typing an UPPERCASE character into the search box.
+        if (event.shiftKey === true) return;
+
+        this.currentSearch = (event.target as HTMLInputElement).value;
+
+        this.dispatchGearFilterChangedEvent();
     }
 }
 
