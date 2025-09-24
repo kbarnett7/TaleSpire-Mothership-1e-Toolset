@@ -1,5 +1,7 @@
 # TaleSpire-Mothership-1e-Toolset
 
+[![GitHub Pipelines](https://github.com/kbarnett7/TaleSpire-Mothership-1e-Toolset/actions/workflows/typescript-jest-tests.yml/badge.svg)](https://github.com/kbarnett7/TaleSpire-Mothership-1e-Toolset/actions/workflows/typescript-jest-tests.yml)
+
 An unofficial TaleSpire Symbiote for the sci-fi horror TTRPG [Mothership](https://www.tuesdayknightgames.com/pages/mothership-rpg) created by [Tuesday Knight Games](https://www.tuesdayknightgames.com/).
 
 ## Key Features
