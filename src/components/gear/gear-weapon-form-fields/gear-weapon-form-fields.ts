@@ -2,6 +2,10 @@ import html from "./gear-weapon-form-fields.html";
 import { BaseComponent } from "../../base.component";
 import { WeaponItem } from "../../../features/gear/weapon-item";
 import { WeaponItemFormFieldsDto } from "../../../features/gear/weapon-item-form-fields-dto";
+import { CustomSelectComponent } from "../../custom-select/custom-select";
+import { SelectOption } from "../../../lib/selects/select-option";
+import { WeaponCategory } from "../../../features/gear/weapon-category";
+import { WeaponRange } from "../../../features/gear/weapon-range";
 
 export class GearWeaponFormFieldsComponent extends BaseComponent {
     static formAssociated = true;
@@ -9,12 +13,12 @@ export class GearWeaponFormFieldsComponent extends BaseComponent {
     private _internals: ElementInternals;
     private _formFieldsDto: WeaponItemFormFieldsDto;
 
-    public get weaponCategorySelectElement(): HTMLSelectElement {
-        return this.shadow.querySelector("#inputWeaponCategory") as HTMLSelectElement;
+    public get weaponCategorySelectElement(): CustomSelectComponent {
+        return this.shadow.querySelector("#inputWeaponCategory") as CustomSelectComponent;
     }
 
-    public get rangeSelectElement(): HTMLSelectElement {
-        return this.shadow.querySelector("#inputRange") as HTMLSelectElement;
+    public get rangeSelectElement(): CustomSelectComponent {
+        return this.shadow.querySelector("#inputRange") as CustomSelectComponent;
     }
 
     public get damageInputElement(): HTMLInputElement {
@@ -45,6 +49,8 @@ export class GearWeaponFormFieldsComponent extends BaseComponent {
 
     public connectedCallback() {
         this.render(html);
+        this.configureWeaponCategorySelectElement();
+        this.configureRangeSelectElement();
         this.updateFormValue();
     }
 
@@ -70,15 +76,37 @@ export class GearWeaponFormFieldsComponent extends BaseComponent {
         this.updateFormValue();
     }
 
-    public handleOnWeaponCategorySelectChanged(event: Event) {
-        this._formFieldsDto.category = this.weaponCategorySelectElement.value;
-        this.updateFormValue();
+    private configureWeaponCategorySelectElement() {
+        this.weaponCategorySelectElement.onOptionChange = this.handleOnWeaponCategorySelectChanged;
+        this.populateWeaponCategorySelectElement();
     }
 
-    public handleOnRangeSelectChanged(event: Event) {
-        this._formFieldsDto.range = this.rangeSelectElement.value;
-        this.updateFormValue();
+    private populateWeaponCategorySelectElement() {
+        const weaponCategoryOptions = Object.values(WeaponCategory).map((value) => new SelectOption(value, value));
+
+        this.weaponCategorySelectElement.populateOptions(weaponCategoryOptions);
     }
+
+    private configureRangeSelectElement() {
+        this.rangeSelectElement.onOptionChange = this.handleOnRangeSelectChanged;
+        this.populateRangeSelectElement();
+    }
+
+    private populateRangeSelectElement() {
+        const rangeOptions = Object.values(WeaponRange).map((value) => new SelectOption(value, value));
+
+        this.rangeSelectElement.populateOptions(rangeOptions);
+    }
+
+    public handleOnWeaponCategorySelectChanged = (newValue: SelectOption) => {
+        this._formFieldsDto.category = newValue.value;
+        this.updateFormValue();
+    };
+
+    public handleOnRangeSelectChanged = (newValue: SelectOption) => {
+        this._formFieldsDto.range = newValue.value;
+        this.updateFormValue();
+    };
 
     public handleOnDamageInputChanged(event: Event) {
         this._formFieldsDto.damage = this.damageInputElement.value;

@@ -1,0 +1,27 @@
+<div id="customSelectContainer" class="block relative">
+    <div
+        id="customSelectButton"
+        class="flex justify-between items-center w-full bg-white text-base text-black border-3 border-black px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0 cursor-pointer"
+        onclick="this.handleCustomSelectButtonClicked(event)"
+    >
+        <span id="selectedOption" class="overflow-hidden whitespace-nowrap">Select option...</span>
+        <span class="text-black">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="currentColor"
+                class="inline"
+            >
+                <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z" />
+            </svg>
+        </span>
+        <input type="hidden" name="inputSelectedOption" id="inputSelectedOption" value="" />
+    </div>
+
+    <div
+        id="customSelectMenu"
+        class="absolute z-50 w-full overflow-auto bg-white text-base text-black px-1 py-1 border-x-3 border-b-3 border-t-1 border-black opacity-20 scale-0"
+    ></div>
+</div>

@@ -10,6 +10,8 @@ import { IUnitOfWork } from "../../../lib/common/data-access/unit-of-work-interf
 import { appInjector } from "../../../lib/infrastructure/app-injector";
 import { UnitOfWork } from "../../../lib/data-access/unit-of-work";
 import { Source } from "../../../features/sources/source";
+import { CustomSelectComponent } from "../../custom-select/custom-select";
+import { SelectOption } from "../../../lib/selects/select-option";
 
 export class GearListFilterBarComponent extends BaseComponent {
     private readonly activeButtonCssClass = "active-filter-button";
@@ -21,8 +23,8 @@ export class GearListFilterBarComponent extends BaseComponent {
     private currentSearch: string;
     private currentSourceId: number;
 
-    public get sourcesSelectElement(): HTMLSelectElement {
-        return this.shadow.querySelector("#sourcesFilter") as HTMLSelectElement;
+    public get sourcesSelectElement(): CustomSelectComponent {
+        return this.shadow.querySelector("#sourcesFilter") as CustomSelectComponent;
     }
 
     constructor() {
@@ -35,14 +37,45 @@ export class GearListFilterBarComponent extends BaseComponent {
 
     public connectedCallback() {
         this.render(html);
-
-        this.populateSourcesFilter();
+        this.configureSourcesFilter();
 
         EventBus.instance.register(GearCategoryChangedEvent.name, this.handleGearCategoryChangedEvent);
     }
 
     public disconnectedCallback() {
         EventBus.instance.unregister(GearCategoryChangedEvent.name, this.handleGearCategoryChangedEvent);
+    }
+
+    private configureSourcesFilter() {
+        this.sourcesSelectElement.onOptionChange = this.handleOnSourcesSelectChanged;
+        this.sourcesSelectElement.containerCssClassList.add("h-full");
+        this.sourcesSelectElement.customSelectButtonCssClassList.add("h-full");
+        this.populateSourcesFilter();
+    }
+
+    public handleOnSourcesSelectChanged = (newValue: SelectOption) => {
+        const selectedValue = newValue.value;
+
+        this.currentSourceId = parseInt(selectedValue);
+
+        this.dispatchGearFilterChangedEvent();
+    };
+
+    private dispatchGearFilterChangedEvent() {
+        const appEvent = new GearFilterChangedEvent(this.activeCategory, this.currentSearch, this.currentSourceId);
+
+        EventBus.instance.dispatch(appEvent);
+    }
+
+    private populateSourcesFilter() {
+        const sources = this.unitOfWork.repo(Source).list();
+        const sourceOptions = [new SelectOption("0", "All")];
+
+        for (let source of sources) {
+            sourceOptions.push(new SelectOption(source.id.toString(), source.name));
+        }
+
+        this.sourcesSelectElement.populateOptions(sourceOptions);
     }
 
     private handleGearCategoryChangedEvent: AppEventListener = (event: AppEvent) => {
@@ -61,47 +94,6 @@ export class GearListFilterBarComponent extends BaseComponent {
         this.currentSearch = (event.target as HTMLInputElement).value;
 
         this.dispatchGearFilterChangedEvent();
-    }
-
-    public handleOnSourcesSelectChanged(event: Event) {
-        const selectedValue = (event.target as HTMLSelectElement).value;
-
-        this.currentSourceId = parseInt(selectedValue);
-
-        this.dispatchGearFilterChangedEvent();
-    }
-
-    private dispatchGearFilterChangedEvent() {
-        const appEvent = new GearFilterChangedEvent(this.activeCategory, this.currentSearch, this.currentSourceId);
-
-        EventBus.instance.dispatch(appEvent);
-    }
-
-    private populateSourcesFilter() {
-        const sourcesFilter = this.sourcesSelectElement;
-
-        if (!sourcesFilter) return;
-
-        if (sourcesFilter.hasChildNodes()) {
-            sourcesFilter.replaceChildren();
-        }
-
-        const sources = this.unitOfWork.repo(Source).list();
-
-        sourcesFilter.appendChild(this.createSourceFilterOption("0", "All"));
-
-        for (let source of sources) {
-            sourcesFilter.appendChild(this.createSourceFilterOption(source.id.toString(), source.name));
-        }
-    }
-
-    private createSourceFilterOption(value: string, text: string): HTMLOptionElement {
-        const option = document.createElement("option");
-
-        option.value = value;
-        option.text = text;
-
-        return option;
     }
 }
 
