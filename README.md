@@ -1,99 +1,62 @@
 # TaleSpire-Mothership-1e-Toolset
 
-An unofficial custom TaleSpire Symbiote the recreates the 1e character sheet from the sci-fi horror TTRPG Mothership created by Tuesday Knight Games.
+An unofficial TaleSpire Symbiote for the sci-fi horror TTRPG [Mothership](https://www.tuesdayknightgames.com/pages/mothership-rpg) created by [Tuesday Knight Games](https://www.tuesdayknightgames.com/).
 
-## How-To Run
+## Key Features
 
-Run the following command at the root of the project (i.e. the same directory as the tsconfig.json file):
+-   Create and manage your Mothership characters.
+-   Create custom NPCs.
+-   Create custom gear items.
 
-### Build
+## Installation Instructions
 
-**Development Build**
+### Subscribe
 
-`npm run build`
+Perform the following steps within TaleSpire.
 
-**Production Build**
+1. Enable Symbiotes in TaleSpire's settings ([instructions](https://symbiote-docs.talespire.com/#getting-started)).
+2. Enter a Server/Campaign.
+3. Open the Library bottom bar.
+4. Select `(Beta) Community Mods` tab along the top of the Library bar.
+5. Select `Symbiotes` on the left side of the Library bar.
+6. Search for `TaleSpire-Mothership-1e-Toolset` using the search box.
+7. Click on the Symbiote. It will automatically download and install the Symbiote from mod.io.
 
-`npm run build:talespire`
+### Manual
 
-### Unit Tests
+Perform the following steps on your local machine where TaleSpire has been installed.
 
-**Run All Tests**
+1. Download the TaleSpire-Mothership-1e-Toolset code repository.
+2. Extract the files to TaleSpire's symbiote directory. Default location: `C:\Users\%USERNAME%\AppData\LocalLow\BouncyRock Entertainment\TaleSpire\Symbiotes\TaleSpire-Mothership-1e-Toolset`.
+3. Launch and enable Symbiotes in Talespire settings ([instructions](https://symbiote-docs.talespire.com/#getting-started)).
+4. Enter a Server/Campaign.
+5. Open the Symbiote side-panel in TaleSpire.
+6. Enable TaleSpire-Mothership-1e-Toolset by clicking on it in the Available section.
+7. Select TaleSpire-Mothership-1e-Toolset in the Active section.
 
-`npm test`
+## Report Issues
 
-**Run All Tests with Code Coverage**
+Create an issue in the github page on the [Issues Tab](https://github.com/kbarnett7/TaleSpire-Mothership-1e-Toolset/issues).
 
-`npm run test:converage`
+Any information you can provide to reproducing your issue is appreciated including reproduction steps, screenshots or video, and anything else you think is important.
 
-## How-To Deploy
+## Contributors
 
-### Web Browser (Development)
+Thanks to all the contributers and to all the people who gave feedback!
 
-http://localhost:4000/
+<a href="https://github.com/kbarnett7/TaleSpire-Mothership-1e-Toolset/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=kbarnett7/TaleSpire-Mothership-1e-Toolset" />
+</a>
 
-### TaleSpire (Production)
+## Want to Contribute?
 
-http://localhost:8080/
-
-## Appendex B: Dependencies
-
-TypeScript: `npm install typescript --save-dev`
+Interested in contributing to this project? Check out the [CONTRIBUTING](https://github.com/kbarnett7/TaleSpire-Mothership-1e-Toolset/blob/main/CONTRIBUTING.md) file for instructions!
 
 ## Appendix Z: References & Resources
 
 ### Mothership TTRPG
 
 -   [Companion App](https://mothershipcompanion.com/)
-
-### TaleSpire Symbiotes
-
--   [Symbiotes Docs](https://symbiote-docs.talespire.com/)
-
-### Web Components
-
--   [Web Components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components)
--   [Web Components Examples](https://github.com/mdn/web-components-examples/tree/main)
--   [Web Components - Introduction](https://www.webcomponents.org/introduction)
--   [Using Global Styles in Shadow DOM](<https://eisenbergeffect.medium.com/using-global-styles-in-shadow-dom-5b80e802e89d#:~:text=Adding%20Global%20Styles%20to%20Declarative%20Shadow%20DOM%20(DSD)&text=The%20adopt%2Dglobal%2Dstyles%20element,once%20the%20work%20is%20done.>)
--   [Adding Form Participation Support to Web Components](https://www.raymondcamden.com/2023/05/24/adding-form-participation-support-to-web-components)
-
-### JavaScript & TypeScript
-
--   [Compile TS to JS: A Beginner's Guide](https://daily.dev/blog/compile-ts-to-js-a-beginners-guide)
--   [How to load HTML from another page with vanilla JavaScript](https://gomakethings.com/how-to-load-html-from-another-page-with-vanilla-javascript/)
--   [Using webpack with TypeScript](https://blog.logrocket.com/using-webpack-typescript/)
--   [Webpack Getting Started](https://webpack.js.org/guides/getting-started/)
--   [Webpack TerserWebpackPlugin](https://webpack.js.org/plugins/terser-webpack-plugin/)
--   [esbuild Getting Started](https://esbuild.github.io/getting-started/)
-
-### Unit Testing & Code Coverage
-
--   [Dice Vault Unit Test Prototyping](https://github.com/JasonCostanza/Dice-Vault/compare/main...kbarnett/unit-tests-prototype)
--   [TypeScript Unit Testing 101: A Developer’s Guide](https://www.testim.io/blog/typescript-unit-testing-101/)
--   [Unit Testing in TypeScript](https://refraction.dev/blog/unit-testing-in-typescript)
--   [How to write test cases in typescript](https://medium.com/design-bootcamp/how-to-write-test-cases-in-typescript-fa7a263b7833)
--   [Writing Well-Structured Unit Test in TypeScript](https://dev.to/arifintahu/writing-well-structured-unit-test-in-typescript-2hal)
--   [Measuring Typescript Code Coverage with Jest and GitHub Actions](https://about.codecov.io/blog/measuring-typescript-code-coverage-with-jest-and-github-actions/)
-    -   [GitHub](https://github.com/amacgregor/codecov-jest-github-actions/blob/main/jest.config.ts)
--   [How to Test a TypeScript App with Jest | A Step-by-Step Tutorial](https://www.meticulous.ai/blog/jest-typescript)
-
-### Sidebar Navigation Menu
-
--   https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_sidenav
--   https://www.youtube.com/watch?v=MszSqhEw__8
--   https://www.w3schools.com/howto/howto_js_fullscreen_overlay.asp
--   https://www.w3schools.com/howto/howto_js_sidenav.asp
--   https://tailwindcss.com/docs/z-index
-
-### Databases and ORMs
-
--   [sqlite3 npm package](https://www.npmjs.com/package/sqlite3?activeTab=readme)
--   [Get started with SQLite database in a TypeScript project](https://www.octans-solutions.fr/en/articles/sqlite-typescript)
--   [Implementing SQLite3 with Node.js and TypeScript](https://koraytug.hashnode.dev/implementing-sqlite3-with-nodejs-and-typescript)
--   [Kysely](https://kysely.dev/)
--   [Most complete typescript ORM available right now?](https://www.reddit.com/r/node/comments/1627z0m/most_complete_typescript_orm_available_right_now/)
--   [The best TypeScript ORMs](https://blog.logrocket.com/best-typescript-orms/)
 
 ### Misc
 
@@ -104,11 +67,6 @@ TypeScript: `npm install typescript --save-dev`
 -   [App Templates - Next.js React App](https://dev.azure.com/stanfieldsystems/SSI%20Application%20Templates/_git/SSI%20Application%20Templates?version=GBmain&path=/react/src/NextJsWebApp)
 
 -   [Google Style Guides](https://google.github.io/styleguide/)
-
-Add semantic tags to index.html
-
--   <nav>
--   <main>
 
 https://www.youtube.com/watch?v=R7b3OlEyqug
 https://www.youtube.com/watch?v=pfaSUYaSgRo
