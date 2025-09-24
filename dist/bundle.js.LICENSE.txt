@@ -18,6 +18,8 @@
 
 /*! ../../../features/gear/armor-item-form-fields-dto */
 
+/*! ../../../features/gear/armor-speed */
+
 /*! ../../../features/gear/delete-custom-gear-item/delete-custom-gear-item-feature */
 
 /*! ../../../features/gear/delete-custom-gear-item/delete-custom-gear-item-request */
@@ -54,9 +56,13 @@
 
 /*! ../../../features/gear/sort-gear-list/sort-gear-list-request */
 
+/*! ../../../features/gear/weapon-category */
+
 /*! ../../../features/gear/weapon-item */
 
 /*! ../../../features/gear/weapon-item-form-fields-dto */
+
+/*! ../../../features/gear/weapon-range */
 
 /*! ../../../features/npcs/filter-npcs-list/filter-npcs-list-feature */
 

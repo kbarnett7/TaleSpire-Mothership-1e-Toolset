@@ -69,10 +69,10 @@ export class CustomSelectComponent extends BaseComponent {
 
     constructor() {
         super();
+        this.onOptionChange = this.defaultOnOptionChangeCallback;
         this._internals = this.attachInternals();
         this._value = "";
         this._optionElements = new Map<string, HTMLDivElement>();
-        this.onOptionChange = this.defaultOnOptionChangeCallback;
     }
 
     public connectedCallback() {
@@ -149,7 +149,10 @@ export class CustomSelectComponent extends BaseComponent {
         event.stopPropagation();
 
         const selectedOptionElement = event.target as HTMLDivElement;
-        const selectedOption = new SelectOption(selectedOptionElement.dataset.value, selectedOptionElement.innerText);
+        const selectedOption = new SelectOption(
+            selectedOptionElement.dataset.value ?? selectedOptionElement.innerText,
+            selectedOptionElement.innerText
+        );
 
         if (selectedOption.value !== this.selectedOptionInputElement.value) {
             this.value = selectedOption.value;

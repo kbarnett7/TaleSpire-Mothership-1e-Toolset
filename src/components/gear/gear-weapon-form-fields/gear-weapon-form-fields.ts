@@ -4,6 +4,8 @@ import { WeaponItem } from "../../../features/gear/weapon-item";
 import { WeaponItemFormFieldsDto } from "../../../features/gear/weapon-item-form-fields-dto";
 import { CustomSelectComponent } from "../../custom-select/custom-select";
 import { SelectOption } from "../../../lib/selects/select-option";
+import { WeaponCategory } from "../../../features/gear/weapon-category";
+import { WeaponRange } from "../../../features/gear/weapon-range";
 
 export class GearWeaponFormFieldsComponent extends BaseComponent {
     static formAssociated = true;
@@ -80,11 +82,7 @@ export class GearWeaponFormFieldsComponent extends BaseComponent {
     }
 
     private populateWeaponCategorySelectElement() {
-        const weaponCategoryOptions = [
-            new SelectOption("Melee", "Melee"),
-            new SelectOption("Firearm", "Firearm"),
-            new SelectOption("Industrial Equipment", "Industrial Equipment"),
-        ];
+        const weaponCategoryOptions = Object.values(WeaponCategory).map((value) => new SelectOption(value, value));
 
         this.weaponCategorySelectElement.populateOptions(weaponCategoryOptions);
     }
@@ -95,13 +93,7 @@ export class GearWeaponFormFieldsComponent extends BaseComponent {
     }
 
     private populateRangeSelectElement() {
-        const rangeOptions = [
-            new SelectOption("N/A", "N/A"),
-            new SelectOption("Adjacent", "Adjacent"),
-            new SelectOption("Close", "Close"),
-            new SelectOption("Long", "Long"),
-            new SelectOption("Extreme", "Extreme"),
-        ];
+        const rangeOptions = Object.values(WeaponRange).map((value) => new SelectOption(value, value));
 
         this.rangeSelectElement.populateOptions(rangeOptions);
     }

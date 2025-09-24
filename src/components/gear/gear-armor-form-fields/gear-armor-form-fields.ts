@@ -4,6 +4,7 @@ import { ArmorItemFormFieldsDto } from "../../../features/gear/armor-item-form-f
 import { ArmorItem } from "../../../features/gear/armor-item";
 import { SelectOption } from "../../../lib/selects/select-option";
 import { CustomSelectComponent } from "../../custom-select/custom-select";
+import { ArmorSpeed } from "../../../features/gear/armor-speed";
 
 export class GearArmorFormFieldsComponent extends BaseComponent {
     static formAssociated = true;
@@ -68,9 +69,9 @@ export class GearArmorFormFieldsComponent extends BaseComponent {
 
     private populateSpeedSelectElement() {
         const speedOptions = [
-            new SelectOption("Normal", "Normal"),
-            new SelectOption("[+]", "Advantage [+]"),
-            new SelectOption("[-]", "Disadvantage [-]"),
+            new SelectOption(ArmorSpeed.Normal, "Normal"),
+            new SelectOption(ArmorSpeed.Advantage, "Advantage [+]"),
+            new SelectOption(ArmorSpeed.Disadvantage, "Disadvantage [-]"),
         ];
 
         this.speedSelectElement.populateOptions(speedOptions);
