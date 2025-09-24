@@ -50,7 +50,7 @@ Thanks to all the contributers and to all the people who gave feedback!
 
 ## Want to Contribute?
 
-Interested in contributing to this project? Check out the [CONTRIBUTING](https://github.com/kbarnett7/TaleSpire-Mothership-1e-Toolset/blob/main/CONTRIBUTING.md) file for instructions!
+Interested in contributing to this project? Check out the [CONTRIBUTING](CONTRIBUTING.md) file for instructions!
 
 ## Appendix Z: References & Resources
 
