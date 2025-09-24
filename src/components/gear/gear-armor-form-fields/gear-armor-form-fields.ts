@@ -39,8 +39,7 @@ export class GearArmorFormFieldsComponent extends BaseComponent {
 
     public connectedCallback() {
         this.render(html);
-        this.speedSelectElement.onOptionChange = this.handleOnSpeedSelectChanged;
-        this.populateSpeedSelectElement();
+        this.configureSpeedSelectElement();
         this.updateFormValue();
     }
 
@@ -60,6 +59,11 @@ export class GearArmorFormFieldsComponent extends BaseComponent {
         this._formFieldsDto.special = item.special;
 
         this.updateFormValue();
+    }
+
+    private configureSpeedSelectElement() {
+        this.speedSelectElement.onOptionChange = this.handleOnSpeedSelectChanged;
+        this.populateSpeedSelectElement();
     }
 
     private populateSpeedSelectElement() {

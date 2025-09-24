@@ -1,29 +1,11 @@
 <div class="grid grid-cols-2 gap-2 mb-3">
     <div>
         <label for="inputWeaponCategory" class="text-lg font-semibold uppercase">Category</label>
-        <select
-            id="inputWeaponCategory"
-            class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
-            onchange="this.handleOnWeaponCategorySelectChanged(event)"
-        >
-            <option value="Melee">Melee</option>
-            <option value="Firearm">Firearm</option>
-            <option value="Industrial Equipment">Industrial Equipment</option>
-        </select>
+        <custom-select id="inputWeaponCategory"></custom-select>
     </div>
     <div>
         <label for="inputRange" class="text-lg font-semibold uppercase">Range</label>
-        <select
-            id="inputRange"
-            class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
-            onchange="this.handleOnRangeSelectChanged(event)"
-        >
-            <option value="N/A">N/A</option>
-            <option value="Adjacent">Adjacent</option>
-            <option value="Close">Close</option>
-            <option value="Long">Long</option>
-            <option value="Extreme">Extreme</option>
-        </select>
+        <custom-select id="inputRange"></custom-select>
     </div>
 </div>
 
