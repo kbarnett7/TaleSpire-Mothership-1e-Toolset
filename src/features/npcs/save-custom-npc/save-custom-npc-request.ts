@@ -1,5 +1,5 @@
 import { Npc } from "../npc";
 
-export class CreateCustomNpcRequest {
+export class SaveCustomNpcRequest {
     public npc: Npc = new Npc();
 }

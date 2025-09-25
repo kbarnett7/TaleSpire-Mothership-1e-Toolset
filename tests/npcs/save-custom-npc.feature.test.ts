@@ -1,5 +1,5 @@
-import { CreateCustomNpcFeature } from "../../src/features/npcs/create-custom-npc/create-custom-npc-feature";
-import { CreateCustomNpcRequest } from "../../src/features/npcs/create-custom-npc/create-custom-npc-request";
+import { SaveCustomNpcFeature } from "../../src/features/npcs/save-custom-npc/save-custom-npc-feature";
+import { SaveCustomNpcRequest } from "../../src/features/npcs/save-custom-npc/save-custom-npc-request";
 import { Npc } from "../../src/features/npcs/npc";
 import { NpcAttack } from "../../src/features/npcs/npc-attack";
 import { NpcSpecialAbility } from "../../src/features/npcs/npc-special-ability";
@@ -10,18 +10,18 @@ import { MessageKeys } from "../../src/lib/localization/message-keys";
 import { DataAccessUtils } from "../data-access/data-access-utils";
 import { AssertUtils } from "../helpers/assert-utils";
 
-describe("CreateCustomNpcFeature", () => {
+describe("SaveCustomNpcFeature", () => {
     const fiftyCharacterLongName: string = "Lorem ipsum dolor sit amet consectetur adipiscingel";
 
-    let request: CreateCustomNpcRequest;
-    let feature: CreateCustomNpcFeature;
+    let request: SaveCustomNpcRequest;
+    let feature: SaveCustomNpcFeature;
 
     beforeEach(async () => {
         const dbContext = await DataAccessUtils.getInitializedDbContext();
         const unitOfWork = new UnitOfWork(dbContext);
 
-        request = new CreateCustomNpcRequest();
-        feature = new CreateCustomNpcFeature(unitOfWork);
+        request = new SaveCustomNpcRequest();
+        feature = new SaveCustomNpcFeature(unitOfWork);
     });
 
     it.each([[""], [" "]])("should fail if the name is empty or whitespace", (name: string) => {
