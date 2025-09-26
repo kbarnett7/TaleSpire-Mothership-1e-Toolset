@@ -8,22 +8,6 @@ export class GearTestUtils {
         return foundItem || new GearListItem(0, 0, "", "", 0, "");
     }
 
-    static getLargestGearItemIdInDatabase(repository: IRepository<any>): number {
-        const sortedItems = repository.list().sort((a, b) => a.id - b.id);
-
-        return sortedItems[sortedItems.length - 1].id;
-    }
-
-    static resetGearItemListInDatabase(repository: IRepository<any>, largestId: number) {
-        const gear = repository.list();
-
-        for (let item of gear) {
-            if (item.id > largestId) {
-                repository.remove(item);
-            }
-        }
-    }
-
     static expectItemToBe(
         actualItem: GearListItem,
         expectedId: number,

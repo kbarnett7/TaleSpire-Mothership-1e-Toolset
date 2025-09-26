@@ -12,6 +12,7 @@ import { ValueUtils } from "../helpers/value-utils";
 import { ArmorSpeed } from "../../src/features/gear/armor-speed";
 import { GearTestUtils } from "./gear-test-utils";
 import { SourcesService } from "../../src/features/sources/sources-service";
+import { DatabaseTestUtils } from "../helpers/database-test-utils";
 
 describe("SaveCustomArmorItemFeature", () => {
     let unitOfWork: UnitOfWork;
@@ -23,14 +24,14 @@ describe("SaveCustomArmorItemFeature", () => {
         const dbContext = await DataAccessUtils.getInitializedDbContext();
         unitOfWork = new UnitOfWork(dbContext);
 
-        largestArmorItemId = GearTestUtils.getLargestGearItemIdInDatabase(unitOfWork.repo(ArmorItem));
+        largestArmorItemId = DatabaseTestUtils.getLargestDatabaseEntityId(unitOfWork.repo(ArmorItem));
 
         request = new SaveCustomArmorItemRequest();
         feature = new SaveCustomArmorItemFeature(unitOfWork);
     });
 
     afterEach(async () => {
-        GearTestUtils.resetGearItemListInDatabase(unitOfWork.repo(ArmorItem), largestArmorItemId);
+        DatabaseTestUtils.resetDatabaseEntityCollection(unitOfWork.repo(ArmorItem), largestArmorItemId);
 
         await unitOfWork.saveChanges();
     });

@@ -16,5 +16,6 @@
 
     "deleteCustomGearItemFailed": "Failed to delete {category} item.",
 
-    "createCustomNpcFailed": "Failed to create custom NPC."
+    "createCustomNpcFailed": "Failed to create custom NPC.",
+    "editCustomNpcFailed": "Failed to edit custom NPC."
 }

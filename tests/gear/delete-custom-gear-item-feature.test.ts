@@ -14,6 +14,7 @@ import { GearListItem } from "../../src/features/gear/gear-list-item";
 import { GetAllGearFeature } from "../../src/features/gear/get-all-gear/get-all-gear-feature";
 import { EmptyRequest } from "../../src/lib/common/features/empty-request";
 import { GearTestUtils } from "./gear-test-utils";
+import { DatabaseTestUtils } from "../helpers/database-test-utils";
 
 describe("DeleteCustomGearItemFeature", () => {
     let unitOfWork: UnitOfWork;
@@ -30,9 +31,9 @@ describe("DeleteCustomGearItemFeature", () => {
         const dbContext = await DataAccessUtils.getInitializedDbContext();
         unitOfWork = new UnitOfWork(dbContext);
 
-        largestArmorItemId = GearTestUtils.getLargestGearItemIdInDatabase(unitOfWork.repo(ArmorItem));
-        largestEquipmentItemId = GearTestUtils.getLargestGearItemIdInDatabase(unitOfWork.repo(EquipmentItem));
-        largestWeaponItemId = GearTestUtils.getLargestGearItemIdInDatabase(unitOfWork.repo(WeaponItem));
+        largestArmorItemId = DatabaseTestUtils.getLargestDatabaseEntityId(unitOfWork.repo(ArmorItem));
+        largestEquipmentItemId = DatabaseTestUtils.getLargestDatabaseEntityId(unitOfWork.repo(EquipmentItem));
+        largestWeaponItemId = DatabaseTestUtils.getLargestDatabaseEntityId(unitOfWork.repo(WeaponItem));
 
         setOriginalNumberOfGearItemsIdInDatabase();
 
@@ -41,9 +42,9 @@ describe("DeleteCustomGearItemFeature", () => {
     });
 
     afterEach(async () => {
-        GearTestUtils.resetGearItemListInDatabase(unitOfWork.repo(ArmorItem), largestArmorItemId);
-        GearTestUtils.resetGearItemListInDatabase(unitOfWork.repo(EquipmentItem), largestEquipmentItemId);
-        GearTestUtils.resetGearItemListInDatabase(unitOfWork.repo(WeaponItem), largestWeaponItemId);
+        DatabaseTestUtils.resetDatabaseEntityCollection(unitOfWork.repo(ArmorItem), largestArmorItemId);
+        DatabaseTestUtils.resetDatabaseEntityCollection(unitOfWork.repo(EquipmentItem), largestEquipmentItemId);
+        DatabaseTestUtils.resetDatabaseEntityCollection(unitOfWork.repo(WeaponItem), largestWeaponItemId);
 
         await unitOfWork.saveChanges();
     });
