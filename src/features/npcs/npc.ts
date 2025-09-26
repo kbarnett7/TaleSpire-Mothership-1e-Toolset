@@ -1,8 +1,8 @@
+import { DatabaseEntity } from "../../lib/common/features/database-entity";
 import { NpcAttack } from "./npc-attack";
 import { NpcSpecialAbility } from "./npc-special-ability";
 
-export class Npc {
-    public id: number;
+export class Npc extends DatabaseEntity {
     public sourceId: number;
     public name: string;
     public combat: number;
@@ -27,7 +27,7 @@ export class Npc {
         attacks?: NpcAttack[],
         specialAbilities?: NpcSpecialAbility[]
     ) {
-        this.id = id ?? 0;
+        super(id);
         this.sourceId = sourceId ?? 0;
         this.name = name ?? "";
         this.combat = combat ?? 0;

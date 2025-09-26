@@ -1,18 +1,18 @@
 import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface";
+import { DatabaseEntity } from "../../lib/common/features/database-entity";
 import { Source } from "../sources/source";
 import { SourcesService } from "../sources/sources-service";
 
-export abstract class GearItem {
+export abstract class GearItem extends DatabaseEntity {
     public static gearCategory: string = "All";
 
-    public id: number;
     public sourceId: number;
     public name: string;
 
     protected validationResults: string[];
 
     constructor(id?: number, sourceId?: number, name?: string) {
-        this.id = id ?? 0;
+        super(id);
         this.sourceId = sourceId ?? 0;
         this.name = name ?? "";
         this.validationResults = [];

@@ -1,5 +1,4 @@
 import { GearListItem } from "../../src/features/gear/gear-list-item";
-import { IRepository } from "../../src/lib/common/data-access/repository-interface";
 
 export class GearTestUtils {
     static getGearItemByName(gear: GearListItem[], name: string): GearListItem {
