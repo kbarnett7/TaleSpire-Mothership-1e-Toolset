@@ -53,6 +53,7 @@ describe("GetNpcByIdFeature", () => {
         expect(npc.attacks[0].name).toBe("Talons");
         expect(npc.attacks[0].effect).toBe("4d10");
         expect(npc.specialAbilities.length).toBe(1);
-        expect(npc.specialAbilities[0].description).toBe("Tail Poison: Body Saved [-] or 1d10 DMG/round.");
+        expect(npc.specialAbilities[0].name).toBe("Tail Poison");
+        expect(npc.specialAbilities[0].description).toBe("Body Saved [-] or 1d10 DMG/round.");
     });
 });

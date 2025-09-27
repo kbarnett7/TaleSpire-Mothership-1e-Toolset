@@ -386,6 +386,7 @@
             "maximumWounds": 0,
             "specialAbilities": [
                 {
+                    "name": "",
                     "description": "1% chance any electronic (including androids) infected."
                 }
             ],
@@ -410,6 +411,7 @@
             "maximumWounds": 0,
             "specialAbilities": [
                 {
+                    "name": "",
                     "description": "Panic Check on sight."
                 }
             ],
@@ -434,7 +436,8 @@
             "maximumWounds": 3,
             "specialAbilities": [
                 {
-                    "description": "Tail Poison: Body Saved [-] or 1d10 DMG/round."
+                    "name": "Tail Poison",
+                    "description": "Body Saved [-] or 1d10 DMG/round."
                 }
             ],
             "description": "Four wings tipped with razor sharp talons. Flat black, smooth, angular. Can see in the dark via a row of sensing organs along their skinny, wide heads. Their tails end in several long blades, coated in mind-dulling toxin. Can spit hot blood that they can track. Hate light sources. Strong light, including sunlight, causes damage to their tissues and blinds them. Attracted to moving prey, and ignore targets standing absolutely still.",
@@ -508,6 +511,7 @@
             "maximumWounds": 0,
             "specialAbilities": [
                 {
+                    "name": "",
                     "description": "Sanity Save each hour spent inside Cabin 102-B."
                 }
             ],
@@ -527,6 +531,7 @@
             "maximumWounds": 5,
             "specialAbilities": [
                 {
+                    "name": "",
                     "description": "Use Sanity Save instead of Combat during violent encounters."
                 }
             ],
@@ -551,10 +556,36 @@
             "maximumWounds": 5,
             "specialAbilities": [
                 {
-                    "description": "Whisper: Fear Save or take current Stress as DMG."
+                    "name": "Whisper",
+                    "description": "Fear Save or take current Stress as DMG."
                 }
             ],
             "description": "The frequency is found, after years of trying. The ham radio hisses and spits. Slick drips from the speakers. The lights pulse and flicker. Sibilant voices promise unspeakable things, freedom from the drudgery and misery of wage slavery. The crew unflesh themselves, mumbling prayers. Something is born from the bloody ruin-wet fur, many-jointed limbs, an iron mask cast of their former face. They wear their old skin as cloaks and finery.",
+            "quotes": []
+        },
+
+        {
+            "id": 10,
+            "sourceId": 3,
+            "name": "Dorians",
+            "combat": 20,
+            "attacks": [
+                {
+                    "name": "Tiny Fists",
+                    "effect": "1d5"
+                }
+            ],
+            "instinct": 30,
+            "armorPoints": 5,
+            "health": 45,
+            "maximumWounds": 2,
+            "specialAbilities": [
+                {
+                    "name": "Psionic Wave of Mutilation",
+                    "description": "Sanity Save or 1d10 Stress"
+                }
+            ],
+            "description": "Synthetic bio-droids into which their owners upload all of their shame, regret, and self-loathing. Biologically programmed to secrecy and unable to self-terminate, they are the perfect storage device for black operators, C-Levels, and anyone else who wants to keep their good memories close and their bad ones closer. Difficult to hack. Always in high demand.",
             "quotes": []
         }
     ],
