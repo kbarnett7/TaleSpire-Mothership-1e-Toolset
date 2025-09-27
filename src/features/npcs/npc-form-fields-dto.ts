@@ -1,3 +1,6 @@
+import { NpcAttackFormFieldsDto } from "./npc-attack-form-fields-dto";
+import { NpcSpecialAbilityFormFieldsDto } from "./npc-special-ability-form-fields-dto";
+
 export class NpcFormFieldsDto {
     public name: string;
     public description: string;
@@ -6,6 +9,8 @@ export class NpcFormFieldsDto {
     public armorPoints: string;
     public health: string;
     public maximumWounds: string;
+    public attacks: NpcAttackFormFieldsDto[];
+    public specialAbilities: NpcSpecialAbilityFormFieldsDto[];
 
     constructor(
         name?: string,
@@ -14,7 +19,9 @@ export class NpcFormFieldsDto {
         instinct?: string,
         armorPoints?: string,
         health?: string,
-        maximumWounds?: string
+        maximumWounds?: string,
+        attacks?: NpcAttackFormFieldsDto[],
+        specialAbilities?: NpcSpecialAbilityFormFieldsDto[]
     ) {
         this.name = name ?? "";
         this.description = description ?? "";
@@ -23,5 +30,7 @@ export class NpcFormFieldsDto {
         this.armorPoints = armorPoints ?? "0";
         this.health = health ?? "0";
         this.maximumWounds = maximumWounds ?? "0";
+        this.attacks = attacks ?? [];
+        this.specialAbilities = specialAbilities ?? [];
     }
 }

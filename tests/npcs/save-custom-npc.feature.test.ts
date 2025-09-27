@@ -13,6 +13,8 @@ import { NpcTestUtils } from "./npc-test-utils";
 import { DatabaseTestUtils } from "../helpers/database-test-utils";
 import { NpcFormFieldsDto } from "../../src/features/npcs/npc-form-fields-dto";
 import { ValueUtils } from "../helpers/value-utils";
+import { NpcAttackFormFieldsDto } from "../../src/features/npcs/npc-attack-form-fields-dto";
+import { NpcSpecialAbilityFormFieldsDto } from "../../src/features/npcs/npc-special-ability-form-fields-dto";
 
 describe("SaveCustomNpcFeature", () => {
     let unitOfWork: UnitOfWork;
@@ -357,6 +359,148 @@ describe("SaveCustomNpcFeature", () => {
         expect(result.error.details[0]).toContain("100");
     });
 
+    it.each([
+        ["", " "],
+        [" ", ""],
+    ])(
+        "should fail if NPC has an attack where name and effect are both empty or whitespace",
+        async (name: string, effect: string) => {
+            // Arrange
+            const npcFormFields = getValidCustomNpcFormFields();
+            npcFormFields.attacks[1] = new NpcAttackFormFieldsDto(name, effect);
+            request.formFields = npcFormFields;
+
+            // Act
+            const result = await feature.handleAsync(request);
+
+            // Assert
+            AssertUtils.expectResultToBeFailure(
+                result,
+                ErrorCode.CreateError,
+                LocalizationService.instance.translate(MessageKeys.createCustomNpcFailed)
+            );
+            expect(result.error.details.length).toBe(1);
+            expect(result.error.details[0]).toContain("attack");
+            expect(result.error.details[0]).toContain("name");
+            expect(result.error.details[0]).toContain("effect");
+            expect(result.error.details[0]).toContain("both");
+            expect(result.error.details[0]).toContain("empty");
+        }
+    );
+
+    it("should fail if NPC has an attack with a name greater than 100 characters long", async () => {
+        // Arrange
+        const npcFormFields = getValidCustomNpcFormFields();
+        npcFormFields.attacks[1].name = ValueUtils.getStringOfRandomCharacters(101);
+        request.formFields = npcFormFields;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.CreateError,
+            LocalizationService.instance.translate(MessageKeys.createCustomNpcFailed)
+        );
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("attack");
+        expect(result.error.details[0]).toContain("name");
+        expect(result.error.details[0]).toContain("100");
+    });
+
+    it("should fail if NPC has an attack with an effect greater than 1000 characters long", async () => {
+        // Arrange
+        const npcFormFields = getValidCustomNpcFormFields();
+        npcFormFields.attacks[1].effect = ValueUtils.getStringOfRandomCharacters(1001);
+        request.formFields = npcFormFields;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.CreateError,
+            LocalizationService.instance.translate(MessageKeys.createCustomNpcFailed)
+        );
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("attack");
+        expect(result.error.details[0]).toContain("effect");
+        expect(result.error.details[0]).toContain("1,000");
+    });
+
+    it.each([
+        ["", " "],
+        [" ", ""],
+    ])(
+        "should fail if NPC has a special ability where name and description are both empty or whitespace",
+        async (name: string, description: string) => {
+            // Arrange
+            const npcFormFields = getValidCustomNpcFormFields();
+            npcFormFields.specialAbilities[1] = new NpcSpecialAbilityFormFieldsDto(name, description);
+            request.formFields = npcFormFields;
+
+            // Act
+            const result = await feature.handleAsync(request);
+
+            // Assert
+            AssertUtils.expectResultToBeFailure(
+                result,
+                ErrorCode.CreateError,
+                LocalizationService.instance.translate(MessageKeys.createCustomNpcFailed)
+            );
+            expect(result.error.details.length).toBe(1);
+            expect(result.error.details[0]).toContain("special ability");
+            expect(result.error.details[0]).toContain("name");
+            expect(result.error.details[0]).toContain("description");
+            expect(result.error.details[0]).toContain("both");
+            expect(result.error.details[0]).toContain("empty");
+        }
+    );
+
+    it("should fail if NPC has a special ability with a name greater than 100 characters long", async () => {
+        // Arrange
+        const npcFormFields = getValidCustomNpcFormFields();
+        npcFormFields.specialAbilities[1].name = ValueUtils.getStringOfRandomCharacters(101);
+        request.formFields = npcFormFields;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.CreateError,
+            LocalizationService.instance.translate(MessageKeys.createCustomNpcFailed)
+        );
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("special ability");
+        expect(result.error.details[0]).toContain("name");
+        expect(result.error.details[0]).toContain("100");
+    });
+
+    it("should fail if NPC has a special ability with a description greater than 1000 characters long", async () => {
+        // Arrange
+        const npcFormFields = getValidCustomNpcFormFields();
+        npcFormFields.specialAbilities[1].description = ValueUtils.getStringOfRandomCharacters(1001);
+        request.formFields = npcFormFields;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.CreateError,
+            LocalizationService.instance.translate(MessageKeys.createCustomNpcFailed)
+        );
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("special ability");
+        expect(result.error.details[0]).toContain("description");
+        expect(result.error.details[0]).toContain("1,000");
+    });
+
     function getValidCustomNpcFormFields(): NpcFormFieldsDto {
         // return new Npc(
         //     999,
@@ -384,7 +528,15 @@ describe("SaveCustomNpcFeature", () => {
             "35",
             "2",
             "20",
-            "3"
+            "3",
+            [
+                new NpcAttackFormFieldsDto("Fake Attack 1", "1d10"),
+                new NpcAttackFormFieldsDto("Fake Attack 2", "Sanity save or become stunned for one round."),
+            ],
+            [
+                new NpcSpecialAbilityFormFieldsDto("Test Ability 1: Does scary stuff."),
+                new NpcSpecialAbilityFormFieldsDto("Test Ability 2: More scary stuff."),
+            ]
         );
     }
 });

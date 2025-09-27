@@ -15,7 +15,7 @@ export class Npc extends DatabaseEntity {
     public attacks: NpcAttack[];
     public specialAbilities: NpcSpecialAbility[];
 
-    protected validationResults: string[];
+    private validationResults: string[];
 
     constructor(
         id?: number,
@@ -54,7 +54,9 @@ export class Npc extends DatabaseEntity {
             .validateInstinct()
             .validateArmorPoints()
             .validateHealth()
-            .validateMaximumWounds();
+            .validateMaximumWounds()
+            .validateAttacks()
+            .validateSpecialAbilities();
 
         return this.validationResults;
     }
@@ -150,6 +152,22 @@ export class Npc extends DatabaseEntity {
             this.validationResults.push(
                 `The maximum wounds \"${this.maximumWounds}\" is invalid. The maximum wounds must be between 0 and 100.`
             );
+        }
+
+        return this;
+    }
+
+    private validateAttacks(): Npc {
+        for (const attack of this.attacks) {
+            this.validationResults.push(...attack.validate());
+        }
+
+        return this;
+    }
+
+    private validateSpecialAbilities(): Npc {
+        for (const ability of this.specialAbilities) {
+            this.validationResults.push(...ability.validate());
         }
 
         return this;
