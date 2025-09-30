@@ -92,10 +92,12 @@ export class ArmorItem extends EquipmentItem {
     }
 
     protected override addToDatabase(unitOfWork: IUnitOfWork): void {
-        this.id = this.generateId(unitOfWork);
+        const repository = unitOfWork.repo(ArmorItem);
+
+        this.id = this.generateId(repository);
         this.sourceId = SourcesService.instance.getCustomItemSourceId(unitOfWork);
 
-        unitOfWork.repo(ArmorItem).add(this);
+        repository.add(this);
     }
 
     protected override updateInDatabase(unitOfWork: IUnitOfWork): void {
@@ -113,14 +115,5 @@ export class ArmorItem extends EquipmentItem {
 
     public override deleteFromDatabase(unitOfWork: IUnitOfWork): void {
         unitOfWork.repo(ArmorItem).remove(this);
-    }
-
-    protected override getLargestItemIdInDatabase(unitOfWork: IUnitOfWork): number {
-        const sortedItems = unitOfWork
-            .repo(ArmorItem)
-            .list()
-            .sort((a, b) => a.id - b.id);
-
-        return sortedItems[sortedItems.length - 1].id;
     }
 }

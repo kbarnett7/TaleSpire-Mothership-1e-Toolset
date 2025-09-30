@@ -183,22 +183,11 @@ export class Npc extends DatabaseEntity {
     }
 
     public saveToDatabase(unitOfWork: IUnitOfWork): void {
-        this.id = this.generateId(unitOfWork);
+        const repository = unitOfWork.repo(Npc);
+
+        this.id = this.generateId(repository);
         this.sourceId = SourcesService.instance.getCustomItemSourceId(unitOfWork);
 
-        unitOfWork.repo(Npc).add(this);
-    }
-
-    private generateId(unitOfWork: IUnitOfWork): number {
-        return this.getLargestItemIdInDatabase(unitOfWork) + 1;
-    }
-
-    private getLargestItemIdInDatabase(unitOfWork: IUnitOfWork): number {
-        const sortedItems = unitOfWork
-            .repo(Npc)
-            .list()
-            .sort((a, b) => a.id - b.id);
-
-        return sortedItems[sortedItems.length - 1].id;
+        repository.add(this);
     }
 }
