@@ -30,7 +30,11 @@ export class SaveCustomNpcFeature
                 return Result.failure(new ResultError(this.errorCode, this.baseFailureMessage, validationResults));
             }
 
-            return Result.success(new Npc());
+            npc.saveToDatabase(this.unitOfWork);
+
+            await this.unitOfWork.saveChanges();
+
+            return Result.success(npc);
         } catch (error) {
             const ex = error as Error;
 

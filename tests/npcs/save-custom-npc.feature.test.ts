@@ -15,6 +15,7 @@ import { NpcFormFieldsDto } from "../../src/features/npcs/npc-form-fields-dto";
 import { ValueUtils } from "../helpers/value-utils";
 import { NpcAttackFormFieldsDto } from "../../src/features/npcs/npc-attack-form-fields-dto";
 import { NpcSpecialAbilityFormFieldsDto } from "../../src/features/npcs/npc-special-ability-form-fields-dto";
+import { SourcesService } from "../../src/features/sources/sources-service";
 
 describe("SaveCustomNpcFeature", () => {
     let unitOfWork: UnitOfWork;
@@ -499,6 +500,57 @@ describe("SaveCustomNpcFeature", () => {
         expect(result.error.details[0]).toContain("special ability");
         expect(result.error.details[0]).toContain("description");
         expect(result.error.details[0]).toContain("1,000");
+    });
+
+    it("should fail when adding an NPC if there already exists an NPC with the same name in the database", async () => {
+        // Arrange
+        const npcFormFields = getValidCustomNpcFormFields();
+        npcFormFields.name = "Belladonnas";
+        request.formFields = npcFormFields;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.CreateError,
+            LocalizationService.instance.translate(MessageKeys.createCustomNpcFailed)
+        );
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("name");
+        expect(result.error.details[0]).toContain("Belladonnas");
+        expect(result.error.details[0]).toContain("already exists");
+    });
+
+    it("should add a valid NPC to the database with an incremented ID and the source set to custom", async () => {
+        // Arrange
+        const numberOfNpcsInDatabasePreAdd = unitOfWork.repo(Npc).list().length;
+        const npcFormFields: NpcFormFieldsDto = getValidCustomNpcFormFields();
+        request.formFields = npcFormFields;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        const numberOfNpcsInDatabasePostAdd = unitOfWork.repo(Npc).list().length;
+        const itemFromDatabase = unitOfWork.repo(Npc).first((item) => item.id == result.value?.id) ?? new Npc();
+
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(numberOfNpcsInDatabasePostAdd).toBe(numberOfNpcsInDatabasePreAdd + 1);
+        expect(itemFromDatabase.id).toBe(largestNpcId + 1);
+        expect(itemFromDatabase.id).toBe(result.value?.id);
+        expect(itemFromDatabase.sourceId).toBe(SourcesService.instance.getCustomItemSourceId(unitOfWork));
+        expect(itemFromDatabase.name).toBe(result.value?.name);
+        expect(itemFromDatabase.description).toBe(result.value?.description);
+        expect(itemFromDatabase.combat).toBe(result.value?.combat);
+        expect(itemFromDatabase.instinct).toBe(result.value?.instinct);
+        expect(itemFromDatabase.armorPoints).toBe(result.value?.armorPoints);
+        expect(itemFromDatabase.health).toBe(result.value?.health);
+        expect(itemFromDatabase.maximumWounds).toBe(result.value?.maximumWounds);
+        expect(itemFromDatabase.attacks).toBe(result.value?.attacks);
+        expect(itemFromDatabase.specialAbilities).toBe(result.value?.specialAbilities);
     });
 
     function getValidCustomNpcFormFields(): NpcFormFieldsDto {

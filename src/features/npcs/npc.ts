@@ -1,5 +1,6 @@
 import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface";
 import { DatabaseEntity } from "../../lib/common/features/database-entity";
+import { SourcesService } from "../sources/sources-service";
 import { NpcAttack } from "./npc-attack";
 import { NpcSpecialAbility } from "./npc-special-ability";
 
@@ -74,6 +75,14 @@ export class Npc extends DatabaseEntity {
     }
 
     protected validateItemDoesNotAlreadyExist(unitOfWork: IUnitOfWork): Npc {
+        const existingNpc = unitOfWork.repo(Npc).first((item) => item.name === this.name);
+
+        if (existingNpc && existingNpc.id !== this.id) {
+            this.validationResults.push(
+                `An NPC with the name \"${this.name}\" already exists. The name must be unique.`
+            );
+        }
+
         return this;
     }
 
@@ -171,5 +180,25 @@ export class Npc extends DatabaseEntity {
         }
 
         return this;
+    }
+
+    public saveToDatabase(unitOfWork: IUnitOfWork): void {
+        this.id = this.generateId(unitOfWork);
+        this.sourceId = SourcesService.instance.getCustomItemSourceId(unitOfWork);
+
+        unitOfWork.repo(Npc).add(this);
+    }
+
+    private generateId(unitOfWork: IUnitOfWork): number {
+        return this.getLargestItemIdInDatabase(unitOfWork) + 1;
+    }
+
+    private getLargestItemIdInDatabase(unitOfWork: IUnitOfWork): number {
+        const sortedItems = unitOfWork
+            .repo(Npc)
+            .list()
+            .sort((a, b) => a.id - b.id);
+
+        return sortedItems[sortedItems.length - 1].id;
     }
 }
