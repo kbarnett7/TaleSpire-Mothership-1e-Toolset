@@ -33,4 +33,8 @@ export class NpcFormFieldsDto {
         this.attacks = attacks ?? [];
         this.specialAbilities = specialAbilities ?? [];
     }
+
+    public toJson(): string {
+        return JSON.stringify(this);
+    }
 }
