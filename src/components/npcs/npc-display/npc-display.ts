@@ -1,8 +1,8 @@
-import html from "./npc-form.html";
+import html from "./npc-display.html";
 import { BaseComponent } from "../../base.component";
 import { Npc } from "../../../features/npcs/npc";
 
-export class NpcFormComponent extends BaseComponent {
+export class NpcDisplayComponent extends BaseComponent {
     private npc: Npc;
 
     constructor() {
@@ -145,4 +145,4 @@ export class NpcFormComponent extends BaseComponent {
     }
 }
 
-customElements.define("npc-form", NpcFormComponent);
+customElements.define("npc-display", NpcDisplayComponent);
