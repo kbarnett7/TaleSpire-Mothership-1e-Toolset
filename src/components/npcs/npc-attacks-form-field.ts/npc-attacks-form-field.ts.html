@@ -1,1 +1,106 @@
-<div>NPC ATTACKS FORM</div>
+<table id="npcAttacksTable" class="w-full text-left">
+    <tbody>
+        <tr class="border-b-2 border-black">
+            <td class="px-1 py-1">
+                <input
+                    id="inputAttackName1"
+                    name="inputAttackName1"
+                    type="text"
+                    class="block w-full bg-white text-base text-black border-3 border-black px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+                    placeholder="Enter name of the item..."
+                    aria-placeholder="Enter name of the item..."
+                    required
+                    aria-required
+                    maxlength="100"
+                    onchange="this.handleOnNameInputChanged(event)"
+                />
+            </td>
+            <td class="px-1 py-1">
+                <input
+                    id="inputAttackEffect1"
+                    name="inputAttackEffect1"
+                    type="text"
+                    class="block w-full bg-white text-base text-black border-3 border-black px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+                    placeholder="Enter effect of the item..."
+                    aria-placeholder="Enter effect of the item..."
+                    required
+                    aria-required
+                    maxlength="100"
+                    onchange="this.handleOnNameInputChanged(event)"
+                />
+            </td>
+            <td class="px-1 py-1 text-center">
+                <button
+                    id="deleteItemButton"
+                    type="button"
+                    class="text-black bg-transparent hover:bg-black hover:text-white rounded-md text-sm w-8 h-8 ms-auto inline-flex justify-center items-center transition duration-150 ease-in-out cursor-pointer"
+                    onclick="this.onDeleteButtonClick(event)"
+                >
+                    <svg
+                        class="w-6 h-6"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 -960 960 960"
+                        fill="currentColor"
+                    >
+                        <path
+                            d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"
+                        />
+                    </svg>
+                    <span class="sr-only">Delete item</span>
+                </button>
+            </td>
+        </tr>
+        <tr class="border-b-2 border-black">
+            <td class="px-1 py-1">
+                <input
+                    id="inputAttackName2"
+                    name="inputAttackName2"
+                    type="text"
+                    class="block w-full bg-white text-base text-black border-3 border-black px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+                    placeholder="Enter name of the item..."
+                    aria-placeholder="Enter name of the item..."
+                    required
+                    aria-required
+                    maxlength="100"
+                    onchange="this.handleOnNameInputChanged(event)"
+                />
+            </td>
+            <td class="px-1 py-1">
+                <input
+                    id="inputAttackEffect2"
+                    name="inputAttackEffect2"
+                    type="text"
+                    class="block w-full bg-white text-base text-black border-3 border-black px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+                    placeholder="Enter effect of the item..."
+                    aria-placeholder="Enter effect of the item..."
+                    required
+                    aria-required
+                    maxlength="100"
+                    onchange="this.handleOnNameInputChanged(event)"
+                />
+            </td>
+            <td class="px-1 py-1 text-center">
+                <button
+                    id="deleteItemButton"
+                    type="button"
+                    class="text-black bg-transparent hover:bg-black hover:text-white rounded-md text-sm w-8 h-8 ms-auto inline-flex justify-center items-center transition duration-150 ease-in-out cursor-pointer"
+                    onclick="this.onDeleteButtonClick(event)"
+                >
+                    <svg
+                        class="w-6 h-6"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 -960 960 960"
+                        fill="currentColor"
+                    >
+                        <path
+                            d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"
+                        />
+                    </svg>
+                    <span class="sr-only">Delete item</span>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
