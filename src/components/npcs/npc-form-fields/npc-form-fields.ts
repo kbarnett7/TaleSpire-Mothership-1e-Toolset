@@ -1,12 +1,41 @@
 import html from "./npc-form-fields.html";
 import { NpcFormFieldsDto } from "../../../features/npcs/npc-form-fields-dto";
 import { BaseComponent } from "../../base.component";
+import { Npc } from "../../../features/npcs/npc";
 
 export class NpcFormFieldsComponent extends BaseComponent {
     static formAssociated = true;
 
     private _internals: ElementInternals;
     private _formFieldsDto: NpcFormFieldsDto;
+
+    public get nameInputElement(): HTMLInputElement {
+        return this.shadow.querySelector("#inputName") as HTMLInputElement;
+    }
+
+    public get combatInputElement(): HTMLInputElement {
+        return this.shadow.querySelector("#inputCombat") as HTMLInputElement;
+    }
+
+    public get instinctInputElement(): HTMLInputElement {
+        return this.shadow.querySelector("#inputInstinct") as HTMLInputElement;
+    }
+
+    public get healthInputElement(): HTMLInputElement {
+        return this.shadow.querySelector("#inputHealth") as HTMLInputElement;
+    }
+
+    public get woundsInputElement(): HTMLInputElement {
+        return this.shadow.querySelector("#inputWounds") as HTMLInputElement;
+    }
+
+    public get armorPointsInputElement(): HTMLInputElement {
+        return this.shadow.querySelector("#inputArmorPoints") as HTMLInputElement;
+    }
+
+    public get descriptionInputElement(): HTMLTextAreaElement {
+        return this.shadow.querySelector("#inputDescription") as HTMLTextAreaElement;
+    }
 
     public get value(): string {
         return this._formFieldsDto.toJson();
@@ -25,6 +54,61 @@ export class NpcFormFieldsComponent extends BaseComponent {
 
     private updateFormValue() {
         this._internals.setFormValue(this.value);
+    }
+
+    public setInitialFormValues(npc: Npc) {
+        this.nameInputElement.value = npc.name;
+        this.combatInputElement.value = npc.combat.toString();
+        this.instinctInputElement.value = npc.instinct.toString();
+        this.healthInputElement.value = npc.health.toString();
+        this.woundsInputElement.value = npc.maximumWounds.toString();
+        this.armorPointsInputElement.value = npc.armorPoints.toString();
+        this.descriptionInputElement.value = npc.description;
+
+        this._formFieldsDto.name = npc.name;
+        this._formFieldsDto.combat = npc.combat.toString();
+        this._formFieldsDto.instinct = npc.instinct.toString();
+        this._formFieldsDto.health = npc.health.toString();
+        this._formFieldsDto.maximumWounds = npc.maximumWounds.toString();
+        this._formFieldsDto.armorPoints = npc.armorPoints.toString();
+        this._formFieldsDto.description = npc.description;
+
+        this.updateFormValue();
+    }
+
+    public handleOnNameInputChanged(event: Event) {
+        this._formFieldsDto.name = this.nameInputElement.value;
+        this.updateFormValue();
+    }
+
+    public handleOnCombatInputChanged(event: Event) {
+        this._formFieldsDto.combat = this.combatInputElement.value;
+        this.updateFormValue();
+    }
+
+    public handleOnInstinctInputChanged(event: Event) {
+        this._formFieldsDto.instinct = this.instinctInputElement.value;
+        this.updateFormValue();
+    }
+
+    public handleOnHealthInputChanged(event: Event) {
+        this._formFieldsDto.health = this.healthInputElement.value;
+        this.updateFormValue();
+    }
+
+    public handleOnWoundsInputChanged(event: Event) {
+        this._formFieldsDto.maximumWounds = this.woundsInputElement.value;
+        this.updateFormValue();
+    }
+
+    public handleOnArmorPointsInputChanged(event: Event) {
+        this._formFieldsDto.armorPoints = this.armorPointsInputElement.value;
+        this.updateFormValue();
+    }
+
+    public handleOnDescriptionInputChanged(event: Event) {
+        this._formFieldsDto.description = this.descriptionInputElement.value;
+        this.updateFormValue();
     }
 }
 

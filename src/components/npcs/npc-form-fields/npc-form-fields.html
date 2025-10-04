@@ -1,1 +1,129 @@
-<div>TEMP</div>
+<div class="grid grid-cols-1 gap-1 mb-3">
+    <label for="inputName" class="text-lg font-semibold uppercase">Name</label>
+    <input
+        id="inputName"
+        name="inputName"
+        type="text"
+        class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+        placeholder="Enter name of the item..."
+        aria-placeholder="Enter name of the item..."
+        required
+        aria-required
+        maxlength="100"
+        onchange="this.handleOnNameInputChanged(event)"
+    />
+</div>
+
+<div class="grid grid-cols-2 gap-2 mb-3">
+    <div>
+        <label for="inputCombat" class="text-lg font-semibold uppercase">Combat</label>
+        <input
+            id="inputCombat"
+            name="inputCombat"
+            type="number"
+            class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+            placeholder="Enter NPC's combat attribute..."
+            aria-placeholder="Enter NPC's combat attribute..."
+            min="0"
+            max="100"
+            required
+            aria-required
+            onchange="this.handleOnCombatInputChanged(event)"
+            value="0"
+        />
+    </div>
+
+    <div>
+        <label for="inputInstinct" class="text-lg font-semibold uppercase">Instinct</label>
+        <input
+            id="inputInstinct"
+            name="inputInstinct"
+            type="number"
+            class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+            placeholder="Enter NPC's instinct attribute..."
+            aria-placeholder="Enter NPC's instinct attribute..."
+            min="0"
+            max="100"
+            required
+            aria-required
+            onchange="this.handleOnInstinctInputChanged(event)"
+            value="0"
+        />
+    </div>
+</div>
+
+<div class="grid grid-cols-2 gap-2 mb-3">
+    <div>
+        <label for="inputHealth" class="text-lg font-semibold uppercase">Health</label>
+        <input
+            id="inputHealth"
+            name="inputHealth"
+            type="number"
+            class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+            placeholder="Enter NPC's health..."
+            aria-placeholder="Enter NPC's health..."
+            min="0"
+            max="1000"
+            required
+            aria-required
+            onchange="this.handleOnHealthInputChanged(event)"
+            value="0"
+        />
+    </div>
+
+    <div>
+        <label for="inputWounds" class="text-lg font-semibold uppercase">Maximum Wounds</label>
+        <input
+            id="inputWounds"
+            name="inputWounds"
+            type="number"
+            class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+            placeholder="Enter NPC's maximum wounds count..."
+            aria-placeholder="Enter NPC's maximum wounds count..."
+            min="0"
+            max="100"
+            required
+            aria-required
+            onchange="this.handleOnWoundsInputChanged(event)"
+            value="0"
+        />
+    </div>
+</div>
+
+<div class="grid grid-cols-2 gap-2 mb-3">
+    <div>
+        <label for="inputArmorPoints" class="text-lg font-semibold uppercase">Armor Points</label>
+        <input
+            id="inputArmorPoints"
+            name="inputArmorPoints"
+            type="number"
+            class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+            placeholder="Enter NPC's armor points..."
+            aria-placeholder="Enter NPC's armor points..."
+            min="0"
+            max="1000"
+            required
+            aria-required
+            onchange="this.handleOnArmorPointsInputChanged(event)"
+            value="0"
+        />
+    </div>
+</div>
+
+<div class="grid grid-cols-1 gap-1 mb-3">TBD: Attacks</div>
+
+<div class="grid grid-cols-1 gap-1 mb-3">TBD: Special Abilities</div>
+
+<div class="grid grid-cols-1 gap-1 mb-3">
+    <label for="inputDescription" class="text-lg font-semibold uppercase">Description</label>
+    <textarea
+        id="inputDescription"
+        type="text"
+        class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+        placeholder="Enter a description of the NPC..."
+        aria-placeholder="Enter a description of the NPC..."
+        rows="3"
+        maxlength="1000"
+        onchange="this.handleOnDescriptionInputChanged(event)"
+    ></textarea>
+</div>
