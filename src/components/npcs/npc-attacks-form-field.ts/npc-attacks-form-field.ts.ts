@@ -9,8 +9,11 @@ import { AppEvent } from "../../../lib/events/app-event";
 export class NpcAttacksFormFieldComponent extends BaseComponent {
     static formAssociated = true;
 
+    private readonly rowIdPrefix: string = "npcAttack";
+
     private _internals: ElementInternals;
     private _formFieldsDto: NpcAttackFormFieldsDto[];
+    private _nextRowId: number;
 
     public get npcAttacksTableBodyElement(): HTMLTableSectionElement {
         return this.shadow.querySelector("#npcAttacksTableBody") as HTMLTableSectionElement;
@@ -24,6 +27,7 @@ export class NpcAttacksFormFieldComponent extends BaseComponent {
         super();
         this._internals = this.attachInternals();
         this._formFieldsDto = [];
+        this._nextRowId = 1;
     }
 
     public connectedCallback() {
@@ -42,34 +46,28 @@ export class NpcAttacksFormFieldComponent extends BaseComponent {
     }
 
     private onAddNpcAttackButtonClicked: AppEventListener = (event: AppEvent) => {
-        this.npcAttacksTableBodyElement.appendChild(this.createTableRowElement());
+        this.npcAttacksTableBodyElement.appendChild(this.createNpcAttackTableRowElement());
     };
 
-    private createTableRowElement(): HTMLTableRowElement {
-        const row = this.createBaseTableRowElement();
+    private createNpcAttackTableRowElement(): HTMLTableRowElement {
+        const rowId = this.generateNewRowId();
+        const row = this.createBaseTableRowElement(rowId);
 
-        row.appendChild(this.createAttackNameTableCellElement());
-        row.appendChild(this.createAttackEffectTableCellElement());
-        row.appendChild(this.createDeleteAttackTableCellElement());
-
-        // row.innerHTML = `
-        //         <td class="p-2">${npcListItem.name}</td>
-        //         <td class="p-2">${this.convertNumberFieldToString(npcListItem.combat)}</td>
-        //         <td class="p-2">${this.convertNumberFieldToString(npcListItem.instinct)}</td>
-        //         <td class="p-2">${this.convertNumberFieldToString(npcListItem.armorPoints)}</td>
-        //         <td class="p-2">${this.convertNumberFieldToString(
-        //             npcListItem.maximumWounds
-        //         )} (${this.convertNumberFieldToString(npcListItem.health)})</td>
-        //     `;
-
-        // row.addEventListener("click", (event: MouseEvent) => this.onTableDataRowClick(npcListItem));
+        row.appendChild(this.createAttackNameTableCellElement(rowId));
+        row.appendChild(this.createAttackEffectTableCellElement(rowId));
+        row.appendChild(this.createDeleteAttackTableCellElement(rowId));
 
         return row;
     }
 
-    private createBaseTableRowElement(): HTMLTableRowElement {
+    private generateNewRowId(): number {
+        return this._nextRowId++;
+    }
+
+    private createBaseTableRowElement(rowId: number): HTMLTableRowElement {
         const row = document.createElement("tr");
 
+        row.id = `${this.rowIdPrefix}${rowId}`;
         row.className = "border-b-2 border-black";
 
         return row;
@@ -83,74 +81,89 @@ export class NpcAttacksFormFieldComponent extends BaseComponent {
         return cell;
     }
 
-    private createAttackNameTableCellElement(): HTMLTableCellElement {
+    private createAttackNameTableCellElement(rowId: number): HTMLTableCellElement {
         const cell = this.createBaseTableCellElement();
+        const input = document.createElement("input");
 
-        cell.innerHTML = `
-            <input
-                id="inputAttackName1"
-                name="inputAttackName1"
-                type="text"
-                class="block w-full bg-white text-base text-black border-3 border-black px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
-                placeholder="Enter name of the item..."
-                aria-placeholder="Enter name of the item..."
-                required
-                aria-required
-                maxlength="100"
-                onchange="this.handleOnNameInputChanged(event)"
-            />
-        `;
+        input.id = `inputAttackName${rowId}`;
+        input.name = `inputAttackName${rowId}`;
+        input.type = "text";
+        input.className =
+            "block w-full bg-white text-base text-black border-3 border-black px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0";
+        input.placeholder = "Enter name of the item...";
+        input.ariaPlaceholder = "Enter name of the item...";
+        input.maxLength = 100;
+
+        input.addEventListener("change", () => this.handleOnAttackNameInputChanged(rowId));
+
+        cell.appendChild(input);
 
         return cell;
     }
 
-    private createAttackEffectTableCellElement(): HTMLTableCellElement {
+    private createAttackEffectTableCellElement(rowId: number): HTMLTableCellElement {
         const cell = this.createBaseTableCellElement();
 
-        cell.innerHTML = `
-            <input
-                id="inputAttackEffect1"
-                name="inputAttackEffect1"
-                type="text"
-                class="block w-full bg-white text-base text-black border-3 border-black px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
-                placeholder="Enter effect of the item..."
-                aria-placeholder="Enter effect of the item..."
-                required
-                aria-required
-                maxlength="100"
-                onchange="this.handleOnNameInputChanged(event)"
-            />
-        `;
+        const input = document.createElement("input");
+
+        input.id = `inputAttackEffect${rowId}`;
+        input.name = `inputAttackEffect${rowId}`;
+        input.type = "text";
+        input.className =
+            "block w-full bg-white text-base text-black border-3 border-black px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0";
+        input.placeholder = "Enter effect of the item...";
+        input.ariaPlaceholder = "Enter effect of the item...";
+        input.maxLength = 1000;
+
+        input.addEventListener("change", () => this.handleOnAttackEffectInputChanged(rowId));
+
+        cell.appendChild(input);
 
         return cell;
     }
 
-    private createDeleteAttackTableCellElement(): HTMLTableCellElement {
+    private createDeleteAttackTableCellElement(rowId: number): HTMLTableCellElement {
         const cell = this.createBaseTableCellElement();
+        const button = document.createElement("button");
 
-        cell.innerHTML = `
-            <button
-                id="deleteItemButton"
-                type="button"
-                class="text-black bg-transparent hover:bg-black hover:text-white rounded-md text-sm w-8 h-8 ms-auto inline-flex justify-center items-center transition duration-150 ease-in-out cursor-pointer"
-                onclick="this.onDeleteButtonClick(event)"
+        button.type = "button";
+        button.className =
+            "text-black bg-transparent hover:bg-black hover:text-white rounded-md text-sm w-8 h-8 ms-auto inline-flex justify-center items-center transition duration-150 ease-in-out cursor-pointer";
+
+        button.innerHTML = `
+            <svg
+                class="w-6 h-6"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 -960 960 960"
+                fill="currentColor"
             >
-                <svg
-                    class="w-6 h-6"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 -960 960 960"
-                    fill="currentColor"
-                >
-                    <path
-                        d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"
-                    />
-                </svg>
-                <span class="sr-only">Delete item</span>
-            </button>
+                <path
+                    d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"
+                />
+            </svg>
+            <span class="sr-only">Delete NPC attack</span>
         `;
 
+        button.addEventListener("click", () => this.onDeleteAttackButtonClick(rowId));
+
+        cell.appendChild(button);
+
         return cell;
+    }
+
+    public handleOnAttackNameInputChanged(rowId: number) {
+        alert(`name updated for row: ${rowId}`);
+    }
+
+    public handleOnAttackEffectInputChanged(rowId: number) {
+        alert(`effect updated for row: ${rowId}`);
+    }
+
+    public onDeleteAttackButtonClick(rowId: number) {
+        const row = this.shadow.querySelector(`#${this.rowIdPrefix}${rowId}`) as HTMLTableRowElement;
+
+        row.remove();
     }
 }
 
