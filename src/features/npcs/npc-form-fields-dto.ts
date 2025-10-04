@@ -49,8 +49,8 @@ export class NpcFormFieldsDto {
             json.armorPoints ?? "0",
             json.health ?? "0",
             json.maximumWounds ?? "0",
-            [],
-            []
+            json.attacks ?? [],
+            json.specialAbilities ?? []
         );
     }
 }
