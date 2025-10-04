@@ -56,7 +56,13 @@ export class NpcComponent extends BasePageComponent {
         return !isNaN(Number(id)) && Number.isInteger(Number(id));
     }
 
-    private configurePageForEditing() {}
+    private configurePageForEditing() {
+        this.setInitialFormValues();
+    }
+
+    private setInitialFormValues() {
+        // TODO in future story...
+    }
 
     public handleCancelButtonClick(event: MouseEvent) {
         this.navigateToNpcsPage();
@@ -80,19 +86,6 @@ export class NpcComponent extends BasePageComponent {
         request.formFields = this.getNpcFormFields(formData);
         request.id = this.npcIdFromUrl;
 
-        await this.handleFeature(request, feature);
-    }
-
-    private getNpcFormFields(formData: FormData): NpcFormFieldsDto {
-        return NpcFormFieldsDto.createFromJson(
-            formData.get("npcFields")?.toString() ?? new NpcFormFieldsDto().toJson()
-        );
-    }
-
-    private async handleFeature<TRequest, TResponse>(
-        request: TRequest,
-        feature: IAsyncFeature<TRequest, Result<TResponse>>
-    ): Promise<void> {
         const result = await feature.handleAsync(request);
 
         if (result.isSuccess) {
@@ -100,6 +93,12 @@ export class NpcComponent extends BasePageComponent {
         } else {
             this.handleSaveFailure(result.error);
         }
+    }
+
+    private getNpcFormFields(formData: FormData): NpcFormFieldsDto {
+        return NpcFormFieldsDto.createFromJson(
+            formData.get("npcFields")?.toString() ?? new NpcFormFieldsDto().toJson()
+        );
     }
 
     private handleSaveSuccess() {
