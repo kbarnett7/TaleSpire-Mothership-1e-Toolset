@@ -1,6 +1,7 @@
 import html from "./npc-display.html";
 import { BaseComponent } from "../../base.component";
 import { Npc } from "../../../features/npcs/npc";
+import { StringService } from "../../../lib/services/string-service";
 
 export class NpcDisplayComponent extends BaseComponent {
     private npc: Npc;
@@ -87,7 +88,11 @@ export class NpcDisplayComponent extends BaseComponent {
         for (var attack of this.npc.attacks) {
             const paragraph = this.createParagraphElement();
 
-            paragraph.textContent = `${attack.name}: ${attack.effect}`;
+            if (StringService.instance.isNullOrWhitespace(attack.name) === false) {
+                paragraph.textContent = `${attack.name}: `;
+            }
+
+            paragraph.textContent += attack.effect;
 
             container.appendChild(paragraph);
         }
@@ -117,7 +122,11 @@ export class NpcDisplayComponent extends BaseComponent {
         for (var ability of this.npc.specialAbilities) {
             const paragraph = this.createParagraphElement();
 
-            paragraph.textContent = ability.description;
+            if (StringService.instance.isNullOrWhitespace(ability.name) === false) {
+                paragraph.textContent = `${ability.name}: `;
+            }
+
+            paragraph.textContent += ability.description;
 
             container.appendChild(paragraph);
         }
