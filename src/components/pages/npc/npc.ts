@@ -7,10 +7,17 @@ import { NpcFormFieldsComponent } from "../../npcs/npc-form-fields/npc-form-fiel
 import { PageRouterService } from "../../../lib/pages/page-router-service";
 import { EventBus } from "../../../lib/events/event-bus";
 import { UiReportableErrorClearedEvent } from "../../../lib/events/ui-reportable-error-cleared-event";
+import { SaveCustomNpcRequest } from "../../../features/npcs/save-custom-npc/save-custom-npc-request";
+import { SaveCustomNpcFeature } from "../../../features/npcs/save-custom-npc/save-custom-npc-feature";
+import { NpcFormFieldsDto } from "../../../features/npcs/npc-form-fields-dto";
+import { IAsyncFeature } from "../../../lib/common/features/async-feature-interface";
+import { Result } from "../../../lib/result/result";
+import { ResultError } from "../../../lib/result/result-error";
+import { UiReportableErrorOccurredEvent } from "../../../lib/events/ui-reportable-error-occurred-event";
 
 export class NpcComponent extends BasePageComponent {
     private unitOfWork: IUnitOfWork;
-    private gearItemIdFromUrl: number;
+    private npcIdFromUrl: number;
 
     private get npcFormFieldsComponent(): NpcFormFieldsComponent {
         return this.shadow.querySelector("#npcFields") as NpcFormFieldsComponent;
@@ -19,7 +26,7 @@ export class NpcComponent extends BasePageComponent {
     constructor() {
         super();
         this.unitOfWork = appInjector.injectClass(UnitOfWork);
-        this.gearItemIdFromUrl = 0;
+        this.npcIdFromUrl = 0;
     }
 
     public async connectedCallback() {
@@ -27,9 +34,9 @@ export class NpcComponent extends BasePageComponent {
 
         this.render(html);
 
-        this.gearItemIdFromUrl = this.getIdFromUrl();
+        this.npcIdFromUrl = this.getIdFromUrl();
 
-        if (this.gearItemIdFromUrl > 0) {
+        if (this.npcIdFromUrl > 0) {
             this.configurePageForEditing();
         }
     }
@@ -63,12 +70,44 @@ export class NpcComponent extends BasePageComponent {
         const form = event.target as HTMLFormElement;
         const formData = new FormData(form);
 
-        //await this.saveGearItem(formData);
-        this.handleSaveSuccess();
+        await this.saveNpc(formData);
+    }
+
+    private async saveNpc(formData: FormData): Promise<void> {
+        const request = new SaveCustomNpcRequest();
+        const feature = new SaveCustomNpcFeature(this.unitOfWork);
+
+        request.formFields = this.getNpcFormFields(formData);
+        request.id = this.npcIdFromUrl;
+
+        await this.handleFeature(request, feature);
+    }
+
+    private getNpcFormFields(formData: FormData): NpcFormFieldsDto {
+        return NpcFormFieldsDto.createFromJson(
+            formData.get("npcFields")?.toString() ?? new NpcFormFieldsDto().toJson()
+        );
+    }
+
+    private async handleFeature<TRequest, TResponse>(
+        request: TRequest,
+        feature: IAsyncFeature<TRequest, Result<TResponse>>
+    ): Promise<void> {
+        const result = await feature.handleAsync(request);
+
+        if (result.isSuccess) {
+            this.handleSaveSuccess();
+        } else {
+            this.handleSaveFailure(result.error);
+        }
     }
 
     private handleSaveSuccess() {
         this.navigateToNpcsPage();
+    }
+
+    private handleSaveFailure(error: ResultError) {
+        EventBus.instance.dispatch(new UiReportableErrorOccurredEvent(error.description, error.details));
     }
 
     private navigateToNpcsPage() {

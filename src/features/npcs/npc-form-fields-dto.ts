@@ -37,4 +37,20 @@ export class NpcFormFieldsDto {
     public toJson(): string {
         return JSON.stringify(this);
     }
+
+    static createFromJson(jsonStr: string): NpcFormFieldsDto {
+        const json = JSON.parse(jsonStr);
+
+        return new NpcFormFieldsDto(
+            json.name ?? "",
+            json.description ?? "",
+            json.combat ?? "0",
+            json.instinct ?? "0",
+            json.armorPoints ?? "0",
+            json.health ?? "0",
+            json.maximumWounds ?? "0",
+            [],
+            []
+        );
+    }
 }
