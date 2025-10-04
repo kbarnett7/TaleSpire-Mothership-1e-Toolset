@@ -2,6 +2,8 @@ import html from "./npc-form-fields.html";
 import { NpcFormFieldsDto } from "../../../features/npcs/npc-form-fields-dto";
 import { BaseComponent } from "../../base.component";
 import { Npc } from "../../../features/npcs/npc";
+import { EventBus } from "../../../lib/events/event-bus";
+import { AddNpcAttackButtonClicked } from "../../../lib/events/add-npc-attack-button-clicked";
 
 export class NpcFormFieldsComponent extends BaseComponent {
     static formAssociated = true;
@@ -109,6 +111,10 @@ export class NpcFormFieldsComponent extends BaseComponent {
     public handleOnDescriptionInputChanged(event: Event) {
         this._formFieldsDto.description = this.descriptionInputElement.value;
         this.updateFormValue();
+    }
+
+    public handleOnAddAttackButtonClick(event: MouseEvent) {
+        EventBus.instance.dispatch(new AddNpcAttackButtonClicked());
     }
 }
 
