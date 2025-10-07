@@ -1,4 +1,4 @@
-import html from "./npc-attacks-form-field.ts.html";
+import html from "./npc-attacks-form-field.html";
 import { BaseComponent } from "../../base.component";
 import { NpcAttackFormFieldsDto } from "../../../features/npcs/npc-attack-form-fields-dto";
 import { EventBus } from "../../../lib/events/event-bus";
@@ -12,7 +12,7 @@ export class NpcAttacksFormFieldComponent extends BaseComponent {
     private readonly rowIdPrefix: string = "npcAttack";
 
     private _internals: ElementInternals;
-    private _formFieldsDto: NpcAttackFormFieldsDto[];
+    private _formFieldsDtoMap: Map<number, NpcAttackFormFieldsDto>;
     private _nextRowId: number;
 
     public get npcAttacksTableBodyElement(): HTMLTableSectionElement {
@@ -20,13 +20,21 @@ export class NpcAttacksFormFieldComponent extends BaseComponent {
     }
 
     public get value(): string {
-        return JSON.stringify(this._formFieldsDto);
+        let formFieldDtos: NpcAttackFormFieldsDto[] = [];
+
+        for (const dto of this._formFieldsDtoMap.values()) {
+            if (dto.name.length > 0 || dto.effect.length > 0) {
+                formFieldDtos.push(dto);
+            }
+        }
+
+        return JSON.stringify(formFieldDtos);
     }
 
     constructor() {
         super();
         this._internals = this.attachInternals();
-        this._formFieldsDto = [];
+        this._formFieldsDtoMap = new Map<number, NpcAttackFormFieldsDto>();
         this._nextRowId = 1;
     }
 
@@ -43,14 +51,19 @@ export class NpcAttacksFormFieldComponent extends BaseComponent {
 
     private updateFormValue() {
         this._internals.setFormValue(this.value);
+
+        this.dispatchEvent(new Event("change", { bubbles: true }));
     }
 
     private onAddNpcAttackButtonClicked: AppEventListener = (event: AppEvent) => {
-        this.npcAttacksTableBodyElement.appendChild(this.createNpcAttackTableRowElement());
+        const rowId = this.generateNewRowId();
+
+        this.npcAttacksTableBodyElement.appendChild(this.createNpcAttackTableRowElement(rowId));
+
+        this._formFieldsDtoMap.set(rowId, new NpcAttackFormFieldsDto());
     };
 
-    private createNpcAttackTableRowElement(): HTMLTableRowElement {
-        const rowId = this.generateNewRowId();
+    private createNpcAttackTableRowElement(rowId: number): HTMLTableRowElement {
         const row = this.createBaseTableRowElement(rowId);
 
         row.appendChild(this.createAttackNameTableCellElement(rowId));
@@ -94,7 +107,7 @@ export class NpcAttacksFormFieldComponent extends BaseComponent {
         input.ariaPlaceholder = "Enter name of the item...";
         input.maxLength = 100;
 
-        input.addEventListener("change", () => this.handleOnAttackNameInputChanged(rowId));
+        input.addEventListener("change", (event) => this.handleOnAttackNameInputChanged(event, rowId));
 
         cell.appendChild(input);
 
@@ -115,7 +128,7 @@ export class NpcAttacksFormFieldComponent extends BaseComponent {
         input.ariaPlaceholder = "Enter effect of the item...";
         input.maxLength = 1000;
 
-        input.addEventListener("change", () => this.handleOnAttackEffectInputChanged(rowId));
+        input.addEventListener("change", (event) => this.handleOnAttackEffectInputChanged(event, rowId));
 
         cell.appendChild(input);
 
@@ -152,18 +165,42 @@ export class NpcAttacksFormFieldComponent extends BaseComponent {
         return cell;
     }
 
-    public handleOnAttackNameInputChanged(rowId: number) {
-        alert(`name updated for row: ${rowId}`);
+    private getTableRowElementByRowId(rowId: number): HTMLTableRowElement {
+        return this.shadow.querySelector(`#${this.rowIdPrefix}${rowId}`) as HTMLTableRowElement;
     }
 
-    public handleOnAttackEffectInputChanged(rowId: number) {
-        alert(`effect updated for row: ${rowId}`);
+    public handleOnAttackNameInputChanged(event: Event, rowId: number) {
+        const dto = this._formFieldsDtoMap.get(rowId);
+
+        if (!dto) {
+            return;
+        }
+
+        dto.name = (event.target as HTMLInputElement).value;
+
+        this.updateFormValue();
+    }
+
+    public handleOnAttackEffectInputChanged(event: Event, rowId: number) {
+        const dto = this._formFieldsDtoMap.get(rowId);
+
+        if (!dto) {
+            return;
+        }
+
+        dto.effect = (event.target as HTMLInputElement).value;
+
+        this.updateFormValue();
     }
 
     public onDeleteAttackButtonClick(rowId: number) {
-        const row = this.shadow.querySelector(`#${this.rowIdPrefix}${rowId}`) as HTMLTableRowElement;
+        const row = this.getTableRowElementByRowId(rowId);
+
+        this._formFieldsDtoMap.delete(rowId);
 
         row.remove();
+
+        this.updateFormValue();
     }
 }
 

@@ -4,6 +4,8 @@ import { BaseComponent } from "../../base.component";
 import { Npc } from "../../../features/npcs/npc";
 import { EventBus } from "../../../lib/events/event-bus";
 import { AddNpcAttackButtonClicked } from "../../../lib/events/add-npc-attack-button-clicked";
+import { NpcAttacksFormFieldComponent } from "../npc-attacks-form-field.ts/npc-attacks-form-field";
+import { NpcAttackFormFieldsDto } from "../../../features/npcs/npc-attack-form-fields-dto";
 
 export class NpcFormFieldsComponent extends BaseComponent {
     static formAssociated = true;
@@ -115,6 +117,14 @@ export class NpcFormFieldsComponent extends BaseComponent {
 
     public handleOnAddAttackButtonClick(event: MouseEvent) {
         EventBus.instance.dispatch(new AddNpcAttackButtonClicked());
+    }
+
+    public handleOnNpcAttacksChanged(event: Event) {
+        const npcAttacksJson = (event.target as NpcAttacksFormFieldComponent).value;
+
+        this._formFieldsDto.attacks = JSON.parse(npcAttacksJson) as NpcAttackFormFieldsDto[];
+
+        this.updateFormValue();
     }
 }
 
