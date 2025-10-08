@@ -6,6 +6,9 @@ import { EventBus } from "../../../lib/events/event-bus";
 import { AddNpcAttackButtonClicked } from "../../../lib/events/add-npc-attack-button-clicked";
 import { NpcAttacksFormFieldComponent } from "../npc-attacks-form-field/npc-attacks-form-field";
 import { NpcAttackFormFieldsDto } from "../../../features/npcs/npc-attack-form-fields-dto";
+import { AddNpcSpecialAbilityButtonClicked } from "../../../lib/events/add-npc-special-ability-button-clicked";
+import { NpcSpecialAbilitiesFormFieldComponent } from "../npc-special-abilities-form-field/npc-special-abilities-form-field";
+import { NpcSpecialAbilityFormFieldsDto } from "../../../features/npcs/npc-special-ability-form-fields-dto";
 
 export class NpcFormFieldsComponent extends BaseComponent {
     static formAssociated = true;
@@ -58,7 +61,6 @@ export class NpcFormFieldsComponent extends BaseComponent {
 
     private updateFormValue() {
         this._internals.setFormValue(this.value);
-        console.log(this.value);
     }
 
     public setInitialFormValues(npc: Npc) {
@@ -124,6 +126,18 @@ export class NpcFormFieldsComponent extends BaseComponent {
         const npcAttacksJson = (event.target as NpcAttacksFormFieldComponent).value;
 
         this._formFieldsDto.attacks = JSON.parse(npcAttacksJson) as NpcAttackFormFieldsDto[];
+
+        this.updateFormValue();
+    }
+
+    public handleOnAddSpecialAbilityButtonClick(event: MouseEvent) {
+        EventBus.instance.dispatch(new AddNpcSpecialAbilityButtonClicked());
+    }
+
+    public handleOnNpcSpecialAbilitiesChanged(event: Event) {
+        const npcSpecialAbilitiesJson = (event.target as NpcSpecialAbilitiesFormFieldComponent).value;
+
+        this._formFieldsDto.specialAbilities = JSON.parse(npcSpecialAbilitiesJson) as NpcSpecialAbilityFormFieldsDto[];
 
         this.updateFormValue();
     }

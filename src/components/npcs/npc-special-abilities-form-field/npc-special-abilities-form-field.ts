@@ -1,30 +1,60 @@
 import html from "./npc-special-abilities-form-field.html";
-import { BaseComponent } from "../../base.component";
 import { NpcSpecialAbilityFormFieldsDto } from "../../../features/npcs/npc-special-ability-form-fields-dto";
+import { BaseDoubleInputRowsTableComponent } from "../../base-double-input-rows-table/base-double-input-rows-table";
+import { EventBus } from "../../../lib/events/event-bus";
+import { AppEventListener } from "../../../lib/events/app-event-listener-interface";
+import { AppEvent } from "../../../lib/events/app-event";
+import { AddNpcSpecialAbilityButtonClicked } from "../../../lib/events/add-npc-special-ability-button-clicked";
 
-export class NpcSpecialAbilitiesFormFieldComponent extends BaseComponent {
-    static formAssociated = true;
-
-    private _internals: ElementInternals;
-    private _formFieldsDto: NpcSpecialAbilityFormFieldsDto[];
-
-    public get value(): string {
-        return JSON.stringify(this._formFieldsDto);
-    }
-
+export class NpcSpecialAbilitiesFormFieldComponent extends BaseDoubleInputRowsTableComponent<NpcSpecialAbilityFormFieldsDto> {
     constructor() {
-        super();
-        this._internals = this.attachInternals();
-        this._formFieldsDto = [];
+        super("name", "description", "npcSpecialAbilitiesTableBody", "Delete NPC special ability");
     }
 
     public connectedCallback() {
         this.render(html);
+
+        super.connectedCallback(); // base version does not call this.render();
+
+        EventBus.instance.register(AddNpcSpecialAbilityButtonClicked.name, this.onAddNpcSpecialAbilityButtonClicked);
+    }
+
+    public disconnectedCallback() {
+        EventBus.instance.unregister(AddNpcSpecialAbilityButtonClicked.name, this.onAddNpcSpecialAbilityButtonClicked);
+    }
+
+    private onAddNpcSpecialAbilityButtonClicked: AppEventListener = (event: AppEvent) => {
+        const rowId = this.addNewTableRow();
+
+        this._formFieldsDtoMap.set(rowId, new NpcSpecialAbilityFormFieldsDto());
+    };
+
+    protected isDtoValid(dto: NpcSpecialAbilityFormFieldsDto): boolean {
+        return dto.name.length > 0 || dto.description.length > 0;
+    }
+
+    protected handleOnInputOneChanged(event: Event, rowId: number) {
+        const dto = this._formFieldsDtoMap.get(rowId);
+
+        if (!dto) {
+            return;
+        }
+
+        dto.name = (event.target as HTMLInputElement).value;
+
         this.updateFormValue();
     }
 
-    private updateFormValue() {
-        this._internals.setFormValue(this.value);
+    protected handleOnInputTwoChanged(event: Event, rowId: number) {
+        const dto = this._formFieldsDtoMap.get(rowId);
+
+        if (!dto) {
+            return;
+        }
+
+        dto.description = (event.target as HTMLInputElement).value;
+
+        this.updateFormValue();
     }
 }
 

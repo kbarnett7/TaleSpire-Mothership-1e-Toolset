@@ -1,5 +1,4 @@
 import html from "./npc-attacks-form-field.html";
-import { BaseComponent } from "../../base.component";
 import { NpcAttackFormFieldsDto } from "../../../features/npcs/npc-attack-form-fields-dto";
 import { EventBus } from "../../../lib/events/event-bus";
 import { AddNpcAttackButtonClicked } from "../../../lib/events/add-npc-attack-button-clicked";
