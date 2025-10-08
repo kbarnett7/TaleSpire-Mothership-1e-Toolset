@@ -58,6 +58,7 @@ export class NpcFormFieldsComponent extends BaseComponent {
 
     private updateFormValue() {
         this._internals.setFormValue(this.value);
+        console.log(this.value);
     }
 
     public setInitialFormValues(npc: Npc) {
