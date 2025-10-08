@@ -4,7 +4,7 @@ import { BaseComponent } from "../../base.component";
 import { Npc } from "../../../features/npcs/npc";
 import { EventBus } from "../../../lib/events/event-bus";
 import { AddNpcAttackButtonClicked } from "../../../lib/events/add-npc-attack-button-clicked";
-import { NpcAttacksFormFieldComponent } from "../npc-attacks-form-field.ts/npc-attacks-form-field";
+import { NpcAttacksFormFieldComponent } from "../npc-attacks-form-field/npc-attacks-form-field";
 import { NpcAttackFormFieldsDto } from "../../../features/npcs/npc-attack-form-fields-dto";
 
 export class NpcFormFieldsComponent extends BaseComponent {
