@@ -38,7 +38,7 @@ export abstract class BaseDoubleInputRowsTableComponent<TDto> extends BaseCompon
         super();
         this._internals = this.attachInternals();
         this._formFieldsDtoMap = new Map<number, TDto>();
-        this._nextRowId = 1; // TODO: when doing the edit story in the future, this will need to be set to attacks.length + 1
+        this._nextRowId = 1;
         this._inputOneName = inputOneName;
         this._inputTwoName = inputTwoName;
         this._tableBodyElementId = tableBodyElementId;
