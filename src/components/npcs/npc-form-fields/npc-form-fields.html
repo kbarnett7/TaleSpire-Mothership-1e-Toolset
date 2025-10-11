@@ -1,0 +1,180 @@
+<div class="grid grid-cols-1 gap-1 mb-3">
+    <label for="inputName" class="text-lg font-semibold uppercase">Name</label>
+    <input
+        id="inputName"
+        name="inputName"
+        type="text"
+        class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+        placeholder="Enter name of the NPC..."
+        aria-placeholder="Enter name of the NPC..."
+        required
+        aria-required
+        maxlength="100"
+        onchange="this.handleOnNameInputChanged(event)"
+    />
+</div>
+
+<div class="grid grid-cols-2 gap-2 mb-3">
+    <div>
+        <label for="inputCombat" class="text-lg font-semibold uppercase">Combat</label>
+        <input
+            id="inputCombat"
+            name="inputCombat"
+            type="number"
+            class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+            placeholder="Enter NPC's combat attribute..."
+            aria-placeholder="Enter NPC's combat attribute..."
+            min="0"
+            max="100"
+            required
+            aria-required
+            onchange="this.handleOnCombatInputChanged(event)"
+            value="0"
+        />
+    </div>
+
+    <div>
+        <label for="inputInstinct" class="text-lg font-semibold uppercase">Instinct</label>
+        <input
+            id="inputInstinct"
+            name="inputInstinct"
+            type="number"
+            class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+            placeholder="Enter NPC's instinct attribute..."
+            aria-placeholder="Enter NPC's instinct attribute..."
+            min="0"
+            max="100"
+            required
+            aria-required
+            onchange="this.handleOnInstinctInputChanged(event)"
+            value="0"
+        />
+    </div>
+</div>
+
+<div class="grid grid-cols-2 gap-2 mb-3">
+    <div>
+        <label for="inputHealth" class="text-lg font-semibold uppercase">Health</label>
+        <input
+            id="inputHealth"
+            name="inputHealth"
+            type="number"
+            class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+            placeholder="Enter NPC's health..."
+            aria-placeholder="Enter NPC's health..."
+            min="0"
+            max="1000"
+            required
+            aria-required
+            onchange="this.handleOnHealthInputChanged(event)"
+            value="0"
+        />
+    </div>
+
+    <div>
+        <label for="inputWounds" class="text-lg font-semibold uppercase">Maximum Wounds</label>
+        <input
+            id="inputWounds"
+            name="inputWounds"
+            type="number"
+            class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+            placeholder="Enter NPC's maximum wounds count..."
+            aria-placeholder="Enter NPC's maximum wounds count..."
+            min="0"
+            max="100"
+            required
+            aria-required
+            onchange="this.handleOnWoundsInputChanged(event)"
+            value="0"
+        />
+    </div>
+</div>
+
+<div class="grid grid-cols-2 gap-2 mb-3">
+    <div>
+        <label for="inputArmorPoints" class="text-lg font-semibold uppercase">Armor Points</label>
+        <input
+            id="inputArmorPoints"
+            name="inputArmorPoints"
+            type="number"
+            class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+            placeholder="Enter NPC's armor points..."
+            aria-placeholder="Enter NPC's armor points..."
+            min="0"
+            max="10"
+            required
+            aria-required
+            onchange="this.handleOnArmorPointsInputChanged(event)"
+            value="0"
+        />
+    </div>
+</div>
+
+<div class="grid grid-cols-1 gap-1 mb-3">
+    <label for="npcAttacks" class="text-lg font-semibold uppercase flex items-center gap-1">
+        Attacks
+        <button
+            id="addAttackButton"
+            type="button"
+            class="text-black bg-transparent hover:bg-black hover:text-white rounded-md text-sm w-8 h-8 inline-flex justify-center items-center transition duration-150 ease-in-out cursor-pointer"
+            onclick="this.handleOnAddAttackButtonClick(event)"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="currentColor"
+            >
+                <path
+                    d="M440-280h80v-160h160v-80H520v-160h-80v160H280v80h160v160Zm40 200q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"
+                />
+            </svg>
+            <span class="sr-only">Add attack</span>
+        </button>
+    </label>
+    <npc-attacks-form-field id="npcAttacks" onchange="this.handleOnNpcAttacksChanged(event)"></npc-attacks-form-field>
+</div>
+
+<div class="grid grid-cols-1 gap-1 mb-3">
+    <label for="npcSpecialAbilities" class="text-lg font-semibold uppercase flex items-center gap-1">
+        Special Abilities
+        <button
+            id="addSpecialAbilityButton"
+            type="button"
+            class="text-black bg-transparent hover:bg-black hover:text-white rounded-md text-sm w-8 h-8 inline-flex justify-center items-center transition duration-150 ease-in-out cursor-pointer"
+            onclick="this.handleOnAddSpecialAbilityButtonClick(event)"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="currentColor"
+            >
+                <path
+                    d="M440-280h80v-160h160v-80H520v-160h-80v160H280v80h160v160Zm40 200q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"
+                />
+            </svg>
+            <span class="sr-only">Add special ability</span>
+        </button>
+    </label>
+    <npc-special-abilities-form-field
+        id="npcSpecialAbilities"
+        onchange="this.handleOnNpcSpecialAbilitiesChanged(event)"
+    ></npc-special-abilities-form-field>
+</div>
+
+<div class="grid grid-cols-1 gap-1 mb-3">
+    <label for="inputDescription" class="text-lg font-semibold uppercase">Description</label>
+    <textarea
+        id="inputDescription"
+        type="text"
+        class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+        placeholder="Enter a description of the NPC..."
+        aria-placeholder="Enter a description of the NPC..."
+        rows="3"
+        maxlength="5000"
+        onchange="this.handleOnDescriptionInputChanged(event)"
+    ></textarea>
+</div>

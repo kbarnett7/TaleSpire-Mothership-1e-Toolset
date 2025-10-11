@@ -11,6 +11,7 @@ import { EquipmentItem } from "../../src/features/gear/equipment-item";
 import { ValueUtils } from "../helpers/value-utils";
 import { GearTestUtils } from "./gear-test-utils";
 import { SourcesService } from "../../src/features/sources/sources-service";
+import { DatabaseTestUtils } from "../helpers/database-test-utils";
 
 describe("SaveCustomEquipmentItemFeature", () => {
     let unitOfWork: UnitOfWork;
@@ -22,14 +23,14 @@ describe("SaveCustomEquipmentItemFeature", () => {
         const dbContext = await DataAccessUtils.getInitializedDbContext();
         unitOfWork = new UnitOfWork(dbContext);
 
-        largestEquipmentId = GearTestUtils.getLargestGearItemIdInDatabase(unitOfWork.repo(EquipmentItem));
+        largestEquipmentId = DatabaseTestUtils.getLargestDatabaseEntityId(unitOfWork.repo(EquipmentItem));
 
         request = new SaveCustomEquipmentItemRequest();
         feature = new SaveCustomEquipmentItemFeature(unitOfWork);
     });
 
     afterEach(async () => {
-        GearTestUtils.resetGearItemListInDatabase(unitOfWork.repo(EquipmentItem), largestEquipmentId);
+        DatabaseTestUtils.resetDatabaseEntityCollection(unitOfWork.repo(EquipmentItem), largestEquipmentId);
 
         await unitOfWork.saveChanges();
     });

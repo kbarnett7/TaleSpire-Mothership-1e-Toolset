@@ -1,18 +1,17 @@
 import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface";
-import { Source } from "../sources/source";
+import { DatabaseEntity } from "../../lib/common/features/database-entity";
 import { SourcesService } from "../sources/sources-service";
 
-export abstract class GearItem {
+export abstract class GearItem extends DatabaseEntity {
     public static gearCategory: string = "All";
 
-    public id: number;
     public sourceId: number;
     public name: string;
 
     protected validationResults: string[];
 
     constructor(id?: number, sourceId?: number, name?: string) {
-        this.id = id ?? 0;
+        super(id);
         this.sourceId = sourceId ?? 0;
         this.name = name ?? "";
         this.validationResults = [];
@@ -54,10 +53,6 @@ export abstract class GearItem {
         return `${prefix} ${gearCategory} item with the name \"${this.name}\" already exists. The name must be unique.`;
     }
 
-    protected generateId(unitOfWork: IUnitOfWork): number {
-        return this.getLargestItemIdInDatabase(unitOfWork) + 1;
-    }
-
     public saveToDatabase(unitOfWork: IUnitOfWork): void {
         if (this.id == 0) {
             this.addToDatabase(unitOfWork);
@@ -70,5 +65,4 @@ export abstract class GearItem {
     protected abstract addToDatabase(unitOfWork: IUnitOfWork): void;
     protected abstract updateInDatabase(unitOfWork: IUnitOfWork): void;
     protected abstract validateItemDoesNotAlreadyExist(unitOfWork: IUnitOfWork): GearItem;
-    protected abstract getLargestItemIdInDatabase(unitOfWork: IUnitOfWork): number;
 }

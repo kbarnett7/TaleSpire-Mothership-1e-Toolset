@@ -16,7 +16,6 @@
  * a set of related scripts.
  */
 import "./index.css"; // Import the main CSS file for the application
-import { Startup } from "./lib/infrastructure/startup";
 
 function importAll(requireContext: __WebpackModuleApi.RequireContext) {
     requireContext.keys().forEach(requireContext);

@@ -5,7 +5,7 @@ import { EmptyRequest } from "../../../lib/common/features/empty-request";
 import { EventBus } from "../../../lib/events/event-bus";
 import { AppEvent } from "../../../lib/events/app-event";
 import { ModalDialogComponent } from "../../modal-dialog/modal-dialog";
-import { NpcFormComponent } from "../npc-form/npc-form";
+import { NpcDisplayComponent } from "../npc-display/npc-display";
 import { Npc } from "../../../features/npcs/npc";
 import { GetNpcByIdFeature } from "../../../features/npcs/get-npc-by-id/get-npc-by-id-feature";
 import { GetNpcByIdRequest } from "../../../features/npcs/get-npc-by-id/get-npc-by-id-request";
@@ -114,14 +114,14 @@ export class NpcListComponent extends BaseListComponent {
 
         EventBus.instance.dispatch(new UiReportableErrorClearedEvent());
 
-        this.populateNpcForm(npcListItem);
+        this.populateNpcDisplay(npcListItem);
 
         (modal as ModalDialogComponent).openModal();
     }
 
-    private populateNpcForm(npcListItem: NpcListItem) {
-        const npcForm = this.shadow.querySelector(`#npcForm`) as NpcFormComponent;
-        npcForm.setNpc(this.getSelectedNpc(npcListItem.id));
+    private populateNpcDisplay(npcListItem: NpcListItem) {
+        const npcDisplay = this.shadow.querySelector(`#npcDisplay`) as NpcDisplayComponent;
+        npcDisplay.setNpc(this.getSelectedNpc(npcListItem.id));
     }
 
     private getSelectedNpc(id: number): Npc {

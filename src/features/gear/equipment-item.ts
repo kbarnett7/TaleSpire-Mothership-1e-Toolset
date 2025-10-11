@@ -53,10 +53,12 @@ export class EquipmentItem extends GearItem {
     }
 
     protected override addToDatabase(unitOfWork: IUnitOfWork): void {
-        this.id = this.generateId(unitOfWork);
+        const repository = unitOfWork.repo(EquipmentItem);
+
+        this.id = this.generateId(repository);
         this.sourceId = SourcesService.instance.getCustomItemSourceId(unitOfWork);
 
-        unitOfWork.repo(EquipmentItem).add(this);
+        repository.add(this);
     }
 
     protected override updateInDatabase(unitOfWork: IUnitOfWork): void {
@@ -74,14 +76,5 @@ export class EquipmentItem extends GearItem {
 
     public override deleteFromDatabase(unitOfWork: IUnitOfWork): void {
         unitOfWork.repo(EquipmentItem).remove(this);
-    }
-
-    protected override getLargestItemIdInDatabase(unitOfWork: IUnitOfWork): number {
-        const sortedItems = unitOfWork
-            .repo(EquipmentItem)
-            .list()
-            .sort((a, b) => a.id - b.id);
-
-        return sortedItems[sortedItems.length - 1].id;
     }
 }

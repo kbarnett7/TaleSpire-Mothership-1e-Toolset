@@ -9,6 +9,7 @@ export class PageRouterService {
     public static codexPage: string = "Codex";
     public static aboutPage: string = "About";
     public static gearItemPage: string = "Gear Item";
+    public static npcPage: string = "NPC";
 
     private static _instance: PageRouterService;
 
@@ -58,6 +59,11 @@ export class PageRouterService {
         this._pages.set(
             PageRouterService.gearItemPage,
             new PageRouteData("/gear/#", "gear-item-page", PageRouterService.gearItemPage, true)
+        );
+
+        this._pages.set(
+            PageRouterService.npcPage,
+            new PageRouteData("/npc/#", "npc-page", PageRouterService.npcPage, true)
         );
     }
 

@@ -1,8 +1,9 @@
-import html from "./npc-form.html";
+import html from "./npc-display.html";
 import { BaseComponent } from "../../base.component";
 import { Npc } from "../../../features/npcs/npc";
+import { StringService } from "../../../lib/services/string-service";
 
-export class NpcFormComponent extends BaseComponent {
+export class NpcDisplayComponent extends BaseComponent {
     private npc: Npc;
 
     constructor() {
@@ -87,7 +88,11 @@ export class NpcFormComponent extends BaseComponent {
         for (var attack of this.npc.attacks) {
             const paragraph = this.createParagraphElement();
 
-            paragraph.textContent = `${attack.name}: ${attack.effect}`;
+            if (StringService.instance.isNullOrWhitespace(attack.name) === false) {
+                paragraph.innerHTML = `<b>${attack.name}:</b> `;
+            }
+
+            paragraph.innerHTML += attack.effect;
 
             container.appendChild(paragraph);
         }
@@ -117,7 +122,11 @@ export class NpcFormComponent extends BaseComponent {
         for (var ability of this.npc.specialAbilities) {
             const paragraph = this.createParagraphElement();
 
-            paragraph.textContent = ability.description;
+            if (StringService.instance.isNullOrWhitespace(ability.name) === false) {
+                paragraph.innerHTML = `<b>${ability.name}:</b> `;
+            }
+
+            paragraph.innerHTML += ability.description;
 
             container.appendChild(paragraph);
         }
@@ -145,4 +154,4 @@ export class NpcFormComponent extends BaseComponent {
     }
 }
 
-customElements.define("npc-form", NpcFormComponent);
+customElements.define("npc-display", NpcDisplayComponent);

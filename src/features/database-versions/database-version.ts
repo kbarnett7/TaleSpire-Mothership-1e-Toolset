@@ -1,9 +1,10 @@
-export class DatabaseVersion {
-    public id: number;
+import { DatabaseEntity } from "../../lib/common/features/database-entity";
+
+export class DatabaseVersion extends DatabaseEntity {
     public version: string;
 
     constructor(id?: number, version?: string) {
-        this.id = id ?? 0;
+        super(id);
         this.version = version ?? "";
     }
 }

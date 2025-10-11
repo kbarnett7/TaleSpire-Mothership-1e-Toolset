@@ -13,6 +13,7 @@ import { LocalizationService } from "../../src/lib/localization/localization-ser
 import { MessageKeys } from "../../src/lib/localization/message-keys";
 import { GearTestUtils } from "./gear-test-utils";
 import { SourcesService } from "../../src/features/sources/sources-service";
+import { DatabaseTestUtils } from "../helpers/database-test-utils";
 
 describe("SaveCustomWeaponItemFeature", () => {
     let unitOfWork: UnitOfWork;
@@ -24,14 +25,14 @@ describe("SaveCustomWeaponItemFeature", () => {
         const dbContext = await DataAccessUtils.getInitializedDbContext();
         unitOfWork = new UnitOfWork(dbContext);
 
-        largestWeaponItemId = GearTestUtils.getLargestGearItemIdInDatabase(unitOfWork.repo(WeaponItem));
+        largestWeaponItemId = DatabaseTestUtils.getLargestDatabaseEntityId(unitOfWork.repo(WeaponItem));
 
         request = new SaveCustomWeaponItemRequest();
         feature = new SaveCustomWeaponItemFeature(unitOfWork);
     });
 
     afterEach(async () => {
-        GearTestUtils.resetGearItemListInDatabase(unitOfWork.repo(WeaponItem), largestWeaponItemId);
+        DatabaseTestUtils.resetDatabaseEntityCollection(unitOfWork.repo(WeaponItem), largestWeaponItemId);
 
         await unitOfWork.saveChanges();
     });
