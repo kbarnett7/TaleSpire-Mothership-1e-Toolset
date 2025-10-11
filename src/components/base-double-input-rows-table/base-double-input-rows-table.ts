@@ -6,12 +6,13 @@ export abstract class BaseDoubleInputRowsTableComponent<TDto> extends BaseCompon
     private readonly rowIdPrefix: string = "row";
 
     private _internals: ElementInternals;
-    protected _formFieldsDtoMap: Map<number, TDto>;
     private _nextRowId: number;
     private _inputOneName: string;
     private _inputTwoName: string;
     private _tableBodyElementId: string;
     private _deleteScreenReaderMessage: string;
+
+    protected _formFieldsDtoMap: Map<number, TDto>;
 
     public get tableBodyElement(): HTMLTableSectionElement {
         return this.shadow.querySelector(`#${this._tableBodyElementId}`) as HTMLTableSectionElement;
