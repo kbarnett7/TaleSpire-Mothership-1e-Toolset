@@ -389,6 +389,28 @@ describe("SaveCustomNpcFeature", () => {
         }
     );
 
+    it("should fail if NPC has an attack with a name but no effect", async () => {
+        // Arrange
+        const npcFormFields = getValidCustomNpcFormFields();
+        npcFormFields.attacks[1].effect = "";
+        request.formFields = npcFormFields;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.CreateError,
+            LocalizationService.instance.translate(MessageKeys.createCustomNpcFailed)
+        );
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("attack");
+        expect(result.error.details[0]).toContain("name");
+        expect(result.error.details[0]).toContain("effect");
+        expect(result.error.details[0]).toContain("empty");
+    });
+
     it("should fail if NPC has an attack with a name greater than 100 characters long", async () => {
         // Arrange
         const npcFormFields = getValidCustomNpcFormFields();
@@ -459,6 +481,28 @@ describe("SaveCustomNpcFeature", () => {
             expect(result.error.details[0]).toContain("empty");
         }
     );
+
+    it("should fail if NPC has a special ability with a name but no description", async () => {
+        // Arrange
+        const npcFormFields = getValidCustomNpcFormFields();
+        npcFormFields.specialAbilities[1].description = "";
+        request.formFields = npcFormFields;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.CreateError,
+            LocalizationService.instance.translate(MessageKeys.createCustomNpcFailed)
+        );
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("special ability");
+        expect(result.error.details[0]).toContain("name");
+        expect(result.error.details[0]).toContain("description");
+        expect(result.error.details[0]).toContain("empty");
+    });
 
     it("should fail if NPC has a special ability with a name greater than 100 characters long", async () => {
         // Arrange
@@ -553,26 +597,43 @@ describe("SaveCustomNpcFeature", () => {
         expect(itemFromDatabase.specialAbilities).toBe(result.value?.specialAbilities);
     });
 
+    it("should add a valid NPC to the database when the NPC has an attack with an effect but no name", async () => {
+        // Arrange
+        const numberOfNpcsInDatabasePreAdd = unitOfWork.repo(Npc).list().length;
+        const npcFormFields: NpcFormFieldsDto = getValidCustomNpcFormFields();
+        npcFormFields.attacks[1].name = "";
+        request.formFields = npcFormFields;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        const numberOfNpcsInDatabasePostAdd = unitOfWork.repo(Npc).list().length;
+
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(numberOfNpcsInDatabasePostAdd).toBe(numberOfNpcsInDatabasePreAdd + 1);
+    });
+
+    it("should add a valid NPC to the database when the NPC has a special ability with a description but no name", async () => {
+        // Arrange
+        const numberOfNpcsInDatabasePreAdd = unitOfWork.repo(Npc).list().length;
+        const npcFormFields: NpcFormFieldsDto = getValidCustomNpcFormFields();
+        npcFormFields.specialAbilities[1].name = "";
+        request.formFields = npcFormFields;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        const numberOfNpcsInDatabasePostAdd = unitOfWork.repo(Npc).list().length;
+
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(numberOfNpcsInDatabasePostAdd).toBe(numberOfNpcsInDatabasePreAdd + 1);
+    });
+
     function getValidCustomNpcFormFields(): NpcFormFieldsDto {
-        // return new Npc(
-        //     999,
-        //     1,
-        //     "Custom Test NPC",
-        //     35,
-        //     40,
-        //     3,
-        //     25,
-        //     2,
-        //     "This is a fake NPC used for testing.",
-        //     [
-        //         new NpcAttack("Fake Attack 1", "1d10"),
-        //         new NpcAttack("Fake Attack 2", "Sanity save or become stunned for one round."),
-        //     ],
-        //     [
-        //         new NpcSpecialAbility("Test Ability 1: Does scary stuff."),
-        //         new NpcSpecialAbility("Test Ability 2: More scary stuff."),
-        //     ]
-        // );
         return new NpcFormFieldsDto(
             "Test Custom NPC",
             "A custom NPC created for unit testing.",
@@ -586,8 +647,8 @@ describe("SaveCustomNpcFeature", () => {
                 new NpcAttackFormFieldsDto("Fake Attack 2", "Sanity save or become stunned for one round."),
             ],
             [
-                new NpcSpecialAbilityFormFieldsDto("Test Ability 1: Does scary stuff."),
-                new NpcSpecialAbilityFormFieldsDto("Test Ability 2: More scary stuff."),
+                new NpcSpecialAbilityFormFieldsDto("Test Ability 1", "Does scary stuff."),
+                new NpcSpecialAbilityFormFieldsDto("Test Ability 2", "More scary stuff."),
             ]
         );
     }

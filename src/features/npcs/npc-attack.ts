@@ -23,6 +23,10 @@ export class NpcAttack {
             this.validationResults.push(
                 `NPC attack with name \"${this.name}\" and effect \"${this.effect}\" is invalid. Name and effect cannot both be empty.`
             );
+        } else if (this.name.length > 0 && this.effect.trim() === "") {
+            this.validationResults.push(
+                `NPC attack with name \"${this.name}\" and effect \"${this.effect}\" is invalid. Effect cannot be empty when the attack has a name.`
+            );
         }
 
         return this;

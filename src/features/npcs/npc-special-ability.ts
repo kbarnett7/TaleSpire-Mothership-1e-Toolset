@@ -23,6 +23,10 @@ export class NpcSpecialAbility {
             this.validationResults.push(
                 `NPC special ability with name \"${this.name}\" and description \"${this.description}\" is invalid. Name and description cannot both be empty.`
             );
+        } else if (this.name.length > 0 && this.description.trim() === "") {
+            this.validationResults.push(
+                `NPC special ability with name \"${this.name}\" and description \"${this.description}\" is invalid. Description cannot be empty when the special ability has a name.`
+            );
         }
 
         return this;
