@@ -62,6 +62,31 @@ describe("SaveCustomNpcFeature", () => {
         expect(result.error.details[0]).toContain("Mocked");
     });
 
+    it("should fail if there is an unexpected exception when editing an existing NPC", async () => {
+        // Arrange
+        const npcId = await addBaseCustomNpcToDatabase();
+        const npcFormFields = getValidEditedNpcFormFields();
+
+        request.formFields = npcFormFields;
+        request.id = npcId;
+
+        jest.spyOn(request, "formFields", "get").mockImplementation(() => {
+            throw new Error("Mocked exception");
+        });
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.EditError,
+            LocalizationService.instance.translate(MessageKeys.editCustomNpcFailed)
+        );
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("Mocked");
+    });
+
     it("should have create error code info when adding an NPC fails", async () => {
         // Arrange
         const npcFormFields = getValidCustomNpcFormFields();
@@ -77,6 +102,27 @@ describe("SaveCustomNpcFeature", () => {
             result,
             ErrorCode.CreateError,
             LocalizationService.instance.translate(MessageKeys.createCustomNpcFailed)
+        );
+    });
+
+    it("should have edit error code info when editing an equipment item fails", async () => {
+        // Arrange
+        const npcId = await addBaseCustomNpcToDatabase();
+        const npcFormFields = getValidEditedNpcFormFields();
+
+        npcFormFields.name = ValueUtils.getStringOfRandomCharacters(101);
+
+        request.formFields = npcFormFields;
+        request.id = npcId;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.EditError,
+            LocalizationService.instance.translate(MessageKeys.editCustomNpcFailed)
         );
     });
 
@@ -633,6 +679,130 @@ describe("SaveCustomNpcFeature", () => {
         expect(numberOfNpcsInDatabasePostAdd).toBe(numberOfNpcsInDatabasePreAdd + 1);
     });
 
+    it("should fail when editing an NPC to have the same name as another NPC in the database", async () => {
+        // Arrange
+        const npcId = await addBaseCustomNpcToDatabase();
+        const npcFormFields = getValidEditedNpcFormFields();
+
+        npcFormFields.name = "Belladonnas";
+
+        request.formFields = npcFormFields;
+        request.id = npcId;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.EditError,
+            LocalizationService.instance.translate(MessageKeys.editCustomNpcFailed)
+        );
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("name");
+        expect(result.error.details[0]).toContain("Belladonnas");
+        expect(result.error.details[0]).toContain("already exists");
+    });
+
+    it("should save an edited NPC with valid changes to the database", async () => {
+        // Arrange
+        const npcId = await addBaseCustomNpcToDatabase();
+        const npcFormFields = getValidEditedNpcFormFields();
+        const numberOfNpcsInDatabasePreEdit = unitOfWork.repo(Npc).list().length;
+
+        request.formFields = npcFormFields;
+        request.id = npcId;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        const numberOfNpcsInDatabasePostEdit = unitOfWork.repo(Npc).list().length;
+        const itemFromDatabase = unitOfWork.repo(Npc).first((item) => item.id == result.value?.id) ?? new Npc();
+
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(numberOfNpcsInDatabasePostEdit).toBe(numberOfNpcsInDatabasePreEdit);
+        expect(itemFromDatabase.id).toBe(result.value?.id);
+        expect(itemFromDatabase.sourceId).toBe(SourcesService.instance.getCustomItemSourceId(unitOfWork));
+        expect(itemFromDatabase.name).toBe(result.value?.name);
+        expect(itemFromDatabase.description).toBe(result.value?.description);
+        expect(itemFromDatabase.combat).toBe(result.value?.combat);
+        expect(itemFromDatabase.instinct).toBe(result.value?.instinct);
+        expect(itemFromDatabase.armorPoints).toBe(result.value?.armorPoints);
+        expect(itemFromDatabase.health).toBe(result.value?.health);
+        expect(itemFromDatabase.maximumWounds).toBe(result.value?.maximumWounds);
+        expect(itemFromDatabase.attacks).toBe(result.value?.attacks);
+        expect(itemFromDatabase.specialAbilities).toBe(result.value?.specialAbilities);
+    });
+
+    it("should add a valid NPC with a non-zero ID that doesn't exist in the database to the database with an incremented ID and the source set to custom", async () => {
+        // Arrange
+        const nonExistentId = largestNpcId + 10;
+        const npcFormFields = getValidCustomNpcFormFields();
+        const numberOfNpcsInDatabasePreEdit = unitOfWork.repo(Npc).list().length;
+
+        request.formFields = npcFormFields;
+        request.id = nonExistentId;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        const numberOfNpcsInDatabasePostEdit = unitOfWork.repo(Npc).list().length;
+        const itemFromDatabase = unitOfWork.repo(Npc).first((item) => item.id == result.value?.id) ?? new Npc();
+
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(numberOfNpcsInDatabasePostEdit).toBe(numberOfNpcsInDatabasePreEdit + 1);
+        expect(itemFromDatabase.id).toBe(result.value?.id);
+        expect(itemFromDatabase.id).not.toBe(nonExistentId);
+        expect(itemFromDatabase.sourceId).toBe(SourcesService.instance.getCustomItemSourceId(unitOfWork));
+        expect(itemFromDatabase.name).toBe(result.value?.name);
+        expect(itemFromDatabase.description).toBe(result.value?.description);
+        expect(itemFromDatabase.combat).toBe(result.value?.combat);
+        expect(itemFromDatabase.instinct).toBe(result.value?.instinct);
+        expect(itemFromDatabase.armorPoints).toBe(result.value?.armorPoints);
+        expect(itemFromDatabase.health).toBe(result.value?.health);
+        expect(itemFromDatabase.maximumWounds).toBe(result.value?.maximumWounds);
+        expect(itemFromDatabase.attacks).toBe(result.value?.attacks);
+        expect(itemFromDatabase.specialAbilities).toBe(result.value?.specialAbilities);
+    });
+
+    it("should save an edited NPC with valid changes to the database when the name wasn't changed", async () => {
+        // Arrange
+        const npcId = await addBaseCustomNpcToDatabase();
+        const npcFormFields = getValidEditedNpcFormFields();
+        const numberOfNpcsInDatabasePreEdit = unitOfWork.repo(Npc).list().length;
+
+        npcFormFields.name = "Test NPC to Edit";
+
+        request.formFields = npcFormFields;
+        request.id = npcId;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        const numberOfNpcInDatabasePostEdit = unitOfWork.repo(Npc).list().length;
+        const itemFromDatabase = unitOfWork.repo(Npc).first((item) => item.id == result.value?.id) ?? new Npc();
+
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(numberOfNpcInDatabasePostEdit).toBe(numberOfNpcsInDatabasePreEdit);
+        expect(itemFromDatabase.id).toBe(result.value?.id);
+        expect(itemFromDatabase.sourceId).toBe(SourcesService.instance.getCustomItemSourceId(unitOfWork));
+        expect(itemFromDatabase.name).toBe(result.value?.name);
+        expect(itemFromDatabase.description).toBe(result.value?.description);
+        expect(itemFromDatabase.combat).toBe(result.value?.combat);
+        expect(itemFromDatabase.instinct).toBe(result.value?.instinct);
+        expect(itemFromDatabase.armorPoints).toBe(result.value?.armorPoints);
+        expect(itemFromDatabase.health).toBe(result.value?.health);
+        expect(itemFromDatabase.maximumWounds).toBe(result.value?.maximumWounds);
+        expect(itemFromDatabase.attacks).toBe(result.value?.attacks);
+        expect(itemFromDatabase.specialAbilities).toBe(result.value?.specialAbilities);
+    });
+
     function getValidCustomNpcFormFields(): NpcFormFieldsDto {
         return new NpcFormFieldsDto(
             "Test Custom NPC",
@@ -651,5 +821,53 @@ describe("SaveCustomNpcFeature", () => {
                 new NpcSpecialAbilityFormFieldsDto("Test Ability 2", "More scary stuff."),
             ]
         );
+    }
+
+    function getValidEditedNpcFormFields(): NpcFormFieldsDto {
+        return new NpcFormFieldsDto(
+            "Edited Test NPC to Edit",
+            "A custom NPC created for unit testing. Edit!",
+            "45",
+            "25",
+            "3",
+            "30",
+            "4",
+            [
+                new NpcAttackFormFieldsDto("Fake Attack 1", "1d12"),
+                new NpcAttackFormFieldsDto("Fake Attack 2 Edited", "Sanity save or become stunned for one round."),
+            ],
+            [
+                new NpcSpecialAbilityFormFieldsDto("Edited Test Ability 1", "Does scary stuff."),
+                new NpcSpecialAbilityFormFieldsDto("Test Ability 2", "More scary stuff. Edit!"),
+            ]
+        );
+    }
+
+    async function addBaseCustomNpcToDatabase(): Promise<number> {
+        const npc = new Npc(
+            0,
+            0,
+            "Test NPC to Edit",
+            "Edit me!",
+            40,
+            35,
+            2,
+            20,
+            3,
+            [
+                new NpcAttack("Fake Attack 1", "1d10"),
+                new NpcAttack("Fake Attack 2", "Sanity save or become stunned for one round."),
+            ],
+            [
+                new NpcSpecialAbility("Test Ability 1", "Does scary stuff."),
+                new NpcSpecialAbility("Test Ability 2", "More scary stuff."),
+            ]
+        );
+
+        npc.saveToDatabase(unitOfWork);
+
+        await unitOfWork.saveChanges();
+
+        return npc.id;
     }
 });

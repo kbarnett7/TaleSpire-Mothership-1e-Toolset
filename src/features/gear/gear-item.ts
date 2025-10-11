@@ -54,7 +54,7 @@ export abstract class GearItem extends DatabaseEntity {
     }
 
     public saveToDatabase(unitOfWork: IUnitOfWork): void {
-        if (this.id == 0) {
+        if (this.id === 0) {
             this.addToDatabase(unitOfWork);
         } else {
             this.updateInDatabase(unitOfWork);
