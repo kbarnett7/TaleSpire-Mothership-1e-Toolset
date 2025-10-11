@@ -24,6 +24,10 @@ export class NpcSpecialAbilitiesFormFieldComponent extends BaseDoubleInputRowsTa
     }
 
     private onAddNpcSpecialAbilityButtonClicked: AppEventListener = (event: AppEvent) => {
+        if (!this.canAddNewRow()) {
+            return;
+        }
+
         const rowId = this.addNewTableRow();
 
         this._formFieldsDtoMap.set(rowId, new NpcSpecialAbilityFormFieldsDto());

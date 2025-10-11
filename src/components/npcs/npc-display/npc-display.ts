@@ -89,10 +89,10 @@ export class NpcDisplayComponent extends BaseComponent {
             const paragraph = this.createParagraphElement();
 
             if (StringService.instance.isNullOrWhitespace(attack.name) === false) {
-                paragraph.textContent = `${attack.name}: `;
+                paragraph.innerHTML = `<b>${attack.name}:</b> `;
             }
 
-            paragraph.textContent += attack.effect;
+            paragraph.innerHTML += attack.effect;
 
             container.appendChild(paragraph);
         }
@@ -123,10 +123,10 @@ export class NpcDisplayComponent extends BaseComponent {
             const paragraph = this.createParagraphElement();
 
             if (StringService.instance.isNullOrWhitespace(ability.name) === false) {
-                paragraph.textContent = `${ability.name}: `;
+                paragraph.innerHTML = `<b>${ability.name}:</b> `;
             }
 
-            paragraph.textContent += ability.description;
+            paragraph.innerHTML += ability.description;
 
             container.appendChild(paragraph);
         }

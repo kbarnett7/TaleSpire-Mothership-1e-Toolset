@@ -24,6 +24,10 @@ export class NpcAttacksFormFieldComponent extends BaseDoubleInputRowsTableCompon
     }
 
     private onAddNpcAttackButtonClicked: AppEventListener = (event: AppEvent) => {
+        if (!this.canAddNewRow()) {
+            return;
+        }
+
         const rowId = this.addNewTableRow();
 
         this._formFieldsDtoMap.set(rowId, new NpcAttackFormFieldsDto());
