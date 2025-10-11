@@ -62,7 +62,7 @@ describe("SaveCustomNpcFeature", () => {
         expect(result.error.details[0]).toContain("Mocked");
     });
 
-    it("should have create error code info when adding an equipment item fails", async () => {
+    it("should have create error code info when adding an NPC fails", async () => {
         // Arrange
         const npcFormFields = getValidCustomNpcFormFields();
         npcFormFields.name = ValueUtils.getStringOfRandomCharacters(101);

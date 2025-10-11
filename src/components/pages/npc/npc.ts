@@ -62,8 +62,9 @@ export class NpcComponent extends BasePageComponent {
 
     private setInitialFormValues() {
         // TODO in future edit NPC story...
-        //      - Implmeent this method
+        //      - Implement this method
         //      - BaseDoubleInputRowsTableComponent's _nextRowId will need to be set to attacks/specialAbilities.length + 1
+        //      - Change effect & description input fields to textarea fields.
     }
 
     public handleCancelButtonClick(event: MouseEvent) {
