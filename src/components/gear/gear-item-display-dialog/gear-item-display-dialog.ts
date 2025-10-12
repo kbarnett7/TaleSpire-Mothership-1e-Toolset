@@ -20,7 +20,6 @@ import { GearItemDeletedEvent } from "../../../lib/events/gear-item-deleted-even
 import { UiReportableErrorOccurredEvent } from "../../../lib/events/ui-reportable-error-occurred-event";
 import { UiReportableErrorClearedEvent } from "../../../lib/events/ui-reportable-error-cleared-event";
 import { PageRouterService } from "../../../lib/pages/page-router-service";
-import { Source } from "../../../features/sources/source";
 import { SourcesService } from "../../../features/sources/sources-service";
 
 export class GearItemDisplayDialogComponent extends BaseComponent {
