@@ -14,6 +14,9 @@ import { IAsyncFeature } from "../../../lib/common/features/async-feature-interf
 import { Result } from "../../../lib/result/result";
 import { ResultError } from "../../../lib/result/result-error";
 import { UiReportableErrorOccurredEvent } from "../../../lib/events/ui-reportable-error-occurred-event";
+import { GetNpcByIdRequest } from "../../../features/npcs/get-npc-by-id/get-npc-by-id-request";
+import { GetNpcByIdFeature } from "../../../features/npcs/get-npc-by-id/get-npc-by-id-feature";
+import { Npc } from "../../../features/npcs/npc";
 
 export class NpcComponent extends BasePageComponent {
     private unitOfWork: IUnitOfWork;
@@ -62,9 +65,18 @@ export class NpcComponent extends BasePageComponent {
 
     private setInitialFormValues() {
         // TODO in future edit NPC story...
-        //      - Implement this method
         //      - BaseDoubleInputRowsTableComponent's _nextRowId will need to be set to attacks/specialAbilities.length + 1
         //      - Change effect & description input fields to textarea fields.
+        const npc = this.getSelectedNpc(this.npcIdFromUrl);
+
+        this.npcFormFieldsComponent.setInitialFormValues(npc);
+    }
+
+    private getSelectedNpc(id: number): Npc {
+        const request = new GetNpcByIdRequest(id);
+        const feature = new GetNpcByIdFeature(this.unitOfWork);
+
+        return feature.handle(request);
     }
 
     public handleCancelButtonClick(event: MouseEvent) {

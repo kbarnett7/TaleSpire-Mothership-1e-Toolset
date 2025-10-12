@@ -44,6 +44,14 @@ export class NpcFormFieldsComponent extends BaseComponent {
         return this.shadow.querySelector("#inputDescription") as HTMLTextAreaElement;
     }
 
+    public get attacksFormFieldElement(): NpcAttacksFormFieldComponent {
+        return this.shadow.querySelector("#npcAttacks") as NpcAttacksFormFieldComponent;
+    }
+
+    public get specialAbilitiesFormFieldElement(): NpcSpecialAbilitiesFormFieldComponent {
+        return this.shadow.querySelector("#npcSpecialAbilities") as NpcSpecialAbilitiesFormFieldComponent;
+    }
+
     public get value(): string {
         return this._formFieldsDto.toJson();
     }
@@ -61,6 +69,7 @@ export class NpcFormFieldsComponent extends BaseComponent {
 
     private updateFormValue() {
         this._internals.setFormValue(this.value);
+        console.log(this.value);
     }
 
     public setInitialFormValues(npc: Npc) {
@@ -71,6 +80,8 @@ export class NpcFormFieldsComponent extends BaseComponent {
         this.woundsInputElement.value = npc.maximumWounds.toString();
         this.armorPointsInputElement.value = npc.armorPoints.toString();
         this.descriptionInputElement.value = npc.description;
+        this.attacksFormFieldElement.setInitialFormValues(npc);
+        this.specialAbilitiesFormFieldElement.setInitialFormValues(npc);
 
         this._formFieldsDto.name = npc.name;
         this._formFieldsDto.combat = npc.combat.toString();
@@ -79,6 +90,12 @@ export class NpcFormFieldsComponent extends BaseComponent {
         this._formFieldsDto.maximumWounds = npc.maximumWounds.toString();
         this._formFieldsDto.armorPoints = npc.armorPoints.toString();
         this._formFieldsDto.description = npc.description;
+        // this._formFieldsDto.attacks = npc.attacks.map(
+        //     (attack) => new NpcAttackFormFieldsDto(attack.name, attack.effect)
+        // );
+        // this._formFieldsDto.specialAbilities = npc.specialAbilities.map(
+        //     (ability) => new NpcSpecialAbilityFormFieldsDto(ability.name, ability.description)
+        // );
 
         this.updateFormValue();
     }

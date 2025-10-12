@@ -5,6 +5,7 @@ import { EventBus } from "../../../lib/events/event-bus";
 import { AppEventListener } from "../../../lib/events/app-event-listener-interface";
 import { AppEvent } from "../../../lib/events/app-event";
 import { AddNpcSpecialAbilityButtonClicked } from "../../../lib/events/add-npc-special-ability-button-clicked";
+import { Npc } from "../../../features/npcs/npc";
 
 export class NpcSpecialAbilitiesFormFieldComponent extends BaseDoubleInputRowsTableComponent<NpcSpecialAbilityFormFieldsDto> {
     constructor() {
@@ -21,6 +22,22 @@ export class NpcSpecialAbilitiesFormFieldComponent extends BaseDoubleInputRowsTa
 
     public disconnectedCallback() {
         EventBus.instance.unregister(AddNpcSpecialAbilityButtonClicked.name, this.onAddNpcSpecialAbilityButtonClicked);
+    }
+
+    public setInitialFormValues(npc: Npc) {
+        this._formFieldsDtoMap.clear();
+        this._nextRowId = 1;
+
+        for (let i = 0; i < npc.specialAbilities.length; i++) {
+            this.addNewTableRow();
+            this.setRowInputValues(i + 1, npc.specialAbilities[i].name, npc.specialAbilities[i].description);
+            this._formFieldsDtoMap.set(
+                i + 1,
+                new NpcSpecialAbilityFormFieldsDto(npc.specialAbilities[i].name, npc.specialAbilities[i].description)
+            );
+        }
+
+        this.updateFormValue();
     }
 
     private onAddNpcSpecialAbilityButtonClicked: AppEventListener = (event: AppEvent) => {

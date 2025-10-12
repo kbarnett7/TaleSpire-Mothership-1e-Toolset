@@ -6,12 +6,12 @@ export abstract class BaseDoubleInputRowsTableComponent<TDto> extends BaseCompon
     private readonly rowIdPrefix: string = "row";
 
     private _internals: ElementInternals;
-    private _nextRowId: number;
     private _inputOneName: string;
     private _inputTwoName: string;
     private _tableBodyElementId: string;
     private _deleteScreenReaderMessage: string;
 
+    protected _nextRowId: number;
     protected _formFieldsDtoMap: Map<number, TDto>;
 
     public get tableBodyElement(): HTMLTableSectionElement {
@@ -54,6 +54,14 @@ export abstract class BaseDoubleInputRowsTableComponent<TDto> extends BaseCompon
         this._internals.setFormValue(this.value);
 
         this.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+
+    protected setRowInputValues(rowId: number, valueOne: string, valueTwo: string) {
+        const inputOneElement = this.shadow.querySelector(`inputOne${rowId}`) as HTMLInputElement;
+        const inputTwoElement = this.shadow.querySelector(`inputTwo${rowId}`) as HTMLInputElement;
+
+        inputOneElement.value = valueOne;
+        inputTwoElement.value = valueTwo;
     }
 
     protected canAddNewRow(): boolean {
