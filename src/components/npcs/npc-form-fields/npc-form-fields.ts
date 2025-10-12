@@ -90,12 +90,6 @@ export class NpcFormFieldsComponent extends BaseComponent {
         this._formFieldsDto.maximumWounds = npc.maximumWounds.toString();
         this._formFieldsDto.armorPoints = npc.armorPoints.toString();
         this._formFieldsDto.description = npc.description;
-        // this._formFieldsDto.attacks = npc.attacks.map(
-        //     (attack) => new NpcAttackFormFieldsDto(attack.name, attack.effect)
-        // );
-        // this._formFieldsDto.specialAbilities = npc.specialAbilities.map(
-        //     (ability) => new NpcSpecialAbilityFormFieldsDto(ability.name, ability.description)
-        // );
 
         this.updateFormValue();
     }

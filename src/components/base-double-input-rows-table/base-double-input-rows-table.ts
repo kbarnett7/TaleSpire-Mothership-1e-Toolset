@@ -57,11 +57,16 @@ export abstract class BaseDoubleInputRowsTableComponent<TDto> extends BaseCompon
     }
 
     protected setRowInputValues(rowId: number, valueOne: string, valueTwo: string) {
-        const inputOneElement = this.shadow.querySelector(`inputOne${rowId}`) as HTMLInputElement;
-        const inputTwoElement = this.shadow.querySelector(`inputTwo${rowId}`) as HTMLInputElement;
+        const inputOneElement = this.shadow.querySelector(`#inputOne${rowId}`) as HTMLInputElement;
+        const inputTwoElement = this.shadow.querySelector(`#inputTwo${rowId}`) as HTMLInputElement;
 
-        inputOneElement.value = valueOne;
-        inputTwoElement.value = valueTwo;
+        if (inputOneElement) {
+            inputOneElement.value = valueOne;
+        }
+
+        if (inputTwoElement) {
+            inputTwoElement.value = valueTwo;
+        }
     }
 
     protected canAddNewRow(): boolean {
