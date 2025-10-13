@@ -65,7 +65,6 @@ export class NpcComponent extends BasePageComponent {
 
     private setInitialFormValues() {
         // TODO in future edit NPC story...
-        //      - BaseDoubleInputRowsTableComponent's _nextRowId will need to be set to attacks/specialAbilities.length + 1
         //      - Change effect & description input fields to textarea fields.
         const npc = this.getSelectedNpc(this.npcIdFromUrl);
 

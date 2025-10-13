@@ -73,7 +73,7 @@ export class NpcSpecialAbilitiesFormFieldComponent extends BaseDoubleInputRowsTa
             return;
         }
 
-        dto.description = (event.target as HTMLInputElement).value;
+        dto.description = (event.target as HTMLTextAreaElement).value;
 
         this.updateFormValue();
     }

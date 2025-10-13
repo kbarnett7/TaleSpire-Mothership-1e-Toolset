@@ -58,7 +58,7 @@ export abstract class BaseDoubleInputRowsTableComponent<TDto> extends BaseCompon
 
     protected setRowInputValues(rowId: number, valueOne: string, valueTwo: string) {
         const inputOneElement = this.shadow.querySelector(`#inputOne${rowId}`) as HTMLInputElement;
-        const inputTwoElement = this.shadow.querySelector(`#inputTwo${rowId}`) as HTMLInputElement;
+        const inputTwoElement = this.shadow.querySelector(`#inputTwo${rowId}`) as HTMLTextAreaElement;
 
         if (inputOneElement) {
             inputOneElement.value = valueOne;
@@ -107,7 +107,7 @@ export abstract class BaseDoubleInputRowsTableComponent<TDto> extends BaseCompon
     private createBaseTableCellElement(): HTMLTableCellElement {
         const cell = document.createElement("td");
 
-        cell.className = "px-1 py-1 text-center";
+        cell.className = "px-1 py-1 text-center align-top";
 
         return cell;
     }
@@ -135,11 +135,11 @@ export abstract class BaseDoubleInputRowsTableComponent<TDto> extends BaseCompon
     private createSecondInputTableCellElement(rowId: number): HTMLTableCellElement {
         const cell = this.createBaseTableCellElement();
 
-        const input = document.createElement("input");
+        const input = document.createElement("textarea");
 
         input.id = `inputTwo${rowId}`;
         input.name = `inputTwo${rowId}`;
-        input.type = "text";
+        input.rows = 3;
         input.className =
             "block w-full bg-white text-base text-black border-3 border-black px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0";
         input.placeholder = `Enter the ${this._inputTwoName}...`;

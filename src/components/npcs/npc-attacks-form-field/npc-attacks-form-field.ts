@@ -70,7 +70,7 @@ export class NpcAttacksFormFieldComponent extends BaseDoubleInputRowsTableCompon
             return;
         }
 
-        dto.effect = (event.target as HTMLInputElement).value;
+        dto.effect = (event.target as HTMLTextAreaElement).value;
 
         this.updateFormValue();
     }
