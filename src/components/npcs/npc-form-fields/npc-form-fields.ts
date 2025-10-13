@@ -44,6 +44,14 @@ export class NpcFormFieldsComponent extends BaseComponent {
         return this.shadow.querySelector("#inputDescription") as HTMLTextAreaElement;
     }
 
+    public get attacksFormFieldElement(): NpcAttacksFormFieldComponent {
+        return this.shadow.querySelector("#npcAttacks") as NpcAttacksFormFieldComponent;
+    }
+
+    public get specialAbilitiesFormFieldElement(): NpcSpecialAbilitiesFormFieldComponent {
+        return this.shadow.querySelector("#npcSpecialAbilities") as NpcSpecialAbilitiesFormFieldComponent;
+    }
+
     public get value(): string {
         return this._formFieldsDto.toJson();
     }
@@ -71,6 +79,8 @@ export class NpcFormFieldsComponent extends BaseComponent {
         this.woundsInputElement.value = npc.maximumWounds.toString();
         this.armorPointsInputElement.value = npc.armorPoints.toString();
         this.descriptionInputElement.value = npc.description;
+        this.attacksFormFieldElement.setInitialFormValues(npc);
+        this.specialAbilitiesFormFieldElement.setInitialFormValues(npc);
 
         this._formFieldsDto.name = npc.name;
         this._formFieldsDto.combat = npc.combat.toString();
@@ -118,10 +128,6 @@ export class NpcFormFieldsComponent extends BaseComponent {
         this.updateFormValue();
     }
 
-    public handleOnAddAttackButtonClick(event: MouseEvent) {
-        EventBus.instance.dispatch(new AddNpcAttackButtonClicked());
-    }
-
     public handleOnNpcAttacksChanged(event: Event) {
         const npcAttacksJson = (event.target as NpcAttacksFormFieldComponent).value;
 
@@ -130,16 +136,20 @@ export class NpcFormFieldsComponent extends BaseComponent {
         this.updateFormValue();
     }
 
-    public handleOnAddSpecialAbilityButtonClick(event: MouseEvent) {
-        EventBus.instance.dispatch(new AddNpcSpecialAbilityButtonClicked());
-    }
-
     public handleOnNpcSpecialAbilitiesChanged(event: Event) {
         const npcSpecialAbilitiesJson = (event.target as NpcSpecialAbilitiesFormFieldComponent).value;
 
         this._formFieldsDto.specialAbilities = JSON.parse(npcSpecialAbilitiesJson) as NpcSpecialAbilityFormFieldsDto[];
 
         this.updateFormValue();
+    }
+
+    public handleOnAddAttackButtonClick(event: MouseEvent) {
+        EventBus.instance.dispatch(new AddNpcAttackButtonClicked());
+    }
+
+    public handleOnAddSpecialAbilityButtonClick(event: MouseEvent) {
+        EventBus.instance.dispatch(new AddNpcSpecialAbilityButtonClicked());
     }
 }
 

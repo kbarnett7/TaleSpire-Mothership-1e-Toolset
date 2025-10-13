@@ -183,11 +183,32 @@ export class Npc extends DatabaseEntity {
     }
 
     public saveToDatabase(unitOfWork: IUnitOfWork): void {
+        if (this.id === 0) {
+            this.addToDatabase(unitOfWork);
+        } else {
+            this.updateInDatabase(unitOfWork);
+        }
+    }
+
+    private addToDatabase(unitOfWork: IUnitOfWork): void {
         const repository = unitOfWork.repo(Npc);
 
         this.id = this.generateId(repository);
         this.sourceId = SourcesService.instance.getCustomItemSourceId(unitOfWork);
 
         repository.add(this);
+    }
+
+    private updateInDatabase(unitOfWork: IUnitOfWork): void {
+        const repository = unitOfWork.repo(Npc);
+        const existingNpc = repository.first((item) => item.id === this.id) ?? new Npc();
+
+        if (existingNpc.id === 0) {
+            this.addToDatabase(unitOfWork);
+        } else {
+            this.sourceId = existingNpc.sourceId;
+
+            repository.update(existingNpc, this);
+        }
     }
 }

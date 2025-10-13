@@ -5,6 +5,7 @@ import { AddNpcAttackButtonClicked } from "../../../lib/events/add-npc-attack-bu
 import { AppEventListener } from "../../../lib/events/app-event-listener-interface";
 import { AppEvent } from "../../../lib/events/app-event";
 import { BaseDoubleInputRowsTableComponent } from "../../base-double-input-rows-table/base-double-input-rows-table";
+import { Npc } from "../../../features/npcs/npc";
 
 export class NpcAttacksFormFieldComponent extends BaseDoubleInputRowsTableComponent<NpcAttackFormFieldsDto> {
     constructor() {
@@ -21,6 +22,19 @@ export class NpcAttacksFormFieldComponent extends BaseDoubleInputRowsTableCompon
 
     public disconnectedCallback() {
         EventBus.instance.unregister(AddNpcAttackButtonClicked.name, this.onAddNpcAttackButtonClicked);
+    }
+
+    public setInitialFormValues(npc: Npc) {
+        this._formFieldsDtoMap.clear();
+        this._nextRowId = 1;
+
+        for (let i = 0; i < npc.attacks.length; i++) {
+            this.addNewTableRow();
+            this.setRowInputValues(i + 1, npc.attacks[i].name, npc.attacks[i].effect);
+            this._formFieldsDtoMap.set(i + 1, new NpcAttackFormFieldsDto(npc.attacks[i].name, npc.attacks[i].effect));
+        }
+
+        this.updateFormValue();
     }
 
     private onAddNpcAttackButtonClicked: AppEventListener = (event: AppEvent) => {
@@ -56,7 +70,7 @@ export class NpcAttacksFormFieldComponent extends BaseDoubleInputRowsTableCompon
             return;
         }
 
-        dto.effect = (event.target as HTMLInputElement).value;
+        dto.effect = (event.target as HTMLTextAreaElement).value;
 
         this.updateFormValue();
     }

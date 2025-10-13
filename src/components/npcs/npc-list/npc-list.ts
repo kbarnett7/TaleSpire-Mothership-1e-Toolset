@@ -4,11 +4,6 @@ import { NpcListItem } from "../../../features/npcs/npc-list-item";
 import { EmptyRequest } from "../../../lib/common/features/empty-request";
 import { EventBus } from "../../../lib/events/event-bus";
 import { AppEvent } from "../../../lib/events/app-event";
-import { ModalDialogComponent } from "../../modal-dialog/modal-dialog";
-import { NpcDisplayComponent } from "../npc-display/npc-display";
-import { Npc } from "../../../features/npcs/npc";
-import { GetNpcByIdFeature } from "../../../features/npcs/get-npc-by-id/get-npc-by-id-feature";
-import { GetNpcByIdRequest } from "../../../features/npcs/get-npc-by-id/get-npc-by-id-request";
 import { SortNpcsListFeature } from "../../../features/npcs/sort-npcs-list/sort-npcs-list-feature";
 import { SortNpcsListRequest } from "../../../features/npcs/sort-npcs-list/sort-npcs-list-request";
 import { TableHeader } from "../../../lib/tables/table-header";
@@ -18,6 +13,7 @@ import { FilterNpcsListFeature } from "../../../features/npcs/filter-npcs-list/f
 import { FilterNpcsListRequest } from "../../../features/npcs/filter-npcs-list/filter-npcs-list-request";
 import { BaseListComponent } from "../../base-list/base-list-component";
 import { UiReportableErrorClearedEvent } from "../../../lib/events/ui-reportable-error-cleared-event";
+import { NpcDisplayDialogComponent } from "../npc-display-dialog/npc-display-dialog";
 
 export class NpcListComponent extends BaseListComponent {
     private npcsList: Array<NpcListItem>;
@@ -105,30 +101,18 @@ export class NpcListComponent extends BaseListComponent {
     }
 
     public onTableDataRowClick(npcListItem: NpcListItem) {
-        const modal = this.shadow.querySelector("#npcModal");
+        const modal = this.shadow.querySelector("#npcDisplayDialog") as NpcDisplayDialogComponent;
 
         if (!modal) {
-            this.dispatchErrorEvent('Modal "npcModal" not found.');
+            this.dispatchErrorEvent('Modal "npcDisplayDialog" not found.');
             return;
         }
 
         EventBus.instance.dispatch(new UiReportableErrorClearedEvent());
 
-        this.populateNpcDisplay(npcListItem);
+        modal.setNpc(npcListItem.id);
 
-        (modal as ModalDialogComponent).openModal();
-    }
-
-    private populateNpcDisplay(npcListItem: NpcListItem) {
-        const npcDisplay = this.shadow.querySelector(`#npcDisplay`) as NpcDisplayComponent;
-        npcDisplay.setNpc(this.getSelectedNpc(npcListItem.id));
-    }
-
-    private getSelectedNpc(id: number): Npc {
-        const feature = new GetNpcByIdFeature(this.unitOfWork);
-        const request = new GetNpcByIdRequest(id);
-
-        return feature.handle(request);
+        modal.openModal();
     }
 
     private onNpcFilterChangedEvent: AppEventListener = (event: AppEvent) => {
