@@ -64,8 +64,6 @@ export class NpcComponent extends BasePageComponent {
     }
 
     private setInitialFormValues() {
-        // TODO in future edit NPC story...
-        //      - Change effect & description input fields to textarea fields.
         const npc = this.getSelectedNpc(this.npcIdFromUrl);
 
         this.npcFormFieldsComponent.setInitialFormValues(npc);
