@@ -105,7 +105,7 @@ describe("SaveCustomNpcFeature", () => {
         );
     });
 
-    it("should have edit error code info when editing an equipment item fails", async () => {
+    it("should have edit error code info when editing an NPC fails", async () => {
         // Arrange
         const npcId = await addBaseCustomNpcToDatabase();
         const npcFormFields = getValidEditedNpcFormFields();

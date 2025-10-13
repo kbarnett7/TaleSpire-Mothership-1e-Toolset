@@ -78,8 +78,8 @@ export class NpcDisplayDialogComponent extends BaseComponent {
         this._isCustomNpc = this.isCustomNpc();
 
         this.npcDisplayElement.setNpc(this._npc);
-        this.setEditButtonVisiblity();
-        this.setDeleteButtonVisiblity();
+        this.setEditButtonVisibility();
+        this.setDeleteButtonVisibility();
     }
 
     private getSelectedNpc(id: number): Npc {
@@ -93,7 +93,7 @@ export class NpcDisplayDialogComponent extends BaseComponent {
         return this._npc.sourceId === SourcesService.instance.getCustomItemSourceId(this.unitOfWork);
     }
 
-    private setEditButtonVisiblity() {
+    private setEditButtonVisibility() {
         if (this._isCustomNpc) {
             this.editNpcButton.classList.remove("hidden");
             this.editNpcButton.classList.add("inline-flex");
@@ -103,7 +103,7 @@ export class NpcDisplayDialogComponent extends BaseComponent {
         }
     }
 
-    private setDeleteButtonVisiblity() {
+    private setDeleteButtonVisibility() {
         if (this._isCustomNpc) {
             this.deleteNpcButton.classList.remove("hidden");
             this.deleteNpcButton.classList.add("inline-flex");

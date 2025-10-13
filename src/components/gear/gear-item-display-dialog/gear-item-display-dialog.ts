@@ -97,8 +97,8 @@ export class GearItemDisplayDialogComponent extends BaseComponent {
         this.isCustomGearItem = this.isCustomItem();
 
         this.showAppropriateGearItemDisplay();
-        this.setEditButtonVisiblity();
-        this.setDeleteButtonVisiblity();
+        this.setEditButtonVisibility();
+        this.setDeleteButtonVisibility();
     }
 
     private getSelectedGearItem(id: number, category: string): GearItem {
@@ -139,7 +139,7 @@ export class GearItemDisplayDialogComponent extends BaseComponent {
         element.classList.add("hidden");
     }
 
-    private setEditButtonVisiblity() {
+    private setEditButtonVisibility() {
         if (this.isCustomGearItem) {
             this.editGearItemButton.classList.remove("hidden");
             this.editGearItemButton.classList.add("inline-flex");
@@ -149,7 +149,7 @@ export class GearItemDisplayDialogComponent extends BaseComponent {
         }
     }
 
-    private setDeleteButtonVisiblity() {
+    private setDeleteButtonVisibility() {
         if (this.isCustomGearItem) {
             this.deleteGearItemButton.classList.remove("hidden");
             this.deleteGearItemButton.classList.add("inline-flex");
