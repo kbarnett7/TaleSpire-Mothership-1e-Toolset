@@ -182,6 +182,12 @@ export class Npc extends DatabaseEntity {
         return this;
     }
 
+    public canBeDelete(unitOfWork: IUnitOfWork): boolean {
+        const customSourceId = SourcesService.instance.getCustomItemSourceId(unitOfWork);
+
+        return this.sourceId === customSourceId;
+    }
+
     public saveToDatabase(unitOfWork: IUnitOfWork): void {
         if (this.id === 0) {
             this.addToDatabase(unitOfWork);
@@ -210,5 +216,9 @@ export class Npc extends DatabaseEntity {
 
             repository.update(existingNpc, this);
         }
+    }
+
+    public deleteFromDatabase(unitOfWork: IUnitOfWork): void {
+        unitOfWork.repo(Npc).remove(this);
     }
 }

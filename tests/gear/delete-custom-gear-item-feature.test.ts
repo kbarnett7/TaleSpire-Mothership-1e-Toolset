@@ -9,11 +9,9 @@ import { LocalizationService } from "../../src/lib/localization/localization-ser
 import { MessageKeys } from "../../src/lib/localization/message-keys";
 import { ArmorItem } from "../../src/features/gear/armor-item";
 import { WeaponItem } from "../../src/features/gear/weapon-item";
-import { IRepository } from "../../src/lib/common/data-access/repository-interface";
 import { GearListItem } from "../../src/features/gear/gear-list-item";
 import { GetAllGearFeature } from "../../src/features/gear/get-all-gear/get-all-gear-feature";
 import { EmptyRequest } from "../../src/lib/common/features/empty-request";
-import { GearTestUtils } from "./gear-test-utils";
 import { DatabaseTestUtils } from "../helpers/database-test-utils";
 
 describe("DeleteCustomGearItemFeature", () => {
@@ -50,6 +48,24 @@ describe("DeleteCustomGearItemFeature", () => {
     });
 
     it.each([EquipmentItem.gearCategory, ArmorItem.gearCategory, WeaponItem.gearCategory])(
+        "should succeed if the %s item does not exist",
+        async (category: string) => {
+            // Arrange
+            request.id = -1;
+            request.category = category;
+
+            // Act
+            const result = await feature.handleAsync(request);
+
+            // Assert
+            expect(result.isSuccess).toBe(true);
+            expect(result.value).toBeDefined();
+            expect(result.value).toBe(-1);
+            assertNoGearDeletedFromDatabase();
+        }
+    );
+
+    it.each([EquipmentItem.gearCategory, ArmorItem.gearCategory, WeaponItem.gearCategory])(
         "should fail if the %s item is not a custom item",
         async (category: string) => {
             // Arrange
@@ -68,24 +84,6 @@ describe("DeleteCustomGearItemFeature", () => {
             expect(result.error.details.length).toBe(1);
             expect(result.error.details[0]).toContain("not");
             expect(result.error.details[0]).toContain("custom");
-            assertNoGearDeletedFromDatabase();
-        }
-    );
-
-    it.each([EquipmentItem.gearCategory, ArmorItem.gearCategory, WeaponItem.gearCategory])(
-        "should succeed if the %s item does not exist",
-        async (category: string) => {
-            // Arrange
-            request.id = -1;
-            request.category = category;
-
-            // Act
-            const result = await feature.handleAsync(request);
-
-            // Assert
-            expect(result.isSuccess).toBe(true);
-            expect(result.value).toBeDefined();
-            expect(result.value).toBe(-1);
             assertNoGearDeletedFromDatabase();
         }
     );
