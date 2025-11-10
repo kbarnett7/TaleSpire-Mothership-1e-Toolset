@@ -13,6 +13,7 @@ import { NpcDisplayComponent } from "../npc-display/npc-display";
 import { Npc } from "../../../features/npcs/npc";
 import { GetNpcByIdRequest } from "../../../features/npcs/get-npc-by-id/get-npc-by-id-request";
 import { GetNpcByIdFeature } from "../../../features/npcs/get-npc-by-id/get-npc-by-id-feature";
+import { ConfirmationDialogComponet } from "../../confirmation-dialog/confirmation-dialog";
 
 export class NpcDisplayDialogComponent extends BaseComponent {
     protected unitOfWork: IUnitOfWork;
@@ -26,6 +27,10 @@ export class NpcDisplayDialogComponent extends BaseComponent {
 
     protected get npcModalElement(): ModalDialogComponent {
         return this.shadow.querySelector("#npcModal") as ModalDialogComponent;
+    }
+
+    protected get deleteConfirmationDialogElement(): ConfirmationDialogComponet {
+        return this.shadow.querySelector("#deleteConfirmationDialog") as ConfirmationDialogComponet;
     }
 
     protected get editNpcButton(): HTMLButtonElement {
@@ -45,6 +50,12 @@ export class NpcDisplayDialogComponent extends BaseComponent {
 
     public connectedCallback() {
         this.render(html);
+        this.configureDeleteConfirmationModal();
+    }
+
+    private configureDeleteConfirmationModal() {
+        this.deleteConfirmationDialogElement.onConfirmCallback = this.onDeleteNpcConfirmation;
+        this.deleteConfirmationDialogElement.onCancelCallback = this.onDeleteNpcCancel;
     }
 
     public openModal() {
@@ -131,11 +142,20 @@ export class NpcDisplayDialogComponent extends BaseComponent {
         //     EventBus.instance.dispatch(new GearItemDeletedEvent());
         // }
         // this.closeModal();
+        this.deleteConfirmationDialogElement.openModal();
     }
 
     public onCloseModal(event: MouseEvent) {
         this.closeModal();
     }
+
+    public onDeleteNpcConfirmation = () => {
+        console.log("confirm!");
+    };
+
+    public onDeleteNpcCancel = () => {
+        console.log("cancel!");
+    };
 }
 
 customElements.define("npc-display-dialog", NpcDisplayDialogComponent);
