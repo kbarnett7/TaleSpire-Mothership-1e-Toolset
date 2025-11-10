@@ -14,6 +14,9 @@ import { Npc } from "../../../features/npcs/npc";
 import { GetNpcByIdRequest } from "../../../features/npcs/get-npc-by-id/get-npc-by-id-request";
 import { GetNpcByIdFeature } from "../../../features/npcs/get-npc-by-id/get-npc-by-id-feature";
 import { ConfirmationDialogComponet } from "../../confirmation-dialog/confirmation-dialog";
+import { DeleteCustomNpcRequest } from "../../../features/npcs/delete-custom-npc/delete-custom-npc-request";
+import { DeleteCustomNpcFeature } from "../../../features/npcs/delete-custom-npc/delete-custom-npc-feature";
+import { NpcDeletedEvent } from "../../../lib/events/npc-deleted-event";
 
 export class NpcDisplayDialogComponent extends BaseComponent {
     protected unitOfWork: IUnitOfWork;
@@ -55,7 +58,6 @@ export class NpcDisplayDialogComponent extends BaseComponent {
 
     private configureDeleteConfirmationModal() {
         this.deleteConfirmationDialogElement.onConfirmCallback = this.onDeleteNpcConfirmation;
-        this.deleteConfirmationDialogElement.onCancelCallback = this.onDeleteNpcCancel;
     }
 
     public openModal() {
@@ -129,33 +131,32 @@ export class NpcDisplayDialogComponent extends BaseComponent {
     }
 
     public async onDeleteButtonClick(event: MouseEvent): Promise<void> {
-        // const request = new DeleteCustomNpcRequest();
-        // const feature = new DeleteCustomNpcFeature(this.unitOfWork);
-        // request.id = this._npc.id;
-        // const result = await feature.handleAsync(request);
-        // if (result.isFailure) {
-        //     EventBus.instance.dispatch(
-        //         new UiReportableErrorOccurredEvent(result.error.description, result.error.details)
-        //     );
-        // } else {
-        //     EventBus.instance.dispatch(new UiReportableErrorClearedEvent());
-        //     EventBus.instance.dispatch(new GearItemDeletedEvent());
-        // }
-        // this.closeModal();
         this.deleteConfirmationDialogElement.openModal();
     }
+
+    public onDeleteNpcConfirmation = async () => {
+        const request = new DeleteCustomNpcRequest();
+        const feature = new DeleteCustomNpcFeature(this.unitOfWork);
+
+        request.id = this._npc.id;
+
+        const result = await feature.handleAsync(request);
+
+        if (result.isFailure) {
+            EventBus.instance.dispatch(
+                new UiReportableErrorOccurredEvent(result.error.description, result.error.details)
+            );
+        } else {
+            EventBus.instance.dispatch(new UiReportableErrorClearedEvent());
+            EventBus.instance.dispatch(new NpcDeletedEvent());
+        }
+
+        this.closeModal();
+    };
 
     public onCloseModal(event: MouseEvent) {
         this.closeModal();
     }
-
-    public onDeleteNpcConfirmation = () => {
-        console.log("confirm!");
-    };
-
-    public onDeleteNpcCancel = () => {
-        console.log("cancel!");
-    };
 }
 
 customElements.define("npc-display-dialog", NpcDisplayDialogComponent);
