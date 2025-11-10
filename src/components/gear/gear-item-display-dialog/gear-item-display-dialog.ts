@@ -185,6 +185,10 @@ export class GearItemDisplayDialogComponent extends BaseComponent {
 
         this.closeModal();
     }
+
+    public onCloseModal(event: MouseEvent) {
+        this.closeModal();
+    }
 }
 
 customElements.define("gear-item-display-dialog", GearItemDisplayDialogComponent);

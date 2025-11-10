@@ -132,6 +132,10 @@ export class NpcDisplayDialogComponent extends BaseComponent {
         // }
         // this.closeModal();
     }
+
+    public onCloseModal(event: MouseEvent) {
+        this.closeModal();
+    }
 }
 
 customElements.define("npc-display-dialog", NpcDisplayDialogComponent);
