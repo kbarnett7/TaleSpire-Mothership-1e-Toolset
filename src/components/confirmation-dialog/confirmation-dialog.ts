@@ -45,7 +45,7 @@ export class ConfirmationDialogComponent extends BaseComponent {
     }
 
     private dispatchModalNotFoundEvent() {
-        EventBus.instance.dispatch(new UiReportableErrorOccurredEvent('Modal "npcDisplayDialog" not found.'));
+        EventBus.instance.dispatch(new UiReportableErrorOccurredEvent('Modal "confirmationModal" not found.'));
     }
 
     public onConfirmationButtonClick(event: MouseEvent) {
