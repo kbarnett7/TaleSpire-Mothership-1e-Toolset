@@ -21,6 +21,7 @@ import { UiReportableErrorOccurredEvent } from "../../../lib/events/ui-reportabl
 import { UiReportableErrorClearedEvent } from "../../../lib/events/ui-reportable-error-cleared-event";
 import { PageRouterService } from "../../../lib/pages/page-router-service";
 import { SourcesService } from "../../../features/sources/sources-service";
+import { ConfirmationDialogComponet } from "../../confirmation-dialog/confirmation-dialog";
 
 export class GearItemDisplayDialogComponent extends BaseComponent {
     protected unitOfWork: IUnitOfWork;
@@ -45,6 +46,10 @@ export class GearItemDisplayDialogComponent extends BaseComponent {
         return this.shadow.querySelector("#gearItemModal") as ModalDialogComponent;
     }
 
+    protected get deleteConfirmationDialogElement(): ConfirmationDialogComponet {
+        return this.shadow.querySelector("#deleteConfirmationDialog") as ConfirmationDialogComponet;
+    }
+
     protected get editGearItemButton(): HTMLButtonElement {
         return this.shadow.querySelector("#editItemButton") as HTMLButtonElement;
     }
@@ -63,6 +68,11 @@ export class GearItemDisplayDialogComponent extends BaseComponent {
 
     public connectedCallback() {
         this.render(html);
+        this.configureDeleteConfirmationModal();
+    }
+
+    private configureDeleteConfirmationModal() {
+        this.deleteConfirmationDialogElement.onConfirmCallback = this.onDeleteGearItemConfirmation;
     }
 
     public openModal() {
@@ -166,6 +176,10 @@ export class GearItemDisplayDialogComponent extends BaseComponent {
     }
 
     public async onDeleteButtonClick(event: MouseEvent): Promise<void> {
+        this.deleteConfirmationDialogElement.openModal();
+    }
+
+    public onDeleteGearItemConfirmation = async () => {
         const request = new DeleteCustomGearItemRequest();
         const feature = new DeleteCustomGearItemFeature(this.unitOfWork);
 
@@ -184,7 +198,7 @@ export class GearItemDisplayDialogComponent extends BaseComponent {
         }
 
         this.closeModal();
-    }
+    };
 
     public onCloseModal(event: MouseEvent) {
         this.closeModal();
