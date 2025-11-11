@@ -13,11 +13,9 @@ import { DeleteCustomGearItemRequest } from "./delete-custom-gear-item-request";
 
 export class DeleteCustomGearItemFeature implements IAsyncFeature<DeleteCustomGearItemRequest, Result<number>> {
     private readonly unitOfWork: IUnitOfWork;
-    private readonly baseFailureMessage: string;
 
     constructor(unitOfWork: IUnitOfWork) {
         this.unitOfWork = unitOfWork;
-        this.baseFailureMessage = LocalizationService.instance.translate(MessageKeys.deleteCustomGearItemFailed);
     }
 
     public async handleAsync(request: DeleteCustomGearItemRequest): Promise<Result<number>> {

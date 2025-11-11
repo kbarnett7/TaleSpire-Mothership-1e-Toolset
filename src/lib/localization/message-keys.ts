@@ -13,4 +13,5 @@ export class MessageKeys {
     static deleteCustomGearItemFailed: string = "deleteCustomGearItemFailed";
     static createCustomNpcFailed: string = "createCustomNpcFailed";
     static editCustomNpcFailed: string = "editCustomNpcFailed";
+    static deleteCustomNpcFailed: string = "deleteCustomNpcFailed";
 }

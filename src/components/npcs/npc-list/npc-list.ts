@@ -14,9 +14,11 @@ import { FilterNpcsListRequest } from "../../../features/npcs/filter-npcs-list/f
 import { BaseListComponent } from "../../base-list/base-list-component";
 import { UiReportableErrorClearedEvent } from "../../../lib/events/ui-reportable-error-cleared-event";
 import { NpcDisplayDialogComponent } from "../npc-display-dialog/npc-display-dialog";
+import { NpcDeletedEvent } from "../../../lib/events/npc-deleted-event";
 
 export class NpcListComponent extends BaseListComponent {
     private npcsList: Array<NpcListItem>;
+    private currentFilters: NpcFilterChangedEvent;
 
     constructor() {
         super(SortNpcsListFeature.fieldId, [
@@ -27,6 +29,7 @@ export class NpcListComponent extends BaseListComponent {
             new TableHeader(SortNpcsListFeature.fieldWoundsHealth, "Max Wounds (Health)"),
         ]);
         this.npcsList = [];
+        this.currentFilters = new NpcFilterChangedEvent("");
     }
 
     public connectedCallback() {
@@ -41,10 +44,12 @@ export class NpcListComponent extends BaseListComponent {
         this.populateTableRows();
 
         EventBus.instance.register(NpcFilterChangedEvent.name, this.onNpcFilterChangedEvent);
+        EventBus.instance.register(NpcDeletedEvent.name, this.onNpcDeletedEvent);
     }
 
     public disconnectedCallback() {
         EventBus.instance.unregister(NpcFilterChangedEvent.name, this.onNpcFilterChangedEvent);
+        EventBus.instance.unregister(NpcDeletedEvent.name, this.onNpcDeletedEvent);
     }
 
     protected override createTableRowsElements(tableBody: HTMLTableSectionElement) {
@@ -120,6 +125,8 @@ export class NpcListComponent extends BaseListComponent {
     };
 
     private filterNpcs(event: NpcFilterChangedEvent) {
+        this.currentFilters = event;
+
         const feature = new FilterNpcsListFeature(this.unitOfWork);
         const request = new FilterNpcsListRequest();
 
@@ -140,6 +147,10 @@ export class NpcListComponent extends BaseListComponent {
 
         this.populateTableRows(true);
     }
+
+    private onNpcDeletedEvent: AppEventListener = (event: AppEvent) => {
+        this.filterNpcs(this.currentFilters);
+    };
 }
 
 customElements.define("npc-list", NpcListComponent);
