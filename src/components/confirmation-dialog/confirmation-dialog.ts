@@ -4,7 +4,7 @@ import { ModalDialogComponent } from "../modal-dialog/modal-dialog";
 import { EventBus } from "../../lib/events/event-bus";
 import { UiReportableErrorOccurredEvent } from "../../lib/events/ui-reportable-error-occurred-event";
 
-export class ConfirmationDialogComponet extends BaseComponent {
+export class ConfirmationDialogComponent extends BaseComponent {
     public onConfirmCallback: () => void;
     public onCancelCallback: () => void;
 
@@ -67,4 +67,4 @@ export class ConfirmationDialogComponet extends BaseComponent {
     }
 }
 
-customElements.define("confirmation-dialog", ConfirmationDialogComponet);
+customElements.define("confirmation-dialog", ConfirmationDialogComponent);

@@ -182,7 +182,7 @@ export class Npc extends DatabaseEntity {
         return this;
     }
 
-    public canBeDelete(unitOfWork: IUnitOfWork): boolean {
+    public canBeDeleted(unitOfWork: IUnitOfWork): boolean {
         const customSourceId = SourcesService.instance.getCustomItemSourceId(unitOfWork);
 
         return this.sourceId === customSourceId;

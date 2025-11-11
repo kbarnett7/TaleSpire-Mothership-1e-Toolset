@@ -13,7 +13,7 @@ import { NpcDisplayComponent } from "../npc-display/npc-display";
 import { Npc } from "../../../features/npcs/npc";
 import { GetNpcByIdRequest } from "../../../features/npcs/get-npc-by-id/get-npc-by-id-request";
 import { GetNpcByIdFeature } from "../../../features/npcs/get-npc-by-id/get-npc-by-id-feature";
-import { ConfirmationDialogComponet } from "../../confirmation-dialog/confirmation-dialog";
+import { ConfirmationDialogComponent } from "../../confirmation-dialog/confirmation-dialog";
 import { DeleteCustomNpcRequest } from "../../../features/npcs/delete-custom-npc/delete-custom-npc-request";
 import { DeleteCustomNpcFeature } from "../../../features/npcs/delete-custom-npc/delete-custom-npc-feature";
 import { NpcDeletedEvent } from "../../../lib/events/npc-deleted-event";
@@ -32,8 +32,8 @@ export class NpcDisplayDialogComponent extends BaseComponent {
         return this.shadow.querySelector("#npcModal") as ModalDialogComponent;
     }
 
-    protected get deleteConfirmationDialogElement(): ConfirmationDialogComponet {
-        return this.shadow.querySelector("#deleteConfirmationDialog") as ConfirmationDialogComponet;
+    protected get deleteConfirmationDialogElement(): ConfirmationDialogComponent {
+        return this.shadow.querySelector("#deleteConfirmationDialog") as ConfirmationDialogComponent;
     }
 
     protected get editNpcButton(): HTMLButtonElement {

@@ -21,7 +21,7 @@ import { UiReportableErrorOccurredEvent } from "../../../lib/events/ui-reportabl
 import { UiReportableErrorClearedEvent } from "../../../lib/events/ui-reportable-error-cleared-event";
 import { PageRouterService } from "../../../lib/pages/page-router-service";
 import { SourcesService } from "../../../features/sources/sources-service";
-import { ConfirmationDialogComponet } from "../../confirmation-dialog/confirmation-dialog";
+import { ConfirmationDialogComponent } from "../../confirmation-dialog/confirmation-dialog";
 
 export class GearItemDisplayDialogComponent extends BaseComponent {
     protected unitOfWork: IUnitOfWork;
@@ -46,8 +46,8 @@ export class GearItemDisplayDialogComponent extends BaseComponent {
         return this.shadow.querySelector("#gearItemModal") as ModalDialogComponent;
     }
 
-    protected get deleteConfirmationDialogElement(): ConfirmationDialogComponet {
-        return this.shadow.querySelector("#deleteConfirmationDialog") as ConfirmationDialogComponet;
+    protected get deleteConfirmationDialogElement(): ConfirmationDialogComponent {
+        return this.shadow.querySelector("#deleteConfirmationDialog") as ConfirmationDialogComponent;
     }
 
     protected get editGearItemButton(): HTMLButtonElement {

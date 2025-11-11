@@ -22,7 +22,7 @@ export class DeleteCustomNpcFeature implements IAsyncFeature<DeleteCustomNpcRequ
             return Result.success(request.id);
         }
 
-        if (npc.canBeDelete(this.unitOfWork) === false) {
+        if (npc.canBeDeleted(this.unitOfWork) === false) {
             return Result.failure(
                 new ResultError(
                     ErrorCode.DeleteError,
