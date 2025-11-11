@@ -1,28 +1,20 @@
 import html from "./npc-list-filter-bar.html";
-import { BaseComponent } from "../../base.component";
 import { EventBus } from "../../../lib/events/event-bus";
 import { NpcFilterChangedEvent } from "../../../lib/events/npc-filter-changed-event";
+import { BaseListFilterBarComponent } from "../../base-list-filter-bar/base-list-filter-bar";
 
-export class NpcListFilterBarComponent extends BaseComponent {
-    private currentSearch: string;
-
+export class NpcListFilterBarComponent extends BaseListFilterBarComponent {
     constructor() {
         super();
-        this.currentSearch = "";
     }
 
     public connectedCallback() {
         this.render(html);
+        this.configureSourcesFilter();
     }
 
-    private onSearchBoxKeyUp(event: KeyboardEvent) {
-        // Ignore shift key up events, otherwise two GearFilterChangedEvents are triggered when
-        // typing an UPPERCASE character into the search box.
-        if (event.shiftKey === true) return;
-
-        this.currentSearch = (event.target as HTMLInputElement).value;
-
-        const appEvent = new NpcFilterChangedEvent(this.currentSearch);
+    protected dispatchFilterChangedEvent() {
+        const appEvent = new NpcFilterChangedEvent(this.currentSearch); // TODO: pass in this.currentSourceId
 
         EventBus.instance.dispatch(appEvent);
     }
