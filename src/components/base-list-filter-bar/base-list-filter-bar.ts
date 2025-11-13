@@ -50,7 +50,7 @@ export abstract class BaseListFilterBarComponent extends BaseComponent {
     }
 
     public handleOnSearchBoxKeyUp(event: KeyboardEvent) {
-        // Ignore shift key up events, otherwise two GearFilterChangedEvents are triggered when
+        // Ignore shift key up events, otherwise two filter changed events are triggered when
         // typing an UPPERCASE character into the search box.
         if (event.shiftKey === true) return;
 
