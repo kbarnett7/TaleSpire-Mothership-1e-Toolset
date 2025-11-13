@@ -131,6 +131,7 @@ export class NpcListComponent extends BaseListComponent {
         const request = new FilterNpcsListRequest();
 
         request.search = event.search;
+        request.sourceId = event.sourceId;
 
         const result = feature.handle(request);
 

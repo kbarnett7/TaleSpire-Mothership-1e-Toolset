@@ -14,6 +14,7 @@ describe("FilterNpcsListFeature", () => {
     let feature: FilterNpcsListFeature;
     let request: FilterNpcsListRequest;
     let originalNumberOfNpcsInDatabase: number;
+    let originalNumberOfCustomNpcsInDatabase: number;
 
     beforeEach(async () => {
         const dbContext = await DataAccessUtils.getInitializedDbContext();
@@ -193,10 +194,76 @@ describe("FilterNpcsListFeature", () => {
         NpcTestUtils.expectNpcToBe(npc, 10, 1, "Custom NPC A");
     });
 
+    it('By "All" source returns a list of all NPCs', () => {
+        // Arrange
+        request.sourceId = 0;
+
+        // Act
+        const result: Result<NpcListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(originalNumberOfNpcsInDatabase);
+
+        const npcs = result.value ?? [];
+        let npc = NpcTestUtils.getNpcItemByName(npcs, "The 4YourEyez Algorithm");
+        NpcTestUtils.expectNpcToBe(npc, 1, 3, "The 4YourEyez Algorithm");
+
+        npc = NpcTestUtils.getNpcItemByName(npcs, "Belladonnas");
+        NpcTestUtils.expectNpcToBe(npc, 3, 3, "Belladonnas");
+
+        npc = NpcTestUtils.getNpcItemByName(npcs, "Custom NPC A");
+        NpcTestUtils.expectNpcToBe(npc, 10, 1, "Custom NPC A");
+    });
+
+    it('By "Custom" category returns a list of all custom NPCs', () => {
+        // Arrange
+        request.sourceId = 1;
+
+        // Act
+        const result: Result<NpcListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(originalNumberOfCustomNpcsInDatabase);
+
+        const npcs = result.value ?? [];
+        let npc = NpcTestUtils.getNpcItemByName(npcs, "Custom NPC A");
+        NpcTestUtils.expectNpcToBe(npc, 10, 1, "Custom NPC A");
+
+        npc = NpcTestUtils.getNpcItemByName(npcs, "Belladonnas");
+        expect(npc.id).toBe(0);
+    });
+
+    it('By "Unconfirmed Contacts Report" source returns a list of all unconfirmed contacts report NPCs', () => {
+        // Arrange
+        const expectedNpcsCount = originalNumberOfNpcsInDatabase - originalNumberOfCustomNpcsInDatabase;
+        request.sourceId = 3;
+
+        // Act
+        const result: Result<NpcListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(expectedNpcsCount);
+
+        const npcs = result.value ?? [];
+        let npc = NpcTestUtils.getNpcItemByName(npcs, "The 4YourEyez Algorithm");
+        NpcTestUtils.expectNpcToBe(npc, 1, 3, "The 4YourEyez Algorithm");
+
+        npc = NpcTestUtils.getNpcItemByName(npcs, "Custom NPC A");
+        expect(npc.id).toBe(0);
+    });
+
     function setOriginalNumberOfGearItemsIdInDatabase(): void {
         const feature = new GetAllNpcsFeature(unitOfWork);
         const npcs: NpcListItem[] = feature.handle(new EmptyRequest());
 
         originalNumberOfNpcsInDatabase = npcs.length;
+
+        originalNumberOfCustomNpcsInDatabase = npcs.filter((npc) => npc.sourceId === 1).length;
     }
 });
