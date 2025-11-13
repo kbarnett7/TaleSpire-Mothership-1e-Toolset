@@ -14,7 +14,7 @@ export class NpcListFilterBarComponent extends BaseListFilterBarComponent {
     }
 
     protected dispatchFilterChangedEvent() {
-        const appEvent = new NpcFilterChangedEvent(this.currentSearch); // TODO: pass in this.currentSourceId
+        const appEvent = new NpcFilterChangedEvent(this.currentSearch, this.currentSourceId);
 
         EventBus.instance.dispatch(appEvent);
     }

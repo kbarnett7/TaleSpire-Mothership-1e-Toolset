@@ -1,5 +1,6 @@
 export class NpcListItem {
     public id: number;
+    public sourceId: number;
     public name: string;
     public combat: number;
     public instinct: number;
@@ -9,6 +10,7 @@ export class NpcListItem {
 
     constructor(
         id: number,
+        sourceId: number,
         name: string,
         combat: number,
         instinct: number,
@@ -17,6 +19,7 @@ export class NpcListItem {
         maximumWounds: number
     ) {
         this.id = id;
+        this.sourceId = sourceId;
         this.name = name;
         this.combat = combat;
         this.instinct = instinct;

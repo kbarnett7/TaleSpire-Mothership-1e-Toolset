@@ -16,6 +16,7 @@ describe("SortNpcsListFeature", () => {
         "C-Levels",
         "Cabin 102-B",
         "Chronopods",
+        "Custom NPC A",
         "Demons",
         "The 4YourEyez Algorithm",
         "The Body Politic",
@@ -60,7 +61,7 @@ describe("SortNpcsListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(9);
+        expect(result.value?.length).toBe(10);
 
         const npcs = result.value ?? [];
 
@@ -84,7 +85,7 @@ describe("SortNpcsListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(9);
+        expect(result.value?.length).toBe(10);
 
         const npcs = result.value ?? [];
 
@@ -109,7 +110,7 @@ describe("SortNpcsListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(9);
+        expect(result.value?.length).toBe(10);
 
         const npcs = result.value ?? [];
 
@@ -135,7 +136,7 @@ describe("SortNpcsListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(9);
+        expect(result.value?.length).toBe(10);
 
         const npcs = result.value ?? [];
 
@@ -164,7 +165,7 @@ describe("SortNpcsListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(9);
+        expect(result.value?.length).toBe(10);
 
         const npcs = result.value ?? [];
 
@@ -190,7 +191,7 @@ describe("SortNpcsListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(9);
+        expect(result.value?.length).toBe(10);
 
         const npcs = result.value ?? [];
 
@@ -216,7 +217,7 @@ describe("SortNpcsListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(9);
+        expect(result.value?.length).toBe(10);
 
         const npcs = result.value ?? [];
 
@@ -239,7 +240,7 @@ describe("SortNpcsListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(9);
+        expect(result.value?.length).toBe(10);
 
         const npcs = result.value ?? [];
 
@@ -265,7 +266,7 @@ describe("SortNpcsListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(9);
+        expect(result.value?.length).toBe(10);
 
         const npcs = result.value ?? [];
 
@@ -290,7 +291,7 @@ describe("SortNpcsListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(9);
+        expect(result.value?.length).toBe(10);
 
         const npcs = result.value ?? [];
 
@@ -316,7 +317,7 @@ describe("SortNpcsListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(9);
+        expect(result.value?.length).toBe(10);
 
         const npcs = result.value ?? [];
 
@@ -341,7 +342,7 @@ describe("SortNpcsListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(9);
+        expect(result.value?.length).toBe(10);
 
         const npcs = result.value ?? [];
 
@@ -367,7 +368,7 @@ describe("SortNpcsListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(9);
+        expect(result.value?.length).toBe(10);
 
         const npcs = result.value ?? [];
 
@@ -392,7 +393,7 @@ describe("SortNpcsListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(9);
+        expect(result.value?.length).toBe(10);
 
         const npcs = result.value ?? [];
 
@@ -418,7 +419,7 @@ describe("SortNpcsListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(9);
+        expect(result.value?.length).toBe(10);
 
         const npcs = result.value ?? [];
 

@@ -1,18 +1,25 @@
 import { FilterNpcsListFeature } from "../../src/features/npcs/filter-npcs-list/filter-npcs-list-feature";
 import { FilterNpcsListRequest } from "../../src/features/npcs/filter-npcs-list/filter-npcs-list-request";
+import { GetAllNpcsFeature } from "../../src/features/npcs/get-all-npcs/get-all-npcs-feature";
 import { NpcListItem } from "../../src/features/npcs/npc-list-item";
+import { EmptyRequest } from "../../src/lib/common/features/empty-request";
 import { UnitOfWork } from "../../src/lib/data-access/unit-of-work";
 import { ErrorCode } from "../../src/lib/errors/error-code";
 import { Result } from "../../src/lib/result/result";
 import { DataAccessUtils } from "../data-access/data-access-utils";
+import { NpcTestUtils } from "./npc-test-utils";
 
 describe("FilterNpcsListFeature", () => {
+    let unitOfWork: UnitOfWork;
     let feature: FilterNpcsListFeature;
     let request: FilterNpcsListRequest;
+    let originalNumberOfNpcsInDatabase: number;
 
     beforeEach(async () => {
         const dbContext = await DataAccessUtils.getInitializedDbContext();
-        const unitOfWork = new UnitOfWork(dbContext);
+        unitOfWork = new UnitOfWork(dbContext);
+
+        setOriginalNumberOfGearItemsIdInDatabase();
 
         feature = new FilterNpcsListFeature(unitOfWork);
         request = new FilterNpcsListRequest();
@@ -47,7 +54,7 @@ describe("FilterNpcsListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(9);
+        expect(result.value?.length).toBe(originalNumberOfNpcsInDatabase);
     });
 
     it('By " " (empty space) name returns a list of all NPC list items', () => {
@@ -60,7 +67,7 @@ describe("FilterNpcsListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBeDefined();
-        expect(result.value?.length).toBe(9);
+        expect(result.value?.length).toBe(originalNumberOfNpcsInDatabase);
     });
 
     it('By "on" name returns NPC list items with names that have "on" in them', () => {
@@ -162,4 +169,34 @@ describe("FilterNpcsListFeature", () => {
             expect(item.name.toLowerCase()).toMatch(searchRegEx);
         });
     });
+
+    it.each([1.2, -1, 4])("By invalid source returns the original list", (sourceId: number) => {
+        // Arrange
+        request.sourceId = sourceId;
+
+        // Act
+        const result: Result<NpcListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value).toBeDefined();
+        expect(result.value?.length).toBe(originalNumberOfNpcsInDatabase);
+
+        const npcs = result.value ?? [];
+        let npc = NpcTestUtils.getNpcItemByName(npcs, "The 4YourEyez Algorithm");
+        NpcTestUtils.expectNpcToBe(npc, 1, 3, "The 4YourEyez Algorithm");
+
+        npc = NpcTestUtils.getNpcItemByName(npcs, "Belladonnas");
+        NpcTestUtils.expectNpcToBe(npc, 3, 3, "Belladonnas");
+
+        npc = NpcTestUtils.getNpcItemByName(npcs, "Custom NPC A");
+        NpcTestUtils.expectNpcToBe(npc, 10, 1, "Custom NPC A");
+    });
+
+    function setOriginalNumberOfGearItemsIdInDatabase(): void {
+        const feature = new GetAllNpcsFeature(unitOfWork);
+        const npcs: NpcListItem[] = feature.handle(new EmptyRequest());
+
+        originalNumberOfNpcsInDatabase = npcs.length;
+    }
 });
