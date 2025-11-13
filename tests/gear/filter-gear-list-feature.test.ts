@@ -395,7 +395,7 @@ describe("FilterGearListFeature", () => {
         GearTestUtils.expectItemToBe(item, 6, 1, "Custom Armor A", 1200, ArmorItem.gearCategory);
     });
 
-    it('By "Custom" category returns a list of all custom gear list items', () => {
+    it('By "Custom" source returns a list of all custom gear list items', () => {
         // Arrange
         request.sourceId = 1;
 
@@ -415,7 +415,7 @@ describe("FilterGearListFeature", () => {
         expect(item.id).toBe(0);
     });
 
-    it("By \"Player's Survival Guide\" category returns a list of all player's survival guide gear list items", () => {
+    it("By \"Player's Survival Guide\" source returns a list of all player's survival guide gear list items", () => {
         // Arrange
         const expectedGearItemCount = originalNumberOfGearItemsInDatabase - originalNumberOfCustomGearItemsInDatabase;
         request.sourceId = 2;

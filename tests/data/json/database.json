@@ -299,6 +299,26 @@
             ],
             "description": "The frequency is found, after years of trying. The ham radio hisses and spits. Slick drips from the speakers. The lights pulse and flicker. Sibilant voices promise unspeakable things, freedom from the drudgery and misery of wage slavery. The crew unflesh themselves, mumbling prayers. Something is born from the bloody ruin-wet fur, many-jointed limbs, an iron mask cast of their former face. They wear their old skin as cloaks and finery.",
             "quotes": []
+        },
+
+        {
+            "id": 10,
+            "sourceId": 1,
+            "name": "Custom NPC A",
+            "combat": 35,
+            "attacks": [
+                {
+                    "name": "Attack",
+                    "effect": "1d10"
+                }
+            ],
+            "instinct": 55,
+            "armorPoints": 2,
+            "health": 15,
+            "maximumWounds": 3,
+            "specialAbilities": [],
+            "description": "A fake custom NPC used for testing.",
+            "quotes": []
         }
     ],
     "patches": [],

@@ -29,7 +29,7 @@ export class NpcListComponent extends BaseListComponent {
             new TableHeader(SortNpcsListFeature.fieldWoundsHealth, "Max Wounds (Health)"),
         ]);
         this.npcsList = [];
-        this.currentFilters = new NpcFilterChangedEvent("");
+        this.currentFilters = new NpcFilterChangedEvent("", 0);
     }
 
     public connectedCallback() {
@@ -131,6 +131,7 @@ export class NpcListComponent extends BaseListComponent {
         const request = new FilterNpcsListRequest();
 
         request.search = event.search;
+        request.sourceId = event.sourceId;
 
         const result = feature.handle(request);
 
