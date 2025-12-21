@@ -13,6 +13,6 @@ export class GetAllPlayerCharactersFeature implements IFeature<EmptyRequest, Pla
     }
 
     public handle(request: EmptyRequest): PlayerCharacterListItem[] {
-        return this.unitOfWork.repo(PlayerCharacter).list().map(PlayerCharacterListItemMap.fromNpc);
+        return this.unitOfWork.repo(PlayerCharacter).list().map(PlayerCharacterListItemMap.fromPlayerCharacter);
     }
 }

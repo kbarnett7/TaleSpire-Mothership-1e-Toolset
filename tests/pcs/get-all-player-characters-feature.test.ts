@@ -18,16 +18,12 @@ describe("GetAllPlayerCharacters Feature", () => {
         // Assert
         expect(result.length).toBeGreaterThan(0);
 
-        let playerCharacter = PlayerCharacterTestUtils.getPlayerCharacterItemByName(result, "The 4YourEyez Algorithm");
+        let playerCharacter = PlayerCharacterTestUtils.getPlayerCharacterItemByName(result, "Test Android A");
         expect(playerCharacter.id).toBe(1);
-        expect(playerCharacter.name).toBe("The 4YourEyez Algorithm");
+        expect(playerCharacter.name).toBe("Test Android A");
 
-        playerCharacter = PlayerCharacterTestUtils.getPlayerCharacterItemByName(result, "Angels");
-        expect(playerCharacter.id).toBe(2);
-        expect(playerCharacter.name).toBe("Angels");
-
-        playerCharacter = PlayerCharacterTestUtils.getPlayerCharacterItemByName(result, "Belladonnas");
-        expect(playerCharacter.id).toBe(3);
-        expect(playerCharacter.name).toBe("Belladonnas");
+        playerCharacter = PlayerCharacterTestUtils.getPlayerCharacterItemByName(result, "Test Teamster A");
+        expect(playerCharacter.id).toBe(4);
+        expect(playerCharacter.name).toBe("Test Teamster A");
     });
 });

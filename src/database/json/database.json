@@ -591,7 +591,32 @@
     ],
     "patches": [],
     "pets": [],
-    "playerCharacters": [],
+    "playerCharacters": [
+        {
+            "id": 1,
+            "name": "Test Android A",
+            "characterClass": "Android",
+            "description": "Test android player character."
+        },
+        {
+            "id": 2,
+            "name": "Test Scientist A",
+            "characterClass": "Scientist",
+            "description": "Test scientist player character."
+        },
+        {
+            "id": 3,
+            "name": "Test Marine A",
+            "characterClass": "Marine",
+            "description": "Test marine player character."
+        },
+        {
+            "id": 4,
+            "name": "Test Teamster A",
+            "characterClass": "Teamster",
+            "description": "Test teamster player character."
+        }
+    ],
     "sources": [
         {
             "id": 1,
