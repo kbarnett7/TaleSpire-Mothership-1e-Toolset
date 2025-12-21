@@ -10,6 +10,7 @@ import { AppSettings } from "../settings/app-settings";
 import { DatabaseVersion } from "../../features/database-versions/database-version";
 import { DatabaseCollectionNames } from "./database-collection-names";
 import { Source } from "../../features/sources/source";
+import { PlayerCharacter } from "../../features/player-characters/player-character";
 
 export class AppDatabaseContext implements IDatabaseContext {
     public static inject = ["database", "appSettings"] as const;
@@ -50,6 +51,7 @@ export class AppDatabaseContext implements IDatabaseContext {
         this._entityKeyToDbKeyMap.set(EquipmentItem.name, DatabaseCollectionNames.equipment);
         this._entityKeyToDbKeyMap.set(WeaponItem.name, DatabaseCollectionNames.weapons);
         this._entityKeyToDbKeyMap.set(Npc.name, DatabaseCollectionNames.npcs);
+        this._entityKeyToDbKeyMap.set(PlayerCharacter.name, DatabaseCollectionNames.playerCharacters);
     }
 
     private initializeDbSetsWithEmptyCollections() {
@@ -59,6 +61,7 @@ export class AppDatabaseContext implements IDatabaseContext {
         this._dbSets.set(EquipmentItem.name, new DbSet<EquipmentItem>([]));
         this._dbSets.set(WeaponItem.name, new DbSet<WeaponItem>([]));
         this._dbSets.set(Npc.name, new DbSet<Npc>([]));
+        this._dbSets.set(PlayerCharacter.name, new DbSet<PlayerCharacter>([]));
     }
 
     private async initializeDbSets(): Promise<void> {
@@ -113,6 +116,15 @@ export class AppDatabaseContext implements IDatabaseContext {
             Npc.name,
             new DbSet<Npc>(
                 (await this._db.getCollection(DatabaseCollectionNames.npcs)).map((obj) => Object.assign(new Npc(), obj))
+            )
+        );
+
+        this._dbSets.set(
+            PlayerCharacter.name,
+            new DbSet<PlayerCharacter>(
+                (await this._db.getCollection(DatabaseCollectionNames.playerCharacters)).map((obj) =>
+                    Object.assign(new PlayerCharacter(), obj)
+                )
             )
         );
     }

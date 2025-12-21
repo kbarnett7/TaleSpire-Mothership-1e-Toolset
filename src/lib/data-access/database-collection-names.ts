@@ -5,4 +5,5 @@ export class DatabaseCollectionNames {
     static equipment: string = "equipment";
     static weapons: string = "weapons";
     static npcs: string = "npcs";
+    static playerCharacters: string = "playerCharacters";
 }
