@@ -63,7 +63,7 @@ export class PlayerCharacterListComponent extends BaseListComponent {
             <td class="p-2">${pc.characterClass}</td>
         `;
 
-        row.addEventListener("click", () => this.onTableDataRowClick(pc));
+        row.addEventListener("click", (event: MouseEvent) => this.onTableDataRowClick(pc));
 
         return row;
     }
@@ -90,17 +90,20 @@ export class PlayerCharacterListComponent extends BaseListComponent {
     }
 
     public onTableDataRowClick(pc: PlayerCharacterListItem) {
-        const dialog = this.shadow.querySelector("#playerCharacterDisplayDialog") as PlayerCharacterDisplayDialogComponent;
+        const modal = this.shadow.querySelector(
+            "#playerCharacterDisplayDialog",
+        ) as PlayerCharacterDisplayDialogComponent;
 
-        if (!dialog) {
+        if (!modal) {
             this.dispatchErrorEvent('Dialog "playerCharacterDisplayDialog" not found.');
             return;
         }
 
         EventBus.instance.dispatch(new UiReportableErrorClearedEvent());
 
-        dialog.setPlayerCharacter(pc.id);
-        dialog.openModal();
+        modal.setPlayerCharacter(pc.id);
+
+        modal.openModal();
     }
 
     private onPlayerCharacterFilterChangedEvent: AppEventListener = (event: AppEvent) => {

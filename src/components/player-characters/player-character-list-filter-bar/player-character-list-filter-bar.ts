@@ -40,9 +40,9 @@ export class PlayerCharacterListFilterBarComponent extends BaseListFilterBarComp
     };
 
     protected dispatchFilterChangedEvent() {
-        EventBus.instance.dispatch(
-            new PlayerCharacterFilterChangedEvent(this.currentSearch, this.currentCharacterClass),
-        );
+        const appEvent = new PlayerCharacterFilterChangedEvent(this.currentSearch, this.currentCharacterClass);
+
+        EventBus.instance.dispatch(appEvent);
     }
 }
 

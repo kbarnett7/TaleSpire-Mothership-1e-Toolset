@@ -42,6 +42,10 @@ export class PlayerCharacterDisplayDialogComponent extends BaseComponent {
 
     public connectedCallback() {
         this.render(html);
+        this.configureDeleteConfirmationModal();
+    }
+
+    private configureDeleteConfirmationModal() {
         this.deleteConfirmationDialogElement.onConfirmCallback = this.onDeletePlayerCharacterConfirmation;
     }
 
@@ -68,9 +72,7 @@ export class PlayerCharacterDisplayDialogComponent extends BaseComponent {
     }
 
     private dispatchModalNotFoundEvent() {
-        EventBus.instance.dispatch(
-            new UiReportableErrorOccurredEvent('Modal "playerCharacterModal" not found.')
-        );
+        EventBus.instance.dispatch(new UiReportableErrorOccurredEvent('Modal "playerCharacterModal" not found.'));
     }
 
     public setPlayerCharacter(id: number) {
@@ -88,7 +90,7 @@ export class PlayerCharacterDisplayDialogComponent extends BaseComponent {
     public onEditButtonClick(event: MouseEvent) {
         PageRouterService.instance.navigateToPage(
             PageRouterService.playerCharacterPage,
-            this._playerCharacter.id.toString()
+            this._playerCharacter.id.toString(),
         );
     }
 
@@ -106,7 +108,7 @@ export class PlayerCharacterDisplayDialogComponent extends BaseComponent {
 
         if (result.isFailure) {
             EventBus.instance.dispatch(
-                new UiReportableErrorOccurredEvent(result.error.description, result.error.details)
+                new UiReportableErrorOccurredEvent(result.error.description, result.error.details),
             );
         } else {
             EventBus.instance.dispatch(new UiReportableErrorClearedEvent());

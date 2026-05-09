@@ -10,8 +10,6 @@ import { UiReportableErrorClearedEvent } from "../../../lib/events/ui-reportable
 import { SaveCustomNpcRequest } from "../../../features/npcs/save-custom-npc/save-custom-npc-request";
 import { SaveCustomNpcFeature } from "../../../features/npcs/save-custom-npc/save-custom-npc-feature";
 import { NpcFormFieldsDto } from "../../../features/npcs/npc-form-fields-dto";
-import { IAsyncFeature } from "../../../lib/common/features/async-feature-interface";
-import { Result } from "../../../lib/result/result";
 import { ResultError } from "../../../lib/result/result-error";
 import { UiReportableErrorOccurredEvent } from "../../../lib/events/ui-reportable-error-occurred-event";
 import { GetNpcByIdRequest } from "../../../features/npcs/get-npc-by-id/get-npc-by-id-request";
@@ -109,7 +107,7 @@ export class NpcComponent extends BasePageComponent {
 
     private getNpcFormFields(formData: FormData): NpcFormFieldsDto {
         return NpcFormFieldsDto.createFromJson(
-            formData.get("npcFields")?.toString() ?? new NpcFormFieldsDto().toJson()
+            formData.get("npcFields")?.toString() ?? new NpcFormFieldsDto().toJson(),
         );
     }
 

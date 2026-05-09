@@ -20,7 +20,7 @@ export class PlayerCharacter extends DatabaseEntity {
         this.validationResults.length = 0;
 
         this.validateName()
-            .validateItemDoesNotAlreadyExist(unitOfWork)
+            .validatePlayerCharacterDoesNotAlreadyExist(unitOfWork)
             .validateCharacterClass()
             .validateDescription();
 
@@ -31,20 +31,20 @@ export class PlayerCharacter extends DatabaseEntity {
         if (this.name.trim() === "") {
             this.validationResults.push(`The name "${this.name}" is invalid. The name cannot be empty.`);
         } else if (this.name.trim().length > 100) {
-            this.validationResults.push(
-                `The name "${this.name}" is invalid. The name must be 100 characters or less.`
-            );
+            this.validationResults.push(`The name "${this.name}" is invalid. The name must be 100 characters or less.`);
         }
 
         return this;
     }
 
-    private validateItemDoesNotAlreadyExist(unitOfWork: IUnitOfWork): PlayerCharacter {
-        const existing = unitOfWork.repo(PlayerCharacter).first((item) => item.name === this.name);
+    private validatePlayerCharacterDoesNotAlreadyExist(unitOfWork: IUnitOfWork): PlayerCharacter {
+        const existing = unitOfWork
+            .repo(PlayerCharacter)
+            .first((playerCharacter) => playerCharacter.name === this.name);
 
         if (existing && existing.id !== this.id) {
             this.validationResults.push(
-                `A player character with the name "${this.name}" already exists. The name must be unique.`
+                `A player character with the name "${this.name}" already exists. The name must be unique.`,
             );
         }
 
@@ -56,7 +56,7 @@ export class PlayerCharacter extends DatabaseEntity {
             this.validationResults.push("The character class cannot be empty.");
         } else if (this.characterClass.trim().length > 100) {
             this.validationResults.push(
-                `The character class "${this.characterClass}" is invalid. The character class must be 100 characters or less.`
+                `The character class "${this.characterClass}" is invalid. The character class must be 100 characters or less.`,
             );
         }
 
@@ -66,7 +66,7 @@ export class PlayerCharacter extends DatabaseEntity {
     private validateDescription(): PlayerCharacter {
         if (this.description.trim().length > 5000) {
             this.validationResults.push(
-                `The description is invalid. The description must be 5,000 characters or less.`
+                `The description is invalid. The description must be 5,000 characters or less.`,
             );
         }
 
@@ -91,7 +91,7 @@ export class PlayerCharacter extends DatabaseEntity {
 
     private updateInDatabase(unitOfWork: IUnitOfWork): void {
         const repository = unitOfWork.repo(PlayerCharacter);
-        const existing = repository.first((item) => item.id === this.id) ?? new PlayerCharacter();
+        const existing = repository.first((playerCharacter) => playerCharacter.id === this.id) ?? new PlayerCharacter();
 
         if (existing.id === 0) {
             this.addToDatabase(unitOfWork);
