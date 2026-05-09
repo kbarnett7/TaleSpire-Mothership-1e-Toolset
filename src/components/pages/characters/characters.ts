@@ -1,16 +1,14 @@
 import html from "./characters.html";
 import { BasePageComponent } from "../base-page.component";
-import { IUnitOfWork } from "../../../lib/common/data-access/unit-of-work-interface";
-import { appInjector } from "../../../lib/infrastructure/app-injector";
-import { UnitOfWork } from "../../../lib/data-access/unit-of-work";
-import { DatabaseVersion } from "../../../features/database-versions/database-version";
+import { AddNewEntityButtonClicked } from "../../../lib/events/add-new-entity-button-clicked";
+import { EventBus } from "../../../lib/events/event-bus";
+import { AppEventListener } from "../../../lib/events/app-event-listener-interface";
+import { AppEvent } from "../../../lib/events/app-event";
+import { PageRouterService } from "../../../lib/pages/page-router-service";
 
 export class CharactersComponent extends BasePageComponent {
-    protected unitOfWork: IUnitOfWork;
-
     constructor() {
         super();
-        this.unitOfWork = appInjector.injectClass(UnitOfWork);
     }
 
     public async connectedCallback() {
@@ -18,13 +16,16 @@ export class CharactersComponent extends BasePageComponent {
 
         this.render(html);
 
-        const element = this.shadow.querySelector("#tempElement");
-
-        if (element) {
-            let dbVersion = this.unitOfWork.repo(DatabaseVersion).first() ?? new DatabaseVersion(0, "0");
-            element.textContent = `Database Version: ${dbVersion?.version}`;
-        }
+        EventBus.instance.register(AddNewEntityButtonClicked.name, this.onAddNewPlayerCharacterButtonClick);
     }
+
+    public disconnectedCallback() {
+        EventBus.instance.unregister(AddNewEntityButtonClicked.name, this.onAddNewPlayerCharacterButtonClick);
+    }
+
+    private onAddNewPlayerCharacterButtonClick: AppEventListener = (event: AppEvent) => {
+        PageRouterService.instance.navigateToPage(PageRouterService.playerCharacterPage, "0");
+    };
 }
 
 customElements.define("characters-page", CharactersComponent);

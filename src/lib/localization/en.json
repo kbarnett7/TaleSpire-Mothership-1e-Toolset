@@ -18,5 +18,9 @@
 
     "createCustomNpcFailed": "Failed to create custom NPC.",
     "editCustomNpcFailed": "Failed to edit custom NPC.",
-    "deleteCustomNpcFailed": "Failed to delete NPC."
+    "deleteCustomNpcFailed": "Failed to delete NPC.",
+
+    "createPlayerCharacterFailed": "Failed to create player character.",
+    "editPlayerCharacterFailed": "Failed to edit player character.",
+    "deletePlayerCharacterFailed": "Failed to delete player character."
 }

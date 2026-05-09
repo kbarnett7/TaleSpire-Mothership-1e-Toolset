@@ -7,7 +7,7 @@ import { BaseComponent } from "../base.component";
 import { CustomSelectComponent } from "../custom-select/custom-select";
 
 export abstract class BaseListFilterBarComponent extends BaseComponent {
-    private unitOfWork: IUnitOfWork;
+    protected unitOfWork: IUnitOfWork;
 
     protected currentSearch: string;
     protected currentSourceId: number;
