@@ -11,8 +11,6 @@ export class GetPlayerCharacterByIdFeature implements IFeature<GetPlayerCharacte
     }
 
     public handle(request: GetPlayerCharacterByIdRequest): PlayerCharacter {
-        return (
-            this.unitOfWork.repo(PlayerCharacter).first((pc) => pc.id === request.id) ?? new PlayerCharacter()
-        );
+        return this.unitOfWork.repo(PlayerCharacter).first((pc) => pc.id === request.id) ?? new PlayerCharacter();
     }
 }

@@ -3,11 +3,9 @@ import { PlayerCharacterListItem } from "../../src/features/player-characters/pl
 export class PlayerCharacterTestUtils {
     static getPlayerCharacterItemByName(
         playerCharacters: PlayerCharacterListItem[],
-        name: string
+        name: string,
     ): PlayerCharacterListItem {
-        const foundItem = playerCharacters.find(
-            (playerCharacter) => playerCharacter.name.toLocaleLowerCase() === name.toLocaleLowerCase()
-        );
+        const foundItem = playerCharacters.find((pc) => pc.name.toLocaleLowerCase() === name.toLocaleLowerCase());
 
         return foundItem || new PlayerCharacterListItem(0, "", "", "");
     }
@@ -16,7 +14,7 @@ export class PlayerCharacterTestUtils {
         actualPlayerCharacter: PlayerCharacterListItem,
         expectedId: number,
         expectedName: string,
-        expectedCharacterClass: string
+        expectedCharacterClass: string,
     ) {
         expect(actualPlayerCharacter.id).toBe(expectedId);
         expect(actualPlayerCharacter.name).toBe(expectedName);

@@ -38,9 +38,7 @@ export class PlayerCharacter extends DatabaseEntity {
     }
 
     private validatePlayerCharacterDoesNotAlreadyExist(unitOfWork: IUnitOfWork): PlayerCharacter {
-        const existing = unitOfWork
-            .repo(PlayerCharacter)
-            .first((playerCharacter) => playerCharacter.name === this.name);
+        const existing = unitOfWork.repo(PlayerCharacter).first((pc) => pc.name === this.name);
 
         if (existing && existing.id !== this.id) {
             this.validationResults.push(
@@ -91,7 +89,7 @@ export class PlayerCharacter extends DatabaseEntity {
 
     private updateInDatabase(unitOfWork: IUnitOfWork): void {
         const repository = unitOfWork.repo(PlayerCharacter);
-        const existing = repository.first((playerCharacter) => playerCharacter.id === this.id) ?? new PlayerCharacter();
+        const existing = repository.first((pc) => pc.id === this.id) ?? new PlayerCharacter();
 
         if (existing.id === 0) {
             this.addToDatabase(unitOfWork);

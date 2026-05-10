@@ -25,7 +25,7 @@ export class FilterPlayerCharactersListFeature
             filteredItems = this.applySearchFilter<PlayerCharacterListItem>(
                 filteredItems,
                 request.search,
-                this.getSearchField
+                this.getSearchField,
             );
             filteredItems = this.applyClassFilter(filteredItems, request.characterClass);
 
