@@ -13,7 +13,7 @@ describe("DeletePlayerCharacterFeature", () => {
     let request: DeletePlayerCharacterRequest;
     let feature: DeletePlayerCharacterFeature;
     let largestPcId: number;
-    let originalCount: number;
+    let originalNumberOfPcsInDatabase: number;
 
     beforeEach(async () => {
         const dbContext = await DataAccessUtils.getInitializedDbContext();
@@ -65,7 +65,7 @@ describe("DeletePlayerCharacterFeature", () => {
         expect(result.isSuccess).toBe(true);
         expect(result.value).toBe(pcId);
         expect(deletedPc).toBeUndefined();
-        expect(countAfterDelete).toBe(originalCount);
+        expect(countAfterDelete).toBe(originalNumberOfPcsInDatabase);
     });
 
     it("should succeed for any player character (all PCs are deletable)", async () => {
@@ -83,11 +83,11 @@ describe("DeletePlayerCharacterFeature", () => {
     function setOriginalCount() {
         const getAllFeature = new GetAllPlayerCharactersFeature(unitOfWork);
         const pcs: PlayerCharacterListItem[] = getAllFeature.handle(new EmptyRequest());
-        originalCount = pcs.length;
+        originalNumberOfPcsInDatabase = pcs.length;
     }
 
     function assertNoPlayerCharactersDeletedFromDatabase() {
         const count = unitOfWork.repo(PlayerCharacter).list().length;
-        expect(count).toBe(originalCount);
+        expect(count).toBe(originalNumberOfPcsInDatabase);
     }
 });

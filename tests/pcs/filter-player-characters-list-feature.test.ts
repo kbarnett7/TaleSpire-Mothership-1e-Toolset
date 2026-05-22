@@ -11,7 +11,7 @@ describe("FilterPlayerCharactersListFeature", () => {
     let unitOfWork: UnitOfWork;
     let feature: FilterPlayerCharactersListFeature;
     let request: FilterPlayerCharactersListRequest;
-    let totalCount: number;
+    let originalNumberOfPcsInDatabase: number;
 
     beforeEach(async () => {
         const dbContext = await DataAccessUtils.getInitializedDbContext();
@@ -20,7 +20,7 @@ describe("FilterPlayerCharactersListFeature", () => {
         request = new FilterPlayerCharactersListRequest();
 
         const getAllFeature = new GetAllPlayerCharactersFeature(unitOfWork);
-        totalCount = getAllFeature.handle(new EmptyRequest()).length;
+        originalNumberOfPcsInDatabase = getAllFeature.handle(new EmptyRequest()).length;
     });
 
     it("Returns all player characters when search is empty and class is empty", () => {
@@ -33,7 +33,7 @@ describe("FilterPlayerCharactersListFeature", () => {
 
         // Assert
         expect(result.isSuccess).toBe(true);
-        expect(result.value?.length).toBe(totalCount);
+        expect(result.value?.length).toBe(originalNumberOfPcsInDatabase);
     });
 
     it("Returns matching player characters when searching by name (case-insensitive)", () => {
@@ -84,7 +84,7 @@ describe("FilterPlayerCharactersListFeature", () => {
 
         // Assert
         expect(result.isSuccess).toBe(true);
-        expect(result.value?.length).toBe(totalCount);
+        expect(result.value?.length).toBe(originalNumberOfPcsInDatabase);
     });
 
     it("Returns only player characters of the specified class", () => {
