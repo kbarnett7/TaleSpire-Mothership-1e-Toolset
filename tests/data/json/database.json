@@ -326,27 +326,33 @@
     "playerCharacters": [
         {
             "id": 1,
-            "name": "Test Android A",
+            "name": "Android A",
             "characterClass": "Android",
             "description": "Test android player character."
         },
         {
             "id": 2,
-            "name": "Test Scientist A",
+            "name": "Scientist A",
             "characterClass": "Scientist",
             "description": "Test scientist player character."
         },
         {
             "id": 3,
-            "name": "Test Marine A",
+            "name": "Marine A",
             "characterClass": "Marine",
             "description": "Test marine player character."
         },
         {
             "id": 4,
-            "name": "Test Teamster A",
+            "name": "Teamster A",
             "characterClass": "Teamster",
             "description": "Test teamster player character."
+        },
+        {
+            "id": 5,
+            "name": "Teamster A (elder)",
+            "characterClass": "Teamster",
+            "description": "Test elder teamster player character."
         }
     ],
     "sources": [

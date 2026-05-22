@@ -48,7 +48,7 @@ describe("SavePlayerCharacterFeature", () => {
         AssertUtils.expectResultToBeFailure(
             result,
             ErrorCode.CreateError,
-            LocalizationService.instance.translate(MessageKeys.createPlayerCharacterFailed)
+            LocalizationService.instance.translate(MessageKeys.createPlayerCharacterFailed),
         );
         expect(result.error.details.length).toBe(1);
         expect(result.error.details[0]).toContain("Mocked");
@@ -71,7 +71,7 @@ describe("SavePlayerCharacterFeature", () => {
         AssertUtils.expectResultToBeFailure(
             result,
             ErrorCode.EditError,
-            LocalizationService.instance.translate(MessageKeys.editPlayerCharacterFailed)
+            LocalizationService.instance.translate(MessageKeys.editPlayerCharacterFailed),
         );
         expect(result.error.details.length).toBe(1);
         expect(result.error.details[0]).toContain("Mocked");
@@ -90,7 +90,7 @@ describe("SavePlayerCharacterFeature", () => {
         AssertUtils.expectResultToBeFailure(
             result,
             ErrorCode.CreateError,
-            LocalizationService.instance.translate(MessageKeys.createPlayerCharacterFailed)
+            LocalizationService.instance.translate(MessageKeys.createPlayerCharacterFailed),
         );
     });
 
@@ -109,7 +109,7 @@ describe("SavePlayerCharacterFeature", () => {
         AssertUtils.expectResultToBeFailure(
             result,
             ErrorCode.EditError,
-            LocalizationService.instance.translate(MessageKeys.editPlayerCharacterFailed)
+            LocalizationService.instance.translate(MessageKeys.editPlayerCharacterFailed),
         );
     });
 
@@ -126,7 +126,7 @@ describe("SavePlayerCharacterFeature", () => {
         AssertUtils.expectResultToBeFailure(
             result,
             ErrorCode.CreateError,
-            LocalizationService.instance.translate(MessageKeys.createPlayerCharacterFailed)
+            LocalizationService.instance.translate(MessageKeys.createPlayerCharacterFailed),
         );
         expect(result.error.details.length).toBe(1);
         expect(result.error.details[0]).toContain("name");
@@ -146,7 +146,7 @@ describe("SavePlayerCharacterFeature", () => {
         AssertUtils.expectResultToBeFailure(
             result,
             ErrorCode.CreateError,
-            LocalizationService.instance.translate(MessageKeys.createPlayerCharacterFailed)
+            LocalizationService.instance.translate(MessageKeys.createPlayerCharacterFailed),
         );
         expect(result.error.details.length).toBe(1);
         expect(result.error.details[0]).toContain("name");
@@ -156,7 +156,7 @@ describe("SavePlayerCharacterFeature", () => {
     it("should fail when adding a player character if another with the same name already exists", async () => {
         // Arrange
         const formFields = getValidFormFields();
-        formFields.name = "Test Android A";
+        formFields.name = "Android A";
         request.formFields = formFields;
 
         // Act
@@ -166,10 +166,10 @@ describe("SavePlayerCharacterFeature", () => {
         AssertUtils.expectResultToBeFailure(
             result,
             ErrorCode.CreateError,
-            LocalizationService.instance.translate(MessageKeys.createPlayerCharacterFailed)
+            LocalizationService.instance.translate(MessageKeys.createPlayerCharacterFailed),
         );
         expect(result.error.details.length).toBe(1);
-        expect(result.error.details[0]).toContain("Test Android A");
+        expect(result.error.details[0]).toContain("Android A");
         expect(result.error.details[0]).toContain("already exists");
     });
 
@@ -186,7 +186,7 @@ describe("SavePlayerCharacterFeature", () => {
         AssertUtils.expectResultToBeFailure(
             result,
             ErrorCode.CreateError,
-            LocalizationService.instance.translate(MessageKeys.createPlayerCharacterFailed)
+            LocalizationService.instance.translate(MessageKeys.createPlayerCharacterFailed),
         );
         expect(result.error.details.length).toBe(1);
         expect(result.error.details[0]).toContain("class");
@@ -206,7 +206,7 @@ describe("SavePlayerCharacterFeature", () => {
         AssertUtils.expectResultToBeFailure(
             result,
             ErrorCode.CreateError,
-            LocalizationService.instance.translate(MessageKeys.createPlayerCharacterFailed)
+            LocalizationService.instance.translate(MessageKeys.createPlayerCharacterFailed),
         );
         expect(result.error.details.length).toBe(1);
         expect(result.error.details[0]).toContain("class");
@@ -226,7 +226,7 @@ describe("SavePlayerCharacterFeature", () => {
         AssertUtils.expectResultToBeFailure(
             result,
             ErrorCode.CreateError,
-            LocalizationService.instance.translate(MessageKeys.createPlayerCharacterFailed)
+            LocalizationService.instance.translate(MessageKeys.createPlayerCharacterFailed),
         );
         expect(result.error.details.length).toBe(1);
         expect(result.error.details[0]).toContain("description");

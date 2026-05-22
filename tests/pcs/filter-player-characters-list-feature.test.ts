@@ -6,6 +6,7 @@ import { UnitOfWork } from "../../src/lib/data-access/unit-of-work";
 import { DataAccessUtils } from "../data-access/data-access-utils";
 import { GetAllPlayerCharactersFeature } from "../../src/features/player-characters/get-all-player-characters/get-all-player-characters-feature";
 import { EmptyRequest } from "../../src/lib/common/features/empty-request";
+import { ErrorCode } from "../../src/lib/errors/error-code";
 
 describe("FilterPlayerCharactersListFeature", () => {
     let unitOfWork: UnitOfWork;
@@ -23,7 +24,27 @@ describe("FilterPlayerCharactersListFeature", () => {
         originalNumberOfPcsInDatabase = getAllFeature.handle(new EmptyRequest()).length;
     });
 
-    it("Returns all player characters when search is empty and class is empty", () => {
+    it("When exception occurs returns a failure result with error information", () => {
+        // Arrange
+        // Turn the search field into a get() property so that we can mock throwing an exception
+        Object.defineProperty(request, "search", {
+            get: jest.fn().mockImplementation(() => {
+                throw new Error("Mocked exception");
+            }),
+        });
+
+        // Act
+        const result: Result<PlayerCharacterListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isFailure).toBe(true);
+        expect(result.value).not.toBeDefined();
+        expect(result.error).toBeDefined();
+        expect(result.error.code).toBe(ErrorCode.QueryError);
+        expect(result.error.description).toContain("Mocked exception");
+    });
+
+    it("By empty name and class returns all player character list items", () => {
         // Arrange
         request.search = "";
         request.characterClass = "";
@@ -36,7 +57,126 @@ describe("FilterPlayerCharactersListFeature", () => {
         expect(result.value?.length).toBe(originalNumberOfPcsInDatabase);
     });
 
-    it("Returns matching player characters when searching by name (case-insensitive)", () => {
+    it("By empty name returns all player character list items", () => {
+        // Arrange
+        request.search = "";
+
+        // Act
+        const result: Result<PlayerCharacterListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value?.length).toBe(originalNumberOfPcsInDatabase);
+    });
+
+    it('By " " (empty space) name returns all player character list items', () => {
+        // Arrange
+        request.search = " ";
+
+        // Act
+        const result: Result<PlayerCharacterListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value?.length).toBe(originalNumberOfPcsInDatabase);
+    });
+
+    it('By "st" name returns all player character list items with names that have "st" in them', () => {
+        // Arrange
+        request.search = "st";
+        const searchRegEx = new RegExp(`^.*(${request.search})+.*$`);
+
+        // Act
+        const result: Result<PlayerCharacterListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value?.length).toBe(3);
+
+        const pcs = result.value ?? [];
+
+        pcs.forEach((item) => {
+            expect(item.name.toLowerCase()).toMatch(searchRegEx);
+        });
+    });
+
+    it('By "ST" name returns all player character list items with names that have "st" in them (case-insensitive)', () => {
+        // Arrange
+        request.search = "st";
+        const searchRegEx = new RegExp(`^.*(${request.search})+.*$`);
+
+        // Act
+        const result: Result<PlayerCharacterListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value?.length).toBe(3);
+
+        const pcs = result.value ?? [];
+
+        pcs.forEach((item) => {
+            expect(item.name.toLowerCase()).toMatch(searchRegEx);
+        });
+    });
+
+    it('By " st" (empty space prefix) name returns all player character list items with names that have "st" in them', () => {
+        // Arrange
+        request.search = "st";
+        const searchRegEx = new RegExp(`^.*(${request.search})+.*$`);
+
+        // Act
+        const result: Result<PlayerCharacterListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value?.length).toBe(3);
+
+        const pcs = result.value ?? [];
+
+        pcs.forEach((item) => {
+            expect(item.name.toLowerCase()).toMatch(searchRegEx);
+        });
+    });
+
+    it('By "st " (empty space suffix) name returns all player character list items with names that have "st" in them', () => {
+        // Arrange
+        request.search = "st";
+        const searchRegEx = new RegExp(`^.*(${request.search})+.*$`);
+
+        // Act
+        const result: Result<PlayerCharacterListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value?.length).toBe(3);
+
+        const pcs = result.value ?? [];
+
+        pcs.forEach((item) => {
+            expect(item.name.toLowerCase()).toMatch(searchRegEx);
+        });
+    });
+
+    it("By name with a regular expression character in it returns all player character list items with the regular expression character", () => {
+        // Arrange
+        request.search = "(";
+        const searchRegEx = new RegExp(`^.*(${request.search.replace("(", "\\$&")})+.*$`);
+
+        // Act
+        const result: Result<PlayerCharacterListItem[]> = feature.handle(request);
+
+        // Assert
+        expect(result.isSuccess).toBe(true);
+        expect(result.value?.length).toBe(1);
+
+        const pcs = result.value ?? [];
+
+        pcs.forEach((item) => {
+            expect(item.name.toLowerCase()).toMatch(searchRegEx);
+        });
+    });
+
+    it("When searching by name (case-insensitive) returns matching player characters", () => {
         // Arrange
         request.search = "android";
 
@@ -51,7 +191,7 @@ describe("FilterPlayerCharactersListFeature", () => {
         });
     });
 
-    it("Returns empty list when search matches no player characters", () => {
+    it("When search matches no player characters returns empty list", () => {
         // Arrange
         request.search = "zzznomatchzzz";
 
@@ -75,7 +215,7 @@ describe("FilterPlayerCharactersListFeature", () => {
         expect(result.value?.length).toBe(0);
     });
 
-    it("Returns all player characters when characterClass is empty", () => {
+    it("When characterClass is empty returns all player characters", () => {
         // Arrange
         request.characterClass = "";
 
@@ -87,7 +227,7 @@ describe("FilterPlayerCharactersListFeature", () => {
         expect(result.value?.length).toBe(originalNumberOfPcsInDatabase);
     });
 
-    it("Returns only player characters of the specified class", () => {
+    it("When searching by class returns only player characters of the specified class", () => {
         // Arrange
         request.characterClass = "Android";
 
@@ -102,7 +242,7 @@ describe("FilterPlayerCharactersListFeature", () => {
         });
     });
 
-    it("Returns empty list when characterClass does not match any player character", () => {
+    it("When characterClass does not match any player character returns empty list", () => {
         // Arrange
         request.characterClass = "NonExistentClass";
 
@@ -112,19 +252,5 @@ describe("FilterPlayerCharactersListFeature", () => {
         // Assert
         expect(result.isSuccess).toBe(true);
         expect(result.value?.length).toBe(0);
-    });
-
-    it("Returns failure result when an exception is thrown", () => {
-        // Arrange
-        jest.spyOn(unitOfWork, "repo").mockImplementation(() => {
-            throw new Error("Test error");
-        });
-
-        // Act
-        const result: Result<PlayerCharacterListItem[]> = feature.handle(request);
-
-        // Assert
-        expect(result.isFailure).toBe(true);
-        expect(result.error.description).toContain("Test error");
     });
 });

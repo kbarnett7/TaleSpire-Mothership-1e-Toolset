@@ -37,7 +37,7 @@ describe("GetPlayerCharacterById Feature", () => {
 
         // Assert
         expect(result.id).toBe(1);
-        expect(result.name).toBe("Test Android A");
+        expect(result.name).toBe("Android A");
         expect(result.characterClass).toBe("Android");
     });
 
