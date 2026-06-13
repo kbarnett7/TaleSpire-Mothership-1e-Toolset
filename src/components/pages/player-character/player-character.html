@@ -1,0 +1,15 @@
+<error-panel></error-panel>
+
+<form id="playerCharacterForm" class="mb-18" onsubmit="this.handleFormSubmit(event)">
+    <player-character-form-fields id="playerCharacterFields" name="playerCharacterFields"></player-character-form-fields>
+
+    <div class="flex justify-center-safe">
+        <button
+            type="submit"
+            class="text-white bg-black hover:bg-gray-900 active:bg-gray-700 font-bold min-w-32 px-4 py-1 my-2 mr-2 rounded-full transition duration-150 ease-in-out cursor-pointer uppercase"
+        >
+            Save
+        </button>
+        <secondary-button onclick="this.handleCancelButtonClick(event)">Cancel</secondary-button>
+    </div>
+</form>

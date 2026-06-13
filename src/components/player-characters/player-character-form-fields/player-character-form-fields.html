@@ -1,0 +1,40 @@
+<div class="grid grid-cols-1 gap-1 mb-3">
+    <label for="inputName" class="text-lg font-semibold uppercase">Name</label>
+    <input
+        id="inputName"
+        name="inputName"
+        type="text"
+        class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+        placeholder="Enter the player character's name..."
+        aria-placeholder="Enter the player character's name..."
+        required
+        aria-required
+        maxlength="100"
+        onchange="this.handleOnNameInputChanged(event)"
+    />
+</div>
+
+<div class="grid grid-cols-1 gap-1 mb-3">
+    <label for="inputClass" class="text-lg font-semibold uppercase">Class</label>
+    <select
+        id="inputClass"
+        name="inputClass"
+        class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0 cursor-pointer"
+        required
+        aria-required
+        onchange="this.handleOnClassInputChanged(event)"
+    ></select>
+</div>
+
+<div class="grid grid-cols-1 gap-1 mb-3">
+    <label for="inputDescription" class="text-lg font-semibold uppercase">Description</label>
+    <textarea
+        id="inputDescription"
+        class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+        placeholder="Enter a description of the player character..."
+        aria-placeholder="Enter a description of the player character..."
+        rows="3"
+        maxlength="5000"
+        onchange="this.handleOnDescriptionInputChanged(event)"
+    ></textarea>
+</div>

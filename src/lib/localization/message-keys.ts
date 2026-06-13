@@ -14,4 +14,8 @@ export class MessageKeys {
     static createCustomNpcFailed: string = "createCustomNpcFailed";
     static editCustomNpcFailed: string = "editCustomNpcFailed";
     static deleteCustomNpcFailed: string = "deleteCustomNpcFailed";
+
+    static createPlayerCharacterFailed: string = "createPlayerCharacterFailed";
+    static editPlayerCharacterFailed: string = "editPlayerCharacterFailed";
+    static deletePlayerCharacterFailed: string = "deletePlayerCharacterFailed";
 }

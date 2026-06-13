@@ -29,7 +29,7 @@ export class Npc extends DatabaseEntity {
         health?: number,
         maximumWounds?: number,
         attacks?: NpcAttack[],
-        specialAbilities?: NpcSpecialAbility[]
+        specialAbilities?: NpcSpecialAbility[],
     ) {
         super(id);
         this.sourceId = sourceId ?? 0;
@@ -49,7 +49,7 @@ export class Npc extends DatabaseEntity {
         this.validationResults.length = 0;
 
         this.validateName()
-            .validateItemDoesNotAlreadyExist(unitOfWork)
+            .validateNpcDoesNotAlreadyExist(unitOfWork)
             .validateDescription()
             .validateCombat()
             .validateInstinct()
@@ -67,19 +67,19 @@ export class Npc extends DatabaseEntity {
             this.validationResults.push(`The name \"${this.name}\" is invalid. The name cannot be empty.`);
         } else if (this.name.trim().length > 100) {
             this.validationResults.push(
-                `The name \"${this.name}\" is invalid. The name must be 100 characters or less.`
+                `The name \"${this.name}\" is invalid. The name must be 100 characters or less.`,
             );
         }
 
         return this;
     }
 
-    protected validateItemDoesNotAlreadyExist(unitOfWork: IUnitOfWork): Npc {
-        const existingNpc = unitOfWork.repo(Npc).first((item) => item.name === this.name);
+    protected validateNpcDoesNotAlreadyExist(unitOfWork: IUnitOfWork): Npc {
+        const existingNpc = unitOfWork.repo(Npc).first((npc) => npc.name === this.name);
 
         if (existingNpc && existingNpc.id !== this.id) {
             this.validationResults.push(
-                `An NPC with the name \"${this.name}\" already exists. The name must be unique.`
+                `An NPC with the name \"${this.name}\" already exists. The name must be unique.`,
             );
         }
 
@@ -89,7 +89,7 @@ export class Npc extends DatabaseEntity {
     private validateDescription(): Npc {
         if (this.description.trim().length > 5000) {
             this.validationResults.push(
-                `The description \"${this.description}\" is invalid. The description must be 5,000 characters or less.`
+                `The description \"${this.description}\" is invalid. The description must be 5,000 characters or less.`,
             );
         }
 
@@ -99,11 +99,11 @@ export class Npc extends DatabaseEntity {
     private validateCombat(): Npc {
         if (this.combat < 0) {
             this.validationResults.push(
-                `The combat \"${this.combat}\" is invalid. The combat must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`
+                `The combat \"${this.combat}\" is invalid. The combat must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
             );
         } else if (this.combat > 100) {
             this.validationResults.push(
-                `The combat \"${this.combat}\" is invalid. The combat must be between 0 and 100.`
+                `The combat \"${this.combat}\" is invalid. The combat must be between 0 and 100.`,
             );
         }
 
@@ -113,11 +113,11 @@ export class Npc extends DatabaseEntity {
     private validateInstinct(): Npc {
         if (this.instinct < 0) {
             this.validationResults.push(
-                `The instinct \"${this.instinct}\" is invalid. The instinct must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`
+                `The instinct \"${this.instinct}\" is invalid. The instinct must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
             );
         } else if (this.instinct > 100) {
             this.validationResults.push(
-                `The instinct \"${this.instinct}\" is invalid. The instinct must be between 0 and 100.`
+                `The instinct \"${this.instinct}\" is invalid. The instinct must be between 0 and 100.`,
             );
         }
 
@@ -127,11 +127,11 @@ export class Npc extends DatabaseEntity {
     private validateArmorPoints(): Npc {
         if (this.armorPoints < 0) {
             this.validationResults.push(
-                `The armor points \"${this.armorPoints}\" is invalid. The armor points must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`
+                `The armor points \"${this.armorPoints}\" is invalid. The armor points must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
             );
         } else if (this.armorPoints > 10) {
             this.validationResults.push(
-                `The armor points \"${this.armorPoints}\" is invalid. The armor points must be between 0 and 10.`
+                `The armor points \"${this.armorPoints}\" is invalid. The armor points must be between 0 and 10.`,
             );
         }
 
@@ -141,11 +141,11 @@ export class Npc extends DatabaseEntity {
     private validateHealth(): Npc {
         if (this.health < 0) {
             this.validationResults.push(
-                `The health \"${this.health}\" is invalid. The health must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`
+                `The health \"${this.health}\" is invalid. The health must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
             );
         } else if (this.health > 1000) {
             this.validationResults.push(
-                `The health \"${this.health}\" is invalid. The health must be between 0 and 1,000.`
+                `The health \"${this.health}\" is invalid. The health must be between 0 and 1,000.`,
             );
         }
 
@@ -155,11 +155,11 @@ export class Npc extends DatabaseEntity {
     private validateMaximumWounds(): Npc {
         if (this.maximumWounds < 0) {
             this.validationResults.push(
-                `The maximum wounds \"${this.maximumWounds}\" is invalid. The maximum wounds must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`
+                `The maximum wounds \"${this.maximumWounds}\" is invalid. The maximum wounds must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
             );
         } else if (this.maximumWounds > 100) {
             this.validationResults.push(
-                `The maximum wounds \"${this.maximumWounds}\" is invalid. The maximum wounds must be between 0 and 100.`
+                `The maximum wounds \"${this.maximumWounds}\" is invalid. The maximum wounds must be between 0 and 100.`,
             );
         }
 
@@ -207,7 +207,7 @@ export class Npc extends DatabaseEntity {
 
     private updateInDatabase(unitOfWork: IUnitOfWork): void {
         const repository = unitOfWork.repo(Npc);
-        const existingNpc = repository.first((item) => item.id === this.id) ?? new Npc();
+        const existingNpc = repository.first((npc) => npc.id === this.id) ?? new Npc();
 
         if (existingNpc.id === 0) {
             this.addToDatabase(unitOfWork);

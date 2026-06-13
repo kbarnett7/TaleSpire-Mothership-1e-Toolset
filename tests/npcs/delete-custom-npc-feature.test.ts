@@ -64,7 +64,7 @@ describe("DeleteCustomNpcFeature", () => {
         AssertUtils.expectResultToBeFailure(
             result,
             ErrorCode.DeleteError,
-            LocalizationService.instance.translate(MessageKeys.deleteCustomNpcFailed)
+            LocalizationService.instance.translate(MessageKeys.deleteCustomNpcFailed),
         );
         expect(result.error.details.length).toBe(1);
         expect(result.error.details[0]).toContain("not");
@@ -119,13 +119,13 @@ describe("DeleteCustomNpcFeature", () => {
             [
                 new NpcSpecialAbility("Test Ability 1", "Does scary stuff."),
                 new NpcSpecialAbility("Test Ability 2", "More scary stuff."),
-            ]
+            ],
         );
     }
 
     function assertNoNpcsDeletedFromDatabase() {
-        const countEquipmentInDatabase = unitOfWork.repo(Npc).list().length;
+        const countNpcsInDatabase = unitOfWork.repo(Npc).list().length;
 
-        expect(countEquipmentInDatabase).toBe(originalNumberOfNpcsInDatabase);
+        expect(countNpcsInDatabase).toBe(originalNumberOfNpcsInDatabase);
     }
 });
