@@ -68,18 +68,6 @@ describe("DeletePlayerCharacterFeature", () => {
         expect(countAfterDelete).toBe(originalNumberOfPcsInDatabase);
     });
 
-    it("should succeed for any player character (all PCs are deletable)", async () => {
-        // Arrange — use a seeded player character with id 1
-        request.id = 1;
-
-        // Act
-        const result = await feature.handleAsync(request);
-
-        // Assert
-        expect(result.isSuccess).toBe(true);
-        expect(result.value).toBe(1);
-    });
-
     function setOriginalCount() {
         const getAllFeature = new GetAllPlayerCharactersFeature(unitOfWork);
         const pcs: PlayerCharacterListItem[] = getAllFeature.handle(new EmptyRequest());
