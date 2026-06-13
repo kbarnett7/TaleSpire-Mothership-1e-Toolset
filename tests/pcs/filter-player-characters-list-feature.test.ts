@@ -120,9 +120,8 @@ describe("FilterPlayerCharactersListFeature", () => {
 
     it('By " st" (empty space prefix) name returns all player character list items with names that have "st" in them', () => {
         // Arrange
-        request.search = "st";
-        const searchRegEx = new RegExp(`^.*(${request.search})+.*$`);
-
+        request.search = " st";
+        const searchRegEx = new RegExp(`^.*(${request.search.trim().toLowerCase()})+.*$`);
         // Act
         const result: Result<PlayerCharacterListItem[]> = feature.handle(request);
 
