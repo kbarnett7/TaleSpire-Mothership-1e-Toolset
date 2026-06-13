@@ -44,10 +44,13 @@ export class PlayerCharacterFormFieldsComponent extends BaseComponent {
 
     private populateClassSelect() {
         const allPcs = this.unitOfWork.repo(PlayerCharacter).list();
-        const distinctClasses = [...new Set(allPcs.map((pc) => pc.characterClass))].sort();
+        const defaultClasses = ["Android", "Scientist", "Marine", "Teamster"];
+        const distinctClasses = [
+            ...new Set([...defaultClasses, ...allPcs.map((pc) => pc.characterClass)].filter((c) => c.trim() !== "")),
+        ].sort((a, b) => a.localeCompare(b));
 
         const selectEl = this.classSelectElement;
-        selectEl.innerHTML = "";
+        selectEl.replaceChildren();
 
         for (const cls of distinctClasses) {
             const option = document.createElement("option");
@@ -56,10 +59,11 @@ export class PlayerCharacterFormFieldsComponent extends BaseComponent {
             selectEl.appendChild(option);
         }
 
-        if (distinctClasses.length > 0) {
-            this._formFieldsDto.characterClass = distinctClasses[0];
-            this.updateFormValue();
-        }
+        // Ensure the DTO always has a valid, selectable value.
+        const selectedClass = distinctClasses[0] ?? "";
+        this._formFieldsDto.characterClass = selectedClass;
+        selectEl.value = selectedClass;
+        this.updateFormValue();
     }
 
     private updateFormValue() {
