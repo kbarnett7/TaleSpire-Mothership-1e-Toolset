@@ -102,9 +102,8 @@ describe("FilterPlayerCharactersListFeature", () => {
 
     it('By "ST" name returns all player character list items with names that have "st" in them (case-insensitive)', () => {
         // Arrange
-        request.search = "st";
-        const searchRegEx = new RegExp(`^.*(${request.search})+.*$`);
-
+        request.search = "ST";
+        const searchRegEx = new RegExp(`^.*(${request.search.toLowerCase()})+.*$`);
         // Act
         const result: Result<PlayerCharacterListItem[]> = feature.handle(request);
 
