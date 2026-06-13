@@ -39,7 +39,7 @@ export class SortPlayerCharactersListFeature
             return Result.failure(
                 new ResultError(
                     ErrorCode.QueryError,
-                    `Failed to sort Player Characters list due to the follow error: ${ex.message}`
+                    `Failed to sort Player Characters list due to the following error: ${ex.message}`
                 )
             );
         }
