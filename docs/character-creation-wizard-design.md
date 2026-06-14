@@ -2,17 +2,17 @@
 
 ## Finite State Machine
 
-| State                               | Next State | Is Skippable | Transition Conditions                                                           |
-| ----------------------------------- | ---------- | ------------ | ------------------------------------------------------------------------------- |
-| Step 1: Roll Stats                  | Step 2     | No           | Strength, Speed, Intellect, and Combat have values between 0 and 100 inclusive. |
-| Step 2: Roll Saves                  | Step 3     | No           | Sanity, Fear, and Body have values between 0 and 100 inclusive.                 |
-| Step 3: Choose Class                | Step 4     | No           | A class has been selected.                                                      |
-| Step 4: Roll Health                 | Step 5     | No           | Health has a value between 1 and 20. Wounds is between 0 and <MAX_WOUNDS>.      |
-| Step 5: Gain Stress                 | Step 6     | No           | TBD                                                                             |
-| Step 6: Note Trauma Response        | Step 7     | No           | TBD                                                                             |
-| Step 7: Choose Skills               | Step 8     | No           | TBD                                                                             |
-| Step 8: Loadout, Trinket, and Patch | Step 9     | Yes          | TBD                                                                             |
-| Step 9: Finishing                   | N/A        | No           | TBD                                                                             |
+| State                               | Next State | Skippable | Transition Conditions                                                           |
+| ----------------------------------- | ---------- | --------- | ------------------------------------------------------------------------------- |
+| Step 1: Roll Stats                  | Step 2     | No        | Strength, Speed, Intellect, and Combat have values between 0 and 100 inclusive. |
+| Step 2: Roll Saves                  | Step 3     | No        | Sanity, Fear, and Body have values between 0 and 100 inclusive.                 |
+| Step 3: Choose Class                | Step 4     | No        | A class has been selected.                                                      |
+| Step 4: Roll Health                 | Step 5     | No        | Health has a value between 1 and 20. Wounds is between 0 and <MAX_WOUNDS>.      |
+| Step 5: Gain Stress                 | Step 6     | No        | TBD                                                                             |
+| Step 6: Note Trauma Response        | Step 7     | No        | TBD                                                                             |
+| Step 7: Choose Skills               | Step 8     | No        | TBD                                                                             |
+| Step 8: Loadout, Trinket, and Patch | Step 9     | Yes       | TBD                                                                             |
+| Step 9: Finishing                   | N/A        | No        | TBD                                                                             |
 
 ## Code Design
 
@@ -25,9 +25,10 @@ WizardStateMachineBase
 
 WizardStepBase
 
-- PlayerCharacterRollStatsAndSavesStep
-- PlayerCharacterChooseClassStep
-- PlayerCharacterRollHealthStep
+- PlayerCharacterStepBase
+    - PlayerCharacterRollStatsAndSavesStep
+    - PlayerCharacterChooseClassStep
+    - PlayerCharacterRollHealthStep
 
 ### UI Classes
 
