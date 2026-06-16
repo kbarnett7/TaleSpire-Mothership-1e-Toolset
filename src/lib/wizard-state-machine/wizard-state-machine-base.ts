@@ -7,5 +7,9 @@ export abstract class WizardStateMachineBase {
         this.steps = steps;
     }
 
+    public get stepsCount(): number {
+        return this.steps.length;
+    }
+
     public abstract getCurrentStep(): WizardStepBase | null;
 }
