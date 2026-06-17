@@ -1,6 +1,6 @@
-import { WizardStepBase } from "../../../lib/wizard-state-machine/wizard-step-base";
+import { LinearWizardStepBase } from "../../../lib/wizard-state-machine/linear-wizard-step";
 
-export class GainStressWizardStep extends WizardStepBase {
+export class GainStressWizardStep extends LinearWizardStepBase {
     constructor() {
         super("Gain Stress");
     }

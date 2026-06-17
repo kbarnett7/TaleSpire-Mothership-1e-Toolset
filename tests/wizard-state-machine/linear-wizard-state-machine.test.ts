@@ -1,5 +1,7 @@
 import { LinearWizardStateMachine } from "../../src/lib/wizard-state-machine/linear-wizard-state-machine";
 import { WizardStepBase } from "../../src/lib/wizard-state-machine/wizard-step-base";
+import { TestStepOne } from "./test-step-one";
+import { TestStepTwo } from "./test-step-two";
 
 describe("LinearWizardStateMachine", () => {
     it("Should return null when getting the current step when the machine has no steps", () => {
@@ -167,5 +169,67 @@ describe("LinearWizardStateMachine", () => {
 
         // Assert
         expect(result).toBe(false);
+    });
+
+    it("Should return false and return the first step when the state machine attempts to move to next step but the step's transition conditions aren't met", () => {
+        // Arrange
+        const stepOne = new TestStepOne(false);
+        const stepTwo = new TestStepTwo(false);
+        const stateMachine = new LinearWizardStateMachine([stepOne, stepTwo]);
+
+        // Act
+        const moveResult = stateMachine.moveNext();
+        const currentStepresult = stateMachine.getCurrentStep();
+
+        // Assert
+        expect(moveResult).toBe(false);
+        expect(currentStepresult).toBe(stepOne);
+    });
+
+    it("Should return true and return the second step when the state machine attempts to move to next step and the step's transition conditions are met", () => {
+        // Arrange
+        const stepOne = new TestStepOne(true);
+        const stepTwo = new TestStepTwo(false);
+        const stateMachine = new LinearWizardStateMachine([stepOne, stepTwo]);
+
+        // Act
+        const moveResult = stateMachine.moveNext();
+        const currentStepresult = stateMachine.getCurrentStep();
+
+        // Assert
+        expect(moveResult).toBe(true);
+        expect(currentStepresult).toBe(stepTwo);
+    });
+
+    it("Should return false and return the second step when the state machine attempts to move to previous step but the step's transition conditions aren't met", () => {
+        // Arrange
+        const stepOne = new TestStepOne(true);
+        const stepTwo = new TestStepTwo(false);
+        const stateMachine = new LinearWizardStateMachine([stepOne, stepTwo]);
+        stateMachine.moveNext();
+
+        // Act
+        const moveResult = stateMachine.movePrevious();
+        const currentStepresult = stateMachine.getCurrentStep();
+
+        // Assert
+        expect(moveResult).toBe(false);
+        expect(currentStepresult).toBe(stepTwo);
+    });
+
+    it("Should return true and return the first step when the state machine attempts to move to previous step and the step's transition conditions are met", () => {
+        // Arrange
+        const stepOne = new TestStepOne(true);
+        const stepTwo = new TestStepTwo(true);
+        const stateMachine = new LinearWizardStateMachine([stepOne, stepTwo]);
+        stateMachine.moveNext();
+
+        // Act
+        const moveResult = stateMachine.movePrevious();
+        const currentStepresult = stateMachine.getCurrentStep();
+
+        // Assert
+        expect(moveResult).toBe(true);
+        expect(currentStepresult).toBe(stepOne);
     });
 });

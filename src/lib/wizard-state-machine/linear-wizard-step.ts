@@ -1,12 +1,8 @@
-export class WizardStepBase {
-    private _title: string;
+import { WizardStepBase } from "./wizard-step-base";
 
-    public get title(): string {
-        return this._title;
-    }
-
+export class LinearWizardStepBase extends WizardStepBase {
     constructor(title?: string) {
-        this._title = title ?? "";
+        super(title);
     }
 
     public canMoveNext(): boolean {
