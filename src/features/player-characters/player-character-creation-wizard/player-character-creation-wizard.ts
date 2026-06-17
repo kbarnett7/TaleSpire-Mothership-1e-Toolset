@@ -1,4 +1,5 @@
 import { LinearWizardStateMachine } from "../../../lib/wizard-state-machine/linear-wizard-state-machine";
+import { PlayerCharacter } from "../player-character";
 import { ChooseClassWizardStep } from "./choose-class-wizard-step";
 import { ChooseSkillsWizardStep } from "./choose-skills-wizard-step";
 import { FinishingWizardStep } from "./finishing-wizard-step";
@@ -10,9 +11,11 @@ import { RollSavesWizardStep } from "./roll-saves-wizard-step";
 import { RollStatsWizardStep } from "./roll-stats-wizard-step";
 
 export class PlayerCharacterCreationWizard extends LinearWizardStateMachine {
-    constructor() {
+    private playerCharacter: PlayerCharacter;
+
+    constructor(playerCharacter: PlayerCharacter) {
         super([
-            new RollStatsWizardStep(),
+            new RollStatsWizardStep(playerCharacter),
             new RollSavesWizardStep(),
             new ChooseClassWizardStep(),
             new RollHealthWizardStep(),
@@ -22,5 +25,7 @@ export class PlayerCharacterCreationWizard extends LinearWizardStateMachine {
             new RollLoadoutWizardStep(),
             new FinishingWizardStep(),
         ]);
+
+        this.playerCharacter = playerCharacter;
     }
 }

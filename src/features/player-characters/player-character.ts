@@ -5,15 +5,21 @@ export class PlayerCharacter extends DatabaseEntity {
     public name: string;
     public characterClass: string;
     public description: string;
+    public strength: number;
 
     private validationResults: string[];
 
-    constructor(id?: number, name?: string, characterClass?: string, description?: string) {
+    constructor(id?: number, name?: string, characterClass?: string, description?: string, strength?: number) {
         super(id);
         this.name = name ?? "";
         this.characterClass = characterClass ?? "";
         this.description = description ?? "";
+        this.strength = strength ?? 0;
         this.validationResults = [];
+    }
+
+    public getValidationResult(): ReadonlyArray<string> {
+        return this.validationResults;
     }
 
     public validate(unitOfWork: IUnitOfWork): string[] {
@@ -65,6 +71,20 @@ export class PlayerCharacter extends DatabaseEntity {
         if (this.description.trim().length > 5000) {
             this.validationResults.push(
                 `The description is invalid. The description must be 5,000 characters or less.`,
+            );
+        }
+
+        return this;
+    }
+
+    public validateStrength(): PlayerCharacter {
+        if (this.strength < 0) {
+            this.validationResults.push(
+                `The strength \"${this.strength}\" is invalid. The strength must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
+            );
+        } else if (this.strength > 100) {
+            this.validationResults.push(
+                `The strength \"${this.strength}\" is invalid. The strength must be between 0 and 100.`,
             );
         }
 

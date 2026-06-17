@@ -8,12 +8,4 @@ export class WizardStepBase {
     constructor(title?: string) {
         this._title = title ?? "";
     }
-
-    public canMoveNext(): boolean {
-        return true;
-    }
-
-    public canMovePrevious(): boolean {
-        return true;
-    }
 }

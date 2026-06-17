@@ -19,7 +19,7 @@ export class LinearWizardStateMachine extends WizardStateMachineBase {
     public moveNext(): boolean {
         if (this.steps.length === 0 || this.currentIndex >= this.steps.length - 1) return false;
 
-        if (!this.getCurrentStep()?.canMoveNext()) {
+        if (!(<LinearWizardStepBase>this.getCurrentStep())?.canMoveNext()) {
             return false;
         }
 
@@ -31,7 +31,7 @@ export class LinearWizardStateMachine extends WizardStateMachineBase {
     public movePrevious(): boolean {
         if (this.steps.length === 0 || this.currentIndex <= 0) return false;
 
-        if (!this.getCurrentStep()?.canMovePrevious()) {
+        if (!(<LinearWizardStepBase>this.getCurrentStep())?.canMovePrevious()) {
             return false;
         }
 

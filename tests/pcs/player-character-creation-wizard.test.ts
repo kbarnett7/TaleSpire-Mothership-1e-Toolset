@@ -1,10 +1,13 @@
+import { PlayerCharacter } from "../../src/features/player-characters/player-character";
 import { PlayerCharacterCreationWizard } from "../../src/features/player-characters/player-character-creation-wizard/player-character-creation-wizard";
 
 describe("PlayerCharacterCreationWizard", () => {
+    let playerCharacter: PlayerCharacter;
     let stateMachine: PlayerCharacterCreationWizard;
 
     beforeEach(async () => {
-        stateMachine = new PlayerCharacterCreationWizard();
+        playerCharacter = getFullyValidPlayerCharacter();
+        stateMachine = new PlayerCharacterCreationWizard(playerCharacter);
     });
 
     it("Should have a total of nine steps.", () => {
@@ -111,9 +114,24 @@ describe("PlayerCharacterCreationWizard", () => {
         expect(currentStep?.title).toBe("Finishing");
     });
 
+    it("Should not move to step 2 when the PC's strength stat has not been set", () => {
+        // Arrange
+        playerCharacter.strength = -1;
+
+        // Act
+        const result = stateMachine.moveNext();
+
+        // Assert
+        expect(result).toBe(false);
+    });
+
     function moveForwardXSteps(numberOfSteps: number) {
         for (let currentStep = 0; currentStep < numberOfSteps; currentStep++) {
             stateMachine.moveNext();
         }
+    }
+
+    function getFullyValidPlayerCharacter(): PlayerCharacter {
+        return new PlayerCharacter(1, "Jane Doe", "Teamster", "A fully created player character.", 25);
     }
 });
