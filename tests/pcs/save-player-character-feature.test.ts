@@ -233,6 +233,182 @@ describe("SavePlayerCharacterFeature", () => {
         expect(result.error.details[0]).toContain("5,000");
     });
 
+    it.each([["-1"], ["123abc"]])(
+        "should fail if the strength is negative or contains non-digit characters",
+        async (strength: string) => {
+            // Arrange
+            const formFields = getValidFormFields();
+            formFields.strength = strength;
+            request.formFields = formFields;
+
+            // Act
+            const result = await feature.handleAsync(request);
+
+            // Assert
+            AssertUtils.expectResultToBeFailure(
+                result,
+                ErrorCode.CreateError,
+                LocalizationService.instance.translate(MessageKeys.createPlayerCharacterFailed),
+            );
+            expect(result.error.details.length).toBe(1);
+            expect(result.error.details[0]).toContain("strength");
+            expect(result.error.details[0]).toContain("zero");
+            expect(result.error.details[0]).toContain("digit");
+        },
+    );
+
+    it("should fail if the strength is greater than 100", async () => {
+        // Arrange
+        const formFields = getValidFormFields();
+        formFields.strength = "101";
+        request.formFields = formFields;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.CreateError,
+            LocalizationService.instance.translate(MessageKeys.createPlayerCharacterFailed),
+        );
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("strength");
+        expect(result.error.details[0]).toContain("100");
+    });
+
+    it.each([["-1"], ["123abc"]])(
+        "should fail if the speed is negative or contains non-digit characters",
+        async (speed: string) => {
+            // Arrange
+            const formFields = getValidFormFields();
+            formFields.speed = speed;
+            request.formFields = formFields;
+
+            // Act
+            const result = await feature.handleAsync(request);
+
+            // Assert
+            AssertUtils.expectResultToBeFailure(
+                result,
+                ErrorCode.CreateError,
+                LocalizationService.instance.translate(MessageKeys.createPlayerCharacterFailed),
+            );
+            expect(result.error.details.length).toBe(1);
+            expect(result.error.details[0]).toContain("speed");
+            expect(result.error.details[0]).toContain("zero");
+            expect(result.error.details[0]).toContain("digit");
+        },
+    );
+
+    it("should fail if the speed is greater than 100", async () => {
+        // Arrange
+        const formFields = getValidFormFields();
+        formFields.speed = "101";
+        request.formFields = formFields;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.CreateError,
+            LocalizationService.instance.translate(MessageKeys.createPlayerCharacterFailed),
+        );
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("speed");
+        expect(result.error.details[0]).toContain("100");
+    });
+
+    it.each([["-1"], ["123abc"]])(
+        "should fail if the intellect is negative or contains non-digit characters",
+        async (intellect: string) => {
+            // Arrange
+            const formFields = getValidFormFields();
+            formFields.intellect = intellect;
+            request.formFields = formFields;
+
+            // Act
+            const result = await feature.handleAsync(request);
+
+            // Assert
+            AssertUtils.expectResultToBeFailure(
+                result,
+                ErrorCode.CreateError,
+                LocalizationService.instance.translate(MessageKeys.createPlayerCharacterFailed),
+            );
+            expect(result.error.details.length).toBe(1);
+            expect(result.error.details[0]).toContain("intellect");
+            expect(result.error.details[0]).toContain("zero");
+            expect(result.error.details[0]).toContain("digit");
+        },
+    );
+
+    it("should fail if the intellect is greater than 100", async () => {
+        // Arrange
+        const formFields = getValidFormFields();
+        formFields.intellect = "101";
+        request.formFields = formFields;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.CreateError,
+            LocalizationService.instance.translate(MessageKeys.createPlayerCharacterFailed),
+        );
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("intellect");
+        expect(result.error.details[0]).toContain("100");
+    });
+
+    it.each([["-1"], ["123abc"]])(
+        "should fail if the combat is negative or contains non-digit characters",
+        async (combat: string) => {
+            // Arrange
+            const formFields = getValidFormFields();
+            formFields.combat = combat;
+            request.formFields = formFields;
+
+            // Act
+            const result = await feature.handleAsync(request);
+
+            // Assert
+            AssertUtils.expectResultToBeFailure(
+                result,
+                ErrorCode.CreateError,
+                LocalizationService.instance.translate(MessageKeys.createPlayerCharacterFailed),
+            );
+            expect(result.error.details.length).toBe(1);
+            expect(result.error.details[0]).toContain("combat");
+            expect(result.error.details[0]).toContain("zero");
+            expect(result.error.details[0]).toContain("digit");
+        },
+    );
+
+    it("should fail if the combat is greater than 100", async () => {
+        // Arrange
+        const formFields = getValidFormFields();
+        formFields.combat = "101";
+        request.formFields = formFields;
+
+        // Act
+        const result = await feature.handleAsync(request);
+
+        // Assert
+        AssertUtils.expectResultToBeFailure(
+            result,
+            ErrorCode.CreateError,
+            LocalizationService.instance.translate(MessageKeys.createPlayerCharacterFailed),
+        );
+        expect(result.error.details.length).toBe(1);
+        expect(result.error.details[0]).toContain("combat");
+        expect(result.error.details[0]).toContain("100");
+    });
+
     it("should add a valid player character to the database with an incremented ID", async () => {
         // Arrange
         const countPreAdd = unitOfWork.repo(PlayerCharacter).list().length;
@@ -324,11 +500,27 @@ describe("SavePlayerCharacterFeature", () => {
     });
 
     function getValidFormFields(): PlayerCharacterFormFieldsDto {
-        return new PlayerCharacterFormFieldsDto("Test Custom PC", "Marine", "A marine created for testing.");
+        return new PlayerCharacterFormFieldsDto(
+            "Test Custom PC",
+            "Marine",
+            "A marine created for testing.",
+            "25",
+            "30",
+            "35",
+            "40",
+        );
     }
 
     function getValidEditedFormFields(): PlayerCharacterFormFieldsDto {
-        return new PlayerCharacterFormFieldsDto("Edited Test PC", "Scientist", "An edited description.");
+        return new PlayerCharacterFormFieldsDto(
+            "Edited Test PC",
+            "Scientist",
+            "An edited description.",
+            "30",
+            "35",
+            "40",
+            "45",
+        );
     }
 
     async function addBasePcToDatabase(): Promise<number> {

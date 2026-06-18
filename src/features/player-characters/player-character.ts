@@ -6,15 +6,30 @@ export class PlayerCharacter extends DatabaseEntity {
     public characterClass: string;
     public description: string;
     public strength: number;
+    public speed: number;
+    public intellect: number;
+    public combat: number;
 
     private validationResults: string[];
 
-    constructor(id?: number, name?: string, characterClass?: string, description?: string, strength?: number) {
+    constructor(
+        id?: number,
+        name?: string,
+        characterClass?: string,
+        description?: string,
+        strength?: number,
+        speed?: number,
+        intellect?: number,
+        combat?: number,
+    ) {
         super(id);
         this.name = name ?? "";
         this.characterClass = characterClass ?? "";
         this.description = description ?? "";
         this.strength = strength ?? 0;
+        this.speed = speed ?? 0;
+        this.intellect = intellect ?? 0;
+        this.combat = combat ?? 0;
         this.validationResults = [];
     }
 
@@ -29,6 +44,11 @@ export class PlayerCharacter extends DatabaseEntity {
             .validatePlayerCharacterDoesNotAlreadyExist(unitOfWork)
             .validateCharacterClass()
             .validateDescription();
+
+        this.validateStrength();
+        this.validateSpeed();
+        this.validateIntellect();
+        this.validateCombat();
 
         return this.validationResults;
     }
@@ -77,18 +97,74 @@ export class PlayerCharacter extends DatabaseEntity {
         return this;
     }
 
-    public validateStrength(): PlayerCharacter {
+    public validateStrength(): boolean {
         if (this.strength < 0) {
             this.validationResults.push(
                 `The strength \"${this.strength}\" is invalid. The strength must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
             );
+
+            return false;
         } else if (this.strength > 100) {
             this.validationResults.push(
                 `The strength \"${this.strength}\" is invalid. The strength must be between 0 and 100.`,
             );
+
+            return false;
         }
 
-        return this;
+        return true;
+    }
+
+    public validateSpeed(): boolean {
+        if (this.speed < 0) {
+            this.validationResults.push(
+                `The speed \"${this.speed}\" is invalid. The speed must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
+            );
+
+            return false;
+        } else if (this.speed > 100) {
+            this.validationResults.push(`The speed \"${this.speed}\" is invalid. The speed must be between 0 and 100.`);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public validateIntellect(): boolean {
+        if (this.intellect < 0) {
+            this.validationResults.push(
+                `The intellect \"${this.intellect}\" is invalid. The intellect must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
+            );
+
+            return false;
+        } else if (this.intellect > 100) {
+            this.validationResults.push(
+                `The intellect \"${this.intellect}\" is invalid. The intellect must be between 0 and 100.`,
+            );
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public validateCombat(): boolean {
+        if (this.combat < 0) {
+            this.validationResults.push(
+                `The combat \"${this.combat}\" is invalid. The combat must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
+            );
+
+            return false;
+        } else if (this.combat > 100) {
+            this.validationResults.push(
+                `The combat \"${this.combat}\" is invalid. The combat must be between 0 and 100.`,
+            );
+
+            return false;
+        }
+
+        return true;
     }
 
     public saveToDatabase(unitOfWork: IUnitOfWork): void {

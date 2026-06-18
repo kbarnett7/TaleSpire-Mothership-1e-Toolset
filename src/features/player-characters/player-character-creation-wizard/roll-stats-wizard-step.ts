@@ -7,10 +7,11 @@ export class RollStatsWizardStep extends PlayerCharacterWizardStep {
     }
 
     public override canMoveNext(): boolean {
-        if (this.playerCharacter.validateStrength().getValidationResult().length > 0) {
-            return false;
-        }
-
-        return true;
+        return (
+            this.playerCharacter.validateStrength() &&
+            this.playerCharacter.validateSpeed() &&
+            this.playerCharacter.validateIntellect() &&
+            this.playerCharacter.validateCombat()
+        );
     }
 }

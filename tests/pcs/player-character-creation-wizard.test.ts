@@ -125,6 +125,39 @@ describe("PlayerCharacterCreationWizard", () => {
         expect(result).toBe(false);
     });
 
+    it("Should not move to step 2 when the PC's speed stat has not been set", () => {
+        // Arrange
+        playerCharacter.speed = -1;
+
+        // Act
+        const result = stateMachine.moveNext();
+
+        // Assert
+        expect(result).toBe(false);
+    });
+
+    it("Should not move to step 2 when the PC's intellect stat has not been set", () => {
+        // Arrange
+        playerCharacter.intellect = -1;
+
+        // Act
+        const result = stateMachine.moveNext();
+
+        // Assert
+        expect(result).toBe(false);
+    });
+
+    it("Should not move to step 2 when the PC's combat stat has not been set", () => {
+        // Arrange
+        playerCharacter.combat = -1;
+
+        // Act
+        const result = stateMachine.moveNext();
+
+        // Assert
+        expect(result).toBe(false);
+    });
+
     function moveForwardXSteps(numberOfSteps: number) {
         for (let currentStep = 0; currentStep < numberOfSteps; currentStep++) {
             stateMachine.moveNext();
@@ -132,6 +165,6 @@ describe("PlayerCharacterCreationWizard", () => {
     }
 
     function getFullyValidPlayerCharacter(): PlayerCharacter {
-        return new PlayerCharacter(1, "Jane Doe", "Teamster", "A fully created player character.", 25);
+        return new PlayerCharacter(1, "Jane Doe", "Teamster", "A fully created player character.", 25, 30, 35, 40);
     }
 });
