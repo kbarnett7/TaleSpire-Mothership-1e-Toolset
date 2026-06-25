@@ -11,6 +11,7 @@ import { DatabaseVersion } from "../../features/database-versions/database-versi
 import { DatabaseCollectionNames } from "./database-collection-names";
 import { Source } from "../../features/sources/source";
 import { PlayerCharacter } from "../../features/player-characters/player-character";
+import { CharacterClass } from "../../features/character-class/character-class";
 
 export class AppDatabaseContext implements IDatabaseContext {
     public static inject = ["database", "appSettings"] as const;
@@ -48,6 +49,7 @@ export class AppDatabaseContext implements IDatabaseContext {
         this._entityKeyToDbKeyMap.set(DatabaseVersion.name, DatabaseCollectionNames.databaseVersions);
         this._entityKeyToDbKeyMap.set(Source.name, DatabaseCollectionNames.sources);
         this._entityKeyToDbKeyMap.set(ArmorItem.name, DatabaseCollectionNames.armor);
+        this._entityKeyToDbKeyMap.set(CharacterClass.name, DatabaseCollectionNames.characterClass);
         this._entityKeyToDbKeyMap.set(EquipmentItem.name, DatabaseCollectionNames.equipment);
         this._entityKeyToDbKeyMap.set(WeaponItem.name, DatabaseCollectionNames.weapons);
         this._entityKeyToDbKeyMap.set(Npc.name, DatabaseCollectionNames.npcs);
@@ -58,6 +60,7 @@ export class AppDatabaseContext implements IDatabaseContext {
         this._dbSets.set(DatabaseVersion.name, new DbSet<DatabaseVersion>([]));
         this._dbSets.set(Source.name, new DbSet<Source>([]));
         this._dbSets.set(ArmorItem.name, new DbSet<ArmorItem>([]));
+        this._dbSets.set(CharacterClass.name, new DbSet<CharacterClass>([]));
         this._dbSets.set(EquipmentItem.name, new DbSet<EquipmentItem>([]));
         this._dbSets.set(WeaponItem.name, new DbSet<WeaponItem>([]));
         this._dbSets.set(Npc.name, new DbSet<Npc>([]));
@@ -71,61 +74,72 @@ export class AppDatabaseContext implements IDatabaseContext {
             DatabaseVersion.name,
             new DbSet<DatabaseVersion>(
                 (await this._db.getCollection(DatabaseCollectionNames.databaseVersions)).map((obj) =>
-                    Object.assign(new DatabaseVersion(), obj)
-                )
-            )
+                    Object.assign(new DatabaseVersion(), obj),
+                ),
+            ),
         );
 
         this._dbSets.set(
             Source.name,
             new DbSet<Source>(
                 (await this._db.getCollection(DatabaseCollectionNames.sources)).map((obj) =>
-                    Object.assign(new Source(), obj)
-                )
-            )
+                    Object.assign(new Source(), obj),
+                ),
+            ),
         );
 
         this._dbSets.set(
             ArmorItem.name,
             new DbSet<ArmorItem>(
                 (await this._db.getCollection(DatabaseCollectionNames.armor)).map((obj) =>
-                    Object.assign(new ArmorItem(), obj)
-                )
-            )
+                    Object.assign(new ArmorItem(), obj),
+                ),
+            ),
+        );
+
+        this._dbSets.set(
+            CharacterClass.name,
+            new DbSet<CharacterClass>(
+                (await this._db.getCollection(DatabaseCollectionNames.characterClass)).map((obj) =>
+                    Object.assign(new CharacterClass(), obj),
+                ),
+            ),
         );
 
         this._dbSets.set(
             EquipmentItem.name,
             new DbSet<EquipmentItem>(
                 (await this._db.getCollection(DatabaseCollectionNames.equipment)).map((obj) =>
-                    Object.assign(new EquipmentItem(), obj)
-                )
-            )
+                    Object.assign(new EquipmentItem(), obj),
+                ),
+            ),
         );
 
         this._dbSets.set(
             WeaponItem.name,
             new DbSet<WeaponItem>(
                 (await this._db.getCollection(DatabaseCollectionNames.weapons)).map((obj) =>
-                    Object.assign(new WeaponItem(), obj)
-                )
-            )
+                    Object.assign(new WeaponItem(), obj),
+                ),
+            ),
         );
 
         this._dbSets.set(
             Npc.name,
             new DbSet<Npc>(
-                (await this._db.getCollection(DatabaseCollectionNames.npcs)).map((obj) => Object.assign(new Npc(), obj))
-            )
+                (await this._db.getCollection(DatabaseCollectionNames.npcs)).map((obj) =>
+                    Object.assign(new Npc(), obj),
+                ),
+            ),
         );
 
         this._dbSets.set(
             PlayerCharacter.name,
             new DbSet<PlayerCharacter>(
                 (await this._db.getCollection(DatabaseCollectionNames.playerCharacters)).map((obj) =>
-                    Object.assign(new PlayerCharacter(), obj)
-                )
-            )
+                    Object.assign(new PlayerCharacter(), obj),
+                ),
+            ),
         );
     }
 

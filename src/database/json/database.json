@@ -62,6 +62,32 @@
             "special": "Includes short-range comms, body cam, headlamp, HUD, exoskeletal weave (Strength Checks [+]), and radiation shielding. Damage Reduction: 3."
         }
     ],
+    "characterClass": [
+        {
+            "id": 1,
+            "sourceId": 2,
+            "name": "Marine",
+            "description": "Marines are handy in a fight, but whenever they Panic it may cause problems for the rest of the crew."
+        },
+        {
+            "id": 2,
+            "sourceId": 2,
+            "name": "Android",
+            "description": "Androids are a terrifying and exciting addition to any crew. They tend to unnerve other crewmembers with their cold inhumanity."
+        },
+        {
+            "id": 3,
+            "sourceId": 2,
+            "name": "Scientist",
+            "description": "Scientists are doctors, researchers, or anyone who wants to slice open creatures (or infected crewmembers) with a scalpel."
+        },
+        {
+            "id": 4,
+            "sourceId": 2,
+            "name": "Teamster",
+            "description": "Teamsters are rough and tumble blue-collar space workers, mechanics, engineers, miners, and pilots."
+        }
+    ],
     "equipment": [
         {
             "id": 1,
