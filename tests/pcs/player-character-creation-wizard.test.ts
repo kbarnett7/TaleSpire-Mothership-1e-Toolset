@@ -158,6 +158,42 @@ describe("PlayerCharacterCreationWizard", () => {
         expect(result).toBe(false);
     });
 
+    it("Should not move to step 2 when the PC's sanity save has not been set", () => {
+        // Arrange
+        playerCharacter.sanity = -1;
+        moveForwardXSteps(1);
+
+        // Act
+        const result = stateMachine.moveNext();
+
+        // Assert
+        expect(result).toBe(false);
+    });
+
+    it("Should not move to step 2 when the PC's fear save has not been set", () => {
+        // Arrange
+        playerCharacter.fear = -1;
+        moveForwardXSteps(1);
+
+        // Act
+        const result = stateMachine.moveNext();
+
+        // Assert
+        expect(result).toBe(false);
+    });
+
+    it("Should not move to step 2 when the PC's body save has not been set", () => {
+        // Arrange
+        playerCharacter.body = -1;
+        moveForwardXSteps(1);
+
+        // Act
+        const result = stateMachine.moveNext();
+
+        // Assert
+        expect(result).toBe(false);
+    });
+
     function moveForwardXSteps(numberOfSteps: number) {
         for (let currentStep = 0; currentStep < numberOfSteps; currentStep++) {
             stateMachine.moveNext();
@@ -165,6 +201,18 @@ describe("PlayerCharacterCreationWizard", () => {
     }
 
     function getFullyValidPlayerCharacter(): PlayerCharacter {
-        return new PlayerCharacter(1, "Jane Doe", "Teamster", "A fully created player character.", 25, 30, 35, 40);
+        return new PlayerCharacter(
+            1,
+            "Jane Doe",
+            "Teamster",
+            "A fully created player character.",
+            25,
+            30,
+            35,
+            40,
+            10,
+            15,
+            20,
+        );
     }
 });

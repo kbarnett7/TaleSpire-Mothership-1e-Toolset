@@ -9,6 +9,9 @@ export class PlayerCharacter extends DatabaseEntity {
     public speed: number;
     public intellect: number;
     public combat: number;
+    public sanity: number;
+    public fear: number;
+    public body: number;
 
     private validationResults: string[];
 
@@ -21,6 +24,9 @@ export class PlayerCharacter extends DatabaseEntity {
         speed?: number,
         intellect?: number,
         combat?: number,
+        sanity?: number,
+        fear?: number,
+        body?: number,
     ) {
         super(id);
         this.name = name ?? "";
@@ -30,6 +36,9 @@ export class PlayerCharacter extends DatabaseEntity {
         this.speed = speed ?? 0;
         this.intellect = intellect ?? 0;
         this.combat = combat ?? 0;
+        this.sanity = sanity ?? 0;
+        this.fear = fear ?? 0;
+        this.body = body ?? 0;
         this.validationResults = [];
     }
 
@@ -49,6 +58,9 @@ export class PlayerCharacter extends DatabaseEntity {
         this.validateSpeed();
         this.validateIntellect();
         this.validateCombat();
+        this.validateSanity();
+        this.validateFear();
+        this.validateBody();
 
         return this.validationResults;
     }
@@ -160,6 +172,56 @@ export class PlayerCharacter extends DatabaseEntity {
             this.validationResults.push(
                 `The combat \"${this.combat}\" is invalid. The combat must be between 0 and 100.`,
             );
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public validateSanity(): boolean {
+        if (this.sanity < 0) {
+            this.validationResults.push(
+                `The sanity \"${this.sanity}\" is invalid. The sanity must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
+            );
+
+            return false;
+        } else if (this.sanity > 100) {
+            this.validationResults.push(
+                `The sanity \"${this.sanity}\" is invalid. The sanity must be between 0 and 100.`,
+            );
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public validateFear(): boolean {
+        if (this.fear < 0) {
+            this.validationResults.push(
+                `The fear \"${this.fear}\" is invalid. The fear must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
+            );
+
+            return false;
+        } else if (this.fear > 100) {
+            this.validationResults.push(`The fear \"${this.fear}\" is invalid. The fear must be between 0 and 100.`);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public validateBody(): boolean {
+        if (this.body < 0) {
+            this.validationResults.push(
+                `The body \"${this.body}\" is invalid. The body must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
+            );
+
+            return false;
+        } else if (this.body > 100) {
+            this.validationResults.push(`The body \"${this.body}\" is invalid. The body must be between 0 and 100.`);
 
             return false;
         }

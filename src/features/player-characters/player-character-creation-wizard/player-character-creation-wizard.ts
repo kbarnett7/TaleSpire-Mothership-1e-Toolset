@@ -16,7 +16,7 @@ export class PlayerCharacterCreationWizard extends LinearWizardStateMachine {
     constructor(playerCharacter: PlayerCharacter) {
         super([
             new RollStatsWizardStep(playerCharacter),
-            new RollSavesWizardStep(),
+            new RollSavesWizardStep(playerCharacter),
             new ChooseClassWizardStep(),
             new RollHealthWizardStep(),
             new GainStressWizardStep(),
