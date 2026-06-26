@@ -7,7 +7,7 @@ export class PlayerCharacterTestUtils {
     ): PlayerCharacterListItem {
         const foundItem = playerCharacters.find((pc) => pc.name.toLocaleLowerCase() === name.toLocaleLowerCase());
 
-        return foundItem || new PlayerCharacterListItem(0, "", "", "");
+        return foundItem || new PlayerCharacterListItem(0, "", 0, "", "");
     }
 
     static expectPlayerCharacterToBe(

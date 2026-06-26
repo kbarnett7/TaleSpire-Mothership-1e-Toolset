@@ -1,6 +1,6 @@
 export class PlayerCharacterFormFieldsDto {
     public name: string;
-    public characterClass: string;
+    public characterClassId: string;
     public description: string;
     public strength: string;
     public speed: string;
@@ -12,7 +12,7 @@ export class PlayerCharacterFormFieldsDto {
 
     constructor(
         name?: string,
-        characterClass?: string,
+        characterClassId?: string,
         description?: string,
         strength?: string,
         speed?: string,
@@ -23,7 +23,7 @@ export class PlayerCharacterFormFieldsDto {
         body?: string,
     ) {
         this.name = name ?? "";
-        this.characterClass = characterClass ?? "";
+        this.characterClassId = characterClassId ?? "";
         this.description = description ?? "";
         this.strength = strength ?? "";
         this.speed = speed ?? "";
@@ -43,7 +43,7 @@ export class PlayerCharacterFormFieldsDto {
 
         return new PlayerCharacterFormFieldsDto(
             json.name ?? "",
-            json.characterClass ?? "",
+            json.characterClassId ?? "",
             json.description ?? "",
             json.strength ?? "",
             json.speed ?? "",

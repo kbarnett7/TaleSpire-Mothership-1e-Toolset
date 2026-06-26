@@ -61,7 +61,7 @@ export class PlayerCharacterFormFieldsComponent extends BaseComponent {
 
         // Ensure the DTO always has a valid, selectable value.
         const selectedClass = distinctClasses[0] ?? "";
-        this._formFieldsDto.characterClass = selectedClass;
+        this._formFieldsDto.characterClassId = selectedClass;
         selectEl.value = selectedClass;
         this.updateFormValue();
     }
@@ -76,7 +76,7 @@ export class PlayerCharacterFormFieldsComponent extends BaseComponent {
         this.descriptionInputElement.value = pc.description;
 
         this._formFieldsDto.name = pc.name;
-        this._formFieldsDto.characterClass = pc.characterClass;
+        this._formFieldsDto.characterClassId = pc.characterClass;
         this._formFieldsDto.description = pc.description;
 
         this.updateFormValue();
@@ -88,7 +88,7 @@ export class PlayerCharacterFormFieldsComponent extends BaseComponent {
     }
 
     public handleOnClassInputChanged(event: Event) {
-        this._formFieldsDto.characterClass = this.classSelectElement.value;
+        this._formFieldsDto.characterClassId = this.classSelectElement.value;
         this.updateFormValue();
     }
 

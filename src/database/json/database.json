@@ -621,25 +621,25 @@
         {
             "id": 1,
             "name": "Test Android A",
-            "characterClass": "Android",
+            "characterClassId": 2,
             "description": "Test android player character."
         },
         {
             "id": 2,
             "name": "Test Scientist A",
-            "characterClass": "Scientist",
+            "characterClassId": 3,
             "description": "Test scientist player character."
         },
         {
             "id": 3,
             "name": "Test Marine A",
-            "characterClass": "Marine",
+            "characterClassId": 1,
             "description": "Test marine player character."
         },
         {
             "id": 4,
             "name": "Test Teamster A",
-            "characterClass": "Teamster",
+            "characterClassId": 4,
             "description": "Test teamster player character."
         }
     ],

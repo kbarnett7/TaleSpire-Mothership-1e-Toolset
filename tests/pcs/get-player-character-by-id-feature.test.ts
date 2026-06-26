@@ -24,7 +24,7 @@ describe("GetPlayerCharacterById Feature", () => {
         // Assert
         expect(result.id).toBe(0);
         expect(result.name).toBe("");
-        expect(result.characterClass).toBe("");
+        expect(result.characterClassId).toBe(0);
         expect(result.description).toBe("");
     });
 
@@ -38,7 +38,7 @@ describe("GetPlayerCharacterById Feature", () => {
         // Assert
         expect(result.id).toBe(1);
         expect(result.name).toBe("Android A");
-        expect(result.characterClass).toBe("Android");
+        expect(result.characterClassId).toBe(2);
     });
 
     it("Returns an empty PlayerCharacter when given a non-existent id", () => {

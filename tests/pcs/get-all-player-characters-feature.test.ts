@@ -18,12 +18,16 @@ describe("GetAllPlayerCharacters Feature", () => {
         // Assert
         expect(result.length).toBeGreaterThan(0);
 
+        console.info(result);
+
         let playerCharacter = PlayerCharacterTestUtils.getPlayerCharacterItemByName(result, "Android A");
         expect(playerCharacter.id).toBe(1);
         expect(playerCharacter.name).toBe("Android A");
+        expect(playerCharacter.characterClass).toBe("Android");
 
         playerCharacter = PlayerCharacterTestUtils.getPlayerCharacterItemByName(result, "Teamster A");
         expect(playerCharacter.id).toBe(4);
         expect(playerCharacter.name).toBe("Teamster A");
+        expect(playerCharacter.characterClass).toBe("Teamster");
     });
 });

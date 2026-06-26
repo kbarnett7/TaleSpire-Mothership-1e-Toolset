@@ -6,7 +6,7 @@ export class PlayerCharacterMap {
         return new PlayerCharacter(
             0,
             formFields.name,
-            formFields.characterClass,
+            !isNaN(Number(formFields.characterClassId)) ? parseInt(formFields.characterClassId) : 0,
             formFields.description,
             !isNaN(Number(formFields.strength)) ? parseInt(formFields.strength) : -1,
             !isNaN(Number(formFields.speed)) ? parseInt(formFields.speed) : -1,

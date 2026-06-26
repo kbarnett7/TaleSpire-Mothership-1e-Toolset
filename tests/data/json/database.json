@@ -353,31 +353,31 @@
         {
             "id": 1,
             "name": "Android A",
-            "characterClass": "Android",
+            "characterClassId": 2,
             "description": "Test android player character."
         },
         {
             "id": 2,
             "name": "Scientist A",
-            "characterClass": "Scientist",
+            "characterClassId": 3,
             "description": "Test scientist player character."
         },
         {
             "id": 3,
             "name": "Marine A",
-            "characterClass": "Marine",
+            "characterClassId": 1,
             "description": "Test marine player character."
         },
         {
             "id": 4,
             "name": "Teamster A",
-            "characterClass": "Teamster",
+            "characterClassId": 4,
             "description": "Test teamster player character."
         },
         {
             "id": 5,
             "name": "Teamster A (elder)",
-            "characterClass": "Teamster",
+            "characterClassId": 4,
             "description": "Test elder teamster player character."
         }
     ],

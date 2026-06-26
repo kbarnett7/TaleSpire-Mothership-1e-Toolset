@@ -48,7 +48,7 @@ describe("DeletePlayerCharacterFeature", () => {
 
     it("should succeed and delete the player character from the database", async () => {
         // Arrange
-        const pc = new PlayerCharacter(0, "PC to Delete", "Teamster", "Delete me!");
+        const pc = new PlayerCharacter(0, "PC to Delete", 4, "Delete me!");
         pc.saveToDatabase(unitOfWork);
         await unitOfWork.saveChanges();
 

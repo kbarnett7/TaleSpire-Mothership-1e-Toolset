@@ -201,18 +201,6 @@ describe("PlayerCharacterCreationWizard", () => {
     }
 
     function getFullyValidPlayerCharacter(): PlayerCharacter {
-        return new PlayerCharacter(
-            1,
-            "Jane Doe",
-            "Teamster",
-            "A fully created player character.",
-            25,
-            30,
-            35,
-            40,
-            10,
-            15,
-            20,
-        );
+        return new PlayerCharacter(1, "Jane Doe", 1, "A fully created player character.", 25, 30, 35, 40, 10, 15, 20);
     }
 });

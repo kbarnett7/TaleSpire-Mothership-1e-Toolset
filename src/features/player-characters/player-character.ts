@@ -1,9 +1,11 @@
 import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface";
 import { DatabaseEntity } from "../../lib/common/features/database-entity";
+import { GetCharacterClassByIdFeature } from "../character-class/get-character-class-by-id/get-character-class-by-id-feature";
+import { GetCharacterClassByIdRequest } from "../character-class/get-character-class-by-id/get-character-class-by-id-request";
 
 export class PlayerCharacter extends DatabaseEntity {
     public name: string;
-    public characterClass: string;
+    public characterClassId: number;
     public description: string;
     public strength: number;
     public speed: number;
@@ -18,7 +20,7 @@ export class PlayerCharacter extends DatabaseEntity {
     constructor(
         id?: number,
         name?: string,
-        characterClass?: string,
+        characterClassId?: number,
         description?: string,
         strength?: number,
         speed?: number,
@@ -30,7 +32,7 @@ export class PlayerCharacter extends DatabaseEntity {
     ) {
         super(id);
         this.name = name ?? "";
-        this.characterClass = characterClass ?? "";
+        this.characterClassId = characterClassId ?? 0;
         this.description = description ?? "";
         this.strength = strength ?? 0;
         this.speed = speed ?? 0;
@@ -51,7 +53,7 @@ export class PlayerCharacter extends DatabaseEntity {
 
         this.validateName()
             .validatePlayerCharacterDoesNotAlreadyExist(unitOfWork)
-            .validateCharacterClass()
+            .validateCharacterClass(unitOfWork)
             .validateDescription();
 
         this.validateStrength();
@@ -87,13 +89,16 @@ export class PlayerCharacter extends DatabaseEntity {
         return this;
     }
 
-    private validateCharacterClass(): PlayerCharacter {
-        if (this.characterClass.trim() === "") {
-            this.validationResults.push("The character class cannot be empty.");
-        } else if (this.characterClass.trim().length > 100) {
-            this.validationResults.push(
-                `The character class "${this.characterClass}" is invalid. The character class must be 100 characters or less.`,
-            );
+    private validateCharacterClass(unitOfWork: IUnitOfWork): PlayerCharacter {
+        if (this.characterClassId <= 0) {
+            this.validationResults.push("A class must be selected.");
+        } else {
+            const getByIdFeature = new GetCharacterClassByIdFeature(unitOfWork);
+            const characterClass = getByIdFeature.handle(new GetCharacterClassByIdRequest(this.characterClassId));
+
+            if (characterClass.id <= 0) {
+                this.validationResults.push(`The selected class is invalid.`);
+            }
         }
 
         return this;

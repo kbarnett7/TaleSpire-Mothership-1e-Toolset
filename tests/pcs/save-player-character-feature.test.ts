@@ -176,7 +176,7 @@ describe("SavePlayerCharacterFeature", () => {
     it.each([[""], [" "]])("should fail if the character class is empty or whitespace", async (cls: string) => {
         // Arrange
         const formFields = getValidFormFields();
-        formFields.characterClass = cls;
+        formFields.characterClassId = cls;
         request.formFields = formFields;
 
         // Act
@@ -190,13 +190,13 @@ describe("SavePlayerCharacterFeature", () => {
         );
         expect(result.error.details.length).toBe(1);
         expect(result.error.details[0]).toContain("class");
-        expect(result.error.details[0]).toContain("empty");
+        expect(result.error.details[0]).toContain("selected");
     });
 
     it("should fail if the character class is greater than 100 characters long", async () => {
         // Arrange
         const formFields = getValidFormFields();
-        formFields.characterClass = ValueUtils.getStringOfRandomCharacters(101);
+        formFields.characterClassId = "999";
         request.formFields = formFields;
 
         // Act
@@ -210,7 +210,8 @@ describe("SavePlayerCharacterFeature", () => {
         );
         expect(result.error.details.length).toBe(1);
         expect(result.error.details[0]).toContain("class");
-        expect(result.error.details[0]).toContain("100");
+        expect(result.error.details[0]).toContain("selected");
+        expect(result.error.details[0]).toContain("invalid");
     });
 
     it("should fail if the description is greater than 5000 characters long", async () => {
@@ -561,7 +562,7 @@ describe("SavePlayerCharacterFeature", () => {
         expect(itemFromDatabase.id).toBe(largestPcId + 1);
         expect(itemFromDatabase.id).toBe(result.value?.id);
         expect(itemFromDatabase.name).toBe(formFields.name);
-        expect(itemFromDatabase.characterClass).toBe(formFields.characterClass);
+        expect(itemFromDatabase.characterClassId).toBe(parseInt(formFields.characterClassId));
         expect(itemFromDatabase.description).toBe(formFields.description);
     });
 
@@ -586,7 +587,7 @@ describe("SavePlayerCharacterFeature", () => {
         expect(countPostEdit).toBe(countPreEdit);
         expect(itemFromDatabase.id).toBe(result.value?.id);
         expect(itemFromDatabase.name).toBe(formFields.name);
-        expect(itemFromDatabase.characterClass).toBe(formFields.characterClass);
+        expect(itemFromDatabase.characterClassId).toBe(parseInt(formFields.characterClassId));
         expect(itemFromDatabase.description).toBe(formFields.description);
     });
 
@@ -634,7 +635,7 @@ describe("SavePlayerCharacterFeature", () => {
     function getValidFormFields(): PlayerCharacterFormFieldsDto {
         return new PlayerCharacterFormFieldsDto(
             "Test Custom PC",
-            "Marine",
+            "1",
             "A marine created for testing.",
             "25",
             "30",
@@ -649,7 +650,7 @@ describe("SavePlayerCharacterFeature", () => {
     function getValidEditedFormFields(): PlayerCharacterFormFieldsDto {
         return new PlayerCharacterFormFieldsDto(
             "Edited Test PC",
-            "Scientist",
+            "3",
             "An edited description.",
             "30",
             "35",
@@ -662,7 +663,7 @@ describe("SavePlayerCharacterFeature", () => {
     }
 
     async function addBasePcToDatabase(): Promise<number> {
-        const pc = new PlayerCharacter(0, "Test PC to Edit", "Marine", "Edit me!");
+        const pc = new PlayerCharacter(0, "Test PC to Edit", 1, "Edit me!");
 
         pc.saveToDatabase(unitOfWork);
 
