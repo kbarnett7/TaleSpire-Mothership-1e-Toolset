@@ -5,16 +5,18 @@ import { EventBus } from "../../../lib/events/event-bus";
 import { SelectOption } from "../../../lib/selects/select-option";
 import { BaseListFilterBarComponent } from "../../base-list-filter-bar/base-list-filter-bar";
 import { CustomSelectComponent } from "../../custom-select/custom-select";
+import { CharacterClass } from "../../../features/character-class/character-class";
 
 export class PlayerCharacterListFilterBarComponent extends BaseListFilterBarComponent {
-    private currentCharacterClass: string = "";
+    private currentCharacterClassId: number;
 
-    private get classFilterElement(): CustomSelectComponent {
-        return this.shadow.querySelector("#classFilter") as CustomSelectComponent;
+    private get characterClassesSelectElement(): CustomSelectComponent {
+        return this.shadow.querySelector("#characterClassesFilter") as CustomSelectComponent;
     }
 
     constructor() {
         super();
+        this.currentCharacterClassId = 0;
     }
 
     public connectedCallback() {
@@ -23,24 +25,33 @@ export class PlayerCharacterListFilterBarComponent extends BaseListFilterBarComp
     }
 
     private configureClassFilter() {
-        const allPcs = this.unitOfWork.repo(PlayerCharacter).list();
-        const distinctClasses = [...new Set(allPcs.map((pc) => pc.characterClass))].sort();
-
-        const options = [new SelectOption("", "All"), ...distinctClasses.map((c) => new SelectOption(c, c))];
-
-        this.classFilterElement.onOptionChange = this.handleOnClassFilterChanged;
-        this.classFilterElement.containerCssClassList.add("h-full");
-        this.classFilterElement.customSelectButtonCssClassList.add("h-full");
-        this.classFilterElement.populateOptions(options);
+        this.characterClassesSelectElement.onOptionChange = this.handleOnClassFilterChanged;
+        this.characterClassesSelectElement.containerCssClassList.add("h-full");
+        this.characterClassesSelectElement.customSelectButtonCssClassList.add("h-full");
+        this.populateCharacterClassesFilter();
     }
 
     public handleOnClassFilterChanged = (newValue: SelectOption) => {
-        this.currentCharacterClass = newValue.value;
+        const selectedValue = newValue.value;
+
+        this.currentCharacterClassId = parseInt(selectedValue);
+
         this.dispatchFilterChangedEvent();
     };
 
+    private populateCharacterClassesFilter() {
+        const characterClasses = this.unitOfWork.repo(CharacterClass).list();
+        const characterClassOptions = [new SelectOption("0", "All")];
+
+        for (let characterClass of characterClasses) {
+            characterClassOptions.push(new SelectOption(characterClass.id.toString(), characterClass.name));
+        }
+
+        this.characterClassesSelectElement.populateOptions(characterClassOptions);
+    }
+
     protected dispatchFilterChangedEvent() {
-        const appEvent = new PlayerCharacterFilterChangedEvent(this.currentSearch, this.currentCharacterClass);
+        const appEvent = new PlayerCharacterFilterChangedEvent(this.currentSearch, this.currentCharacterClassId);
 
         EventBus.instance.dispatch(appEvent);
     }

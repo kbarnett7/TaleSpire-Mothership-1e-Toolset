@@ -27,7 +27,7 @@ export class FilterPlayerCharactersListFeature
                 request.search,
                 this.getSearchField,
             );
-            filteredItems = this.applyClassFilter(filteredItems, request.characterClass);
+            filteredItems = this.applyClassFilter(filteredItems, request.characterClassId);
 
             return Result.success(filteredItems);
         } catch (error) {
@@ -39,11 +39,14 @@ export class FilterPlayerCharactersListFeature
         return item.name;
     }
 
-    private applyClassFilter(listItems: PlayerCharacterListItem[], characterClass: string): PlayerCharacterListItem[] {
-        if (characterClass.trim() === "") {
+    private applyClassFilter(
+        listItems: PlayerCharacterListItem[],
+        characterClassId: number,
+    ): PlayerCharacterListItem[] {
+        if (characterClassId <= 0) {
             return listItems;
         }
 
-        return listItems.filter((item) => item.characterClass === characterClass);
+        return listItems.filter((item) => item.characterClassId === characterClassId);
     }
 }

@@ -1,4 +1,4 @@
 export class FilterPlayerCharactersListRequest {
     public search: string = "";
-    public characterClass: string = "";
+    public characterClassId: number = 0;
 }

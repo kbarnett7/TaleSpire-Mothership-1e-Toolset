@@ -26,7 +26,7 @@ export class PlayerCharacterListComponent extends BaseListComponent {
             new TableHeader(SortPlayerCharactersListFeature.fieldClass, "Class"),
         ]);
         this.playerCharactersList = [];
-        this.currentFilters = new PlayerCharacterFilterChangedEvent("", "");
+        this.currentFilters = new PlayerCharacterFilterChangedEvent("", 0);
     }
 
     public connectedCallback() {
@@ -117,7 +117,7 @@ export class PlayerCharacterListComponent extends BaseListComponent {
         const request = new FilterPlayerCharactersListRequest();
 
         request.search = event.search;
-        request.characterClass = event.characterClass;
+        request.characterClassId = event.characterClassId;
 
         const result = feature.handle(request);
 

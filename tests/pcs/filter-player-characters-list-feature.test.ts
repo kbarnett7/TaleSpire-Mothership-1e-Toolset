@@ -47,7 +47,7 @@ describe("FilterPlayerCharactersListFeature", () => {
     it("By empty name and class returns all player character list items", () => {
         // Arrange
         request.search = "";
-        request.characterClass = "";
+        request.characterClassId = 0;
 
         // Act
         const result: Result<PlayerCharacterListItem[]> = feature.handle(request);
@@ -214,7 +214,7 @@ describe("FilterPlayerCharactersListFeature", () => {
 
     it("When characterClass is empty returns all player characters", () => {
         // Arrange
-        request.characterClass = "";
+        request.characterClassId = 0;
 
         // Act
         const result: Result<PlayerCharacterListItem[]> = feature.handle(request);
@@ -226,7 +226,7 @@ describe("FilterPlayerCharactersListFeature", () => {
 
     it("When searching by class returns only player characters of the specified class", () => {
         // Arrange
-        request.characterClass = "Android";
+        request.characterClassId = 2;
 
         // Act
         const result: Result<PlayerCharacterListItem[]> = feature.handle(request);
@@ -241,7 +241,7 @@ describe("FilterPlayerCharactersListFeature", () => {
 
     it("When characterClass does not match any player character returns empty list", () => {
         // Arrange
-        request.characterClass = "NonExistentClass";
+        request.characterClassId = 999;
 
         // Act
         const result: Result<PlayerCharacterListItem[]> = feature.handle(request);
