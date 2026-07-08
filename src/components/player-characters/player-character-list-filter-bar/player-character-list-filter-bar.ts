@@ -1,5 +1,4 @@
 import html from "./player-character-list-filter-bar.html";
-import { PlayerCharacter } from "../../../features/player-characters/player-character";
 import { PlayerCharacterFilterChangedEvent } from "../../../lib/events/player-character-filter-changed-event";
 import { EventBus } from "../../../lib/events/event-bus";
 import { SelectOption } from "../../../lib/selects/select-option";

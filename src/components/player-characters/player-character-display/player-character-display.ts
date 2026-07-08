@@ -1,13 +1,19 @@
 import html from "./player-character-display.html";
 import { PlayerCharacter } from "../../../features/player-characters/player-character";
 import { BaseComponent } from "../../base.component";
+import { IUnitOfWork } from "../../../lib/common/data-access/unit-of-work-interface";
+import { UnitOfWork } from "../../../lib/data-access/unit-of-work";
+import { appInjector } from "../../../lib/infrastructure/app-injector";
+import { CharacterClass } from "../../../features/character-class/character-class";
 
 export class PlayerCharacterDisplayComponent extends BaseComponent {
     private playerCharacter: PlayerCharacter;
+    private readonly unitOfWork: IUnitOfWork;
 
     constructor() {
         super();
         this.playerCharacter = new PlayerCharacter();
+        this.unitOfWork = appInjector.injectClass(UnitOfWork);
     }
 
     public connectedCallback() {
@@ -28,8 +34,12 @@ export class PlayerCharacterDisplayComponent extends BaseComponent {
     }
 
     private updateClass() {
+        const characterClass = this.unitOfWork
+            .repo(CharacterClass)
+            .first((characterClass) => characterClass.id === this.playerCharacter.characterClassId);
+
         const paragraph = this.shadow.querySelector("#playerCharacterClass") as HTMLParagraphElement;
-        paragraph.textContent = this.playerCharacter.characterClass;
+        paragraph.textContent = characterClass?.name ?? "";
     }
 
     private updateDescription() {
