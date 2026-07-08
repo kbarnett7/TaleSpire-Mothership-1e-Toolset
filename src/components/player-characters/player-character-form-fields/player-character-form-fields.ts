@@ -5,6 +5,9 @@ import { IUnitOfWork } from "../../../lib/common/data-access/unit-of-work-interf
 import { UnitOfWork } from "../../../lib/data-access/unit-of-work";
 import { appInjector } from "../../../lib/infrastructure/app-injector";
 import { BaseComponent } from "../../base.component";
+import { CustomSelectComponent } from "../../custom-select/custom-select";
+import { SelectOption } from "../../../lib/selects/select-option";
+import { CharacterClass } from "../../../features/character-class/character-class";
 
 export class PlayerCharacterFormFieldsComponent extends BaseComponent {
     static formAssociated = true;
@@ -17,8 +20,8 @@ export class PlayerCharacterFormFieldsComponent extends BaseComponent {
         return this.shadow.querySelector("#inputName") as HTMLInputElement;
     }
 
-    public get classSelectElement(): HTMLSelectElement {
-        return this.shadow.querySelector("#inputClass") as HTMLSelectElement;
+    public get characterClassSelectElement(): CustomSelectComponent {
+        return this.shadow.querySelector("#inputCharacterClass") as CustomSelectComponent;
     }
 
     public get descriptionInputElement(): HTMLTextAreaElement {
@@ -38,32 +41,24 @@ export class PlayerCharacterFormFieldsComponent extends BaseComponent {
 
     public connectedCallback() {
         this.render(html);
-        this.populateClassSelect();
+        this.configureCharacterClassSelectElement();
         this.updateFormValue();
     }
 
-    private populateClassSelect() {
-        const allPcs = this.unitOfWork.repo(PlayerCharacter).list();
-        const defaultClasses = ["Android", "Scientist", "Marine", "Teamster"];
-        const distinctClasses = [
-            ...new Set([...defaultClasses, ...allPcs.map((pc) => pc.characterClass)].filter((c) => c.trim() !== "")),
-        ].sort((a, b) => a.localeCompare(b));
+    private configureCharacterClassSelectElement() {
+        this.characterClassSelectElement.onOptionChange = this.handleOnCharacterClassInputChanged;
+        this.populateCharacterClassSelectElement();
+    }
 
-        const selectEl = this.classSelectElement;
-        selectEl.replaceChildren();
+    private populateCharacterClassSelectElement() {
+        const characterClasses = this.unitOfWork.repo(CharacterClass).list();
+        const characterClassOptions = [];
 
-        for (const cls of distinctClasses) {
-            const option = document.createElement("option");
-            option.value = cls;
-            option.textContent = cls;
-            selectEl.appendChild(option);
+        for (let characterClass of characterClasses) {
+            characterClassOptions.push(new SelectOption(characterClass.id.toString(), characterClass.name));
         }
 
-        // Ensure the DTO always has a valid, selectable value.
-        const selectedClass = distinctClasses[0] ?? "";
-        this._formFieldsDto.characterClassId = selectedClass;
-        selectEl.value = selectedClass;
-        this.updateFormValue();
+        this.characterClassSelectElement.populateOptions(characterClassOptions);
     }
 
     private updateFormValue() {
@@ -72,11 +67,11 @@ export class PlayerCharacterFormFieldsComponent extends BaseComponent {
 
     public setInitialFormValues(pc: PlayerCharacter) {
         this.nameInputElement.value = pc.name;
-        this.classSelectElement.value = pc.characterClass;
+        this.characterClassSelectElement.value = pc.characterClassId.toString();
         this.descriptionInputElement.value = pc.description;
 
         this._formFieldsDto.name = pc.name;
-        this._formFieldsDto.characterClassId = pc.characterClass;
+        this._formFieldsDto.characterClassId = pc.characterClassId.toString();
         this._formFieldsDto.description = pc.description;
 
         this.updateFormValue();
@@ -87,10 +82,10 @@ export class PlayerCharacterFormFieldsComponent extends BaseComponent {
         this.updateFormValue();
     }
 
-    public handleOnClassInputChanged(event: Event) {
-        this._formFieldsDto.characterClassId = this.classSelectElement.value;
+    public handleOnCharacterClassInputChanged = (newValue: SelectOption) => {
+        this._formFieldsDto.characterClassId = newValue.value;
         this.updateFormValue();
-    }
+    };
 
     public handleOnDescriptionInputChanged(event: Event) {
         this._formFieldsDto.description = this.descriptionInputElement.value;
