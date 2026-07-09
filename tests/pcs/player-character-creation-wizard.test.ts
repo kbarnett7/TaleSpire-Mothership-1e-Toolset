@@ -1,13 +1,20 @@
 import { PlayerCharacter } from "../../src/features/player-characters/player-character";
 import { PlayerCharacterCreationWizard } from "../../src/features/player-characters/player-character-creation-wizard/player-character-creation-wizard";
+import { UnitOfWork } from "../../src/lib/data-access/unit-of-work";
+import { DataAccessUtils } from "../data-access/data-access-utils";
 
 describe("PlayerCharacterCreationWizard", () => {
+    let unitOfWork: UnitOfWork;
     let playerCharacter: PlayerCharacter;
     let stateMachine: PlayerCharacterCreationWizard;
 
     beforeEach(async () => {
+        const dbContext = await DataAccessUtils.getInitializedDbContext();
+        unitOfWork = new UnitOfWork(dbContext);
+
         playerCharacter = getFullyValidPlayerCharacter();
-        stateMachine = new PlayerCharacterCreationWizard(playerCharacter);
+
+        stateMachine = new PlayerCharacterCreationWizard(playerCharacter, unitOfWork);
     });
 
     it("Should have a total of nine steps.", () => {
@@ -158,7 +165,33 @@ describe("PlayerCharacterCreationWizard", () => {
         expect(result).toBe(false);
     });
 
-    it("Should not move to step 2 when the PC's sanity save has not been set", () => {
+    it("Should move to step 2 when all the PC's base stats have been set", () => {
+        // Arrange
+        const expectedStrength = 10;
+        const expectedSpeed = 20;
+        const expectedIntellect = 30;
+        const expectedCombat = 40;
+        playerCharacter.strength = -1;
+        playerCharacter.speed = -1;
+        playerCharacter.intellect = -1;
+        playerCharacter.combat = -1;
+        const firstResult = stateMachine.moveNext();
+
+        // Act
+        stateMachine.setBaseStats(expectedStrength, expectedSpeed, expectedIntellect, expectedCombat);
+
+        const secondResult = stateMachine.moveNext();
+
+        // Assert
+        expect(firstResult).toBe(false);
+        expect(secondResult).toBe(true);
+        expect(playerCharacter.strength).toBe(expectedStrength);
+        expect(playerCharacter.speed).toBe(expectedSpeed);
+        expect(playerCharacter.intellect).toBe(expectedIntellect);
+        expect(playerCharacter.combat).toBe(expectedCombat);
+    });
+
+    it("Should not move to step 3 when the PC's sanity save has not been set", () => {
         // Arrange
         playerCharacter.sanity = -1;
         moveForwardXSteps(1);
@@ -170,7 +203,7 @@ describe("PlayerCharacterCreationWizard", () => {
         expect(result).toBe(false);
     });
 
-    it("Should not move to step 2 when the PC's fear save has not been set", () => {
+    it("Should not move to step 3 when the PC's fear save has not been set", () => {
         // Arrange
         playerCharacter.fear = -1;
         moveForwardXSteps(1);
@@ -182,10 +215,22 @@ describe("PlayerCharacterCreationWizard", () => {
         expect(result).toBe(false);
     });
 
-    it("Should not move to step 2 when the PC's body save has not been set", () => {
+    it("Should not move to step 3 when the PC's body save has not been set", () => {
         // Arrange
         playerCharacter.body = -1;
         moveForwardXSteps(1);
+
+        // Act
+        const result = stateMachine.moveNext();
+
+        // Assert
+        expect(result).toBe(false);
+    });
+
+    it("Should not move to step 4 when the PC's character class has not been set", () => {
+        // Arrange
+        playerCharacter.characterClassId = 0;
+        moveForwardXSteps(2);
 
         // Act
         const result = stateMachine.moveNext();

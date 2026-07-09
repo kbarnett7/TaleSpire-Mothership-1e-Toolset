@@ -51,11 +51,9 @@ export class PlayerCharacter extends DatabaseEntity {
     public validate(unitOfWork: IUnitOfWork): string[] {
         this.validationResults.length = 0;
 
-        this.validateName()
-            .validatePlayerCharacterDoesNotAlreadyExist(unitOfWork)
-            .validateCharacterClass(unitOfWork)
-            .validateDescription();
+        this.validateName().validatePlayerCharacterDoesNotAlreadyExist(unitOfWork).validateDescription();
 
+        this.validateCharacterClass(unitOfWork);
         this.validateStrength();
         this.validateSpeed();
         this.validateIntellect();
@@ -89,19 +87,23 @@ export class PlayerCharacter extends DatabaseEntity {
         return this;
     }
 
-    private validateCharacterClass(unitOfWork: IUnitOfWork): PlayerCharacter {
+    public validateCharacterClass(unitOfWork: IUnitOfWork): boolean {
         if (this.characterClassId <= 0) {
             this.validationResults.push("A class must be selected.");
+
+            return false;
         } else {
             const getByIdFeature = new GetCharacterClassByIdFeature(unitOfWork);
             const characterClass = getByIdFeature.handle(new GetCharacterClassByIdRequest(this.characterClassId));
 
             if (characterClass.id <= 0) {
                 this.validationResults.push(`The selected class is invalid.`);
+
+                return false;
             }
         }
 
-        return this;
+        return true;
     }
 
     private validateDescription(): PlayerCharacter {
