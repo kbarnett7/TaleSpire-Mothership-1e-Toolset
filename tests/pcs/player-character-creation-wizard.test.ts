@@ -6,7 +6,7 @@ import { DataAccessUtils } from "../data-access/data-access-utils";
 describe("PlayerCharacterCreationWizard", () => {
     let unitOfWork: UnitOfWork;
     let playerCharacter: PlayerCharacter;
-    let stateMachine: PlayerCharacterCreationWizard;
+    let wizard: PlayerCharacterCreationWizard;
 
     beforeEach(async () => {
         const dbContext = await DataAccessUtils.getInitializedDbContext();
@@ -14,20 +14,20 @@ describe("PlayerCharacterCreationWizard", () => {
 
         playerCharacter = getFullyValidPlayerCharacter();
 
-        stateMachine = new PlayerCharacterCreationWizard(playerCharacter, unitOfWork);
+        wizard = new PlayerCharacterCreationWizard(playerCharacter, unitOfWork);
     });
 
     it("Should have a total of nine steps.", () => {
         // Arrange
         // Act
         // Assert
-        expect(stateMachine.stepsCount).toBe(9);
+        expect(wizard.stepsCount).toBe(9);
     });
 
     it("First step should be Roll Stats.", () => {
         // Arrange
         // Act
-        const currentStep = stateMachine.getCurrentStep();
+        const currentStep = wizard.getCurrentStep();
 
         // Assert
         expect(currentStep?.title).toBe("Roll Stats");
@@ -38,7 +38,7 @@ describe("PlayerCharacterCreationWizard", () => {
         moveForwardXSteps(1);
 
         // Act
-        const currentStep = stateMachine.getCurrentStep();
+        const currentStep = wizard.getCurrentStep();
 
         // Assert
         expect(currentStep?.title).toBe("Roll Saves");
@@ -49,7 +49,7 @@ describe("PlayerCharacterCreationWizard", () => {
         moveForwardXSteps(2);
 
         // Act
-        const currentStep = stateMachine.getCurrentStep();
+        const currentStep = wizard.getCurrentStep();
 
         // Assert
         expect(currentStep?.title).toBe("Choose Class");
@@ -60,7 +60,7 @@ describe("PlayerCharacterCreationWizard", () => {
         moveForwardXSteps(3);
 
         // Act
-        const currentStep = stateMachine.getCurrentStep();
+        const currentStep = wizard.getCurrentStep();
 
         // Assert
         expect(currentStep?.title).toBe("Roll Health");
@@ -71,7 +71,7 @@ describe("PlayerCharacterCreationWizard", () => {
         moveForwardXSteps(4);
 
         // Act
-        const currentStep = stateMachine.getCurrentStep();
+        const currentStep = wizard.getCurrentStep();
 
         // Assert
         expect(currentStep?.title).toBe("Gain Stress");
@@ -82,7 +82,7 @@ describe("PlayerCharacterCreationWizard", () => {
         moveForwardXSteps(5);
 
         // Act
-        const currentStep = stateMachine.getCurrentStep();
+        const currentStep = wizard.getCurrentStep();
 
         // Assert
         expect(currentStep?.title).toBe("Note Trauma Response");
@@ -93,7 +93,7 @@ describe("PlayerCharacterCreationWizard", () => {
         moveForwardXSteps(6);
 
         // Act
-        const currentStep = stateMachine.getCurrentStep();
+        const currentStep = wizard.getCurrentStep();
 
         // Assert
         expect(currentStep?.title).toBe("Choose Skills");
@@ -104,7 +104,7 @@ describe("PlayerCharacterCreationWizard", () => {
         moveForwardXSteps(7);
 
         // Act
-        const currentStep = stateMachine.getCurrentStep();
+        const currentStep = wizard.getCurrentStep();
 
         // Assert
         expect(currentStep?.title).toBe("Roll Loadout");
@@ -115,7 +115,7 @@ describe("PlayerCharacterCreationWizard", () => {
         moveForwardXSteps(8);
 
         // Act
-        const currentStep = stateMachine.getCurrentStep();
+        const currentStep = wizard.getCurrentStep();
 
         // Assert
         expect(currentStep?.title).toBe("Finishing");
@@ -126,7 +126,7 @@ describe("PlayerCharacterCreationWizard", () => {
         playerCharacter.strength = -1;
 
         // Act
-        const result = stateMachine.moveNext();
+        const result = wizard.moveNext();
 
         // Assert
         expect(result).toBe(false);
@@ -137,7 +137,7 @@ describe("PlayerCharacterCreationWizard", () => {
         playerCharacter.speed = -1;
 
         // Act
-        const result = stateMachine.moveNext();
+        const result = wizard.moveNext();
 
         // Assert
         expect(result).toBe(false);
@@ -148,7 +148,7 @@ describe("PlayerCharacterCreationWizard", () => {
         playerCharacter.intellect = -1;
 
         // Act
-        const result = stateMachine.moveNext();
+        const result = wizard.moveNext();
 
         // Assert
         expect(result).toBe(false);
@@ -159,7 +159,7 @@ describe("PlayerCharacterCreationWizard", () => {
         playerCharacter.combat = -1;
 
         // Act
-        const result = stateMachine.moveNext();
+        const result = wizard.moveNext();
 
         // Assert
         expect(result).toBe(false);
@@ -175,12 +175,12 @@ describe("PlayerCharacterCreationWizard", () => {
         playerCharacter.speed = -1;
         playerCharacter.intellect = -1;
         playerCharacter.combat = -1;
-        const firstResult = stateMachine.moveNext();
+        const firstResult = wizard.moveNext();
 
         // Act
-        stateMachine.setBaseStats(expectedStrength, expectedSpeed, expectedIntellect, expectedCombat);
+        wizard.setBaseStats(expectedStrength, expectedSpeed, expectedIntellect, expectedCombat);
 
-        const secondResult = stateMachine.moveNext();
+        const secondResult = wizard.moveNext();
 
         // Assert
         expect(firstResult).toBe(false);
@@ -197,7 +197,7 @@ describe("PlayerCharacterCreationWizard", () => {
         moveForwardXSteps(1);
 
         // Act
-        const result = stateMachine.moveNext();
+        const result = wizard.moveNext();
 
         // Assert
         expect(result).toBe(false);
@@ -209,7 +209,7 @@ describe("PlayerCharacterCreationWizard", () => {
         moveForwardXSteps(1);
 
         // Act
-        const result = stateMachine.moveNext();
+        const result = wizard.moveNext();
 
         // Assert
         expect(result).toBe(false);
@@ -221,7 +221,7 @@ describe("PlayerCharacterCreationWizard", () => {
         moveForwardXSteps(1);
 
         // Act
-        const result = stateMachine.moveNext();
+        const result = wizard.moveNext();
 
         // Assert
         expect(result).toBe(false);
@@ -233,7 +233,7 @@ describe("PlayerCharacterCreationWizard", () => {
         moveForwardXSteps(2);
 
         // Act
-        const result = stateMachine.moveNext();
+        const result = wizard.moveNext();
 
         // Assert
         expect(result).toBe(false);
@@ -241,7 +241,7 @@ describe("PlayerCharacterCreationWizard", () => {
 
     function moveForwardXSteps(numberOfSteps: number) {
         for (let currentStep = 0; currentStep < numberOfSteps; currentStep++) {
-            stateMachine.moveNext();
+            wizard.moveNext();
         }
     }
 
