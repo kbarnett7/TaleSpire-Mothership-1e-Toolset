@@ -1,4 +1,5 @@
 import { DatabaseEntity } from "../../lib/common/features/database-entity";
+import { Stat } from "../stat-modifiers/stat";
 import { StatModifier } from "../stat-modifiers/stat-modifier";
 
 export class CharacterClass extends DatabaseEntity {
@@ -13,5 +14,17 @@ export class CharacterClass extends DatabaseEntity {
         this.name = name ?? "";
         this.description = description ?? "";
         this.statModifiers = statModifiers ?? [];
+    }
+
+    public getNonUserChoiceStatModifiers() {
+        return this.statModifiers
+            .filter((statModifier) => statModifier.stat !== Stat.UserChoice)
+            .map((statModifier) => new StatModifier(statModifier.stat, statModifier.modifier));
+    }
+
+    public getUserChoiceStatModifiers() {
+        return this.statModifiers
+            .filter((statModifier) => statModifier.stat === Stat.UserChoice)
+            .map((statModifier) => new StatModifier(statModifier.stat, statModifier.modifier));
     }
 }

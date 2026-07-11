@@ -1,6 +1,7 @@
 import { IUnitOfWork } from "../../../lib/common/data-access/unit-of-work-interface";
 import { LinearWizardStateMachine } from "../../../lib/wizard-state-machine/linear-wizard-state-machine";
 import { CharacterClass } from "../../character-class/character-class";
+import { StatModifier } from "../../stat-modifiers/stat-modifier";
 import { PlayerCharacter } from "../player-character";
 import { ChooseClassWizardStep } from "./choose-class-wizard-step";
 import { ChooseSkillsWizardStep } from "./choose-skills-wizard-step";
@@ -47,13 +48,29 @@ export class PlayerCharacterCreationWizard extends LinearWizardStateMachine {
         this.playerCharacter.baseBody = baseBody;
     }
 
-    public setCharacterClass(characterClassId: number) {
+    public setCharacterClass(characterClassId: number, userChoiceStats?: StatModifier[]) {
         this.playerCharacter.characterClassId = characterClassId;
 
         const characteClass =
             this.unitOfWork.repo(CharacterClass).first((characterClass) => characterClass.id === characterClassId) ??
             new CharacterClass();
 
-        this.playerCharacter.addStatModifiers(characteClass.statModifiers);
+        this.playerCharacter.addStatModifiers(characteClass.getNonUserChoiceStatModifiers());
+
+        if (userChoiceStats) {
+            let userChoiceModifiers = characteClass.getUserChoiceStatModifiers();
+
+            for (const userChoiceStat of userChoiceStats) {
+                const targetIndex = userChoiceModifiers.findIndex(
+                    (modifier) => modifier.modifier === userChoiceStat.modifier,
+                );
+
+                if (targetIndex !== -1) {
+                    this.playerCharacter.addStatModifiers([userChoiceStat]);
+
+                    userChoiceModifiers.splice(targetIndex, 1);
+                }
+            }
+        }
     }
 }

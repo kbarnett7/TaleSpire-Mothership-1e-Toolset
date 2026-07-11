@@ -98,13 +98,41 @@
             "id": 2,
             "sourceId": 2,
             "name": "Android",
-            "description": "Androids are a terrifying and exciting addition to any crew. They tend to unnerve other crewmembers with their cold inhumanity."
+            "description": "Androids are a terrifying and exciting addition to any crew. They tend to unnerve other crewmembers with their cold inhumanity.",
+            "statModifiers": [
+                {
+                    "stat": "intellect",
+                    "modifier": 20
+                },
+                {
+                    "stat": "fear",
+                    "modifier": 60
+                },
+                {
+                    "stat": "user-choice",
+                    "modifier": -10
+                }
+            ]
         },
         {
             "id": 3,
             "sourceId": 2,
             "name": "Scientist",
-            "description": "Scientists are doctors, researchers, or anyone who wants to slice open creatures (or infected crewmembers) with a scalpel."
+            "description": "Scientists are doctors, researchers, or anyone who wants to slice open creatures (or infected crewmembers) with a scalpel.",
+            "statModifiers": [
+                {
+                    "stat": "intellect",
+                    "modifier": 10
+                },
+                {
+                    "stat": "sanity",
+                    "modifier": 30
+                },
+                {
+                    "stat": "user-choice",
+                    "modifier": 5
+                }
+            ]
         },
         {
             "id": 4,

@@ -1,6 +1,8 @@
 import { CharacterClass } from "../../src/features/character-class/character-class";
 import { PlayerCharacter } from "../../src/features/player-characters/player-character";
 import { PlayerCharacterCreationWizard } from "../../src/features/player-characters/player-character-creation-wizard/player-character-creation-wizard";
+import { Stat } from "../../src/features/stat-modifiers/stat";
+import { StatModifier } from "../../src/features/stat-modifiers/stat-modifier";
 import { UnitOfWork } from "../../src/lib/data-access/unit-of-work";
 import { DataAccessUtils } from "../data-access/data-access-utils";
 import { PlayerCharacterTestUtils } from "./player-character-test-utils";
@@ -36,13 +38,66 @@ describe("Player Character Calculated Stats", () => {
         wizard.setCharacterClass(getClassByName("Marine").id);
 
         // Assert
-        // expect(playerCharacter.strength).toBe(expectedStrength);
-        // expect(playerCharacter.speed).toBe(expectedSpeed);
-        // expect(playerCharacter.intellect).toBe(expectedIntellect);
+        expect(playerCharacter.strength).toBe(expectedStrength);
+        expect(playerCharacter.speed).toBe(expectedSpeed);
+        expect(playerCharacter.intellect).toBe(expectedIntellect);
         expect(playerCharacter.combat).toBe(expectedCombat);
-        // expect(playerCharacter.sanity).toBe(expectedSanity);
-        // expect(playerCharacter.fear).toBe(expectedFear);
-        // expect(playerCharacter.body).toBe(expectedBody);
+        expect(playerCharacter.sanity).toBe(expectedSanity);
+        expect(playerCharacter.fear).toBe(expectedFear);
+        expect(playerCharacter.body).toBe(expectedBody);
+    });
+
+    it("Should have a +20 to intellect, a -10 to a user-selected stat, a +60 to fear save, and a +1 max wound when the class is set to Android.", () => {
+        // Arrange
+        const expectedStrength = 15;
+        const expectedSpeed = 20;
+        const expectedIntellect = 43;
+        const expectedCombat = 16;
+        const expectedSanity = 20;
+        const expectedFear = 80;
+        const expectedBody = 22;
+        const userChoiceModifiers = [new StatModifier(Stat.Combat, -10)];
+        // TODO: add wound assertion
+        wizard.setBaseStats(expectedStrength, expectedSpeed, expectedIntellect - 20, expectedCombat + 10);
+        wizard.setBaseSaves(expectedSanity, expectedFear - 60, expectedBody);
+
+        // Act
+        wizard.setCharacterClass(getClassByName("Android").id, userChoiceModifiers);
+
+        // Assert
+        expect(playerCharacter.strength).toBe(expectedStrength);
+        expect(playerCharacter.speed).toBe(expectedSpeed);
+        expect(playerCharacter.intellect).toBe(expectedIntellect);
+        expect(playerCharacter.combat).toBe(expectedCombat);
+        expect(playerCharacter.sanity).toBe(expectedSanity);
+        expect(playerCharacter.fear).toBe(expectedFear);
+        expect(playerCharacter.body).toBe(expectedBody);
+    });
+
+    it("Should have a +10 to intellect, a +5 to a user-selected stat, and a +30 to sanity save when the class is set to Scientist.", () => {
+        // Arrange
+        const expectedStrength = 15;
+        const expectedSpeed = 20;
+        const expectedIntellect = 43;
+        const expectedCombat = 16;
+        const expectedSanity = 50;
+        const expectedFear = 30;
+        const expectedBody = 22;
+        const userChoiceModifiers = [new StatModifier(Stat.Strength, 5)];
+        wizard.setBaseStats(expectedStrength - 5, expectedSpeed, expectedIntellect - 10, expectedCombat);
+        wizard.setBaseSaves(expectedSanity - 30, expectedFear, expectedBody);
+
+        // Act
+        wizard.setCharacterClass(getClassByName("Scientist").id, userChoiceModifiers);
+
+        // Assert
+        expect(playerCharacter.strength).toBe(expectedStrength);
+        expect(playerCharacter.speed).toBe(expectedSpeed);
+        expect(playerCharacter.intellect).toBe(expectedIntellect);
+        expect(playerCharacter.combat).toBe(expectedCombat);
+        expect(playerCharacter.sanity).toBe(expectedSanity);
+        expect(playerCharacter.fear).toBe(expectedFear);
+        expect(playerCharacter.body).toBe(expectedBody);
     });
 
     it("Should have a +5 to all stats and a +10 to all saves when the class is set to Teamster.", () => {

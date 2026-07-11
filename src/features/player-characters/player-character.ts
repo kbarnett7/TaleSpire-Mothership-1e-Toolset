@@ -2,6 +2,7 @@ import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface
 import { DatabaseEntity } from "../../lib/common/features/database-entity";
 import { GetCharacterClassByIdFeature } from "../character-class/get-character-class-by-id/get-character-class-by-id-feature";
 import { GetCharacterClassByIdRequest } from "../character-class/get-character-class-by-id/get-character-class-by-id-request";
+import { Stat } from "../stat-modifiers/stat";
 import { StatModifier } from "../stat-modifiers/stat-modifier";
 
 export class PlayerCharacter extends DatabaseEntity {
@@ -20,31 +21,31 @@ export class PlayerCharacter extends DatabaseEntity {
     private validationResults: string[];
 
     public get strength(): number {
-        return this.getCalculatedStat("strength", this.baseStrength);
+        return this.getCalculatedStat(Stat.Strength, this.baseStrength);
     }
 
     public get speed(): number {
-        return this.baseSpeed + 5;
+        return this.getCalculatedStat(Stat.Speed, this.baseSpeed);
     }
 
     public get intellect(): number {
-        return this.baseIntellect + 5;
+        return this.getCalculatedStat(Stat.Intellect, this.baseIntellect);
     }
 
     public get combat(): number {
-        return this.getCalculatedStat("combat", this.baseCombat);
+        return this.getCalculatedStat(Stat.Combat, this.baseCombat);
     }
 
     public get sanity(): number {
-        return this.baseSanity + 10;
+        return this.getCalculatedStat(Stat.Sanity, this.baseSanity);
     }
 
     public get fear(): number {
-        return this.baseFear + 10;
+        return this.getCalculatedStat(Stat.Fear, this.baseFear);
     }
 
     public get body(): number {
-        return this.baseBody + 10;
+        return this.getCalculatedStat(Stat.Body, this.baseBody);
     }
 
     constructor(
