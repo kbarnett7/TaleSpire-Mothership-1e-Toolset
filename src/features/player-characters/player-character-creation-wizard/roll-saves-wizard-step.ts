@@ -8,9 +8,9 @@ export class RollSavesWizardStep extends PlayerCharacterWizardStep {
 
     public override canMoveNext(): boolean {
         return (
-            this.playerCharacter.validateSanity() &&
-            this.playerCharacter.validateFear() &&
-            this.playerCharacter.validateBody()
+            this.playerCharacter.validateBaseSanity() &&
+            this.playerCharacter.validateBaseFear() &&
+            this.playerCharacter.validateBaseBody()
         );
     }
 }

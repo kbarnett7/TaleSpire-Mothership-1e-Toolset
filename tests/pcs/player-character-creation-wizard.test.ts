@@ -2,6 +2,7 @@ import { PlayerCharacter } from "../../src/features/player-characters/player-cha
 import { PlayerCharacterCreationWizard } from "../../src/features/player-characters/player-character-creation-wizard/player-character-creation-wizard";
 import { UnitOfWork } from "../../src/lib/data-access/unit-of-work";
 import { DataAccessUtils } from "../data-access/data-access-utils";
+import { PlayerCharacterTestUtils } from "./player-character-test-utils";
 
 describe("PlayerCharacterCreationWizard", () => {
     let unitOfWork: UnitOfWork;
@@ -12,7 +13,7 @@ describe("PlayerCharacterCreationWizard", () => {
         const dbContext = await DataAccessUtils.getInitializedDbContext();
         unitOfWork = new UnitOfWork(dbContext);
 
-        playerCharacter = getFullyValidPlayerCharacter();
+        playerCharacter = PlayerCharacterTestUtils.getFullyValidPlayerCharacter();
 
         wizard = new PlayerCharacterCreationWizard(playerCharacter, unitOfWork);
     });
@@ -123,7 +124,7 @@ describe("PlayerCharacterCreationWizard", () => {
 
     it("Should not move to step 2 when the PC's strength stat has not been set", () => {
         // Arrange
-        playerCharacter.strength = -1;
+        playerCharacter.baseStrength = -1;
 
         // Act
         const result = wizard.moveNext();
@@ -134,7 +135,7 @@ describe("PlayerCharacterCreationWizard", () => {
 
     it("Should not move to step 2 when the PC's speed stat has not been set", () => {
         // Arrange
-        playerCharacter.speed = -1;
+        playerCharacter.baseSpeed = -1;
 
         // Act
         const result = wizard.moveNext();
@@ -145,7 +146,7 @@ describe("PlayerCharacterCreationWizard", () => {
 
     it("Should not move to step 2 when the PC's intellect stat has not been set", () => {
         // Arrange
-        playerCharacter.intellect = -1;
+        playerCharacter.baseIntellect = -1;
 
         // Act
         const result = wizard.moveNext();
@@ -156,7 +157,7 @@ describe("PlayerCharacterCreationWizard", () => {
 
     it("Should not move to step 2 when the PC's combat stat has not been set", () => {
         // Arrange
-        playerCharacter.combat = -1;
+        playerCharacter.baseCombat = -1;
 
         // Act
         const result = wizard.moveNext();
@@ -171,10 +172,10 @@ describe("PlayerCharacterCreationWizard", () => {
         const expectedSpeed = 20;
         const expectedIntellect = 30;
         const expectedCombat = 40;
-        playerCharacter.strength = -1;
-        playerCharacter.speed = -1;
-        playerCharacter.intellect = -1;
-        playerCharacter.combat = -1;
+        playerCharacter.baseStrength = -1;
+        playerCharacter.baseSpeed = -1;
+        playerCharacter.baseIntellect = -1;
+        playerCharacter.baseCombat = -1;
         const firstResult = wizard.moveNext();
 
         // Act
@@ -185,15 +186,15 @@ describe("PlayerCharacterCreationWizard", () => {
         // Assert
         expect(firstResult).toBe(false);
         expect(secondResult).toBe(true);
-        expect(playerCharacter.strength).toBe(expectedStrength);
-        expect(playerCharacter.speed).toBe(expectedSpeed);
-        expect(playerCharacter.intellect).toBe(expectedIntellect);
-        expect(playerCharacter.combat).toBe(expectedCombat);
+        expect(playerCharacter.baseStrength).toBe(expectedStrength);
+        expect(playerCharacter.baseSpeed).toBe(expectedSpeed);
+        expect(playerCharacter.baseIntellect).toBe(expectedIntellect);
+        expect(playerCharacter.baseCombat).toBe(expectedCombat);
     });
 
     it("Should not move to step 3 when the PC's sanity save has not been set", () => {
         // Arrange
-        playerCharacter.sanity = -1;
+        playerCharacter.baseSanity = -1;
         moveForwardXSteps(1);
 
         // Act
@@ -205,7 +206,7 @@ describe("PlayerCharacterCreationWizard", () => {
 
     it("Should not move to step 3 when the PC's fear save has not been set", () => {
         // Arrange
-        playerCharacter.fear = -1;
+        playerCharacter.baseFear = -1;
         moveForwardXSteps(1);
 
         // Act
@@ -217,7 +218,7 @@ describe("PlayerCharacterCreationWizard", () => {
 
     it("Should not move to step 3 when the PC's body save has not been set", () => {
         // Arrange
-        playerCharacter.body = -1;
+        playerCharacter.baseBody = -1;
         moveForwardXSteps(1);
 
         // Act
@@ -225,6 +226,30 @@ describe("PlayerCharacterCreationWizard", () => {
 
         // Assert
         expect(result).toBe(false);
+    });
+
+    it("Should move to step 3 when all the PC's base saves have been set", () => {
+        // Arrange
+        const expectedSanity = 10;
+        const expectedFear = 20;
+        const expectedBody = 30;
+        playerCharacter.baseSanity = -1;
+        playerCharacter.baseFear = -1;
+        playerCharacter.baseBody = -1;
+        moveForwardXSteps(1);
+        const firstResult = wizard.moveNext();
+
+        // Act
+        wizard.setBaseSaves(expectedSanity, expectedFear, expectedBody);
+
+        const secondResult = wizard.moveNext();
+
+        // Assert
+        expect(firstResult).toBe(false);
+        expect(secondResult).toBe(true);
+        expect(playerCharacter.baseSanity).toBe(expectedSanity);
+        expect(playerCharacter.baseFear).toBe(expectedFear);
+        expect(playerCharacter.baseBody).toBe(expectedBody);
     });
 
     it("Should not move to step 4 when the PC's character class has not been set", () => {
@@ -239,13 +264,27 @@ describe("PlayerCharacterCreationWizard", () => {
         expect(result).toBe(false);
     });
 
+    it("Should move to step 4 when the PC class has been set", () => {
+        // Arrange
+        const expectedCharacterClassId = 2;
+        playerCharacter.characterClassId = -1;
+        moveForwardXSteps(2);
+        const firstResult = wizard.moveNext();
+
+        // Act
+        wizard.setCharacterClass(expectedCharacterClassId);
+
+        const secondResult = wizard.moveNext();
+
+        // Assert
+        expect(firstResult).toBe(false);
+        expect(secondResult).toBe(true);
+        expect(playerCharacter.characterClassId).toBe(expectedCharacterClassId);
+    });
+
     function moveForwardXSteps(numberOfSteps: number) {
         for (let currentStep = 0; currentStep < numberOfSteps; currentStep++) {
             wizard.moveNext();
         }
-    }
-
-    function getFullyValidPlayerCharacter(): PlayerCharacter {
-        return new PlayerCharacter(1, "Jane Doe", 1, "A fully created player character.", 25, 30, 35, 40, 10, 15, 20);
     }
 });

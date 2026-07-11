@@ -78,7 +78,21 @@
             "id": 1,
             "sourceId": 2,
             "name": "Marine",
-            "description": "Marines are handy in a fight, but whenever they Panic it may cause problems for the rest of the crew."
+            "description": "Marines are handy in a fight, but whenever they Panic it may cause problems for the rest of the crew.",
+            "statModifiers": [
+                {
+                    "stat": "combat",
+                    "modifier": 10
+                },
+                {
+                    "stat": "body",
+                    "modifier": 10
+                },
+                {
+                    "stat": "fear",
+                    "modifier": 20
+                }
+            ]
         },
         {
             "id": 2,
@@ -96,7 +110,37 @@
             "id": 4,
             "sourceId": 2,
             "name": "Teamster",
-            "description": "Teamsters are rough and tumble blue-collar space workers, mechanics, engineers, miners, and pilots."
+            "description": "Teamsters are rough and tumble blue-collar space workers, mechanics, engineers, miners, and pilots.",
+            "statModifiers": [
+                {
+                    "stat": "strength",
+                    "modifier": 5
+                },
+                {
+                    "stat": "speed",
+                    "modifier": 5
+                },
+                {
+                    "stat": "intellect",
+                    "modifier": 5
+                },
+                {
+                    "stat": "combat",
+                    "modifier": 5
+                },
+                {
+                    "stat": "sanity",
+                    "modifier": 10
+                },
+                {
+                    "stat": "fear",
+                    "modifier": 10
+                },
+                {
+                    "stat": "body",
+                    "modifier": 10
+                }
+            ]
         }
     ],
     "equipment": [

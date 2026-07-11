@@ -2,45 +2,76 @@ import { IUnitOfWork } from "../../lib/common/data-access/unit-of-work-interface
 import { DatabaseEntity } from "../../lib/common/features/database-entity";
 import { GetCharacterClassByIdFeature } from "../character-class/get-character-class-by-id/get-character-class-by-id-feature";
 import { GetCharacterClassByIdRequest } from "../character-class/get-character-class-by-id/get-character-class-by-id-request";
+import { StatModifier } from "../stat-modifiers/stat-modifier";
 
 export class PlayerCharacter extends DatabaseEntity {
     public name: string;
     public characterClassId: number;
     public description: string;
-    public strength: number;
-    public speed: number;
-    public intellect: number;
-    public combat: number;
-    public sanity: number;
-    public fear: number;
-    public body: number;
+    public baseStrength: number;
+    public baseSpeed: number;
+    public baseIntellect: number;
+    public baseCombat: number;
+    public baseSanity: number;
+    public baseFear: number;
+    public baseBody: number;
 
+    private statModifiers: StatModifier[];
     private validationResults: string[];
+
+    public get strength(): number {
+        return this.getCalculatedStat("strength", this.baseStrength);
+    }
+
+    public get speed(): number {
+        return this.baseSpeed + 5;
+    }
+
+    public get intellect(): number {
+        return this.baseIntellect + 5;
+    }
+
+    public get combat(): number {
+        return this.getCalculatedStat("combat", this.baseCombat);
+    }
+
+    public get sanity(): number {
+        return this.baseSanity + 10;
+    }
+
+    public get fear(): number {
+        return this.baseFear + 10;
+    }
+
+    public get body(): number {
+        return this.baseBody + 10;
+    }
 
     constructor(
         id?: number,
         name?: string,
         characterClassId?: number,
         description?: string,
-        strength?: number,
-        speed?: number,
-        intellect?: number,
-        combat?: number,
-        sanity?: number,
-        fear?: number,
-        body?: number,
+        baseStrength?: number,
+        baseSpeed?: number,
+        baseIntellect?: number,
+        baseCombat?: number,
+        baseSanity?: number,
+        baseFear?: number,
+        baseBody?: number,
     ) {
         super(id);
         this.name = name ?? "";
         this.characterClassId = characterClassId ?? 0;
         this.description = description ?? "";
-        this.strength = strength ?? 0;
-        this.speed = speed ?? 0;
-        this.intellect = intellect ?? 0;
-        this.combat = combat ?? 0;
-        this.sanity = sanity ?? 0;
-        this.fear = fear ?? 0;
-        this.body = body ?? 0;
+        this.baseStrength = baseStrength ?? 0;
+        this.baseSpeed = baseSpeed ?? 0;
+        this.baseIntellect = baseIntellect ?? 0;
+        this.baseCombat = baseCombat ?? 0;
+        this.baseSanity = baseSanity ?? 0;
+        this.baseFear = baseFear ?? 0;
+        this.baseBody = baseBody ?? 0;
+        this.statModifiers = [];
         this.validationResults = [];
     }
 
@@ -54,13 +85,13 @@ export class PlayerCharacter extends DatabaseEntity {
         this.validateName().validatePlayerCharacterDoesNotAlreadyExist(unitOfWork).validateDescription();
 
         this.validateCharacterClass(unitOfWork);
-        this.validateStrength();
-        this.validateSpeed();
-        this.validateIntellect();
-        this.validateCombat();
-        this.validateSanity();
-        this.validateFear();
-        this.validateBody();
+        this.validateBaseStrength();
+        this.validateBaseSpeed();
+        this.validateBaseIntellect();
+        this.validateBaseCombat();
+        this.validateBaseSanity();
+        this.validateBaseFear();
+        this.validateBaseBody();
 
         return this.validationResults;
     }
@@ -116,50 +147,16 @@ export class PlayerCharacter extends DatabaseEntity {
         return this;
     }
 
-    public validateStrength(): boolean {
-        if (this.strength < 0) {
+    public validateBaseStrength(): boolean {
+        if (this.baseStrength < 0) {
             this.validationResults.push(
-                `The strength \"${this.strength}\" is invalid. The strength must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
+                `The base strength \"${this.baseStrength}\" is invalid. The base strength must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
             );
 
             return false;
-        } else if (this.strength > 100) {
+        } else if (this.baseStrength > 100) {
             this.validationResults.push(
-                `The strength \"${this.strength}\" is invalid. The strength must be between 0 and 100.`,
-            );
-
-            return false;
-        }
-
-        return true;
-    }
-
-    public validateSpeed(): boolean {
-        if (this.speed < 0) {
-            this.validationResults.push(
-                `The speed \"${this.speed}\" is invalid. The speed must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
-            );
-
-            return false;
-        } else if (this.speed > 100) {
-            this.validationResults.push(`The speed \"${this.speed}\" is invalid. The speed must be between 0 and 100.`);
-
-            return false;
-        }
-
-        return true;
-    }
-
-    public validateIntellect(): boolean {
-        if (this.intellect < 0) {
-            this.validationResults.push(
-                `The intellect \"${this.intellect}\" is invalid. The intellect must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
-            );
-
-            return false;
-        } else if (this.intellect > 100) {
-            this.validationResults.push(
-                `The intellect \"${this.intellect}\" is invalid. The intellect must be between 0 and 100.`,
+                `The base strength \"${this.baseStrength}\" is invalid. The base strength must be between 0 and 100.`,
             );
 
             return false;
@@ -168,34 +165,16 @@ export class PlayerCharacter extends DatabaseEntity {
         return true;
     }
 
-    public validateCombat(): boolean {
-        if (this.combat < 0) {
+    public validateBaseSpeed(): boolean {
+        if (this.baseSpeed < 0) {
             this.validationResults.push(
-                `The combat \"${this.combat}\" is invalid. The combat must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
+                `The base speed \"${this.baseSpeed}\" is invalid. The base speed must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
             );
 
             return false;
-        } else if (this.combat > 100) {
+        } else if (this.baseSpeed > 100) {
             this.validationResults.push(
-                `The combat \"${this.combat}\" is invalid. The combat must be between 0 and 100.`,
-            );
-
-            return false;
-        }
-
-        return true;
-    }
-
-    public validateSanity(): boolean {
-        if (this.sanity < 0) {
-            this.validationResults.push(
-                `The sanity \"${this.sanity}\" is invalid. The sanity must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
-            );
-
-            return false;
-        } else if (this.sanity > 100) {
-            this.validationResults.push(
-                `The sanity \"${this.sanity}\" is invalid. The sanity must be between 0 and 100.`,
+                `The base speed \"${this.baseSpeed}\" is invalid. The base speed must be between 0 and 100.`,
             );
 
             return false;
@@ -204,15 +183,17 @@ export class PlayerCharacter extends DatabaseEntity {
         return true;
     }
 
-    public validateFear(): boolean {
-        if (this.fear < 0) {
+    public validateBaseIntellect(): boolean {
+        if (this.baseIntellect < 0) {
             this.validationResults.push(
-                `The fear \"${this.fear}\" is invalid. The fear must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
+                `The base intellect \"${this.baseIntellect}\" is invalid. The base intellect must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
             );
 
             return false;
-        } else if (this.fear > 100) {
-            this.validationResults.push(`The fear \"${this.fear}\" is invalid. The fear must be between 0 and 100.`);
+        } else if (this.baseIntellect > 100) {
+            this.validationResults.push(
+                `The base intellect \"${this.baseIntellect}\" is invalid. The base intellect must be between 0 and 100.`,
+            );
 
             return false;
         }
@@ -220,20 +201,92 @@ export class PlayerCharacter extends DatabaseEntity {
         return true;
     }
 
-    public validateBody(): boolean {
-        if (this.body < 0) {
+    public validateBaseCombat(): boolean {
+        if (this.baseCombat < 0) {
             this.validationResults.push(
-                `The body \"${this.body}\" is invalid. The body must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
+                `The base combat \"${this.baseCombat}\" is invalid. The base combat must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
             );
 
             return false;
-        } else if (this.body > 100) {
-            this.validationResults.push(`The body \"${this.body}\" is invalid. The body must be between 0 and 100.`);
+        } else if (this.baseCombat > 100) {
+            this.validationResults.push(
+                `The base combat \"${this.baseCombat}\" is invalid. The base combat must be between 0 and 100.`,
+            );
 
             return false;
         }
 
         return true;
+    }
+
+    public validateBaseSanity(): boolean {
+        if (this.baseSanity < 0) {
+            this.validationResults.push(
+                `The base sanity \"${this.baseSanity}\" is invalid. The base sanity must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
+            );
+
+            return false;
+        } else if (this.baseSanity > 100) {
+            this.validationResults.push(
+                `The base sanity \"${this.baseSanity}\" is invalid. The base sanity must be between 0 and 100.`,
+            );
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public validateBaseFear(): boolean {
+        if (this.baseFear < 0) {
+            this.validationResults.push(
+                `The base fear \"${this.baseFear}\" is invalid. The base fear must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
+            );
+
+            return false;
+        } else if (this.baseFear > 100) {
+            this.validationResults.push(
+                `The base fear \"${this.baseFear}\" is invalid. The base fear must be between 0 and 100.`,
+            );
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public validateBaseBody(): boolean {
+        if (this.baseBody < 0) {
+            this.validationResults.push(
+                `The base body \"${this.baseBody}\" is invalid. The base body must be greater than or equal to zero, and it must only contain digits (no decimals or other special characters).`,
+            );
+
+            return false;
+        } else if (this.baseBody > 100) {
+            this.validationResults.push(
+                `The base body \"${this.baseBody}\" is invalid. The base body must be between 0 and 100.`,
+            );
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public addStatModifiers(statModifiers: StatModifier[]) {
+        statModifiers.forEach((modifier) => this.statModifiers.push(modifier));
+    }
+
+    private getCalculatedStat(statName: string, statBase: number): number {
+        let calculatedStat = statBase;
+
+        this.statModifiers.forEach((statModifier) => {
+            if (statModifier.stat === statName) {
+                calculatedStat += statModifier.modifier;
+            }
+        });
+
+        return calculatedStat;
     }
 
     public saveToDatabase(unitOfWork: IUnitOfWork): void {

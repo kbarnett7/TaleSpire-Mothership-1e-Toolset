@@ -1,5 +1,6 @@
 import { IUnitOfWork } from "../../../lib/common/data-access/unit-of-work-interface";
 import { LinearWizardStateMachine } from "../../../lib/wizard-state-machine/linear-wizard-state-machine";
+import { CharacterClass } from "../../character-class/character-class";
 import { PlayerCharacter } from "../player-character";
 import { ChooseClassWizardStep } from "./choose-class-wizard-step";
 import { ChooseSkillsWizardStep } from "./choose-skills-wizard-step";
@@ -34,9 +35,25 @@ export class PlayerCharacterCreationWizard extends LinearWizardStateMachine {
     }
 
     public setBaseStats(baseStrength: number, baseSpeed: number, baseIntellect: number, baseCombat: number) {
-        this.playerCharacter.strength = baseStrength;
-        this.playerCharacter.speed = baseSpeed;
-        this.playerCharacter.intellect = baseIntellect;
-        this.playerCharacter.combat = baseCombat;
+        this.playerCharacter.baseStrength = baseStrength;
+        this.playerCharacter.baseSpeed = baseSpeed;
+        this.playerCharacter.baseIntellect = baseIntellect;
+        this.playerCharacter.baseCombat = baseCombat;
+    }
+
+    public setBaseSaves(baseSanity: number, baseFear: number, baseBody: number) {
+        this.playerCharacter.baseSanity = baseSanity;
+        this.playerCharacter.baseFear = baseFear;
+        this.playerCharacter.baseBody = baseBody;
+    }
+
+    public setCharacterClass(characterClassId: number) {
+        this.playerCharacter.characterClassId = characterClassId;
+
+        const characteClass =
+            this.unitOfWork.repo(CharacterClass).first((characterClass) => characterClass.id === characterClassId) ??
+            new CharacterClass();
+
+        this.playerCharacter.addStatModifiers(characteClass.statModifiers);
     }
 }

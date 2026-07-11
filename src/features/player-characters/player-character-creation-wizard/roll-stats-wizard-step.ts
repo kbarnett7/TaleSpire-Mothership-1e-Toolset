@@ -8,10 +8,10 @@ export class RollStatsWizardStep extends PlayerCharacterWizardStep {
 
     public override canMoveNext(): boolean {
         return (
-            this.playerCharacter.validateStrength() &&
-            this.playerCharacter.validateSpeed() &&
-            this.playerCharacter.validateIntellect() &&
-            this.playerCharacter.validateCombat()
+            this.playerCharacter.validateBaseStrength() &&
+            this.playerCharacter.validateBaseSpeed() &&
+            this.playerCharacter.validateBaseIntellect() &&
+            this.playerCharacter.validateBaseCombat()
         );
     }
 }
