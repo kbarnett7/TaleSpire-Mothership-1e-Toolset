@@ -57,21 +57,8 @@ export class PlayerCharacterCreationWizard extends LinearWizardStateMachine {
 
         this.playerCharacter.addStatModifiers(characteClass.getNonUserChoiceStatModifiers());
 
-        if (userChoiceStats) {
-            let userChoiceModifiers = characteClass.getUserChoiceStatModifiers();
-
-            for (const userChoiceStat of userChoiceStats) {
-                const targetIndex = userChoiceModifiers.findIndex(
-                    (modifier) => modifier.modifier === userChoiceStat.modifier,
-                );
-
-                if (targetIndex !== -1) {
-                    this.playerCharacter.addStatModifiers([userChoiceStat]);
-
-                    // TODO: is this really necessary to confirm this is a valid modifier? The UI will control it.
-                    userChoiceModifiers.splice(targetIndex, 1);
-                }
-            }
+        if (userChoiceStats && userChoiceStats.length > 0) {
+            this.playerCharacter.addStatModifiers(userChoiceStats);
         }
     }
 }
