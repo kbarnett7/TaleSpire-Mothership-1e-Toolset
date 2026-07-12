@@ -11,6 +11,7 @@ export class PageRouterService {
     public static gearItemPage: string = "Gear Item";
     public static npcPage: string = "NPC";
     public static playerCharacterPage: string = "Player Character";
+    public static newPlayerCharacterPage: string = "New Player Character";
 
     private static _instance: PageRouterService;
 
@@ -34,42 +35,57 @@ export class PageRouterService {
     private populatePageMetaDataMap() {
         this._pages.set(
             PageRouterService.charactersPage,
-            new PageRouteData("/", "characters-page", PageRouterService.charactersPage)
+            new PageRouteData("/", "characters-page", PageRouterService.charactersPage),
         );
 
         this._pages.set(
             PageRouterService.npcsPage,
-            new PageRouteData("/npcs", "npcs-page", PageRouterService.npcsPage)
+            new PageRouteData("/npcs", "npcs-page", PageRouterService.npcsPage),
         );
 
         this._pages.set(
             PageRouterService.gearPage,
-            new PageRouteData("/gear", "gear-page", PageRouterService.gearPage)
+            new PageRouteData("/gear", "gear-page", PageRouterService.gearPage),
         );
 
         this._pages.set(
             PageRouterService.codexPage,
-            new PageRouteData("/codex", "codex-page", PageRouterService.codexPage)
+            new PageRouteData("/codex", "codex-page", PageRouterService.codexPage),
         );
 
         this._pages.set(
             PageRouterService.aboutPage,
-            new PageRouteData("/about", "about-page", PageRouterService.aboutPage)
+            new PageRouteData("/about", "about-page", PageRouterService.aboutPage),
         );
 
         this._pages.set(
             PageRouterService.gearItemPage,
-            new PageRouteData("/gear/#", "gear-item-page", PageRouterService.gearItemPage, true)
+            new PageRouteData("/gear/#", "gear-item-page", PageRouterService.gearItemPage, true),
         );
 
         this._pages.set(
             PageRouterService.npcPage,
-            new PageRouteData("/npc/#", "npc-page", PageRouterService.npcPage, true)
+            new PageRouteData("/npc/#", "npc-page", PageRouterService.npcPage, true),
         );
 
         this._pages.set(
             PageRouterService.playerCharacterPage,
-            new PageRouteData("/player-character/#", "player-character-page", PageRouterService.playerCharacterPage, true)
+            new PageRouteData(
+                "/player-character/#",
+                "player-character-page",
+                PageRouterService.playerCharacterPage,
+                true,
+            ),
+        );
+
+        this._pages.set(
+            PageRouterService.newPlayerCharacterPage,
+            new PageRouteData(
+                "/player-character/new",
+                "new-player-character-page",
+                PageRouterService.newPlayerCharacterPage,
+                true,
+            ),
         );
     }
 
@@ -94,7 +110,7 @@ export class PageRouterService {
     public navigateToPage(
         pageTitle: string,
         id?: string,
-        params?: string | URLSearchParams | string[][] | Record<string, string> | undefined
+        params?: string | URLSearchParams | string[][] | Record<string, string> | undefined,
     ) {
         const pageChangeInitiatedEvent = new PageChangeInitiatedEvent(this.getPageByTitle(pageTitle), id, params);
 

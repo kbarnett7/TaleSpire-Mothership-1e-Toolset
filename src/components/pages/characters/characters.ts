@@ -24,7 +24,8 @@ export class CharactersComponent extends BasePageComponent {
     }
 
     private onAddNewPlayerCharacterButtonClick: AppEventListener = (event: AppEvent) => {
-        PageRouterService.instance.navigateToPage(PageRouterService.playerCharacterPage, "0");
+        // PageRouterService.instance.navigateToPage(PageRouterService.playerCharacterPage, "0");
+        PageRouterService.instance.navigateToPage(PageRouterService.newPlayerCharacterPage);
     };
 }
 
