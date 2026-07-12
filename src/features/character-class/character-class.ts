@@ -19,12 +19,12 @@ export class CharacterClass extends DatabaseEntity {
     public getNonUserChoiceStatModifiers() {
         return this.statModifiers
             .filter((statModifier) => statModifier.stat !== Stat.UserChoice)
-            .map((statModifier) => new StatModifier(statModifier.stat, statModifier.modifier));
+            .map((statModifier) => new StatModifier(statModifier.stat, statModifier.modifier, statModifier.source));
     }
 
     public getUserChoiceStatModifiers() {
         return this.statModifiers
             .filter((statModifier) => statModifier.stat === Stat.UserChoice)
-            .map((statModifier) => new StatModifier(statModifier.stat, statModifier.modifier));
+            .map((statModifier) => new StatModifier(statModifier.stat, statModifier.modifier, statModifier.source));
     }
 }

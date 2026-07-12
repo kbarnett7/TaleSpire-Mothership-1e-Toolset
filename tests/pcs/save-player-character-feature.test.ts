@@ -235,7 +235,7 @@ describe("SavePlayerCharacterFeature", () => {
     });
 
     it.each([["-1"], ["123abc"]])(
-        "should fail if the strength is negative or contains non-digit characters",
+        "should fail if the base strength is negative or contains non-digit characters",
         async (strength: string) => {
             // Arrange
             const formFields = getValidFormFields();
@@ -258,7 +258,7 @@ describe("SavePlayerCharacterFeature", () => {
         },
     );
 
-    it("should fail if the strength is greater than 100", async () => {
+    it("should fail if the base strength is greater than 100", async () => {
         // Arrange
         const formFields = getValidFormFields();
         formFields.strength = "101";
@@ -279,7 +279,7 @@ describe("SavePlayerCharacterFeature", () => {
     });
 
     it.each([["-1"], ["123abc"]])(
-        "should fail if the speed is negative or contains non-digit characters",
+        "should fail if the base speed is negative or contains non-digit characters",
         async (speed: string) => {
             // Arrange
             const formFields = getValidFormFields();
@@ -302,7 +302,7 @@ describe("SavePlayerCharacterFeature", () => {
         },
     );
 
-    it("should fail if the speed is greater than 100", async () => {
+    it("should fail if the base speed is greater than 100", async () => {
         // Arrange
         const formFields = getValidFormFields();
         formFields.speed = "101";
@@ -323,7 +323,7 @@ describe("SavePlayerCharacterFeature", () => {
     });
 
     it.each([["-1"], ["123abc"]])(
-        "should fail if the intellect is negative or contains non-digit characters",
+        "should fail if the base intellect is negative or contains non-digit characters",
         async (intellect: string) => {
             // Arrange
             const formFields = getValidFormFields();
@@ -346,7 +346,7 @@ describe("SavePlayerCharacterFeature", () => {
         },
     );
 
-    it("should fail if the intellect is greater than 100", async () => {
+    it("should fail if the base intellect is greater than 100", async () => {
         // Arrange
         const formFields = getValidFormFields();
         formFields.intellect = "101";
@@ -390,7 +390,7 @@ describe("SavePlayerCharacterFeature", () => {
         },
     );
 
-    it("should fail if the combat is greater than 100", async () => {
+    it("should fail if the base combat is greater than 100", async () => {
         // Arrange
         const formFields = getValidFormFields();
         formFields.combat = "101";
@@ -411,7 +411,7 @@ describe("SavePlayerCharacterFeature", () => {
     });
 
     it.each([["-1"], ["123abc"]])(
-        "should fail if the sanity is negative or contains non-digit characters",
+        "should fail if the base sanity is negative or contains non-digit characters",
         async (sanity: string) => {
             // Arrange
             const formFields = getValidFormFields();
@@ -434,7 +434,7 @@ describe("SavePlayerCharacterFeature", () => {
         },
     );
 
-    it("should fail if the sanity is greater than 100", async () => {
+    it("should fail if the base sanity is greater than 100", async () => {
         // Arrange
         const formFields = getValidFormFields();
         formFields.sanity = "101";
@@ -455,7 +455,7 @@ describe("SavePlayerCharacterFeature", () => {
     });
 
     it.each([["-1"], ["123abc"]])(
-        "should fail if the fear is negative or contains non-digit characters",
+        "should fail if the base fear is negative or contains non-digit characters",
         async (fear: string) => {
             // Arrange
             const formFields = getValidFormFields();
@@ -478,7 +478,7 @@ describe("SavePlayerCharacterFeature", () => {
         },
     );
 
-    it("should fail if the fear is greater than 100", async () => {
+    it("should fail if the base fear is greater than 100", async () => {
         // Arrange
         const formFields = getValidFormFields();
         formFields.fear = "101";
@@ -499,7 +499,7 @@ describe("SavePlayerCharacterFeature", () => {
     });
 
     it.each([["-1"], ["123abc"]])(
-        "should fail if the body is negative or contains non-digit characters",
+        "should fail if the base body is negative or contains non-digit characters",
         async (body: string) => {
             // Arrange
             const formFields = getValidFormFields();
@@ -522,7 +522,7 @@ describe("SavePlayerCharacterFeature", () => {
         },
     );
 
-    it("should fail if the body is greater than 100", async () => {
+    it("should fail if the base body is greater than 100", async () => {
         // Arrange
         const formFields = getValidFormFields();
         formFields.body = "101";

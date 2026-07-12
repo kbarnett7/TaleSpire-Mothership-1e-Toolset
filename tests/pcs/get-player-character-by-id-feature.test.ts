@@ -39,6 +39,20 @@ describe("GetPlayerCharacterById Feature", () => {
         expect(result.id).toBe(1);
         expect(result.name).toBe("Android A");
         expect(result.characterClassId).toBe(2);
+        expect(result.baseStrength).toBe(32);
+        expect(result.baseSpeed).toBe(25);
+        expect(result.baseIntellect).toBe(40);
+        expect(result.baseCombat).toBe(30);
+        expect(result.baseSanity).toBe(20);
+        expect(result.baseFear).toBe(20);
+        expect(result.baseBody).toBe(25);
+        expect(result.strength).toBe(32);
+        expect(result.speed).toBe(25);
+        expect(result.intellect).toBe(60);
+        expect(result.combat).toBe(20);
+        expect(result.sanity).toBe(20);
+        expect(result.fear).toBe(80);
+        expect(result.body).toBe(25);
     });
 
     it("Returns an empty PlayerCharacter when given a non-existent id", () => {

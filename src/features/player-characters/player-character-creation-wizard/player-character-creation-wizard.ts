@@ -68,6 +68,7 @@ export class PlayerCharacterCreationWizard extends LinearWizardStateMachine {
                 if (targetIndex !== -1) {
                     this.playerCharacter.addStatModifiers([userChoiceStat]);
 
+                    // TODO: is this really necessary to confirm this is a valid modifier? The UI will control it.
                     userChoiceModifiers.splice(targetIndex, 1);
                 }
             }

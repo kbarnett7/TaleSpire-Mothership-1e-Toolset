@@ -82,15 +82,18 @@
             "statModifiers": [
                 {
                     "stat": "combat",
-                    "modifier": 10
+                    "modifier": 10,
+                    "source": "class"
                 },
                 {
                     "stat": "body",
-                    "modifier": 10
+                    "modifier": 10,
+                    "source": "class"
                 },
                 {
                     "stat": "fear",
-                    "modifier": 20
+                    "modifier": 20,
+                    "source": "class"
                 }
             ]
         },
@@ -102,15 +105,18 @@
             "statModifiers": [
                 {
                     "stat": "intellect",
-                    "modifier": 20
+                    "modifier": 20,
+                    "source": "class"
                 },
                 {
                     "stat": "fear",
-                    "modifier": 60
+                    "modifier": 60,
+                    "source": "class"
                 },
                 {
                     "stat": "user-choice",
-                    "modifier": -10
+                    "modifier": -10,
+                    "source": "class"
                 }
             ]
         },
@@ -122,15 +128,18 @@
             "statModifiers": [
                 {
                     "stat": "intellect",
-                    "modifier": 10
+                    "modifier": 10,
+                    "source": "class"
                 },
                 {
                     "stat": "sanity",
-                    "modifier": 30
+                    "modifier": 30,
+                    "source": "class"
                 },
                 {
                     "stat": "user-choice",
-                    "modifier": 5
+                    "modifier": 5,
+                    "source": "class"
                 }
             ]
         },
@@ -142,31 +151,38 @@
             "statModifiers": [
                 {
                     "stat": "strength",
-                    "modifier": 5
+                    "modifier": 5,
+                    "source": "class"
                 },
                 {
                     "stat": "speed",
-                    "modifier": 5
+                    "modifier": 5,
+                    "source": "class"
                 },
                 {
                     "stat": "intellect",
-                    "modifier": 5
+                    "modifier": 5,
+                    "source": "class"
                 },
                 {
                     "stat": "combat",
-                    "modifier": 5
+                    "modifier": 5,
+                    "source": "class"
                 },
                 {
                     "stat": "sanity",
-                    "modifier": 10
+                    "modifier": 10,
+                    "source": "class"
                 },
                 {
                     "stat": "fear",
-                    "modifier": 10
+                    "modifier": 10,
+                    "source": "class"
                 },
                 {
                     "stat": "body",
-                    "modifier": 10
+                    "modifier": 10,
+                    "source": "class"
                 }
             ]
         }
@@ -426,31 +442,191 @@
             "id": 1,
             "name": "Android A",
             "characterClassId": 2,
-            "description": "Test android player character."
+            "description": "Test android player character.",
+            "baseStrength": 32,
+            "baseSpeed": 25,
+            "baseIntellect": 40,
+            "baseCombat": 30,
+            "baseSanity": 20,
+            "baseFear": 20,
+            "baseBody": 25,
+            "statModifiers": [
+                {
+                    "stat": "intellect",
+                    "modifier": 20,
+                    "source": "class"
+                },
+                {
+                    "stat": "fear",
+                    "modifier": 60,
+                    "source": "class"
+                },
+                {
+                    "stat": "combat",
+                    "modifier": -10,
+                    "source": "class"
+                }
+            ]
         },
         {
             "id": 2,
             "name": "Scientist A",
             "characterClassId": 3,
-            "description": "Test scientist player character."
+            "description": "Test scientist player character.",
+            "baseStrength": 15,
+            "baseSpeed": 25,
+            "baseIntellect": 35,
+            "baseCombat": 20,
+            "baseSanity": 15,
+            "baseFear": 18,
+            "baseBody": 22,
+            "statModifiers": [
+                {
+                    "stat": "intellect",
+                    "modifier": 10,
+                    "source": "class"
+                },
+                {
+                    "stat": "sanity",
+                    "modifier": 30,
+                    "source": "class"
+                },
+                {
+                    "stat": "intellect",
+                    "modifier": 5,
+                    "source": "class"
+                }
+            ]
         },
         {
             "id": 3,
             "name": "Marine A",
             "characterClassId": 1,
-            "description": "Test marine player character."
+            "description": "Test marine player character.",
+            "baseStrength": 35,
+            "baseSpeed": 20,
+            "baseIntellect": 25,
+            "baseCombat": 40,
+            "baseSanity": 12,
+            "baseFear": 25,
+            "baseBody": 30,
+            "statModifiers": [
+                {
+                    "stat": "combat",
+                    "modifier": 10,
+                    "source": "class"
+                },
+                {
+                    "stat": "body",
+                    "modifier": 10,
+                    "source": "class"
+                },
+                {
+                    "stat": "fear",
+                    "modifier": 20,
+                    "source": "class"
+                }
+            ]
         },
         {
             "id": 4,
             "name": "Teamster A",
             "characterClassId": 4,
-            "description": "Test teamster player character."
+            "description": "Test teamster player character.",
+            "baseStrength": 25,
+            "baseSpeed": 22,
+            "baseIntellect": 20,
+            "baseCombat": 23,
+            "baseSanity": 25,
+            "baseFear": 28,
+            "baseBody": 30,
+            "statModifiers": [
+                {
+                    "stat": "strength",
+                    "modifier": 5,
+                    "source": "class"
+                },
+                {
+                    "stat": "speed",
+                    "modifier": 5,
+                    "source": "class"
+                },
+                {
+                    "stat": "intellect",
+                    "modifier": 5,
+                    "source": "class"
+                },
+                {
+                    "stat": "combat",
+                    "modifier": 5,
+                    "source": "class"
+                },
+                {
+                    "stat": "sanity",
+                    "modifier": 10,
+                    "source": "class"
+                },
+                {
+                    "stat": "fear",
+                    "modifier": 10,
+                    "source": "class"
+                },
+                {
+                    "stat": "body",
+                    "modifier": 10,
+                    "source": "class"
+                }
+            ]
         },
         {
             "id": 5,
             "name": "Teamster A (elder)",
             "characterClassId": 4,
-            "description": "Test elder teamster player character."
+            "description": "Test elder teamster player character.",
+            "baseStrength": 15,
+            "baseSpeed": 20,
+            "baseIntellect": 33,
+            "baseCombat": 30,
+            "baseSanity": 33,
+            "baseFear": 22,
+            "baseBody": 15,
+            "statModifiers": [
+                {
+                    "stat": "strength",
+                    "modifier": 5,
+                    "source": "class"
+                },
+                {
+                    "stat": "speed",
+                    "modifier": 5,
+                    "source": "class"
+                },
+                {
+                    "stat": "intellect",
+                    "modifier": 5,
+                    "source": "class"
+                },
+                {
+                    "stat": "combat",
+                    "modifier": 5,
+                    "source": "class"
+                },
+                {
+                    "stat": "sanity",
+                    "modifier": 10,
+                    "source": "class"
+                },
+                {
+                    "stat": "fear",
+                    "modifier": 10,
+                    "source": "class"
+                },
+                {
+                    "stat": "body",
+                    "modifier": 10,
+                    "source": "class"
+                }
+            ]
         }
     ],
     "sources": [

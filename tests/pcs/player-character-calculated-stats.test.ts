@@ -3,9 +3,9 @@ import { PlayerCharacter } from "../../src/features/player-characters/player-cha
 import { PlayerCharacterCreationWizard } from "../../src/features/player-characters/player-character-creation-wizard/player-character-creation-wizard";
 import { Stat } from "../../src/features/stat-modifiers/stat";
 import { StatModifier } from "../../src/features/stat-modifiers/stat-modifier";
+import { StatSource } from "../../src/features/stat-modifiers/stat-source";
 import { UnitOfWork } from "../../src/lib/data-access/unit-of-work";
 import { DataAccessUtils } from "../data-access/data-access-utils";
-import { PlayerCharacterTestUtils } from "./player-character-test-utils";
 
 describe("Player Character Calculated Stats", () => {
     let unitOfWork: UnitOfWork;
@@ -16,7 +16,7 @@ describe("Player Character Calculated Stats", () => {
         const dbContext = await DataAccessUtils.getInitializedDbContext();
         unitOfWork = new UnitOfWork(dbContext);
 
-        playerCharacter = PlayerCharacterTestUtils.getFullyValidPlayerCharacter();
+        playerCharacter = new PlayerCharacter(1, "Jane Does");
 
         wizard = new PlayerCharacterCreationWizard(playerCharacter, unitOfWork);
     });
@@ -56,7 +56,7 @@ describe("Player Character Calculated Stats", () => {
         const expectedSanity = 20;
         const expectedFear = 80;
         const expectedBody = 22;
-        const userChoiceModifiers = [new StatModifier(Stat.Combat, -10)];
+        const userChoiceModifiers = [new StatModifier(Stat.Combat, -10, StatSource.Class)];
         // TODO: add wound assertion
         wizard.setBaseStats(expectedStrength, expectedSpeed, expectedIntellect - 20, expectedCombat + 10);
         wizard.setBaseSaves(expectedSanity, expectedFear - 60, expectedBody);
@@ -83,7 +83,7 @@ describe("Player Character Calculated Stats", () => {
         const expectedSanity = 50;
         const expectedFear = 30;
         const expectedBody = 22;
-        const userChoiceModifiers = [new StatModifier(Stat.Strength, 5)];
+        const userChoiceModifiers = [new StatModifier(Stat.Strength, 5, StatSource.Class)];
         wizard.setBaseStats(expectedStrength - 5, expectedSpeed, expectedIntellect - 10, expectedCombat);
         wizard.setBaseSaves(expectedSanity - 30, expectedFear, expectedBody);
 
