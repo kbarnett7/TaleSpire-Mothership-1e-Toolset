@@ -23,6 +23,14 @@ export class NewPlayerCharacterComponent extends BasePageComponent {
 
         this.render(html);
     }
+
+    public handlePreviousButtonClick(event: MouseEvent) {
+        alert("PREVIOUS clicked!");
+    }
+
+    public handleNextButtonClick(event: MouseEvent) {
+        alert("NEXT clicked!");
+    }
 }
 
 customElements.define("new-player-character-page", NewPlayerCharacterComponent);
