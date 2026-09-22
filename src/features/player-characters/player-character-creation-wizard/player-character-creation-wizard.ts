@@ -23,12 +23,12 @@ export class PlayerCharacterCreationWizard extends LinearWizardStateMachine {
             new RollStatsWizardStep(playerCharacter),
             new RollSavesWizardStep(playerCharacter),
             new ChooseClassWizardStep(playerCharacter, unitOfWork),
-            new RollHealthWizardStep(),
-            new GainStressWizardStep(),
-            new NoteTraumaResponseWizardStep(),
-            new ChooseSkillsWizardStep(),
-            new RollLoadoutWizardStep(),
-            new FinishingWizardStep(),
+            new RollHealthWizardStep(playerCharacter),
+            new GainStressWizardStep(playerCharacter),
+            new NoteTraumaResponseWizardStep(playerCharacter),
+            new ChooseSkillsWizardStep(playerCharacter),
+            new RollLoadoutWizardStep(playerCharacter),
+            new FinishingWizardStep(playerCharacter),
         ]);
 
         this.playerCharacter = playerCharacter;

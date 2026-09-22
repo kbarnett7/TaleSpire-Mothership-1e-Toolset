@@ -1,7 +1,8 @@
-import { LinearWizardStepBase } from "../../../lib/wizard-state-machine/linear-wizard-step";
+import { PlayerCharacter } from "../player-character";
+import { PlayerCharacterWizardStep } from "./player-character-wizard-step";
 
-export class RollHealthWizardStep extends LinearWizardStepBase {
-    constructor() {
-        super("Roll Health");
+export class RollHealthWizardStep extends PlayerCharacterWizardStep {
+    constructor(playerCharacter: PlayerCharacter) {
+        super(playerCharacter, "Roll Health");
     }
 }

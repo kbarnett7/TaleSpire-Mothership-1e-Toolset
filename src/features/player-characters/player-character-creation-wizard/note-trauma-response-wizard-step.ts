@@ -1,7 +1,8 @@
-import { LinearWizardStepBase } from "../../../lib/wizard-state-machine/linear-wizard-step";
+import { PlayerCharacter } from "../player-character";
+import { PlayerCharacterWizardStep } from "./player-character-wizard-step";
 
-export class NoteTraumaResponseWizardStep extends LinearWizardStepBase {
-    constructor() {
-        super("Note Trauma Response");
+export class NoteTraumaResponseWizardStep extends PlayerCharacterWizardStep {
+    constructor(playerCharacter: PlayerCharacter) {
+        super(playerCharacter, "Note Trauma Response");
     }
 }
