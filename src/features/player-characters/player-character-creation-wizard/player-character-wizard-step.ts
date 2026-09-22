@@ -2,10 +2,17 @@ import { LinearWizardStepBase } from "../../../lib/wizard-state-machine/linear-w
 import { PlayerCharacter } from "../player-character";
 
 export class PlayerCharacterWizardStep extends LinearWizardStepBase {
+    private _uiComponent: string;
+
     protected playerCharacter: PlayerCharacter;
 
-    constructor(playerCharacter: PlayerCharacter, title?: string) {
+    public get uiComponent(): string {
+        return this._uiComponent;
+    }
+
+    constructor(playerCharacter: PlayerCharacter, title?: string, uiComponent?: string) {
         super(title);
         this.playerCharacter = playerCharacter;
+        this._uiComponent = uiComponent || "";
     }
 }

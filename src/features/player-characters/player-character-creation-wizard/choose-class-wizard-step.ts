@@ -6,7 +6,7 @@ export class ChooseClassWizardStep extends PlayerCharacterWizardStep {
     private readonly unitOfWork: IUnitOfWork;
 
     constructor(playerCharacter: PlayerCharacter, unitOfWork: IUnitOfWork) {
-        super(playerCharacter, "Choose Class");
+        super(playerCharacter, "Choose Class", "choose-class");
 
         this.unitOfWork = unitOfWork;
     }

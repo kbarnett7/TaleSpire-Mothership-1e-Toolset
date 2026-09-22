@@ -8,6 +8,7 @@ import { ChooseSkillsWizardStep } from "./choose-skills-wizard-step";
 import { FinishingWizardStep } from "./finishing-wizard-step";
 import { GainStressWizardStep } from "./gain-stress-wizard-step";
 import { NoteTraumaResponseWizardStep } from "./note-trauma-response-wizard-step";
+import { PlayerCharacterWizardStep } from "./player-character-wizard-step";
 import { RollHealthWizardStep } from "./roll-health-wizard-step";
 import { RollLoadoutWizardStep } from "./roll-loadout-wizard-step";
 import { RollSavesWizardStep } from "./roll-saves-wizard-step";
@@ -33,6 +34,10 @@ export class PlayerCharacterCreationWizard extends LinearWizardStateMachine {
 
         this.playerCharacter = playerCharacter;
         this.unitOfWork = unitOfWork;
+    }
+
+    public getCurrentUiComponent(): string {
+        return (this.getCurrentStep() as PlayerCharacterWizardStep).uiComponent;
     }
 
     public setBaseStats(baseStrength: number, baseSpeed: number, baseIntellect: number, baseCombat: number) {
