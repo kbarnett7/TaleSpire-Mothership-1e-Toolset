@@ -20,7 +20,7 @@ export class NewPlayerCharacterComponent extends BasePageComponent {
     constructor() {
         super();
         this.unitOfWork = appInjector.injectClass(UnitOfWork);
-        this.playerCharacter = new PlayerCharacter();
+        this.playerCharacter = this.createInvalidPlayerCharacter();
         this.wizard = new PlayerCharacterCreationWizard(this.playerCharacter, this.unitOfWork);
     }
 
@@ -31,16 +31,8 @@ export class NewPlayerCharacterComponent extends BasePageComponent {
         this.renderCurrentStep();
     }
 
-    public handlePreviousButtonClick(event: MouseEvent) {
-        if (this.wizard.movePrevious()) {
-            this.renderCurrentStep();
-        }
-    }
-
-    public handleNextButtonClick(event: MouseEvent) {
-        if (this.wizard.moveNext()) {
-            this.renderCurrentStep();
-        }
+    private createInvalidPlayerCharacter(): PlayerCharacter {
+        return new PlayerCharacter(0, "", 0, "", -1, -1, -1, -1, -1, -1, -1);
     }
 
     private renderCurrentStep() {
@@ -65,6 +57,18 @@ export class NewPlayerCharacterComponent extends BasePageComponent {
             this.playerCharacter.baseIntellect?.toString() ?? "",
             this.playerCharacter.baseCombat?.toString() ?? "",
         );
+    }
+
+    public handlePreviousButtonClick(event: MouseEvent) {
+        if (this.wizard.movePrevious()) {
+            this.renderCurrentStep();
+        }
+    }
+
+    public handleNextButtonClick(event: MouseEvent) {
+        if (this.wizard.moveNext()) {
+            this.renderCurrentStep();
+        }
     }
 }
 
