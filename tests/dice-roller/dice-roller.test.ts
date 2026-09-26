@@ -163,6 +163,33 @@ describe("DiceRoller", () => {
         }
     });
 
+    it("Should return 2 when rolling 1d1 + 1", () => {
+        // Arrange
+        // Act
+        const result = diceRoller.roll(1, 1, 1);
+
+        // Assert
+        expect(result).toBe(2);
+    });
+
+    it("Should return 0 when rolling 1d1 - 1", () => {
+        // Arrange
+        // Act
+        const result = diceRoller.roll(1, 1, -1);
+
+        // Assert
+        expect(result).toBe(0);
+    });
+
+    it("Should return 1 when rolling 1d1 + 0.5", () => {
+        // Arrange
+        // Act
+        const result = diceRoller.roll(1, 1, 0.5);
+
+        // Assert
+        expect(result).toBe(1);
+    });
+
     function rollDice(numberOfRolls: number, sides: number, dice?: number): number[] {
         let results: number[] = [];
         let numberOfDice = dice ?? 1;

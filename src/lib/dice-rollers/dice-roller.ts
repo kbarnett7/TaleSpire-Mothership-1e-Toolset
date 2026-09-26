@@ -1,6 +1,7 @@
 export class DiceRoller {
-    public roll(sides?: number, dice?: number): number {
+    public roll(sides?: number, dice?: number, modifier?: number): number {
         let numberOfDice = 1;
+        let rollModifier = Math.trunc(modifier ?? 0);
 
         if (!sides) return 0;
 
@@ -8,16 +9,15 @@ export class DiceRoller {
 
         if (dice && dice > 1) numberOfDice = Math.trunc(dice);
 
-        const normalizedSides = Math.trunc(sides);
         const min = 1;
-        const max = normalizedSides;
+        const max = Math.trunc(sides);
         let aggregatedRolls = 0;
 
         for (let index = 0; index < numberOfDice; index++) {
             aggregatedRolls += this.getRandomNumberBetweenMinAndMaxInclusiveBoth(min, max);
         }
 
-        return aggregatedRolls;
+        return aggregatedRolls + rollModifier;
     }
 
     private getRandomNumberBetweenMinAndMaxInclusiveBoth(min: number, max: number): number {
