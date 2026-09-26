@@ -1,1 +1,75 @@
-<div>ROLL STATS</div>
+<div class="grid grid-cols-2 gap-2 mb-3">
+    <div>
+        <label for="inputStrength" class="text-lg font-semibold uppercase">Strength</label>
+        <input
+            id="inputStrength"
+            name="inputStrength"
+            type="number"
+            class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+            placeholder="Enter you strength attribute..."
+            aria-placeholder="Enter your strength attribute..."
+            min="0"
+            max="100"
+            required
+            aria-required
+            onchange="this.handleOnStrengthInputChanged(event)"
+            value="0"
+        />
+    </div>
+
+    <div>
+        <label for="inputSpeed" class="text-lg font-semibold uppercase">Speed</label>
+        <input
+            id="inputSpeed"
+            name="inputSpeed"
+            type="number"
+            class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+            placeholder="Enter you speed attribute..."
+            aria-placeholder="Enter your speed attribute..."
+            min="0"
+            max="100"
+            required
+            aria-required
+            onchange="this.handleOnSpeedInputChanged(event)"
+            value="0"
+        />
+    </div>
+</div>
+
+<div class="grid grid-cols-2 gap-2 mb-3">
+    <div>
+        <label for="inputIntellect" class="text-lg font-semibold uppercase">Intellect</label>
+        <input
+            id="inputIntellect"
+            name="inputIntellect"
+            type="number"
+            class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+            placeholder="Enter you intellect attribute..."
+            aria-placeholder="Enter your intellect attribute..."
+            min="0"
+            max="100"
+            required
+            aria-required
+            onchange="this.handleOnIntellectInputChanged(event)"
+            value="0"
+        />
+    </div>
+
+    <div>
+        <label for="inputCombat" class="text-lg font-semibold uppercase">Combat</label>
+        <input
+            id="inputCombat"
+            name="inputCombat"
+            type="number"
+            class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+            placeholder="Enter you combat attribute..."
+            aria-placeholder="Enter your combat attribute..."
+            min="0"
+            max="100"
+            required
+            aria-required
+            onchange="this.handleOnCombatInputChanged(event)"
+            value="0"
+        />
+    </div>
+</div>

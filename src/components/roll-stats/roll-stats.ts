@@ -8,6 +8,22 @@ export class RollStatsComponent extends BaseComponent {
     private _internals: ElementInternals;
     private _formFieldsDto: StatsFormFieldsDto;
 
+    public get strengthInputElement(): HTMLInputElement {
+        return this.shadow.querySelector("#inputStrength") as HTMLInputElement;
+    }
+
+    public get speedInputElement(): HTMLInputElement {
+        return this.shadow.querySelector("#inputSpeed") as HTMLInputElement;
+    }
+
+    public get intellectInputElement(): HTMLInputElement {
+        return this.shadow.querySelector("#inputIntellect") as HTMLInputElement;
+    }
+
+    public get combatInputElement(): HTMLInputElement {
+        return this.shadow.querySelector("#inputCombat") as HTMLInputElement;
+    }
+
     public get value(): string {
         return this._formFieldsDto.toJson();
     }
@@ -28,15 +44,36 @@ export class RollStatsComponent extends BaseComponent {
     }
 
     public setInitialFormValues(dto: StatsFormFieldsDto) {
-        //this.weaponCategorySelectElement.value = dto.category;
+        this.strengthInputElement.value = dto.strength.toString();
+        this.speedInputElement.value = dto.speed.toString();
+        this.intellectInputElement.value = dto.intellect.toString();
+        this.combatInputElement.value = dto.combat.toString();
 
-        //this._formFieldsDto.category = dto.category;
+        this._formFieldsDto.strength = dto.strength.toString();
+        this._formFieldsDto.speed = dto.speed.toString();
+        this._formFieldsDto.intellect = dto.intellect.toString();
+        this._formFieldsDto.combat = dto.combat.toString();
 
         this.updateFormValue();
     }
 
-    public handleOnShotsInputChanged(event: Event) {
-        //this._formFieldsDto.shots = this.shotsInputElement.value;
+    public handleOnStrengthInputChanged(event: Event) {
+        this._formFieldsDto.strength = this.strengthInputElement.value;
+        this.updateFormValue();
+    }
+
+    public handleOnSpeedInputChanged(event: Event) {
+        this._formFieldsDto.speed = this.speedInputElement.value;
+        this.updateFormValue();
+    }
+
+    public handleOnIntellectInputChanged(event: Event) {
+        this._formFieldsDto.intellect = this.intellectInputElement.value;
+        this.updateFormValue();
+    }
+
+    public handleOnCombatInputChanged(event: Event) {
+        this._formFieldsDto.combat = this.combatInputElement.value;
         this.updateFormValue();
     }
 }

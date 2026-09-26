@@ -278,8 +278,8 @@ private renderCurrentStep() {
     this.stepDiv.replaceChildren();
 
     const stepElement = document.createElement(step.component);
-    this.hydrateStepElement(stepElement, step);
     this.stepDiv.appendChild(stepElement);
+    this.hydrateStepElement(stepElement, step);
 }
 
 private hydrateStepElement(element: HTMLElement, step: WizardStepBase) {
@@ -311,6 +311,13 @@ public async connectedCallback() {
 ```html
 <div id="stepDiv"></div>
 ```
+
+**Ordering requirement — append before hydrate:** `document.createElement(step.component)` runs the element's
+constructor, but its shadow DOM stays empty until `connectedCallback` runs `render(html)` — and `connectedCallback`
+only fires once the element is inserted into the document. `hydrateStepElement`/`setInitialFormValues` reads/writes
+elements inside that shadow DOM (e.g. `combatInputElement`), so it must run *after* `appendChild`, not before, or it
+will hit `null` from `querySelector` and throw. The code sample above is already ordered correctly (append, then
+hydrate) — keep this order when the remaining 7 step components are built.
 
 **Known rough edge to resolve during implementation:** the `persistCurrentStepValue`/`hydrateStepElement` methods above
 use `if/else` chains on tag name, which will grow one branch per step and start to smell as more steps get built out

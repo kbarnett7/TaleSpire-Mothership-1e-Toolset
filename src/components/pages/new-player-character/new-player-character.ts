@@ -40,8 +40,8 @@ export class NewPlayerCharacterComponent extends BasePageComponent {
         const stepElement = document.createElement(uiComponent);
 
         this.stepDivElement.replaceChildren();
-        this.hydrateStepElement(stepElement, uiComponent);
         this.stepDivElement.appendChild(stepElement);
+        this.hydrateStepElement(stepElement, uiComponent);
     }
 
     private hydrateStepElement(uiElement: HTMLElement, uiComponent: string) {
