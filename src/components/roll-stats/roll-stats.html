@@ -1,11 +1,10 @@
-<div class="grid grid-cols-2 gap-2 mb-3">
-    <div>
-        <label for="inputStrength" class="text-lg font-semibold uppercase">Strength</label>
+<div class="grid grid-cols-2 gap-2 mt-3 mb-3 justify-items-center">
+    <div class="grid grid-cols-1 justify-items-center">
         <input
             id="inputStrength"
             name="inputStrength"
             type="number"
-            class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
+            class="w-16 h-16 block rounded-full text-center bg-white text-black text-2xl font-bold border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             placeholder="Enter you strength attribute..."
             aria-placeholder="Enter your strength attribute..."
             min="0"
@@ -15,6 +14,7 @@
             onchange="this.handleOnStrengthInputChanged(event)"
             value="0"
         />
+        <label for="inputStrength" class="text-lg font-semibold uppercase">Strength</label>
     </div>
 
     <div>
