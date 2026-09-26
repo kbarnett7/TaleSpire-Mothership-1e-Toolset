@@ -1,75 +1,79 @@
-<div class="grid grid-cols-2 gap-2 mt-3 mb-3 justify-items-center">
+<div>1. ROLL 2D10+25 FOR EACH <b>STAT</b></div>
+
+<div class="grid grid-cols-4 gap-2 mt-3 mb-3 justify-items-center">
     <div class="grid grid-cols-1 justify-items-center">
         <input
             id="inputStrength"
             name="inputStrength"
-            type="number"
+            type="text"
+            inputmode="numeric"
+            maxlength="3"
             class="w-16 h-16 block rounded-full text-center bg-white text-black text-2xl font-bold border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-            placeholder="Enter you strength attribute..."
             aria-placeholder="Enter your strength attribute..."
-            min="0"
-            max="100"
             required
             aria-required
             onchange="this.handleOnStrengthInputChanged(event)"
             value="0"
         />
         <label for="inputStrength" class="text-lg font-semibold uppercase">Strength</label>
+        <primary-button id="rollStrength" onclick="this.handleRollStrengthButtonClick(event)">ROLL</primary-button>
     </div>
 
-    <div>
-        <label for="inputSpeed" class="text-lg font-semibold uppercase">Speed</label>
+    <div class="grid grid-cols-1 justify-items-center">
         <input
             id="inputSpeed"
             name="inputSpeed"
-            type="number"
-            class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
-            placeholder="Enter you speed attribute..."
+            type="text"
+            inputmode="numeric"
+            maxlength="3"
+            class="w-16 h-16 block rounded-full text-center bg-white text-black text-2xl font-bold border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             aria-placeholder="Enter your speed attribute..."
-            min="0"
-            max="100"
             required
             aria-required
             onchange="this.handleOnSpeedInputChanged(event)"
             value="0"
         />
+        <label for="inputSpeed" class="text-lg font-semibold uppercase">Speed</label>
+        <primary-button id="rollSpeed" onclick="this.handleRollSpeedButtonClick(event)">ROLL</primary-button>
     </div>
-</div>
 
-<div class="grid grid-cols-2 gap-2 mb-3">
-    <div>
-        <label for="inputIntellect" class="text-lg font-semibold uppercase">Intellect</label>
+    <div class="grid grid-cols-1 justify-items-center">
         <input
             id="inputIntellect"
             name="inputIntellect"
-            type="number"
-            class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
-            placeholder="Enter you intellect attribute..."
+            type="text"
+            inputmode="numeric"
+            maxlength="3"
+            class="w-16 h-16 block rounded-full text-center bg-white text-black text-2xl font-bold border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             aria-placeholder="Enter your intellect attribute..."
-            min="0"
-            max="100"
             required
             aria-required
             onchange="this.handleOnIntellectInputChanged(event)"
             value="0"
         />
+        <label for="inputIntellect" class="text-lg font-semibold uppercase">Intellect</label>
+        <primary-button id="rollIntellect" onclick="this.handleRollIntellectButtonClick(event)">ROLL</primary-button>
     </div>
 
-    <div>
-        <label for="inputCombat" class="text-lg font-semibold uppercase">Combat</label>
+    <div class="grid grid-cols-1 justify-items-center">
         <input
             id="inputCombat"
             name="inputCombat"
-            type="number"
-            class="block w-full bg-white text-base text-black border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0"
-            placeholder="Enter you combat attribute..."
+            type="text"
+            inputmode="numeric"
+            maxlength="3"
+            class="w-16 h-16 block rounded-full text-center bg-white text-black text-2xl font-bold border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             aria-placeholder="Enter your combat attribute..."
-            min="0"
-            max="100"
             required
             aria-required
             onchange="this.handleOnCombatInputChanged(event)"
             value="0"
         />
+        <label for="inputCombat" class="text-lg font-semibold uppercase">Combat</label>
+        <primary-button id="rollCombat" onclick="this.handleRollCombatButtonClick(event)">ROLL</primary-button>
     </div>
+</div>
+
+<div class="grid grid-cols-1 justify-items-center mb-3">
+    <primary-button id="rollAll" onclick="this.handleRollAllButtonClick(event)">ROLL ALL</primary-button>
 </div>

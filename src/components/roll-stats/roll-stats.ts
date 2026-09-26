@@ -76,6 +76,26 @@ export class RollStatsComponent extends BaseComponent {
         this._formFieldsDto.combat = this.combatInputElement.value;
         this.updateFormValue();
     }
+
+    public handleRollStrengthButtonClick(event: MouseEvent) {
+        alert("Roll Strength!");
+    }
+
+    public handleRollSpeedButtonClick(event: MouseEvent) {
+        alert("Roll Speed!");
+    }
+
+    public handleRollIntellectButtonClick(event: MouseEvent) {
+        alert("Roll Intellect!");
+    }
+
+    public handleRollCombatButtonClick(event: MouseEvent) {
+        alert("Roll Combat!");
+    }
+
+    public handleRollAllButtonClick(event: MouseEvent) {
+        alert("Roll All!");
+    }
 }
 
 customElements.define("roll-stats", RollStatsComponent);
