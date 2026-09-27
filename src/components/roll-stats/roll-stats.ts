@@ -1,12 +1,14 @@
 import html from "./roll-stats.html";
 import { StatsFormFieldsDto } from "../../features/player-characters/stats-form-fields-dto";
 import { BaseComponent } from "../base.component";
+import { DiceRoller } from "../../lib/dice-rollers/dice-roller";
 
 export class RollStatsComponent extends BaseComponent {
     static formAssociated = true;
 
     private _internals: ElementInternals;
     private _formFieldsDto: StatsFormFieldsDto;
+    private _diceRoller: DiceRoller;
 
     public get strengthInputElement(): HTMLInputElement {
         return this.shadow.querySelector("#inputStrength") as HTMLInputElement;
@@ -32,6 +34,7 @@ export class RollStatsComponent extends BaseComponent {
         super();
         this._internals = this.attachInternals();
         this._formFieldsDto = new StatsFormFieldsDto();
+        this._diceRoller = new DiceRoller();
     }
 
     public connectedCallback() {
@@ -44,16 +47,54 @@ export class RollStatsComponent extends BaseComponent {
     }
 
     public setInitialFormValues(dto: StatsFormFieldsDto) {
-        this.strengthInputElement.value = dto.strength.toString();
-        this.speedInputElement.value = dto.speed.toString();
-        this.intellectInputElement.value = dto.intellect.toString();
-        this.combatInputElement.value = dto.combat.toString();
+        this.setStrength(dto.strength);
+        this.setSpeed(dto.speed);
+        this.setIntellect(dto.intellect);
+        this.setCombat(dto.combat);
+        this.updateFormValue();
+    }
 
-        this._formFieldsDto.strength = dto.strength.toString();
-        this._formFieldsDto.speed = dto.speed.toString();
-        this._formFieldsDto.intellect = dto.intellect.toString();
-        this._formFieldsDto.combat = dto.combat.toString();
+    private setStrength(value: string) {
+        this.strengthInputElement.value = value;
+        this._formFieldsDto.strength = value;
+    }
 
+    private setSpeed(value: string) {
+        this.speedInputElement.value = value;
+        this._formFieldsDto.speed = value;
+    }
+
+    private setIntellect(value: string) {
+        this.intellectInputElement.value = value;
+        this._formFieldsDto.intellect = value;
+    }
+
+    private setCombat(value: string) {
+        this.combatInputElement.value = value;
+        this._formFieldsDto.combat = value;
+    }
+
+    private rollStat(): string {
+        return this._diceRoller.roll(10, 2, 25).toString();
+    }
+
+    private rollStrengthStat() {
+        this.setStrength(this.rollStat());
+        this.updateFormValue();
+    }
+
+    private rollSpeedStat() {
+        this.setSpeed(this.rollStat());
+        this.updateFormValue();
+    }
+
+    private rollIntellectStat() {
+        this.setIntellect(this.rollStat());
+        this.updateFormValue();
+    }
+
+    private rollCombatStat() {
+        this.setCombat(this.rollStat());
         this.updateFormValue();
     }
 
@@ -78,23 +119,26 @@ export class RollStatsComponent extends BaseComponent {
     }
 
     public handleRollStrengthButtonClick(event: MouseEvent) {
-        alert("Roll Strength!");
+        this.rollStrengthStat();
     }
 
     public handleRollSpeedButtonClick(event: MouseEvent) {
-        alert("Roll Speed!");
+        this.rollSpeedStat();
     }
 
     public handleRollIntellectButtonClick(event: MouseEvent) {
-        alert("Roll Intellect!");
+        this.rollIntellectStat();
     }
 
     public handleRollCombatButtonClick(event: MouseEvent) {
-        alert("Roll Combat!");
+        this.rollCombatStat();
     }
 
     public handleRollAllButtonClick(event: MouseEvent) {
-        alert("Roll All!");
+        this.rollStrengthStat();
+        this.rollSpeedStat();
+        this.rollIntellectStat();
+        this.rollCombatStat();
     }
 }
 

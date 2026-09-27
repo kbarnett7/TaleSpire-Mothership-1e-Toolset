@@ -32,7 +32,7 @@ export class NewPlayerCharacterComponent extends BasePageComponent {
     }
 
     private createInvalidPlayerCharacter(): PlayerCharacter {
-        return new PlayerCharacter(0, "", 0, "", -1, -1, -1, -1, -1, -1, -1);
+        return new PlayerCharacter(0, "", 0, "");
     }
 
     private renderCurrentStep() {
