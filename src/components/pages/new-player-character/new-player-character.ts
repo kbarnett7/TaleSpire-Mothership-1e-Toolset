@@ -9,6 +9,9 @@ import { RollStatsComponent } from "../../roll-stats/roll-stats";
 import { StatsFormFieldsDto } from "../../../features/player-characters/stats-form-fields-dto";
 import { EventBus } from "../../../lib/events/event-bus";
 import { UiReportableErrorClearedEvent } from "../../../lib/events/ui-reportable-error-cleared-event";
+import { BaseFormComponent } from "../../base-form/base-form-component";
+import { BaseDto } from "../../../lib/dto/base-dto";
+import { BaseNewPlayerCharacterWizardComponent } from "../../base-new-player-character-wizard-component/base-new-player-character-wizard-component";
 
 export class NewPlayerCharacterComponent extends BasePageComponent {
     private unitOfWork: IUnitOfWork;
@@ -53,9 +56,16 @@ export class NewPlayerCharacterComponent extends BasePageComponent {
     }
 
     private hydrateStepElement(uiElement: HTMLElement, uiComponent: string) {
+        let dto: BaseDto = new BaseDto();
+
         if (uiComponent === "roll-stats") {
-            (uiElement as RollStatsComponent).setInitialFormValues(this.getBaseStatsFormFields());
+            dto = this.getBaseStatsFormFields();
         }
+
+        //(uiElement as BaseFormComponent).setInitialFormValues(dto);
+        (uiElement as BaseNewPlayerCharacterWizardComponent).setInitialFormValuesUsingPlayerCharacter(
+            this.playerCharacter,
+        );
     }
 
     private getBaseStatsFormFields(): StatsFormFieldsDto {
@@ -97,6 +107,8 @@ export class NewPlayerCharacterComponent extends BasePageComponent {
     }
 
     private updatePlayerCharacterWithCurrentStepValues(formData: FormData) {
+        //(uiElement as BaseNewPlayerCharacterWizardComponent).updatePlayerWithFormValues(this.playerCharacter);
+        //(uiElement as BaseNewPlayerCharacterWizardComponent).updatePlayerWithFormValues(this.wizard);
         switch (this.currentStep) {
             case "roll-stats": {
                 const dto = this.getStatsFormFields(formData);

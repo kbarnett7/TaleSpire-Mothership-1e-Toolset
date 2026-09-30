@@ -1,18 +1,17 @@
-export class StatsFormFieldsDto {
+import { BaseDto } from "../../lib/dto/base-dto";
+
+export class StatsFormFieldsDto extends BaseDto {
     public strength: string;
     public speed: string;
     public intellect: string;
     public combat: string;
 
     constructor(strength?: string, speed?: string, intellect?: string, combat?: string) {
+        super();
         this.strength = strength ?? "";
         this.speed = speed ?? "";
         this.intellect = intellect ?? "";
         this.combat = combat ?? "";
-    }
-
-    public toJson(): string {
-        return JSON.stringify(this);
     }
 
     static createFromJson(jsonStr: string): StatsFormFieldsDto {
