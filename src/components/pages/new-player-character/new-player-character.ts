@@ -7,11 +7,14 @@ import { PlayerCharacter } from "../../../features/player-characters/player-char
 import { PlayerCharacterCreationWizard } from "../../../features/player-characters/player-character-creation-wizard/player-character-creation-wizard";
 import { RollStatsComponent } from "../../roll-stats/roll-stats";
 import { StatsFormFieldsDto } from "../../../features/player-characters/stats-form-fields-dto";
+import { EventBus } from "../../../lib/events/event-bus";
+import { UiReportableErrorClearedEvent } from "../../../lib/events/ui-reportable-error-cleared-event";
 
 export class NewPlayerCharacterComponent extends BasePageComponent {
     private unitOfWork: IUnitOfWork;
     private playerCharacter: PlayerCharacter;
     private wizard: PlayerCharacterCreationWizard;
+    private currentStep: string;
 
     private get stepDivElement(): HTMLDivElement {
         return this.shadow.querySelector("#stepDiv") as HTMLDivElement;
@@ -22,6 +25,7 @@ export class NewPlayerCharacterComponent extends BasePageComponent {
         this.unitOfWork = appInjector.injectClass(UnitOfWork);
         this.playerCharacter = this.createInvalidPlayerCharacter();
         this.wizard = new PlayerCharacterCreationWizard(this.playerCharacter, this.unitOfWork);
+        this.currentStep = "";
     }
 
     public async connectedCallback() {
@@ -39,6 +43,10 @@ export class NewPlayerCharacterComponent extends BasePageComponent {
         const uiComponent = this.wizard.getCurrentUiComponent();
         const stepElement = document.createElement(uiComponent);
 
+        stepElement.id = "formFields";
+        stepElement.setAttribute("name", "formFields");
+
+        this.currentStep = uiComponent;
         this.stepDivElement.replaceChildren();
         this.stepDivElement.appendChild(stepElement);
         this.hydrateStepElement(stepElement, uiComponent);
@@ -59,16 +67,62 @@ export class NewPlayerCharacterComponent extends BasePageComponent {
         );
     }
 
-    public handlePreviousButtonClick(event: MouseEvent) {
+    public handleFormSubmit(event: SubmitEvent) {
+        event.preventDefault();
+
+        EventBus.instance.dispatch(new UiReportableErrorClearedEvent());
+
+        const form = event.target as HTMLFormElement;
+        const formData = new FormData(form);
+
+        if (event.submitter?.id === "previousButton") {
+            this.handlePreviousButtonClick(formData);
+        } else if (event.submitter?.id === "nextButton") {
+            this.handleNextButtonClick(formData);
+        }
+    }
+
+    private handlePreviousButtonClick(formData: FormData) {
         if (this.wizard.movePrevious()) {
+            this.updatePlayerCharacterWithCurrentStepValues(formData);
             this.renderCurrentStep();
         }
     }
 
-    public handleNextButtonClick(event: MouseEvent) {
+    private handleNextButtonClick(formData: FormData) {
         if (this.wizard.moveNext()) {
+            this.updatePlayerCharacterWithCurrentStepValues(formData);
             this.renderCurrentStep();
         }
+    }
+
+    private updatePlayerCharacterWithCurrentStepValues(formData: FormData) {
+        switch (this.currentStep) {
+            case "roll-stats": {
+                const dto = this.getStatsFormFields(formData);
+                this.wizard.setBaseStats(
+                    Number(dto.strength),
+                    Number(dto.speed),
+                    Number(dto.intellect),
+                    Number(dto.combat),
+                );
+                break;
+            }
+
+            case "roll-saves": {
+                break;
+            }
+
+            default: {
+                break;
+            }
+        }
+    }
+
+    private getStatsFormFields(formData: FormData): StatsFormFieldsDto {
+        return StatsFormFieldsDto.createFromJson(
+            formData.get("formFields")?.toString() ?? new StatsFormFieldsDto().toJson(),
+        );
     }
 }
 
