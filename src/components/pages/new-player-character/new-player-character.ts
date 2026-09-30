@@ -17,18 +17,20 @@ export class NewPlayerCharacterComponent extends BasePageComponent {
     private unitOfWork: IUnitOfWork;
     private playerCharacter: PlayerCharacter;
     private wizard: PlayerCharacterCreationWizard;
-    private currentStep: string;
 
     private get stepDivElement(): HTMLDivElement {
         return this.shadow.querySelector("#stepDiv") as HTMLDivElement;
     }
 
+    private get stepElement(): BaseNewPlayerCharacterWizardComponent {
+        return this.shadow.querySelector("#formFields") as BaseNewPlayerCharacterWizardComponent;
+    }
+
     constructor() {
         super();
         this.unitOfWork = appInjector.injectClass(UnitOfWork);
-        this.playerCharacter = this.createInvalidPlayerCharacter();
+        this.playerCharacter = new PlayerCharacter(0, "", 0, "");
         this.wizard = new PlayerCharacterCreationWizard(this.playerCharacter, this.unitOfWork);
-        this.currentStep = "";
     }
 
     public async connectedCallback() {
@@ -38,10 +40,6 @@ export class NewPlayerCharacterComponent extends BasePageComponent {
         this.renderCurrentStep();
     }
 
-    private createInvalidPlayerCharacter(): PlayerCharacter {
-        return new PlayerCharacter(0, "", 0, "");
-    }
-
     private renderCurrentStep() {
         const uiComponent = this.wizard.getCurrentUiComponent();
         const stepElement = document.createElement(uiComponent);
@@ -49,32 +47,13 @@ export class NewPlayerCharacterComponent extends BasePageComponent {
         stepElement.id = "formFields";
         stepElement.setAttribute("name", "formFields");
 
-        this.currentStep = uiComponent;
         this.stepDivElement.replaceChildren();
         this.stepDivElement.appendChild(stepElement);
         this.hydrateStepElement(stepElement, uiComponent);
     }
 
     private hydrateStepElement(uiElement: HTMLElement, uiComponent: string) {
-        let dto: BaseDto = new BaseDto();
-
-        if (uiComponent === "roll-stats") {
-            dto = this.getBaseStatsFormFields();
-        }
-
-        //(uiElement as BaseFormComponent).setInitialFormValues(dto);
-        (uiElement as BaseNewPlayerCharacterWizardComponent).setInitialFormValuesUsingPlayerCharacter(
-            this.playerCharacter,
-        );
-    }
-
-    private getBaseStatsFormFields(): StatsFormFieldsDto {
-        return new StatsFormFieldsDto(
-            this.playerCharacter.baseStrength?.toString() ?? "",
-            this.playerCharacter.baseSpeed?.toString() ?? "",
-            this.playerCharacter.baseIntellect?.toString() ?? "",
-            this.playerCharacter.baseCombat?.toString() ?? "",
-        );
+        (uiElement as BaseNewPlayerCharacterWizardComponent).initialize(this.playerCharacter);
     }
 
     public handleFormSubmit(event: SubmitEvent) {
@@ -107,34 +86,7 @@ export class NewPlayerCharacterComponent extends BasePageComponent {
     }
 
     private updatePlayerCharacterWithCurrentStepValues(formData: FormData) {
-        //(uiElement as BaseNewPlayerCharacterWizardComponent).updatePlayerWithFormValues(this.playerCharacter);
-        //(uiElement as BaseNewPlayerCharacterWizardComponent).updatePlayerWithFormValues(this.wizard);
-        switch (this.currentStep) {
-            case "roll-stats": {
-                const dto = this.getStatsFormFields(formData);
-                this.wizard.setBaseStats(
-                    Number(dto.strength),
-                    Number(dto.speed),
-                    Number(dto.intellect),
-                    Number(dto.combat),
-                );
-                break;
-            }
-
-            case "roll-saves": {
-                break;
-            }
-
-            default: {
-                break;
-            }
-        }
-    }
-
-    private getStatsFormFields(formData: FormData): StatsFormFieldsDto {
-        return StatsFormFieldsDto.createFromJson(
-            formData.get("formFields")?.toString() ?? new StatsFormFieldsDto().toJson(),
-        );
+        this.stepElement.updatePlayer(this.wizard, formData);
     }
 }
 

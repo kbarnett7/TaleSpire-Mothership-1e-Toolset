@@ -1,21 +1,12 @@
 import html from "./roll-saves.html";
 import { SavesFormFieldsDto } from "../../features/player-characters/saves-form-fields-dto";
-import { BaseComponent } from "../base.component";
+import { BaseNewPlayerCharacterWizardComponent } from "../base-new-player-character-wizard-component/base-new-player-character-wizard-component";
+import { PlayerCharacter } from "../../features/player-characters/player-character";
+import { PlayerCharacterCreationWizard } from "../../features/player-characters/player-character-creation-wizard/player-character-creation-wizard";
 
-export class RollSavesComponent extends BaseComponent {
-    static formAssociated = true;
-
-    private _internals: ElementInternals;
-    private _formFieldsDto: SavesFormFieldsDto;
-
-    public get value(): string {
-        return this._formFieldsDto.toJson();
-    }
-
+export class RollSavesComponent extends BaseNewPlayerCharacterWizardComponent {
     constructor() {
-        super();
-        this._internals = this.attachInternals();
-        this._formFieldsDto = new SavesFormFieldsDto();
+        super(new SavesFormFieldsDto());
     }
 
     public connectedCallback() {
@@ -23,16 +14,34 @@ export class RollSavesComponent extends BaseComponent {
         this.updateFormValue();
     }
 
-    private updateFormValue() {
-        this._internals.setFormValue(this.value);
+    public initialize(playerCharacter: PlayerCharacter) {
+        // this.setInitialFormValues(
+        //     new StatsFormFieldsDto(
+        //         playerCharacter.baseStrength?.toString() ?? "",
+        //         playerCharacter.baseSpeed?.toString() ?? "",
+        //         playerCharacter.baseIntellect?.toString() ?? "",
+        //         playerCharacter.baseCombat?.toString() ?? "",
+        //     ),
+        // );
     }
 
     public setInitialFormValues(dto: SavesFormFieldsDto) {
-        //this.weaponCategorySelectElement.value = dto.category;
-
-        //this._formFieldsDto.category = dto.category;
-
+        // this.setStrength(dto.strength);
+        // this.setSpeed(dto.speed);
+        // this.setIntellect(dto.intellect);
+        // this.setCombat(dto.combat);
         this.updateFormValue();
+    }
+
+    public updatePlayer(wizard: PlayerCharacterCreationWizard, formData: FormData) {
+        const dto = this.getDtoFromFormData(formData);
+        // wizard.setBaseStats(Number(dto.strength), Number(dto.speed), Number(dto.intellect), Number(dto.combat));
+    }
+
+    private getDtoFromFormData(formData: FormData): SavesFormFieldsDto {
+        return SavesFormFieldsDto.createFromJson(
+            formData.get("formFields")?.toString() ?? new SavesFormFieldsDto().toJson(),
+        );
     }
 
     public handleOnShotsInputChanged(event: Event) {

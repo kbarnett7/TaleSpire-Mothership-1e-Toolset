@@ -1,16 +1,11 @@
 import html from "./roll-stats.html";
 import { StatsFormFieldsDto } from "../../features/player-characters/stats-form-fields-dto";
-import { BaseComponent } from "../base.component";
 import { DiceRoller } from "../../lib/dice-rollers/dice-roller";
-import { BaseFormComponent } from "../base-form/base-form-component";
 import { BaseNewPlayerCharacterWizardComponent } from "../base-new-player-character-wizard-component/base-new-player-character-wizard-component";
 import { PlayerCharacter } from "../../features/player-characters/player-character";
+import { PlayerCharacterCreationWizard } from "../../features/player-characters/player-character-creation-wizard/player-character-creation-wizard";
 
 export class RollStatsComponent extends BaseNewPlayerCharacterWizardComponent {
-    // static formAssociated = true;
-
-    // private _internals: ElementInternals;
-    // private _formFieldsDto: StatsFormFieldsDto;
     private _diceRoller: DiceRoller;
 
     public get strengthInputElement(): HTMLInputElement {
@@ -29,14 +24,8 @@ export class RollStatsComponent extends BaseNewPlayerCharacterWizardComponent {
         return this.shadow.querySelector("#inputCombat") as HTMLInputElement;
     }
 
-    // public get value(): string {
-    //     return this._formFieldsDto.toJson();
-    // }
-
     constructor() {
         super(new StatsFormFieldsDto());
-        // this._internals = this.attachInternals();
-        // this._formFieldsDto = new StatsFormFieldsDto();
         this._diceRoller = new DiceRoller();
     }
 
@@ -45,11 +34,7 @@ export class RollStatsComponent extends BaseNewPlayerCharacterWizardComponent {
         this.updateFormValue();
     }
 
-    // private updateFormValue() {
-    //     this._internals.setFormValue(this.value);
-    // }
-
-    public setInitialFormValuesUsingPlayerCharacter(playerCharacter: PlayerCharacter) {
+    public initialize(playerCharacter: PlayerCharacter) {
         this.setInitialFormValues(
             new StatsFormFieldsDto(
                 playerCharacter.baseStrength?.toString() ?? "",
@@ -70,26 +55,33 @@ export class RollStatsComponent extends BaseNewPlayerCharacterWizardComponent {
 
     private setStrength(value: string) {
         this.strengthInputElement.value = value;
-        //this._formFieldsDto.strength = value;
         this.getFormFieldsDto<StatsFormFieldsDto>().strength = value;
     }
 
     private setSpeed(value: string) {
         this.speedInputElement.value = value;
-        //this._formFieldsDto.speed = value;
         this.getFormFieldsDto<StatsFormFieldsDto>().speed = value;
     }
 
     private setIntellect(value: string) {
         this.intellectInputElement.value = value;
-        //this._formFieldsDto.intellect = value;
         this.getFormFieldsDto<StatsFormFieldsDto>().intellect = value;
     }
 
     private setCombat(value: string) {
         this.combatInputElement.value = value;
-        //this._formFieldsDto.combat = value;
         this.getFormFieldsDto<StatsFormFieldsDto>().combat = value;
+    }
+
+    public updatePlayer(wizard: PlayerCharacterCreationWizard, formData: FormData) {
+        const dto = this.getDtoFromFormData(formData);
+        wizard.setBaseStats(Number(dto.strength), Number(dto.speed), Number(dto.intellect), Number(dto.combat));
+    }
+
+    private getDtoFromFormData(formData: FormData): StatsFormFieldsDto {
+        return StatsFormFieldsDto.createFromJson(
+            formData.get("formFields")?.toString() ?? new StatsFormFieldsDto().toJson(),
+        );
     }
 
     private rollStat(): string {
@@ -117,25 +109,21 @@ export class RollStatsComponent extends BaseNewPlayerCharacterWizardComponent {
     }
 
     public handleOnStrengthInputChanged(event: Event) {
-        // this._formFieldsDto.strength = this.strengthInputElement.value;
         this.getFormFieldsDto<StatsFormFieldsDto>().strength = this.strengthInputElement.value;
         this.updateFormValue();
     }
 
     public handleOnSpeedInputChanged(event: Event) {
-        // this._formFieldsDto.speed = this.speedInputElement.value;
         this.getFormFieldsDto<StatsFormFieldsDto>().speed = this.speedInputElement.value;
         this.updateFormValue();
     }
 
     public handleOnIntellectInputChanged(event: Event) {
-        // this._formFieldsDto.intellect = this.intellectInputElement.value;
         this.getFormFieldsDto<StatsFormFieldsDto>().intellect = this.intellectInputElement.value;
         this.updateFormValue();
     }
 
     public handleOnCombatInputChanged(event: Event) {
-        // this._formFieldsDto.combat = this.combatInputElement.value;
         this.getFormFieldsDto<StatsFormFieldsDto>().combat = this.combatInputElement.value;
         this.updateFormValue();
     }
