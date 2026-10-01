@@ -5,12 +5,8 @@ import { appInjector } from "../../../lib/infrastructure/app-injector";
 import { BasePageComponent } from "../base-page.component";
 import { PlayerCharacter } from "../../../features/player-characters/player-character";
 import { PlayerCharacterCreationWizard } from "../../../features/player-characters/player-character-creation-wizard/player-character-creation-wizard";
-import { RollStatsComponent } from "../../roll-stats/roll-stats";
-import { StatsFormFieldsDto } from "../../../features/player-characters/stats-form-fields-dto";
 import { EventBus } from "../../../lib/events/event-bus";
 import { UiReportableErrorClearedEvent } from "../../../lib/events/ui-reportable-error-cleared-event";
-import { BaseFormComponent } from "../../base-form/base-form-component";
-import { BaseDto } from "../../../lib/dto/base-dto";
 import { BaseNewPlayerCharacterWizardComponent } from "../../base-new-player-character-wizard-component/base-new-player-character-wizard-component";
 
 export class NewPlayerCharacterComponent extends BasePageComponent {
@@ -49,10 +45,10 @@ export class NewPlayerCharacterComponent extends BasePageComponent {
 
         this.stepDivElement.replaceChildren();
         this.stepDivElement.appendChild(stepElement);
-        this.hydrateStepElement(stepElement, uiComponent);
+        this.hydrateStepElement(stepElement);
     }
 
-    private hydrateStepElement(uiElement: HTMLElement, uiComponent: string) {
+    private hydrateStepElement(uiElement: HTMLElement) {
         (uiElement as BaseNewPlayerCharacterWizardComponent).initialize(this.playerCharacter);
     }
 
@@ -61,32 +57,29 @@ export class NewPlayerCharacterComponent extends BasePageComponent {
 
         EventBus.instance.dispatch(new UiReportableErrorClearedEvent());
 
-        const form = event.target as HTMLFormElement;
-        const formData = new FormData(form);
+        this.updatePlayerCharacterWithCurrentStepValues(event.target as HTMLFormElement);
 
         if (event.submitter?.id === "previousButton") {
-            this.handlePreviousButtonClick(formData);
+            this.handlePreviousButtonClick();
         } else if (event.submitter?.id === "nextButton") {
-            this.handleNextButtonClick(formData);
+            this.handleNextButtonClick();
         }
     }
 
-    private handlePreviousButtonClick(formData: FormData) {
+    private handlePreviousButtonClick() {
         if (this.wizard.movePrevious()) {
-            this.updatePlayerCharacterWithCurrentStepValues(formData);
             this.renderCurrentStep();
         }
     }
 
-    private handleNextButtonClick(formData: FormData) {
+    private handleNextButtonClick() {
         if (this.wizard.moveNext()) {
-            this.updatePlayerCharacterWithCurrentStepValues(formData);
             this.renderCurrentStep();
         }
     }
 
-    private updatePlayerCharacterWithCurrentStepValues(formData: FormData) {
-        this.stepElement.updatePlayer(this.wizard, formData);
+    private updatePlayerCharacterWithCurrentStepValues(form: HTMLFormElement) {
+        this.stepElement.updatePlayer(this.wizard, new FormData(form));
     }
 }
 
