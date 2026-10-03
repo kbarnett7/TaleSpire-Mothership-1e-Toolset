@@ -8,6 +8,7 @@ import { PlayerCharacterCreationWizard } from "../../../features/player-characte
 import { EventBus } from "../../../lib/events/event-bus";
 import { UiReportableErrorClearedEvent } from "../../../lib/events/ui-reportable-error-cleared-event";
 import { BaseNewPlayerCharacterWizardComponent } from "../../base-new-player-character-wizard-component/base-new-player-character-wizard-component";
+import { PlayerCharacterWizardStep } from "../../../features/player-characters/player-character-creation-wizard/player-character-wizard-step";
 
 export class NewPlayerCharacterComponent extends BasePageComponent {
     private unitOfWork: IUnitOfWork;
@@ -22,6 +23,10 @@ export class NewPlayerCharacterComponent extends BasePageComponent {
         return this.shadow.querySelector("#formFields") as BaseNewPlayerCharacterWizardComponent;
     }
 
+    private get previousButtonElement(): HTMLButtonElement {
+        return this.shadow.querySelector("#previousButton") as HTMLButtonElement;
+    }
+
     constructor() {
         super();
         this.unitOfWork = appInjector.injectClass(UnitOfWork);
@@ -34,6 +39,11 @@ export class NewPlayerCharacterComponent extends BasePageComponent {
 
         this.render(html);
         this.renderCurrentStep();
+        this.enableDisablePreviousButton();
+    }
+
+    private enableDisablePreviousButton() {
+        this.previousButtonElement.disabled = !this.wizard.canMovePrevious();
     }
 
     private renderCurrentStep() {

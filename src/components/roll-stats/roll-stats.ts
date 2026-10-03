@@ -154,7 +154,7 @@ export class RollStatsComponent extends BaseNewPlayerCharacterWizardComponent {
     private normalizeTo0to100(raw: string): string {
         const digitsOnly = raw.replace(/\D/g, ""); // strips letters, -, +, ., spaces, symbols
 
-        if (digitsOnly === "") return "0";
+        if (digitsOnly === "") return "";
 
         const n = Number.parseInt(digitsOnly, 10);
         const clamped = Math.min(100, Math.max(0, n));

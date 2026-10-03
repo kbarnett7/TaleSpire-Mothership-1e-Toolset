@@ -16,6 +16,10 @@ export class LinearWizardStateMachine extends WizardStateMachineBase {
         return this.steps[this.currentIndex];
     }
 
+    public canMoveNext(): boolean {
+        return false;
+    }
+
     public moveNext(): boolean {
         if (this.steps.length === 0 || this.currentIndex >= this.steps.length - 1) return false;
 
@@ -26,6 +30,10 @@ export class LinearWizardStateMachine extends WizardStateMachineBase {
         this.currentIndex++;
 
         return true;
+    }
+
+    public canMovePrevious(): boolean {
+        return false;
     }
 
     public movePrevious(): boolean {
