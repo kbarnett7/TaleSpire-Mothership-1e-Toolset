@@ -9,12 +9,14 @@
             name="inputStrength"
             type="text"
             inputmode="numeric"
+            autocomplete="off"
             maxlength="3"
+            pattern="^(100|[1-9]?[0-9])$"
             class="w-16 h-16 block rounded-full text-center bg-white text-black text-2xl font-bold border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             aria-placeholder="Enter your strength attribute..."
             required
             aria-required
-            onchange="this.handleOnStrengthInputChanged(event)"
+            oninput="this.handleOnStrengthInput(event)"
             value="0"
         />
         <label for="inputStrength" class="text-lg font-semibold uppercase">Strength</label>
@@ -27,12 +29,14 @@
             name="inputSpeed"
             type="text"
             inputmode="numeric"
+            autocomplete="off"
             maxlength="3"
+            pattern="^(100|[1-9]?[0-9])$"
             class="w-16 h-16 block rounded-full text-center bg-white text-black text-2xl font-bold border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             aria-placeholder="Enter your speed attribute..."
             required
             aria-required
-            onchange="this.handleOnSpeedInputChanged(event)"
+            oninput="this.handleOnSpeedInput(event)"
             value="0"
         />
         <label for="inputSpeed" class="text-lg font-semibold uppercase">Speed</label>
@@ -45,12 +49,14 @@
             name="inputIntellect"
             type="text"
             inputmode="numeric"
+            autocomplete="off"
             maxlength="3"
+            pattern="^(100|[1-9]?[0-9])$"
             class="w-16 h-16 block rounded-full text-center bg-white text-black text-2xl font-bold border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             aria-placeholder="Enter your intellect attribute..."
             required
             aria-required
-            onchange="this.handleOnIntellectInputChanged(event)"
+            oninput="this.handleOnIntellectInput(event)"
             value="0"
         />
         <label for="inputIntellect" class="text-lg font-semibold uppercase">Intellect</label>
@@ -63,12 +69,14 @@
             name="inputCombat"
             type="text"
             inputmode="numeric"
+            autocomplete="off"
             maxlength="3"
+            pattern="^(100|[1-9]?[0-9])$"
             class="w-16 h-16 block rounded-full text-center bg-white text-black text-2xl font-bold border-3 border-black mb-2 px-2 py-1 hover:bg-gray-200 transition duration-150 ease-in-out focus:outline-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             aria-placeholder="Enter your combat attribute..."
             required
             aria-required
-            onchange="this.handleOnCombatInputChanged(event)"
+            oninput="this.handleOnCombatInput(event)"
             value="0"
         />
         <label for="inputCombat" class="text-lg font-semibold uppercase">Combat</label>

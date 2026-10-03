@@ -108,23 +108,23 @@ export class RollStatsComponent extends BaseNewPlayerCharacterWizardComponent {
         this.updateFormValue();
     }
 
-    public handleOnStrengthInputChanged(event: Event) {
-        this.getFormFieldsDto<StatsFormFieldsDto>().strength = this.strengthInputElement.value;
+    public handleOnStrengthInput(event: Event) {
+        this.setStrength(this.normalizeTo0to100(this.strengthInputElement.value));
         this.updateFormValue();
     }
 
-    public handleOnSpeedInputChanged(event: Event) {
-        this.getFormFieldsDto<StatsFormFieldsDto>().speed = this.speedInputElement.value;
+    public handleOnSpeedInput(event: Event) {
+        this.setSpeed(this.normalizeTo0to100(this.speedInputElement.value));
         this.updateFormValue();
     }
 
-    public handleOnIntellectInputChanged(event: Event) {
-        this.getFormFieldsDto<StatsFormFieldsDto>().intellect = this.intellectInputElement.value;
+    public handleOnIntellectInput(event: Event) {
+        this.setIntellect(this.normalizeTo0to100(this.intellectInputElement.value));
         this.updateFormValue();
     }
 
-    public handleOnCombatInputChanged(event: Event) {
-        this.getFormFieldsDto<StatsFormFieldsDto>().combat = this.combatInputElement.value;
+    public handleOnCombatInput(event: Event) {
+        this.setCombat(this.normalizeTo0to100(this.combatInputElement.value));
         this.updateFormValue();
     }
 
@@ -149,6 +149,17 @@ export class RollStatsComponent extends BaseNewPlayerCharacterWizardComponent {
         this.rollSpeedStat();
         this.rollIntellectStat();
         this.rollCombatStat();
+    }
+
+    private normalizeTo0to100(raw: string): string {
+        const digitsOnly = raw.replace(/\D/g, ""); // strips letters, -, +, ., spaces, symbols
+
+        if (digitsOnly === "") return "0";
+
+        const n = Number.parseInt(digitsOnly, 10);
+        const clamped = Math.min(100, Math.max(0, n));
+
+        return String(clamped);
     }
 }
 
