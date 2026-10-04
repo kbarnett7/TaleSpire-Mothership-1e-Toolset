@@ -17,15 +17,17 @@ export class LinearWizardStateMachine extends WizardStateMachineBase {
     }
 
     public canMoveNext(): boolean {
-        return false;
-    }
-
-    public moveNext(): boolean {
         if (this.steps.length === 0 || this.currentIndex >= this.steps.length - 1) return false;
 
         if (!(<LinearWizardStepBase>this.getCurrentStep())?.canMoveNext()) {
             return false;
         }
+
+        return true;
+    }
+
+    public moveNext(): boolean {
+        if (!this.canMoveNext()) return false;
 
         this.currentIndex++;
 
@@ -33,15 +35,17 @@ export class LinearWizardStateMachine extends WizardStateMachineBase {
     }
 
     public canMovePrevious(): boolean {
-        return false;
-    }
-
-    public movePrevious(): boolean {
         if (this.steps.length === 0 || this.currentIndex <= 0) return false;
 
         if (!(<LinearWizardStepBase>this.getCurrentStep())?.canMovePrevious()) {
             return false;
         }
+
+        return true;
+    }
+
+    public movePrevious(): boolean {
+        if (!this.canMovePrevious()) return false;
 
         this.currentIndex--;
 

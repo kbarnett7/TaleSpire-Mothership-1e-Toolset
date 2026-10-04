@@ -39,11 +39,6 @@ export class NewPlayerCharacterComponent extends BasePageComponent {
 
         this.render(html);
         this.renderCurrentStep();
-        this.enableDisablePreviousButton();
-    }
-
-    private enableDisablePreviousButton() {
-        this.previousButtonElement.disabled = !this.wizard.canMovePrevious();
     }
 
     private renderCurrentStep() {
@@ -56,10 +51,15 @@ export class NewPlayerCharacterComponent extends BasePageComponent {
         this.stepDivElement.replaceChildren();
         this.stepDivElement.appendChild(stepElement);
         this.hydrateStepElement(stepElement);
+        this.enableDisablePreviousButton();
     }
 
     private hydrateStepElement(uiElement: HTMLElement) {
         (uiElement as BaseNewPlayerCharacterWizardComponent).initialize(this.playerCharacter);
+    }
+
+    private enableDisablePreviousButton() {
+        this.previousButtonElement.disabled = !this.wizard.canMovePrevious();
     }
 
     public handleFormSubmit(event: SubmitEvent) {

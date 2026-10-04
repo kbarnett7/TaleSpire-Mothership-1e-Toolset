@@ -69,7 +69,7 @@ describe("LinearWizardStateMachine", () => {
         expect(result).toBe(stepOne);
     });
 
-    it("Should return false when moving to the next step when the machine has no steps", () => {
+    it("Should not move when moving to the next step when the machine has no steps", () => {
         // Arrange
         const stateMachine = new LinearWizardStateMachine([]);
 
@@ -80,7 +80,7 @@ describe("LinearWizardStateMachine", () => {
         expect(result).toBe(false);
     });
 
-    it("Should return false when moving to the next step when the machine has only a single step", () => {
+    it("Should not move when moving to the next step when the machine has only a single step", () => {
         // Arrange
         const stepOne = new LinearWizardStepBase();
         const stateMachine = new LinearWizardStateMachine([stepOne]);
@@ -92,7 +92,7 @@ describe("LinearWizardStateMachine", () => {
         expect(result).toBe(false);
     });
 
-    it("Should return false when moving to the previous step when the machine has no steps", () => {
+    it("Should not move when moving to the previous step when the machine has no steps", () => {
         // Arrange
         const stateMachine = new LinearWizardStateMachine([]);
 
@@ -103,7 +103,7 @@ describe("LinearWizardStateMachine", () => {
         expect(result).toBe(false);
     });
 
-    it("Should return false when moving to the previous step when the machine has only a single step", () => {
+    it("Should not move when moving to the previous step when the machine has only a single step", () => {
         // Arrange
         const stepOne = new LinearWizardStepBase();
         const stateMachine = new LinearWizardStateMachine([stepOne]);
@@ -115,7 +115,7 @@ describe("LinearWizardStateMachine", () => {
         expect(result).toBe(false);
     });
 
-    it("Should return true when moving to the next step when the machine has multiple steps and hasn't reached the final step", () => {
+    it("Should move when moving to the next step when the machine has multiple steps and hasn't reached the final step", () => {
         // Arrange
         const stepOne = new LinearWizardStepBase();
         const stepTwo = new LinearWizardStepBase();
@@ -128,7 +128,7 @@ describe("LinearWizardStateMachine", () => {
         expect(result).toBe(true);
     });
 
-    it("Should return false when moving to the next step when the machine has multiple steps and has reached the final step", () => {
+    it("Should not move when moving to the next step when the machine has multiple steps and has reached the final step", () => {
         // Arrange
         const stepOne = new LinearWizardStepBase();
         const stepTwo = new LinearWizardStepBase();
@@ -142,7 +142,7 @@ describe("LinearWizardStateMachine", () => {
         expect(result).toBe(false);
     });
 
-    it("Should return true when moving to the previous step when the machine has multiple steps and has already moved to another step", () => {
+    it("Should move when moving to the previous step when the machine has multiple steps and has already moved to another step", () => {
         // Arrange
         const stepOne = new LinearWizardStepBase();
         const stepTwo = new LinearWizardStepBase();
@@ -156,7 +156,7 @@ describe("LinearWizardStateMachine", () => {
         expect(result).toBe(true);
     });
 
-    it("Should return false when moving to the previous step when the machine has multiple steps and has already moved back to the first step", () => {
+    it("Should not move when moving to the previous step when the machine has multiple steps and has already moved back to the first step", () => {
         // Arrange
         const stepOne = new LinearWizardStepBase();
         const stepTwo = new LinearWizardStepBase();
@@ -171,7 +171,7 @@ describe("LinearWizardStateMachine", () => {
         expect(result).toBe(false);
     });
 
-    it("Should return false and return the first step when the state machine attempts to move to next step but the step's transition conditions aren't met", () => {
+    it("Should not move and return the first step when the state machine attempts to move to next step but the step's transition conditions aren't met", () => {
         // Arrange
         const stepOne = new TestStepOne(false);
         const stepTwo = new TestStepTwo(false);
@@ -186,7 +186,7 @@ describe("LinearWizardStateMachine", () => {
         expect(currentStepresult).toBe(stepOne);
     });
 
-    it("Should return true and return the second step when the state machine attempts to move to next step and the step's transition conditions are met", () => {
+    it("Should move and return the second step when the state machine attempts to move to next step and the step's transition conditions are met", () => {
         // Arrange
         const stepOne = new TestStepOne(true);
         const stepTwo = new TestStepTwo(false);
@@ -201,7 +201,7 @@ describe("LinearWizardStateMachine", () => {
         expect(currentStepresult).toBe(stepTwo);
     });
 
-    it("Should return false and return the second step when the state machine attempts to move to previous step but the step's transition conditions aren't met", () => {
+    it("Should not move and return the second step when the state machine attempts to move to previous step but the step's transition conditions aren't met", () => {
         // Arrange
         const stepOne = new TestStepOne(true);
         const stepTwo = new TestStepTwo(false);
@@ -217,7 +217,7 @@ describe("LinearWizardStateMachine", () => {
         expect(currentStepresult).toBe(stepTwo);
     });
 
-    it("Should return true and return the first step when the state machine attempts to move to previous step and the step's transition conditions are met", () => {
+    it("Should move and return the first step when the state machine attempts to move to previous step and the step's transition conditions are met", () => {
         // Arrange
         const stepOne = new TestStepOne(true);
         const stepTwo = new TestStepTwo(true);
